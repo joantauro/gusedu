@@ -8,39 +8,26 @@
 <f:view renderKitId="PRIMEFACES_MOBILE" />
 
 <h:head>
-
+	<h:outputStylesheet library="css" value="correctSchedule.css"></h:outputStylesheet>
 </h:head>
 <h:body>
 
-	<pm:page id="first">
-		<pm:header title="Nuevo paciente"></pm:header>
-		<pm:content>
-			<h:form>
-				<pm:field>
-					<p:outputLabel for="perNombre" value="Nombre: " />
-					<p:inputText id="perNombre" />
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="perApePaterno" value="Apellido Paterno: " />
-					<p:inputText id="perApePaterno" />
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="perApeMaterno" value="Apellido Materno: " />
-					<p:inputText id="perApeMaterno" />
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
-					<p:calendar id="perFecNac" pattern="dd/MM/yyyy"  />
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="perSexo" value="Sexo: " />
-					<p:selectOneButton id="perSexo">
-						<f:selectItem itemLabel="Masculino" itemValue="M" />
-						<f:selectItem itemLabel="Femenino" itemValue="F" />						
-					</p:selectOneButton>
-				</pm:field>
-			</h:form>
-		</pm:content>
+	<pm:page id="selectTipo">
+	<pm:header title="GUSEDU">	
+	</pm:header>
+		<pm:field>
+			<p:button value="Registrar nuevo Paciente" outcome="registroPaciente" />
+		</pm:field>
+		<pm:field>
+			<p:commandButton value="Consultar Paciente" type="button"  />
+		</pm:field>
+		<pm:field>
+			<p:commandButton value="Registrar nueva Terapia" type="button"  />
+		</pm:field>					
+		<pm:field>
+			<p:commandButton value="Consultar Puntos Biomagnéticos" type="button"  />
+		</pm:field>		
+
 	</pm:page>
 
 </h:body>
