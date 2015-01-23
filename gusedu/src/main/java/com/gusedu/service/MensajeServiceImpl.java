@@ -7,9 +7,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Service;
+
 import com.gusedu.model.Mensaje;
 import com.gusedu.model.Persona;
 
+@Service
 public class MensajeServiceImpl implements MensajeService{
 
 	@PersistenceContext

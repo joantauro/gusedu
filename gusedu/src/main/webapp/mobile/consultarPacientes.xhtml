@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+</h:head>
+<h:body>
+	<pm:page id="consultaPacientes">
+		<pm:header title="Consultar Pacientes">
+		</pm:header>
+
+		<h:form>
+		
+			<p:dataTable id="personas" var="persona" value="#{dtMobileView.cars3}"
+				selectionMode="multiple" selection="#{dtSelectionView.selectedCars}"
+				rowKey="#{car.id}" paginator="true" rows="10"
+				tableStyleClass="ui-table-columntoggle">
+			
+				<p:column headerText="Id" sortBy="#{car.id}" priority="1">
+					<h:outputText value="#{car.id}" />
+				</p:column>
+
+				<p:column headerText="Year" sortBy="#{car.year}" priority="2">
+					<h:outputText value="#{car.year}" />
+				</p:column>
+
+				<p:column headerText="Brand" sortBy="#{car.brand}" priority="1">
+					<h:outputText value="#{car.brand}" />
+				</p:column>
+
+				<p:column headerText="Color" sortBy="#{car.color}" priority="2">
+					<h:outputText value="#{car.color}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</pm:page>
+</h:body>
+</html>
