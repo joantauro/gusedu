@@ -8,5 +8,11 @@
 	<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
+	
+	<application>
+    <navigation-handler>
+        org.primefaces.mobile.application.MobileNavigationHandler
+    </navigation-handler>
+	</application>
 
 </faces-config>
