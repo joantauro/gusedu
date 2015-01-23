@@ -58,6 +58,22 @@ public class Cliente {
 		this.usuarioCreacion = usuarioCreacion;
 	}
 
+	public Persona getCliPersona() {
+		return cliPersona;
+	}
+
+	public void setCliPersona(Persona cliPersona) {
+		this.cliPersona = cliPersona;
+	}
+
+	public TipoCliente getCliTipoCliente() {
+		return cliTipoCliente;
+	}
+
+	public void setCliTipoCliente(TipoCliente cliTipoCliente) {
+		this.cliTipoCliente = cliTipoCliente;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

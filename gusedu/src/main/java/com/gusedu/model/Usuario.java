@@ -84,6 +84,30 @@ public class Usuario {
 		this.esActivo = esActivo;
 	}
 
+	public Collection<Mensaje> getUsuMenEmisores() {
+		return usuMenEmisores;
+	}
+
+	public void setUsuMenEmisores(Collection<Mensaje> usuMenEmisores) {
+		this.usuMenEmisores = usuMenEmisores;
+	}
+
+	public Collection<Mensaje> getUsuMenReceptores() {
+		return usuMenReceptores;
+	}
+
+	public void setUsuMenReceptores(Collection<Mensaje> usuMenReceptores) {
+		this.usuMenReceptores = usuMenReceptores;
+	}
+
+	public Persona getUsuPersona() {
+		return usuPersona;
+	}
+
+	public void setUsuPersona(Persona usuPersona) {
+		this.usuPersona = usuPersona;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

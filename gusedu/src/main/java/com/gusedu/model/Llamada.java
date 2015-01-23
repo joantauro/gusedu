@@ -74,6 +74,14 @@ public class Llamada {
 		this.usuarioCreacion = usuarioCreacion;
 	}
 
+	public Persona getLlaPersona() {
+		return llaPersona;
+	}
+
+	public void setLlaPersona(Persona llaPersona) {
+		this.llaPersona = llaPersona;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

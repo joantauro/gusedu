@@ -78,6 +78,22 @@ public class Mensaje {
 		this.esLeido = esLeido;
 	}
 
+	public Usuario getMenUsuarioEmisor() {
+		return menUsuarioEmisor;
+	}
+
+	public void setMenUsuarioEmisor(Usuario menUsuarioEmisor) {
+		this.menUsuarioEmisor = menUsuarioEmisor;
+	}
+
+	public Usuario getMenUsuarioReceptor() {
+		return menUsuarioReceptor;
+	}
+
+	public void setMenUsuarioReceptor(Usuario menUsuarioReceptor) {
+		this.menUsuarioReceptor = menUsuarioReceptor;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -191,6 +191,30 @@ public class Persona {
 		this.usuarioCreacion = usuarioCreacion;
 	}
 
+	public Usuario getPerUsuario() {
+		return perUsuario;
+	}
+
+	public void setPerUsuario(Usuario perUsuario) {
+		this.perUsuario = perUsuario;
+	}
+
+	public Cliente getPerCliente() {
+		return perCliente;
+	}
+
+	public void setPerCliente(Cliente perCliente) {
+		this.perCliente = perCliente;
+	}
+
+	public Collection<Llamada> getPerLlamadas() {
+		return perLlamadas;
+	}
+
+	public void setPerLlamadas(Collection<Llamada> perLlamadas) {
+		this.perLlamadas = perLlamadas;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
