@@ -56,6 +56,12 @@ public class EstadoCivil{
             return false;
         }
         return true;
-    }    
+    }
+
+	@Override
+	public String toString() {
+		return "EstadoCivil [idEstadoCivil=" + idEstadoCivil + ", descripcion="
+				+ descripcion + "]";
+	}    
     
 }
