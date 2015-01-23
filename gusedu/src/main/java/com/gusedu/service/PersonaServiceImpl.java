@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Persona;
 
@@ -18,7 +19,7 @@ public class PersonaServiceImpl implements PersonaService {
 	@PersistenceContext
 	EntityManager em;
 
-	@Override
+	@Transactional
 	public boolean savePersona(Persona persona) {
 		boolean resultado = false;
 		try {
@@ -31,7 +32,7 @@ public class PersonaServiceImpl implements PersonaService {
 		return resultado;
 	}
 
-	@Override
+	@Transactional
 	public boolean updatePersona(Persona persona) {
 		boolean resultado = false;
 		try {
@@ -44,7 +45,7 @@ public class PersonaServiceImpl implements PersonaService {
 		return resultado;
 	}
 
-	@Override
+	@Transactional
 	public boolean deletePersona(Persona persona) {
 		boolean resultado = false;
 		try {
@@ -58,7 +59,7 @@ public class PersonaServiceImpl implements PersonaService {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
+	@Transactional
 	public List<Persona> getPersonas() {
 		List<Persona> result = new ArrayList<>();
 		try {
@@ -70,7 +71,7 @@ public class PersonaServiceImpl implements PersonaService {
 		return result;
 	}
 
-	@Override
+	@Transactional
 	public Persona getPersonaById(Integer id) {
 		return em.find(Persona.class, id);
 	}

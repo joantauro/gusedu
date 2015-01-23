@@ -9,9 +9,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Cliente;
-import com.gusedu.model.Persona;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
@@ -19,7 +19,7 @@ public class ClienteServiceImpl implements ClienteService{
 	@PersistenceContext
 	EntityManager em;
 	
-	@Override
+	@Transactional
 	public boolean saveCliente(Cliente cliente) {
 		boolean resultado = false;
 		try {
@@ -32,7 +32,7 @@ public class ClienteServiceImpl implements ClienteService{
 		return resultado;
 	}
 
-	@Override
+	@Transactional
 	public boolean updateCliente(Cliente cliente) {
 		boolean resultado = false;
 		try {
@@ -45,7 +45,7 @@ public class ClienteServiceImpl implements ClienteService{
 		return resultado;
 	}
 
-	@Override
+	@Transactional
 	public boolean deleteCliente(Cliente cliente) {
 		boolean resultado = false;
 		try {
@@ -58,11 +58,26 @@ public class ClienteServiceImpl implements ClienteService{
 		return resultado;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<Cliente> getClientes() {
 		List<Cliente> result = new ArrayList<>();
 		try {
 			Query q = em.createQuery("SELECT c FROM Cliente c");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Cliente> getClientesPacientes() {
+		List<Cliente> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliTipoCliente.descripcion=:paciente");
+			q.setParameter("paciente", "Paciente");
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());

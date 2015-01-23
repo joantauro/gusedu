@@ -8,34 +8,38 @@
 <f:view renderKitId="PRIMEFACES_MOBILE" />
 
 <h:head>
+	<h:outputScript library="primefaces" name="primefaces.js" />
+	<h:outputStylesheet library="primefaces" name="primefaces.css" />
 </h:head>
 <h:body>
+
 	<pm:page id="consultaPacientes">
 		<pm:header title="Consultar Pacientes">
 		</pm:header>
-
 		<h:form>
-		
-			<p:dataTable id="personas" var="persona" value="#{dtMobileView.cars3}"
-				selectionMode="multiple" selection="#{dtSelectionView.selectedCars}"
-				rowKey="#{car.id}" paginator="true" rows="10"
-				tableStyleClass="ui-table-columntoggle">
-			
-				<p:column headerText="Id" sortBy="#{car.id}" priority="1">
-					<h:outputText value="#{car.id}" />
+
+			<p:dataTable id="paciente" var="pac" value="#{personaBean.pacientes}"
+				selectionMode="single" selection="#{dtSelectionView.selectedCars}"
+				rowKey="#{pac.idCliente}" tableStyleClass="ui-table-columntoggle">
+
+				<p:column headerText="Ap. Paterno"
+					sortBy="#{pac.cliPersona.apellidoPaterno}">
+					<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
 				</p:column>
 
-				<p:column headerText="Year" sortBy="#{car.year}" priority="2">
-					<h:outputText value="#{car.year}" />
+				<p:column headerText="Ap. Materno"
+					sortBy="#{pac.cliPersona.apellidoMaterno}">
+					<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
 				</p:column>
 
-				<p:column headerText="Brand" sortBy="#{car.brand}" priority="1">
-					<h:outputText value="#{car.brand}" />
+				<p:column headerText="Nombre" sortBy="#{pac.cliPersona.nombres}">
+					<h:outputText value="#{pac.cliPersona.nombres}" />
 				</p:column>
 
-				<p:column headerText="Color" sortBy="#{car.color}" priority="2">
-					<h:outputText value="#{car.color}" />
+				<p:column headerText="Opciones">
+					<p:commandButton value="Ver terapias" />
 				</p:column>
+
 			</p:dataTable>
 		</h:form>
 

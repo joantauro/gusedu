@@ -14,4 +14,6 @@ public interface ClienteService {
 	
 	public List<Cliente> getClientes();	
 	
+	public List<Cliente> getClientesPacientes();	
+	
 }

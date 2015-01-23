@@ -26,6 +26,9 @@ public class Cliente {
     
     @Column(nullable = true, name = "CLI_USU_CREACION")
     private String usuarioCreacion;
+
+    @Column(nullable = true, name = "CLI_ACTIVO")
+    private Boolean esActivo;
     
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PER_CODIGO", nullable = true)
@@ -72,6 +75,14 @@ public class Cliente {
 
 	public void setCliTipoCliente(TipoCliente cliTipoCliente) {
 		this.cliTipoCliente = cliTipoCliente;
+	}
+		
+	public boolean isEsActivo() {
+		return esActivo;
+	}
+
+	public void setEsActivo(boolean esActivo) {
+		this.esActivo = esActivo;
 	}
 
 	@Override

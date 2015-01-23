@@ -1,16 +1,12 @@
 package com.gusedu.service;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Mensaje;
-import com.gusedu.model.Persona;
 
 @Service
 public class MensajeServiceImpl implements MensajeService{
@@ -18,7 +14,7 @@ public class MensajeServiceImpl implements MensajeService{
 	@PersistenceContext
 	EntityManager em;
 	
-	@Override
+	@Transactional
 	public boolean saveMensaje(Mensaje mensaje) {
 		boolean resultado = false;
 		try {
@@ -31,7 +27,7 @@ public class MensajeServiceImpl implements MensajeService{
 		return resultado;
 	}
 
-	@Override
+	@Transactional
 	public boolean updateMensaje(Mensaje mensaje) {
 		boolean resultado = false;
 		try {
@@ -44,7 +40,7 @@ public class MensajeServiceImpl implements MensajeService{
 		return resultado;
 	}
 
-	@Override
+	@Transactional
 	public boolean deleteMensaje(Mensaje mensaje) {
 		boolean resultado = false;
 		try {
