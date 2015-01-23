@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +30,9 @@ public class Llamada {
     
     @Column(nullable = true, name = "LLA_USU_CREACION", length=100)
     private String usuarioCreacion;
+    
+    @ManyToOne @JoinColumn(name="PER_CODIGO", nullable=false)
+    private Persona llaPersona;
 
 	public Integer getIdLlamada() {
 		return idLlamada;

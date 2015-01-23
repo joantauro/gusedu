@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -18,10 +20,10 @@ public class Mensaje {
     @Column(nullable = false, name = "MEN_CODIGO")
     private Integer idMensaje;
 	
-    @Column(nullable = true, name = "MEN_TEXTO")
+    @Column(nullable = true, name = "MEN_TEXTO", length=400)
     private String texto;
     
-    @Column(nullable = true, name = "MEN_TITULO")
+    @Column(nullable = true, name = "MEN_TITULO", length=50)
     private String titulo;
     
     @Column(nullable = true, name = "MEN_FEC_ENVIADO")
@@ -29,6 +31,12 @@ public class Mensaje {
     
     @Column(nullable = true, name = "MEN_LEIDO")
     private Boolean esLeido;
+    
+    @ManyToOne @JoinColumn(name="USU_CODIGO_EMISOR", nullable=false)
+    private Usuario menUsuarioEmisor;
+    
+    @ManyToOne @JoinColumn(name="USU_CODIGO_RECEPTOR", nullable=false)
+    private Usuario menUsuarioReceptor;
 
 	public Integer getIdMensaje() {
 		return idMensaje;

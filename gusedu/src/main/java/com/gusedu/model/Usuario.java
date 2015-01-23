@@ -1,12 +1,17 @@
 package com.gusedu.model;
 
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,10 +22,10 @@ public class Usuario {
     @Column(nullable = false, name = "USU_CODIGO")
     private Integer idUsuario;
     
-    @Column(nullable = false, name = "USU_USUARIO")
+    @Column(nullable = false, name = "USU_USUARIO", length=50)
     private String usuario;
     
-    @Column(nullable = false, name = "USU_PASSWORD")
+    @Column(nullable = false, name = "USU_PASSWORD", length=50)
     private String password;
     
     @Column(nullable = true, name = "USU_FEC_CREACION")
@@ -28,7 +33,17 @@ public class Usuario {
     
     @Column(nullable = true, name = "USU_ACTIVO")
     private Boolean esActivo;
-
+    
+	@OneToMany(mappedBy="menUsuarioEmisor")
+	private Collection<Mensaje> usuMenEmisores;
+	
+	@OneToMany(mappedBy="menUsuarioReceptor")
+	private Collection<Mensaje> usuMenReceptores;
+		
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "PER_CODIGO", nullable = true)
+	private Persona usuPersona;
+ 
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}

@@ -1,5 +1,6 @@
 package com.gusedu.model;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -58,7 +61,16 @@ public class Persona {
     
     @Column(name="PER_USU_CREACION", nullable=true, length=100)
     private String usuarioCreacion;
+    
+	@OneToOne(mappedBy="usuPersona")
+	private Usuario perUsuario;	
 
+	@OneToOne(mappedBy="cliPersona")
+	private Cliente perCliente;	
+	
+	@OneToMany(mappedBy="llaPersona")
+	private Collection<Llamada> perLlamadas;
+	
 	public Integer getIdPersona() {
 		return idPersona;
 	}
