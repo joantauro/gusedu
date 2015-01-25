@@ -15,5 +15,7 @@ public interface PersonaService {
 	public List<Persona> getPersonas();
 	
 	public Persona getPersonaById(Integer id);
+	
+	public boolean registroPaciente(Persona persona);
 
 }

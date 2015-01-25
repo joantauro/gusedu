@@ -10,23 +10,25 @@
 <h:head>
 </h:head>
 <h:body>
-
 	<pm:page id="selectTipo">
-	<pm:header title="GUSEDU">	
-	</pm:header>
-		<pm:field>
-			<p:button value="Registrar nuevo Paciente" outcome="registroPaciente" />
-		</pm:field>
-		<pm:field>
-			<p:commandButton value="Consultar Paciente" type="button"  />
-		</pm:field>
-		<pm:field>
-			<p:commandButton value="Registrar nueva Terapia" type="button"  />
-		</pm:field>					
-		<pm:field>
-			<p:commandButton value="Consultar Puntos Biomagnéticos" type="button"  />
-		</pm:field>		
-
+		<pm:header title="GUSEDU">
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<p:growl autoUpdate="true" showDetail="true"></p:growl>
+				<pm:field>
+					<p:button value="Registrar nuevo Paciente"
+						outcome="registrarPaciente" />
+				</pm:field>
+				<pm:field>
+					<p:button value="Consultar pacientes" outcome="consultarPacientes" />
+				</pm:field>
+				<pm:field>
+					<p:commandButton value="Consultar Puntos Biomagnéticos"
+						type="button" />
+				</pm:field>
+			</h:form>
+		</pm:content>
 	</pm:page>
 
 </h:body>

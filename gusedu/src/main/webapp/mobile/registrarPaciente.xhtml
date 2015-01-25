@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+</h:head>
+<h:body>
+	<p:growl showDetail="true" autoUpdate="true"/>
+	<pm:page id="registroPacienteFirst">
+	<pm:header title="Nuevo paciente">
+		 <p:button outcome="index" value="Volver" icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline"/>
+	</pm:header>
+		<pm:content>
+				<h:form id="formRegistroPacienteFirst">
+				
+				<pm:field>
+					<p:outputLabel for="perNombre" value="Nombre: " />
+					<p:inputText required="true"  value="#{personaBean.persona.nombres}" id="perNombre" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perApePaterno" value="Apellido Paterno: " />
+					<p:inputText required="true" value="#{personaBean.persona.apellidoPaterno}" id="perApePaterno" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perApeMaterno" value="Apellido Materno: " />
+					<p:inputText required="true" value="#{personaBean.persona.apellidoMaterno}" id="perApeMaterno" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
+					<p:calendar required="true" value="#{personaBean.persona.fechaNacimiento}" id="perFecNac" pattern="dd/MM/yyyy" />
+				</pm:field>	
+				<p:panelGrid columns="2">
+					<p:commandButton action="#{personaBean.continuarRegistro}" value="Continuar" icon="ui-icon-check"/>
+					<p:commandButton value="Cancelar" immediate="true" action="#{personaBean.cancelar}" update="formRegistroPacienteFirst" icon="ui-icon-delete" />
+				</p:panelGrid>
+				</h:form>
+		</pm:content>
+	</pm:page>
+	
+	<pm:page id="registroPacienteSecond">
+	<pm:header title="Nuevo paciente">
+		 <p:button outcome="pm:registroPacienteFirst?transition=flip" value="Volver" icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline"/>
+		</pm:header>
+		<pm:content>
+				<h:form id="formRegistroPacienteSecond">
+				<pm:field>
+					<p:outputLabel for="perDni" value="Dni: " />
+					<p:inputText required="true" value="#{personaBean.persona.dni}" id="perDni">
+						<f:convertNumber maxIntegerDigits="8" minIntegerDigits="8" integerOnly="true" ></f:convertNumber>
+					</p:inputText>
+				</pm:field>		
+				<pm:field>
+					<p:outputLabel for="perCorreo" value="Correo: " />
+					<p:inputText required="true" value="#{personaBean.persona.correo}" id="perCorreo" >
+						<f:validateRegex pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
+					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perSexo" value="Sexo: " />
+					<p:selectOneButton required="true" id="perSexo" value="#{personaBean.persona.sexo}">
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+						<f:selectItem itemLabel="Femenino" itemValue="F" />
+					</p:selectOneButton>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perEstadoCivil" value="Estado Civil: " />
+					<p:selectOneButton id="perEstadoCivil" value="#{personaBean.persona.estadoCivil}">
+						<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+						<f:selectItem itemLabel="Casado" itemValue="Casado" />
+						<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+						<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+					</p:selectOneButton>
+				</pm:field>	
+				<p:panelGrid columns="2">
+					<p:commandButton value="Registrar" action="#{personaBean.registroPaciente}" 
+						icon="ui-icon-check" />
+					<p:commandButton value="Cancelar" immediate="true" action="#{personaBean.cancelar}" update="formRegistroPacienteSecond" icon="ui-icon-delete" />
+				</p:panelGrid>
+				</h:form>
+		</pm:content>			
+	</pm:page>
+</h:body>
+</html>

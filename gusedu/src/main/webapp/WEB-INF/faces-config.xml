@@ -9,6 +9,12 @@
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
 	
+	     <application>
+	  <message-bundle>
+	  	com.gusedu.util.messages
+	  </message-bundle>
+     </application>
+	
 	<application>
     <navigation-handler>
         org.primefaces.mobile.application.MobileNavigationHandler
@@ -19,23 +25,5 @@
 		<managed-bean-class>com.gusedu.controller.PersonaBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
-		
-	<navigation-rule>
-		<display-name>mobile/index.xhtml</display-name>
-		<from-view-id>/mobile/index.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>registroPaciente</from-outcome>			
-			<to-view-id>/mobile/registarPaciente.xhtml</to-view-id>					
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<display-name>mobile/registarPaciente.xhtml</display-name>
-		<from-view-id>/mobile/registarPaciente.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>index</from-outcome>
-			<to-view-id>/mobile/index.xhtml</to-view-id>			
-		</navigation-case>
-	</navigation-rule>
 
 </faces-config>

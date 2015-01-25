@@ -1,7 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14220364529690" configfile="/gusedu/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="mobile/index.xhtml" x="48" y="96" id="pf14220366505974" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf14220366505975" inlinks="pf14220367988469" path="/mobile/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="mobile/registarPaciente.xhtml" x="348" y="65" id="pf14220366505976" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14220367988469" inlinks="pf14220366505975" path="/mobile/registarPaciente.xhtml"/>
-  <links id="pf14220366505975" target="pf14220366505976" source="pf14220366505974" outcome="registroPaciente"/>
-  <links id="pf14220367988469" target="pf14220366505974" source="pf14220366505976" outcome="index"/>
-</pageflow:Pageflow>
+<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14220364529690" configfile="/gusedu/src/main/webapp/WEB-INF/faces-config.xml"/>
