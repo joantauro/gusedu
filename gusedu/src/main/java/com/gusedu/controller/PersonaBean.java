@@ -87,5 +87,10 @@ public class PersonaBean {
 		persona = new Persona();
 		return "index";
 	}
+	
+	public String cargarTerapias(int id){
+		personaSeleccionada = personaService.getPersonaById(id);
+		return "consultarTerapias";
+	}
 			
 }

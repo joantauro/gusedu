@@ -53,6 +53,18 @@
 					<p:inputText required="true" value="#{personaBean.persona.dni}" id="perDni">
 						<f:convertNumber maxIntegerDigits="8" minIntegerDigits="8" integerOnly="true" ></f:convertNumber>
 					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
+					<p:inputText required="true" value="#{personaBean.persona.telefonoFijo}" id="perTelFijo" >
+					<f:convertNumber integerOnly="true" ></f:convertNumber>
+					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
+					<p:inputText required="true" value="#{personaBean.persona.telefonoMovil}" id="perTelMovil" >
+					<f:convertNumber integerOnly="true" ></f:convertNumber>
+					</p:inputText>
 				</pm:field>		
 				<pm:field>
 					<p:outputLabel for="perCorreo" value="Correo: " />

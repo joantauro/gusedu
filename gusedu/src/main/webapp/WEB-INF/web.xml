@@ -22,7 +22,7 @@
  
   <!-- Welcome page -->
   <welcome-file-list>
-    <welcome-file>index.jsf</welcome-file>
+    <welcome-file>mobile/index.jsf</welcome-file>
   </welcome-file-list>
   
   <error-page>

@@ -1,5 +1,6 @@
 package com.gusedu.model;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,7 +37,10 @@ public class Cliente {
 	private Persona cliPersona;
 	
     @ManyToOne @JoinColumn(name="TCL_CODIGO", nullable=false)
-    private TipoCliente cliTipoCliente;	
+    private TipoCliente cliTipoCliente;
+    
+    @OneToMany(mappedBy="visCliente")
+	private Collection<Visita> cliVisitas;
 
 	public Integer getIdCliente() {
 		return idCliente;
@@ -83,6 +88,22 @@ public class Cliente {
 
 	public void setEsActivo(boolean esActivo) {
 		this.esActivo = esActivo;
+	}
+	
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+
+	public void setEsActivo(Boolean esActivo) {
+		this.esActivo = esActivo;
+	}
+
+	public Collection<Visita> getCliVisitas() {
+		return cliVisitas;
+	}
+
+	public void setCliVisitas(Collection<Visita> cliVisitas) {
+		this.cliVisitas = cliVisitas;
 	}
 
 	@Override

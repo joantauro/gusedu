@@ -9,6 +9,15 @@
 
 	<!-- Dependencias -->
 
+	<repositories>
+		<repository>
+			<id>prime-github-repo</id>
+			<name>Unofficial PrimeFaces Maven Repository</name>
+			<url>http://primefaces.github.io/repository</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
 	<dependencies>
 
 		<!-- Spring -->
@@ -43,7 +52,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>5.1</version>
+			<version>5.1.3-UR</version>
 		</dependency>
 
 		<dependency>

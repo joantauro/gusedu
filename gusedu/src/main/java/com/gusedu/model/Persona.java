@@ -53,6 +53,12 @@ public class Persona {
     @Column(name="PER_NIT", nullable=true)
     private Integer nit;
     
+    @Column(name="PER_TEL_FIJO", nullable=true)
+    private Integer telefonoFijo;
+    
+    @Column(name="PER_TEL_MOVIL", nullable=true)
+    private Integer telefonoMovil;    
+    
     @Column(name="PER_CLI_POTENCIAL", nullable=true)
     private Boolean esClientePotencial;
     
@@ -213,6 +219,22 @@ public class Persona {
 
 	public void setPerLlamadas(Collection<Llamada> perLlamadas) {
 		this.perLlamadas = perLlamadas;
+	}
+	
+	public Integer getTelefonoFijo() {
+		return telefonoFijo;
+	}
+
+	public void setTelefonoFijo(Integer telefonoFijo) {
+		this.telefonoFijo = telefonoFijo;
+	}
+
+	public Integer getTelefonoMovil() {
+		return telefonoMovil;
+	}
+
+	public void setTelefonoMovil(Integer telefonoMovil) {
+		this.telefonoMovil = telefonoMovil;
 	}
 
 	@Override
