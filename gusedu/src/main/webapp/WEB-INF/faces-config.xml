@@ -25,5 +25,10 @@
 		<managed-bean-class>com.gusedu.controller.PersonaBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>visitaBean</managed-bean-name>
+		<managed-bean-class>com.gusedu.controller.VisitaBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 </faces-config>

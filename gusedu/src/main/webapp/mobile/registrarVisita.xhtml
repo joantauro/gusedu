@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+</h:head>
+<h:body>
+	<p:growl showDetail="true" autoUpdate="true" />
+	<pm:page id="registroVisita">
+		<pm:header title="Nueva visita">
+			<h:form>
+				<p:commandButton action="#{visitaBean.volver}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel for="searchDni" value="Buscar cliente: " />
+					<p:inputText id="searchDni" value="#{visitaBean.busquedaDni}"
+						placeholder="Ingrese el DNI del cliente" type="search" />
+				</pm:field>
+				<pm:field>
+					<p:commandButton value="Buscar" ajax="false"
+						action="#{visitaBean.buscarPersona}" />
+				</pm:field>
+			</h:form>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="registroVisita2">
+		<pm:header title="Nueva visita">
+			<h:form>
+				<p:commandButton ajax="false"
+					action="#{visitaBean.volverRegistroVisita}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<p:panel header="Datos del cliente" toggleable="true">
+				<p:panelGrid columns="2">
+					<p:outputLabel for="perNombre" value="Nombre: " />
+					<p:outputLabel
+						value="#{visitaBean.busquedaCliente.cliPersona.nombres}"
+						id="perNombre" />
+
+					<p:outputLabel for="perApPaterno" value="Apellido Paterno: " />
+					<p:outputLabel
+						value="#{visitaBean.busquedaCliente.cliPersona.apellidoPaterno}"
+						id="perApPaterno" />
+
+					<p:outputLabel for="perApMaterno" value="Apellido Materno: " />
+					<p:outputLabel
+						value="#{visitaBean.busquedaCliente.cliPersona.apellidoMaterno}"
+						id="perApMaterno" />
+				</p:panelGrid>
+			</p:panel>
+			<h:form>
+				<pm:field>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Visita Presencial"></p:outputLabel>
+						<p:selectBooleanCheckbox required="true" />
+					</p:panelGrid>
+				</pm:field>
+			</h:form>
+
+
+		</pm:content>
+	</pm:page>
+
+</h:body>
+</html>

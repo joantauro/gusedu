@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
+import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoCliente;
 import com.gusedu.model.Usuario;
 
@@ -83,6 +84,7 @@ public class PersonaServiceImpl implements PersonaService {
 		return em.find(Persona.class, id);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Transactional
 	public boolean registroPaciente(Persona persona) {
 		boolean resultado = false;
@@ -133,6 +135,37 @@ public class PersonaServiceImpl implements PersonaService {
 			resultado = false;
 		}
 		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Terapia> terapiasPorPersona(Persona persona) {
+		List<Terapia> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT t FROM Terapia t WHERE t.terVisita.visCliente.cliPersona=:persona");
+			q.setParameter("persona", persona);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}		
+		return result;
+	}
+
+	@Override
+	public Cliente buscarPorDni(String dni) {
+		Cliente result = null;
+		try{
+			Integer intDni = Integer.parseInt(dni);
+			
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliPersona.dni=:dni");
+			q.setParameter("dni", intDni);
+			result = (Cliente) q.getSingleResult();
+		}
+		catch(Exception e){
+			System.out.println("ERROR: " + e.getMessage());
+			result = null;
+		}
+		return result;
 	}
 
 }

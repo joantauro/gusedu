@@ -17,6 +17,16 @@
 	</pm:header>
 	<pm:content>
 	
+	<p:dataList value="#{personaBean.terapiasPaciente}" var="txp" paginator="true" rows="5">
+    <f:facet name="header">
+        	Lista de terapias
+    </f:facet>
+    <h:outputLink value="#">        
+        <h:outputLabel value="#{txp.fechaRealizada}" />     
+        <p class="ui-li-aside"><strong>Test</strong></p>
+    </h:outputLink>    
+</p:dataList>      
+	
 	</pm:content>	
 	</pm:page>
 

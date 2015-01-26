@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
+import com.gusedu.model.Terapia;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
 import com.gusedu.util.StaticUtil;
@@ -26,11 +27,13 @@ public class PersonaBean {
 	private Persona persona;
 	private List<Persona> personas;
 	private List<Cliente> pacientes;
-	private Persona personaSeleccionada;
+	
+	private Persona personaSeleccionada;	
+	private List<Terapia> terapiasPaciente;	
 	
 	public PersonaBean(){
 		persona = new Persona();
-		personaSeleccionada = new Persona();
+		personaSeleccionada = new Persona();					
 	}
 
 	public Persona getPersona() {
@@ -63,10 +66,19 @@ public class PersonaBean {
 		return personaSeleccionada;
 	}
 
+	
 	public void setPersonaSeleccionada(Persona personaSeleccionada) {
 		this.personaSeleccionada = personaSeleccionada;
-	}
+	}	
 	
+	public List<Terapia> getTerapiasPaciente() {
+		return terapiasPaciente;
+	}
+
+	public void setTerapiasPaciente(List<Terapia> terapiasPaciente) {
+		this.terapiasPaciente = terapiasPaciente;
+	}
+
 	public String registroPaciente(){
 		if(personaService.registroPaciente(persona)){
 			persona = new Persona();
@@ -82,15 +94,16 @@ public class PersonaBean {
 	public String continuarRegistro(){
 		return "pm:registroPacienteSecond?transition=flip";
 	}
-	
+		
 	public String cancelar(){
 		persona = new Persona();
 		return "index";
-	}
+	}		
 	
-	public String cargarTerapias(int id){
-		personaSeleccionada = personaService.getPersonaById(id);
+	public String cargarTerapias(int idPersona){
+		personaSeleccionada = personaService.getPersonaById(idPersona);
+		terapiasPaciente = personaService.terapiasPorPersona(personaSeleccionada);
 		return "consultarTerapias";
-	}
+	}						
 			
 }

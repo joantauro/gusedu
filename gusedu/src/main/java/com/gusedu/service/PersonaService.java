@@ -2,7 +2,9 @@ package com.gusedu.service;
 
 import java.util.List;
 
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
+import com.gusedu.model.Terapia;
 
 public interface PersonaService {
 	
@@ -17,5 +19,9 @@ public interface PersonaService {
 	public Persona getPersonaById(Integer id);
 	
 	public boolean registroPaciente(Persona persona);
+	
+	public List<Terapia> terapiasPorPersona(Persona persona); 
 
+	public Cliente buscarPorDni(String dni);
+	
 }
