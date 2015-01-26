@@ -3,6 +3,7 @@ package com.gusedu.service;
 import java.util.List;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.model.Visita;
 
 public interface ClienteService {
 
@@ -15,5 +16,7 @@ public interface ClienteService {
 	public List<Cliente> getClientes();	
 	
 	public List<Cliente> getClientesPacientes();	
+	
+	public List<Visita> getVisitasDePaciente(Cliente cliente);
 	
 }

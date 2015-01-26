@@ -17,7 +17,12 @@
 	</pm:header>
 		<pm:content>
 				<h:form id="formRegistroPacienteFirst">
-				
+				<pm:field>
+					<p:outputLabel for="perDni" value="Dni: " />
+					<p:inputText required="true" value="#{personaBean.persona.dni}" id="perDni">
+						<f:convertNumber maxIntegerDigits="8" minIntegerDigits="8" integerOnly="true" ></f:convertNumber>
+					</p:inputText>
+				</pm:field>				
 				<pm:field>
 					<p:outputLabel for="perNombre" value="Nombre: " />
 					<p:inputText required="true"  value="#{personaBean.persona.nombres}" id="perNombre" />
@@ -48,12 +53,6 @@
 		</pm:header>
 		<pm:content>
 				<h:form id="formRegistroPacienteSecond">
-				<pm:field>
-					<p:outputLabel for="perDni" value="Dni: " />
-					<p:inputText required="true" value="#{personaBean.persona.dni}" id="perDni">
-						<f:convertNumber maxIntegerDigits="8" minIntegerDigits="8" integerOnly="true" ></f:convertNumber>
-					</p:inputText>
-				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
 					<p:inputText required="true" value="#{personaBean.persona.telefonoFijo}" id="perTelFijo" >

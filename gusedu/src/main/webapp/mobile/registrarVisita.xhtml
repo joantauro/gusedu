@@ -42,32 +42,69 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<p:panel header="Datos del cliente" toggleable="true">
-				<p:panelGrid columns="2">
-					<p:outputLabel for="perNombre" value="Nombre: " />
-					<p:outputLabel
-						value="#{visitaBean.busquedaCliente.cliPersona.nombres}"
-						id="perNombre" />
-
-					<p:outputLabel for="perApPaterno" value="Apellido Paterno: " />
-					<p:outputLabel
-						value="#{visitaBean.busquedaCliente.cliPersona.apellidoPaterno}"
-						id="perApPaterno" />
-
-					<p:outputLabel for="perApMaterno" value="Apellido Materno: " />
-					<p:outputLabel
-						value="#{visitaBean.busquedaCliente.cliPersona.apellidoMaterno}"
-						id="perApMaterno" />
-				</p:panelGrid>
-			</p:panel>
 			<h:form>
-				<pm:field>
+				<p:panel header="Nueva Visita">
 					<p:panelGrid columns="2">
-						<p:outputLabel value="Visita Presencial"></p:outputLabel>
-						<p:selectBooleanCheckbox required="true" />
+						<p:outputLabel for="boolPresencial" value="Visita Presencial: "></p:outputLabel>
+						<p:selectBooleanCheckbox value="#{visitaBean.esPresencial}"
+							id="boolPresencial" required="true" />
+
+						<p:outputLabel for="sliderPrioridad" value="Prioridad: "></p:outputLabel>
+						<pm:inputSlider id="sliderPrioridad" required="true" value="1"
+							minValue="1" maxValue="3" />
 					</p:panelGrid>
-				</pm:field>
+					<pm:field>
+						<p:panelGrid columns="2">
+							<p:commandButton value="Registrar" />
+							<p:commandButton value="Cancelar" />
+						</p:panelGrid>
+					</pm:field>
+				</p:panel>
 			</h:form>
+			<h:form>
+				<p:panel header="Datos del cliente" toggleable="true"
+					collapsed="true">
+					<p:panelGrid columns="2">
+						<p:outputLabel for="perNombre" value="Nombre: " />
+						<p:outputLabel
+							value="#{visitaBean.busquedaCliente.cliPersona.nombres}"
+							id="perNombre" />
+
+						<p:outputLabel for="perApPaterno" value="Apellido Paterno: " />
+						<p:outputLabel
+							value="#{visitaBean.busquedaCliente.cliPersona.apellidoPaterno}"
+							id="perApPaterno" />
+
+						<p:outputLabel for="perApMaterno" value="Apellido Materno: " />
+						<p:outputLabel
+							value="#{visitaBean.busquedaCliente.cliPersona.apellidoMaterno}"
+							id="perApMaterno" />
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+			<p:panel header="Historial de visitas" toggleable="true"
+				collapsed="true">
+				<h:form>
+					<p:dataTable id="visitas" var="vis"
+						value="#{visitaBean.visitasPaciente}" emptyMessage="No se han registrado visitas" rowKey="#{vis.idCliente}"
+						paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+
+						<p:column headerText="Fecha: "
+							sortBy="#{vis.fechaCreacion}">
+							<h:outputText value="#{vis.fechaCreacion}" />
+						</p:column>
+						<p:column headerText="Estado: "
+							sortBy="#{vis.estado}">
+							<h:outputText value="#{vis.estado}" />
+						</p:column>
+						<p:column headerText="Prioridad "
+							sortBy="#{vis.prioridad}">
+							<h:outputText value="#{vis.prioridad}" />
+						</p:column>																												
+					</p:dataTable>
+				</h:form>
+			</p:panel>
+
 
 
 		</pm:content>

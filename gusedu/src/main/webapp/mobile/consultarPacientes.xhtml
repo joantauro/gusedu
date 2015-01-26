@@ -18,7 +18,7 @@
 		</pm:header>
 		<h:form>
 			
-			<p:dataTable id="paciente" var="pac" value="#{personaBean.pacientes}" rowKey="#{pac.id}"
+			<p:dataTable id="paciente" var="pac" value="#{personaBean.pacientes}" rowKey="#{pac.idCliente}"
                  paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
 
 				<p:column headerText="Ap. Paterno" sortBy="#{pac.cliPersona.apellidoPaterno}">
@@ -33,9 +33,8 @@
 					<h:outputText value="#{pac.cliPersona.nombres}" />
 				</p:column>
 
-				<p:column headerText="Opciones">
-					<p:commandButton value="Terapias" action="#{personaBean.cargarTerapias(pac.idPersona)}" >						
-					</p:commandButton>
+				<p:column headerText="Visitas">
+					<p:commandButton icon="ui-icon-eye" />					
 				</p:column>
 
 			</p:dataTable>
