@@ -8,23 +8,21 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Visita;
 
-@Service
-public class ClienteServiceImpl implements ClienteService{
+public class VisitaServiceImpl implements VisitaService{
 
 	@PersistenceContext
 	EntityManager em;
 	
 	@Transactional
-	public boolean saveCliente(Cliente cliente) {
+	public boolean saveVisita(Visita visita) {
 		boolean resultado = false;
 		try {
-			em.persist(cliente);
+			em.persist(visita);
 			resultado = true;
 		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
@@ -34,10 +32,10 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Transactional
-	public boolean updateCliente(Cliente cliente) {
+	public boolean updateVisita(Visita visita) {
 		boolean resultado = false;
 		try {
-			em.merge(cliente);
+			em.merge(visita);
 			resultado = true;
 		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
@@ -47,10 +45,10 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Transactional
-	public boolean deleteCliente(Cliente cliente) {
+	public boolean deleteVisita(Visita visita) {
 		boolean resultado = false;
 		try {
-			em.remove(em.getReference(Cliente.class, cliente.getIdCliente()));
+			em.remove(em.getReference(Visita.class, visita.getIdVisita()));
 			resultado = true;
 		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
@@ -61,24 +59,11 @@ public class ClienteServiceImpl implements ClienteService{
 
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<Cliente> getClientes() {
-		List<Cliente> result = new ArrayList<>();
+	public List<Visita> getVisitasCliente(Cliente cliente) {
+		List<Visita> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT c FROM Cliente c");
-			result = q.getResultList();
-		} catch (NoResultException e) {
-			System.out.println("ERROR: " + e.getMessage());
-		}
-		return result;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Cliente> getClientesPacientes() {
-		List<Cliente> result = new ArrayList<>();
-		try {
-			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliTipoCliente.descripcion=:paciente");
-			q.setParameter("paciente", "Paciente");
+			Query q = em.createQuery("SELECT v FROM Visita v WHERE v.visCliente=:cliente");
+			q.setParameter("cliente", cliente);
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());

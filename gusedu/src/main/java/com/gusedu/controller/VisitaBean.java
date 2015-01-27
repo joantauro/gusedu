@@ -2,6 +2,9 @@ package com.gusedu.controller;
 
 import java.util.List;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -9,6 +12,7 @@ import com.gusedu.model.Cliente;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
+import com.gusedu.service.VisitaService;
 import com.gusedu.util.StaticUtil;
 
 @Controller
@@ -20,16 +24,22 @@ public class VisitaBean {
 	@Autowired
 	ClienteService clienteService;
 	
+	@Autowired
+	VisitaService visitaService;
+	
 	private String busquedaDni;
 	private Cliente busquedaCliente;
 	
 	private Boolean esPresencial;
+	private Integer prioridad;
 
 	private List<Visita> visitasPaciente;
+	private Visita visita;
 		
 	public VisitaBean(){
 		busquedaCliente = new Cliente();
 		busquedaDni = "";
+		visita = new Visita();
 	}
 	
 	public String getBusquedaDni() {
@@ -70,6 +80,22 @@ public class VisitaBean {
 		this.visitasPaciente = visitasPaciente;
 	}
 
+	public Integer getPrioridad() {
+		return prioridad;
+	}
+
+	public void setPrioridad(Integer prioridad) {
+		this.prioridad = prioridad;
+	}
+
+	public Visita getVisita() {
+		return visita;
+	}
+
+	public void setVisita(Visita visita) {
+		this.visita = visita;
+	}
+
 	public String volver(){
 		busquedaDni = "";
 		busquedaCliente = new Cliente();
@@ -82,8 +108,21 @@ public class VisitaBean {
 			StaticUtil.errorMessage("Error", "No se ha encontrado el paciente buscado");
 			return null;
 		}		
-		visitasPaciente = clienteService.getVisitasDePaciente(busquedaCliente);
+		visitasPaciente = visitaService.getVisitasCliente(busquedaCliente);		
 		return "pm:registroVisita2?transition=flip";
+	}
+	
+	public String registrarVisita(){
+		visita.setEsPresencial(esPresencial);
+		visita.setPrioridad(prioridad);
+		visita.setEstado(1);
+		if(visitaService.saveVisita(visita)){
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			context.getFlash().setKeepMessages(true);
+			return "gestionVisita?faces-redirect=true";
+		}else{			
+			return null;
+		}
 	}
 	
 }
