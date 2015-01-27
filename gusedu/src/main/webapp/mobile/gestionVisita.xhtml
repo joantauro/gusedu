@@ -8,53 +8,59 @@
 <f:view renderKitId="PRIMEFACES_MOBILE" />
 
 <h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
 </h:head>
 <h:body>
 	<p:growl showDetail="true" autoUpdate="true" />
 	<pm:page id="gestionVisita">
 		<pm:header title="Gestion Visita">
-		<h:form>
-			<p:commandButton action="#{visitaBean.volver}" value="Volver" icon="ui-icon-arrow-l"
-				styleClass="ui-btn-left ui-btn-inline" />
-		</h:form>
+			<h:form>
+				<p:commandButton action="#{visitaBean.volver}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
 		</pm:header>
 		<pm:content>
-		<h:form>
-			<pm:field>
-			<p:commandButton value="Añadir Terapia" icon="ui-icon-heart" iconPos="right"/> 
-			</pm:field>
-			<pm:field>
-			<p:commandButton value="Añadir Producto" icon="ui-icon-shop" iconPos="right"/> 
-			</pm:field>
-		</h:form>
-		<h:form>
-			<p:accordionPanel>
-				<p:tab title="Terapias">
-					<p:dataTable id="terapias" var="ter"
-						value="#{visitaBean.terapiasDeVisita}" emptyMessage="No se han registrado terapias" rowKey="#{ter.idTerapia}"
-						paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+			<h:form>
+				<pm:field>
+					<p:commandButton value="Añadir Terapia" icon="ui-icon-heart"
+						iconPos="right" />
+				</pm:field>
+				<pm:field>
+					<p:commandButton value="Añadir Producto" icon="ui-icon-shop"
+						iconPos="right" />
+				</pm:field>
+			</h:form>
+			<h:form>
+				<p:accordionPanel>
+					<p:tab title="Terapias">
+						<p:dataTable id="terapias" var="ter"
+							value="#{visitaBean.terapiasDeVisita}"
+							emptyMessage="No se han registrado terapias"
+							rowKey="#{ter.idTerapia}" paginator="true" rows="5"
+							tableStyleClass="ui-table-columntoggle">
 
-						<p:column headerText="Fec. Relizada">							
-							<h:outputText value="#{ter.fechaRealizada}" />
-						</p:column>
-						<p:column headerText="Fec. Proxima">							
-							<h:outputText value="#{ter.fechaProxima}" />
-						</p:column>		
-						<p:column headerText="Tipo">
-							<h:outputText value="#{ter.terTipoTerapia.nombre}" />
-						</p:column>
-						<p:column headerText="Terapeuta">							
-							<h:outputText value="#{ter.usuarioCreacion}" />
-						</p:column>						
-						<p:column headerText="Sintomas">
-							<p:commandButton icon="ui-icon-eye" />	
-						</p:column>					
-					</p:dataTable>
-				</p:tab>
-				<p:tab title="Productos">
+							<p:column headerText="Fec. Relizada">
+								<h:outputText value="#{ter.fechaRealizada}" />
+							</p:column>
+							<p:column headerText="Fec. Proxima">
+								<h:outputText value="#{ter.fechaProxima}" />
+							</p:column>
+							<p:column headerText="Tipo">
+								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
+							</p:column>
+							<p:column headerText="Terapeuta">
+								<h:outputText value="#{ter.usuarioCreacion}" />
+							</p:column>
+							<p:column headerText="Sintomas">
+								<p:commandButton icon="ui-icon-eye" />
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+					<p:tab title="Productos">
 
-				</p:tab>
-			</p:accordionPanel>
+					</p:tab>
+				</p:accordionPanel>
 			</h:form>
 		</pm:content>
 	</pm:page>

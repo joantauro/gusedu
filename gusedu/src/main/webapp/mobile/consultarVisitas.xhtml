@@ -8,6 +8,8 @@
 <f:view renderKitId="PRIMEFACES_MOBILE" />
 
 <h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
 </h:head>
 <h:body>
 
@@ -34,7 +36,9 @@
 					<h:outputText value="#{vis.prioridad}" />
 				</p:column>
 				<p:column headerText="Detalle">
-					<p:commandButton action="#{visitaBean.cargarVisitaEspecifica(vis.idVisita)}" icon="ui-icon-eye" />
+					<p:commandButton
+						action="#{visitaBean.cargarVisitaEspecifica(vis.idVisita)}"
+						icon="ui-icon-eye" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
