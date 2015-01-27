@@ -73,4 +73,9 @@ public class VisitaServiceImpl implements VisitaService{
 		return result;
 	}
 
+	@Override
+	public Visita getVisitaById(Integer idVisita) {
+		return em.find(Visita.class, idVisita);
+	}
+
 }

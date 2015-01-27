@@ -15,6 +15,8 @@ public interface ClienteService {
 	
 	public List<Cliente> getClientes();	
 	
+	public Cliente getClienteById(Integer idCliente);
+	
 	public List<Cliente> getClientesPacientes();		
 	
 }

@@ -14,4 +14,6 @@ public interface VisitaService {
 	public boolean deleteVisita(Visita visita);
 
 	public List<Visita> getVisitasCliente(Cliente cliente);
+	
+	public Visita getVisitaById(Integer idVisita);
 }

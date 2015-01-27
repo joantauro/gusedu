@@ -21,6 +21,10 @@
 			<p:dataTable id="paciente" var="pac" value="#{personaBean.pacientes}" rowKey="#{pac.idCliente}"
                  paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
 
+				<p:column headerText="DNI" sortBy="#{pac.cliPersona.dni}">
+					<h:outputText value="#{pac.cliPersona.dni}" />
+				</p:column>
+
 				<p:column headerText="Ap. Paterno" sortBy="#{pac.cliPersona.apellidoPaterno}">
 					<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
 				</p:column>
@@ -34,7 +38,7 @@
 				</p:column>
 
 				<p:column headerText="Visitas">
-					<p:commandButton icon="ui-icon-eye" />					
+					<p:commandButton icon="ui-icon-eye" action="#{visitaBean.cargarVisitas(pac.idCliente)}" />					
 				</p:column>
 
 			</p:dataTable>

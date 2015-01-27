@@ -48,7 +48,7 @@ public class VisitaBean {
 	
 		
 	public VisitaBean(){
-		busquedaCliente = new Cliente();
+		busquedaCliente = new Cliente();		
 		busquedaDni = "";
 		visita = new Visita();
 		visitaSeleccionada = new Visita();
@@ -160,6 +160,16 @@ public class VisitaBean {
 		}else{			
 			return null;
 		}
+	}
+	
+	public String cargarVisitas(int idCliente){
+		visitasPaciente = visitaService.getVisitasCliente(clienteService.getClienteById(idCliente)); 		
+		return "consultarVisitas?faces-redirect=true";
+	}
+	
+	public String cargarVisitaEspecifica(int idVisita){
+		visitaSeleccionada = visitaService.getVisitaById(idVisita);
+		return "gestionVisita?faces-redirect=true";
 	}
 	
 }

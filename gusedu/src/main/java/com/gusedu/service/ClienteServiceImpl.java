@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.model.Persona;
 import com.gusedu.model.Visita;
 
 @Service
@@ -84,6 +85,11 @@ public class ClienteServiceImpl implements ClienteService{
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;
+	}
+
+	@Transactional
+	public Cliente getClienteById(Integer idCliente) {
+		return em.find(Cliente.class, idCliente);
 	}
 
 }
