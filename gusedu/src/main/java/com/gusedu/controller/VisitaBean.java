@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.model.Terapia;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
+import com.gusedu.service.TerapiaService;
 import com.gusedu.service.VisitaService;
 import com.gusedu.util.StaticUtil;
 
@@ -27,6 +29,9 @@ public class VisitaBean {
 	@Autowired
 	VisitaService visitaService;
 	
+	@Autowired
+	TerapiaService terapiaService;
+	
 	private String busquedaDni;
 	private Cliente busquedaCliente;
 	
@@ -35,11 +40,17 @@ public class VisitaBean {
 
 	private List<Visita> visitasPaciente;
 	private Visita visita;
+	
+	
+	private Visita visitaSeleccionada;
+	private List<Terapia> terapiasDeVisita;
+	
 		
 	public VisitaBean(){
 		busquedaCliente = new Cliente();
 		busquedaDni = "";
 		visita = new Visita();
+		visitaSeleccionada = new Visita();
 	}
 	
 	public String getBusquedaDni() {
@@ -96,6 +107,22 @@ public class VisitaBean {
 		this.visita = visita;
 	}
 
+	public Visita getVisitaSeleccionada() {
+		return visitaSeleccionada;
+	}
+
+	public void setVisitaSeleccionada(Visita visitaSeleccionada) {
+		this.visitaSeleccionada = visitaSeleccionada;
+	}
+
+	public List<Terapia> getTerapiasDeVisita() {
+		return terapiasDeVisita;
+	}
+
+	public void setTerapiasDeVisita(List<Terapia> terapiasDeVisita) {
+		this.terapiasDeVisita = terapiasDeVisita;
+	}
+
 	public String volver(){
 		busquedaDni = "";
 		busquedaCliente = new Cliente();
@@ -117,6 +144,9 @@ public class VisitaBean {
 		visita.setPrioridad(prioridad);
 		visita.setEstado(1);
 		if(visitaService.saveVisita(visita)){
+			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+			visitaSeleccionada = visita;
+			visita = new Visita();
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return "gestionVisita?faces-redirect=true";

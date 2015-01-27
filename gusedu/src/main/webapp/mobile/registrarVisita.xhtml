@@ -22,7 +22,8 @@
 			<h:form>
 				<pm:field>
 					<p:outputLabel for="searchDni" value="Buscar cliente: " />
-					<p:inputText required="true" id="searchDni" value="#{visitaBean.busquedaDni}"
+					<p:inputText required="true" id="searchDni"
+						value="#{visitaBean.busquedaDni}"
 						placeholder="Ingrese el DNI del cliente" type="search" />
 				</pm:field>
 				<pm:field>
@@ -79,6 +80,17 @@
 						<p:outputLabel
 							value="#{visitaBean.busquedaCliente.cliPersona.apellidoMaterno}"
 							id="perApMaterno" />
+
+
+						<p:outputLabel for="perCorreo" value="Correo: " />
+						<p:outputLabel
+							value="#{visitaBean.busquedaCliente.cliPersona.correo}"
+							id="perCorreo" />
+
+						<p:outputLabel for="perTelefono" value="Celular: " />
+						<p:outputLabel
+							value="#{visitaBean.busquedaCliente.cliPersona.telefonoMovil}"
+							id="perTelefono" />
 					</p:panelGrid>
 				</p:panel>
 			</h:form>
@@ -86,21 +98,20 @@
 				collapsed="true">
 				<h:form>
 					<p:dataTable id="visitas" var="vis"
-						value="#{visitaBean.visitasPaciente}" emptyMessage="No se han registrado visitas" rowKey="#{vis.idCliente}"
-						paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+						value="#{visitaBean.visitasPaciente}"
+						emptyMessage="No se han registrado visitas"
+						rowKey="#{vis.idCliente}" paginator="true" rows="5"
+						tableStyleClass="ui-table-columntoggle">
 
-						<p:column headerText="Fecha: "
-							sortBy="#{vis.fechaCreacion}">
+						<p:column headerText="Fecha: " sortBy="#{vis.fechaCreacion}">
 							<h:outputText value="#{vis.fechaCreacion}" />
 						</p:column>
-						<p:column headerText="Estado: "
-							sortBy="#{vis.estado}">
+						<p:column headerText="Estado: " sortBy="#{vis.estado}">
 							<h:outputText value="#{vis.estado}" />
 						</p:column>
-						<p:column headerText="Prioridad "
-							sortBy="#{vis.prioridad}">
+						<p:column headerText="Prioridad " sortBy="#{vis.prioridad}">
 							<h:outputText value="#{vis.prioridad}" />
-						</p:column>																												
+						</p:column>
 					</p:dataTable>
 				</h:form>
 			</p:panel>
