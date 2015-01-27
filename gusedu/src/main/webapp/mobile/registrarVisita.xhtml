@@ -51,13 +51,13 @@
 							id="boolPresencial" required="true" />
 
 						<p:outputLabel for="sliderPrioridad" value="Prioridad: "></p:outputLabel>
-						<pm:inputSlider id="sliderPrioridad" required="true" value="1"
+						<pm:inputSlider id="sliderPrioridad" required="true" value="#{visitaBean.prioridad}" 
 							minValue="1" maxValue="3" />
 					</p:panelGrid>
 					<pm:field>
 						<p:panelGrid columns="2">
-							<p:commandButton value="Registrar" />
-							<p:commandButton value="Cancelar" />
+							<p:commandButton value="Registrar" action="#{visitaBean.registrarVisita}" />
+							<p:commandButton value="Cancelar" action="#{visitaBean.volver}" />
 						</p:panelGrid>
 					</pm:field>
 				</p:panel>
@@ -112,6 +112,9 @@
 						<p:column headerText="Prioridad " sortBy="#{vis.prioridad}">
 							<h:outputText value="#{vis.prioridad}" />
 						</p:column>
+						<p:column headerText="Detalle">
+							<p:commandButton icon="ui-icon-eye" />	
+						</p:column>						
 					</p:dataTable>
 				</h:form>
 			</p:panel>

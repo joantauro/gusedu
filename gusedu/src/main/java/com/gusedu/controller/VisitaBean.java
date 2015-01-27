@@ -1,5 +1,6 @@
 package com.gusedu.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.context.ExternalContext;
@@ -143,6 +144,9 @@ public class VisitaBean {
 		visita.setEsPresencial(esPresencial);
 		visita.setPrioridad(prioridad);
 		visita.setEstado(1);
+		visita.setVisCliente(busquedaCliente);
+		Date fechaActual = StaticUtil.getFechaActual();
+		visita.setFechaCreacion(fechaActual);
 		if(visitaService.saveVisita(visita)){
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
 			visitaSeleccionada = visita;

@@ -63,7 +63,7 @@ public class TerapiaServiceImpl implements TerapiaService{
 	public List<Terapia> terapiasPorVisita(Visita visita) {
 		List<Terapia> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT t FROM Terapia WHERE t.terVisita=:visita");
+			Query q = em.createQuery("SELECT t FROM Terapia t WHERE t.terVisita=:visita");
 			q.setParameter("visita", visita);
 			result = q.getResultList();
 		} catch (NoResultException e) {
