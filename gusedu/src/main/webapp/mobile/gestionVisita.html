@@ -12,11 +12,44 @@
 <h:body>
 	<pm:page id="gestionVisita">
 		<pm:header title="Gestion Visita">
-			<p:button outcome="index" value="Volver"
-				icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />s
+			<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
+				styleClass="ui-btn-left ui-btn-inline" />s
 		</pm:header>
 		<pm:content>
+			<pm:field>
+			<p:commandButton value="Añadir Terapia" icon="ui-icon-heart" iconPos="right"/> 
+			</pm:field>
+			<pm:field>
+			<p:commandButton value="Añadir Producto" icon="ui-icon-shop" iconPos="right"/> 
+			</pm:field>
+		
+			<p:accordionPanel>
+				<p:tab title="Terapias">
+					<p:dataTable id="terapias" var="ter"
+						value="#{visitaBean.terapiasDeVisita}" rowKey="#{ter.idTerapia}"
+						paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
 
+						<p:column headerText="Fec. Relizada">							
+							<h:outputText value="#{ter.fechaRealizada}" />
+						</p:column>
+						<p:column headerText="Fec. Proxima">							
+							<h:outputText value="#{ter.fechaProxima}" />
+						</p:column>		
+						<p:column headerText="Tipo">
+							<h:outputText value="#{ter.terTipoTerapia.nombre}" />
+						</p:column>
+						<p:column headerText="Terapeuta">							
+							<h:outputText value="#{ter.usuarioCreacion}" />
+						</p:column>						
+						<p:column headerText="Sintomas">
+							<p:commandButton icon="ui-icon-eye" />	
+						</p:column>					
+					</p:dataTable>
+				</p:tab>
+				<p:tab title="Productos">
+
+				</p:tab>
+			</p:accordionPanel>
 		</pm:content>
 	</pm:page>
 
