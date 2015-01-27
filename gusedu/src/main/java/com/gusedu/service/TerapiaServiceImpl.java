@@ -59,6 +59,7 @@ public class TerapiaServiceImpl implements TerapiaService{
 		return resultado;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Terapia> terapiasPorVisita(Visita visita) {
 		List<Terapia> result = new ArrayList<>();

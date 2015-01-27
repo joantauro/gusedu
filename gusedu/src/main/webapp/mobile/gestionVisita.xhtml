@@ -12,8 +12,10 @@
 <h:body>
 	<pm:page id="gestionVisita">
 		<pm:header title="Gestion Visita">
-			<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
-				styleClass="ui-btn-left ui-btn-inline" />s
+		<h:form>
+			<p:commandButton action="#{visitaBean.volver}" value="Volver" icon="ui-icon-arrow-l"
+				styleClass="ui-btn-left ui-btn-inline" />
+		</h:form>
 		</pm:header>
 		<pm:content>
 			<pm:field>
@@ -26,7 +28,7 @@
 			<p:accordionPanel>
 				<p:tab title="Terapias">
 					<p:dataTable id="terapias" var="ter"
-						value="#{visitaBean.terapiasDeVisita}" rowKey="#{ter.idTerapia}"
+						value="#{visitaBean.terapiasDeVisita}" emptyMessage="No se han registrado terapias" rowKey="#{ter.idTerapia}"
 						paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
 
 						<p:column headerText="Fec. Relizada">							

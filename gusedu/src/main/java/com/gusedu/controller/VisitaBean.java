@@ -125,6 +125,8 @@ public class VisitaBean {
 	}
 
 	public String volver(){
+		visitaSeleccionada = new Visita();
+		visita = new Visita();
 		busquedaDni = "";
 		busquedaCliente = new Cliente();
 		return "index";
