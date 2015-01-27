@@ -10,6 +10,7 @@
 <h:head>
 </h:head>
 <h:body>
+	<p:growl showDetail="true" autoUpdate="true" />
 	<pm:page id="gestionVisita">
 		<pm:header title="Gestion Visita">
 		<h:form>
@@ -18,13 +19,15 @@
 		</h:form>
 		</pm:header>
 		<pm:content>
+		<h:form>
 			<pm:field>
 			<p:commandButton value="Añadir Terapia" icon="ui-icon-heart" iconPos="right"/> 
 			</pm:field>
 			<pm:field>
 			<p:commandButton value="Añadir Producto" icon="ui-icon-shop" iconPos="right"/> 
 			</pm:field>
-		
+		</h:form>
+		<h:form>
 			<p:accordionPanel>
 				<p:tab title="Terapias">
 					<p:dataTable id="terapias" var="ter"
@@ -52,6 +55,7 @@
 
 				</p:tab>
 			</p:accordionPanel>
+			</h:form>
 		</pm:content>
 	</pm:page>
 

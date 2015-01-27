@@ -129,7 +129,7 @@ public class VisitaBean {
 		visita = new Visita();
 		busquedaDni = "";
 		busquedaCliente = new Cliente();
-		return "index";
+		return "index?faces-redirect=true";
 	}
 	
 	public String buscarPersona(){
@@ -153,6 +153,7 @@ public class VisitaBean {
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
 			visitaSeleccionada = visita;
 			visita = new Visita();
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la visita");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return "gestionVisita?faces-redirect=true";
