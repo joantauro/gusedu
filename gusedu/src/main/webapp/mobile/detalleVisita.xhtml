@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+</h:head>
+<h:body>
+	<p:growl showDetail="true" autoUpdate="true" />
+	<pm:page id="detalleVisita">
+		<pm:header title="Detalle Visita">
+		<h:form>
+			<p:commandButton action="#{visitaBean.volver}" value="Volver" icon="ui-icon-arrow-l"
+				styleClass="ui-btn-left ui-btn-inline" />
+		</h:form>
+		</pm:header>
+		<pm:content>	
+		<h:form>
+			<p:accordionPanel>
+				<p:tab title="Terapias">
+					<p:dataTable id="terapias" var="ter"
+						value="#{visitaBean.terapiasDeVisita}" emptyMessage="No se han registrado terapias" rowKey="#{ter.idTerapia}"
+						paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+
+						<p:column headerText="Fec. Relizada">							
+							<h:outputText value="#{ter.fechaRealizada}" />
+						</p:column>
+						<p:column headerText="Fec. Proxima">							
+							<h:outputText value="#{ter.fechaProxima}" />
+						</p:column>		
+						<p:column headerText="Tipo">
+							<h:outputText value="#{ter.terTipoTerapia.nombre}" />
+						</p:column>
+						<p:column headerText="Terapeuta">							
+							<h:outputText value="#{ter.usuarioCreacion}" />
+						</p:column>						
+						<p:column headerText="Sintomas">
+							<p:commandButton icon="ui-icon-eye" />	
+						</p:column>					
+					</p:dataTable>
+				</p:tab>
+				<p:tab title="Productos">
+
+				</p:tab>
+			</p:accordionPanel>
+			</h:form>
+		</pm:content>
+	</pm:page>
+
+</h:body>
+</html>

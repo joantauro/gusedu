@@ -169,6 +169,7 @@ public class VisitaBean {
 	
 	public String cargarVisitaEspecifica(int idVisita){
 		visitaSeleccionada = visitaService.getVisitaById(idVisita);
+		terapiasDeVisita = terapiaService.terapiasPorVisita(visitaSeleccionada);
 		return "gestionVisita?faces-redirect=true";
 	}
 	

@@ -34,7 +34,7 @@
 					<h:outputText value="#{vis.prioridad}" />
 				</p:column>
 				<p:column headerText="Detalle">
-					<p:commandButton icon="ui-icon-eye" />
+					<p:commandButton action="#{visitaBean.cargarVisitaEspecifica(vis.idVisita)}" icon="ui-icon-eye" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
