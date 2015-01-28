@@ -23,7 +23,7 @@
 		<pm:content>
 			<h:form>
 				<pm:field>
-					<p:commandButton value="Agregar punto"></p:commandButton>
+					<p:commandButton action="#{puntoBean.nuevoPunto}" ajax="false" value="Agregar punto"></p:commandButton>
 				</pm:field>
 			</h:form>
 			<h:form>
@@ -42,7 +42,8 @@
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-eye"
 							action="#{puntoBean.detallePunto(pun.idPunto)}" ajax="false" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
-							actionListener="#{puntoBean.cargarPunto(pun.idPunto)}" />
+							action="#{puntoBean.detallePuntoUpdate(pun.idPunto)}"
+							ajax="false" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
 							actionListener="#{puntoBean.cargarPunto(pun.idPunto)}"
 							oncomplete="PF('dlgEliminar').show();" />
@@ -53,21 +54,24 @@
 				showEffect="pop" closable="false" modal="true">
 				<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
-						icon="ui-icon-check" actionListener="#{puntoBean.eliminarPunto}"
+						icon="ui-icon-check" ajax="false"
+						actionListener="#{puntoBean.eliminarPunto}"
 						oncomplete="PF('dlgEliminar').hide();" />
 
 					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-						icon="ui-icon-delete" actionListener="#{puntoBean.cancelar}"
+						icon="ui-icon-delete" ajax="false"
+						actionListener="#{puntoBean.cancelar}"
 						oncomplete="PF('dlgEliminar').hide();" />
 				</h:form>
 			</p:dialog>
+
 		</pm:content>
 	</pm:page>
 
 	<pm:page id="gestionPunto">
 		<pm:header title="Gestion Punto">
 			<h:form>
-				<p:button outcome="pm:consultarPuntos?transition=flip"
+				<p:commandButton action="#{puntoBean.backToConsultar}"
 					value="Volver" icon="ui-icon-arrow-l"
 					styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
@@ -76,11 +80,12 @@
 			<h:form>
 				<pm:field>
 					<p:outputLabel for="puntoNombre" value="Nombre: " />
-					<p:inputText id="puntoNombre" value="#{puntoBean.punto.nombre}" />
+					<p:inputText id="puntoNombre" required="true"
+						value="#{puntoBean.punto.nombre}" />
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="puntoUbicacionCorta" value="Ubicacion corta: " />
-					<p:selectOneMenu id="puntoUbicacionCorta"
+					<p:selectOneMenu id="puntoUbicacionCorta" required="true"
 						value="#{puntoBean.punto.ubicacionCorta}">
 						<f:selectItem itemLabel="Cabeza" itemValue="Cabeza" />
 						<f:selectItem itemLabel="Cuello" itemValue="Cuello" />
@@ -91,21 +96,24 @@
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="puntoUbicacionMedia" value="Ubicacion media: " />
-					<p:inputText id="puntoUbicacionMedia"
+					<p:inputText id="puntoUbicacionMedia" required="true"
 						value="#{puntoBean.punto.ubicacionMedia}" />
 				</pm:field>
 				<p:panelGrid columns="2">
-					<p:commandButton icon="ui-icon-check" value="Modificar"></p:commandButton>
-					<p:commandButton icon="ui-icon-delete" value="Cancelar"></p:commandButton>
+					<p:commandButton icon="ui-icon-check"
+						action="#{puntoBean.actualizarPunto}" ajax="false"
+						value="Modificar"></p:commandButton>
+					<p:commandButton icon="ui-icon-delete"
+						action="#{puntoBean.backToConsultar}" ajax="false" value="Cancelar"></p:commandButton>
 				</p:panelGrid>
-				</h:form>
+			</h:form>
 		</pm:content>
 	</pm:page>
 
 	<pm:page id="detallePunto">
 		<pm:header title="Detalle Punto">
 			<h:form>
-				<p:button outcome="pm:consultarPuntos?transition=flip"
+				<p:commandButton action="#{puntoBean.backToConsultar}"
 					value="Volver" icon="ui-icon-arrow-l"
 					styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
@@ -123,6 +131,48 @@
 					<h:outputLabel value="#{puntoBean.punto.ubicacionMedia}" />
 				</p:panelGrid>
 			</p:panel>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="nuevoPunto">
+		<pm:header title="Añadir Punto">
+			<h:form>
+				<p:commandButton action="#{puntoBean.backToConsultar}"
+					value="Volver" icon="ui-icon-arrow-l"
+					styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel for="puntoNombre" value="Nombre: " />
+					<p:inputText id="puntoNombre" required="true"
+						value="#{puntoBean.punto.nombre}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="puntoUbicacionCorta" value="Ubicacion corta: " />
+					<p:selectOneMenu id="puntoUbicacionCorta" required="true"
+						value="#{puntoBean.punto.ubicacionCorta}">
+						<f:selectItem itemLabel="Cabeza" itemValue="Cabeza" />
+						<f:selectItem itemLabel="Cuello" itemValue="Cuello" />
+						<f:selectItem itemLabel="Torso" itemValue="Torso" />
+						<f:selectItem itemLabel="Brazo" itemValue="Brazo" />
+						<f:selectItem itemLabel="Pierna" itemValue="Pierna" />
+					</p:selectOneMenu>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="puntoUbicacionMedia" value="Ubicacion media: " />
+					<p:inputText id="puntoUbicacionMedia" required="true"
+						value="#{puntoBean.punto.ubicacionMedia}" />
+				</pm:field>
+				<p:panelGrid columns="2">
+					<p:commandButton icon="ui-icon-check"
+						action="#{puntoBean.añadirPunto}" ajax="false"
+						value="Añadir"></p:commandButton>
+					<p:commandButton icon="ui-icon-delete"
+						action="#{puntoBean.backToConsultar}" ajax="false" value="Cancelar"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
 		</pm:content>
 	</pm:page>
 
