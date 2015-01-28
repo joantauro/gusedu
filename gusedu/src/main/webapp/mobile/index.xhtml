@@ -19,18 +19,35 @@
 			<h:form>
 				<p:growl autoUpdate="true" showDetail="true"></p:growl>
 				<pm:field>
-					<p:button value="Registrar nuevo paciente" outcome="registrarPaciente" />
+					<p:button value="Registrar nuevo paciente"
+						outcome="registrarPaciente" />
 				</pm:field>
 				<pm:field>
 					<p:button value="Consultar pacientes" outcome="consultarPacientes" />
 				</pm:field>
 				<pm:field>
-					<p:button value="Registrar visita de cliente" outcome="registrarVisita" />
+					<p:button value="Registrar visita de cliente"
+						outcome="registrarVisita" />
 				</pm:field>
 				<pm:field>
-					<p:button value="Biomagnetismo" outcome="biomagnetismo" />				
+					<p:button value="Biomagnetismo" outcome="pm:indexBM" />
 				</pm:field>
 			</h:form>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="indexBM">
+		<pm:header title="Biomagnetismo">
+			<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
+				styleClass="ui-btn-left ui-btn-inline" />
+		</pm:header>
+		<pm:content>
+			<pm:field>
+				<p:button value="Consultar puntos" outcome="gestionPunto" />
+			</pm:field>
+			<pm:field>
+				<p:button value="Consultar pares" outcome="gestionPar" />
+			</pm:field>
 		</pm:content>
 	</pm:page>
 
