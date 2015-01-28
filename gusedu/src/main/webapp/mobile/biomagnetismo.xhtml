@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+</h:head>
+<h:body>
+	<pm:page id="indexBM">
+		<pm:header title="Biomagnetismo">
+			<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
+				styleClass="ui-btn-left ui-btn-inline" />
+		</pm:header>
+		<pm:content>
+			<pm:field>
+				<p:button value="Consultar puntos" outcome="pm:consultaPuntos" />
+			</pm:field>
+			<pm:field>
+				<p:button value="Consultar pares" outcome="pm:consultaPares" />
+			</pm:field>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="consultaPuntos">
+		<pm:header title="Puntos Biomagneticos">
+			<p:button outcome="pm:indexBM" value="Volver" icon="ui-icon-arrow-l"
+				styleClass="ui-btn-left ui-btn-inline" />
+		</pm:header>
+		<pm:content>
+			<pm:field>
+				<p:commandButton value="Agregar punto"></p:commandButton>
+			</pm:field>
+			<p:dataTable id="tablaPunto" var="pun" value="#{puntoBean.puntos}"
+				rowKey="#{pun.idPunto}" paginator="true" rows="5"
+				tableStyleClass="ui-table-columntoggle">
+
+				<p:column headerText="Nombre">
+					<p:outputLabel value="#{pun.nombre}" />
+				</p:column>
+				<p:column headerText="Ubicación">
+					<p:outputLabel value="#{pun.ubicacionCorta}" />
+				</p:column>
+				<p:column headerText="Detalles">
+					<p:commandButton icon="ui-icon-eye" />
+				</p:column>
+			</p:dataTable>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="consultaPares">
+		<pm:header title="Pares Biomagneticos">
+			<p:button outcome="pm:indexBM" value="Volver" icon="ui-icon-arrow-l"
+				styleClass="ui-btn-left ui-btn-inline" />
+		</pm:header>
+		<pm:content>
+			<pm:field>
+				<p:commandButton value="Agregar par"></p:commandButton>
+			</pm:field>
+			<p:dataTable id="tablaPar" var="par" value="#{parBean.pares}"
+				rowKey="#{par.idPar}" paginator="true" rows="5"
+				tableStyleClass="ui-table-columntoggle">
+
+				<p:column headerText="Punto 1">
+					<p:outputLabel value="#{par.parPunto1.nombre}" />
+				</p:column>
+				<p:column headerText="Punto 2">
+					<p:outputLabel value="#{par.parPunto2.nombre}" />
+				</p:column>
+				<p:column headerText="Enfermedad">
+					<p:outputLabel value="#{par.enfermedad}" />
+				</p:column>
+				<p:column headerText="Detalle">
+					<p:commandButton icon="ui-icon-eye" />
+				</p:column>
+			</p:dataTable>
+		</pm:content>
+	</pm:page>
+
+</h:body>
+</html>

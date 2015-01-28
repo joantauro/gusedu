@@ -21,8 +21,11 @@ public class Punto {
     @Column(nullable= true, name= "PUN_NOMBRE", length=30)
     private String nombre;
     
-    @Column(nullable= true, name= "PUN_UBICACION", length=50)
-    private String ubicacion;    
+    @Column(nullable= true, name= "PUN_UBICACION_C", length=50)
+    private String ubicacionCorta;
+
+    @Column(nullable= true, name= "PUN_UBICACION_M", length=100)
+    private String ubicacionMedia;    
     
 	@OneToMany(mappedBy="parPunto1")
 	private Collection<Par> punPares1;
@@ -32,6 +35,22 @@ public class Punto {
 
 	public Integer getIdPunto() {
 		return idPunto;
+	}
+
+	public String getUbicacionCorta() {
+		return ubicacionCorta;
+	}
+
+	public void setUbicacionCorta(String ubicacionCorta) {
+		this.ubicacionCorta = ubicacionCorta;
+	}
+
+	public String getUbicacionMedia() {
+		return ubicacionMedia;
+	}
+
+	public void setUbicacionMedia(String ubicacionMedia) {
+		this.ubicacionMedia = ubicacionMedia;
 	}
 
 	public void setIdPunto(Integer idPunto) {
@@ -44,14 +63,6 @@ public class Punto {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getUbicacion() {
-		return ubicacion;
-	}
-
-	public void setUbicacion(String ubicacion) {
-		this.ubicacion = ubicacion;
 	}
 
 	public Collection<Par> getPunPares1() {
@@ -94,14 +105,6 @@ public class Punto {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Punto [idPunto=" + idPunto + ", nombre=" + nombre
-				+ ", ubicacion=" + ubicacion + ", punPares1=" + punPares1
-				+ ", punPares2=" + punPares2 + "]";
-	}		
-	
-	
+		
 	
 }

@@ -30,5 +30,15 @@
 		<managed-bean-class>com.gusedu.controller.VisitaBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>puntoBean</managed-bean-name>
+		<managed-bean-class>com.gusedu.controller.PuntoBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>parBean</managed-bean-name>
+		<managed-bean-class>com.gusedu.controller.ParBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 </faces-config>
