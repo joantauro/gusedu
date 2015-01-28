@@ -70,14 +70,14 @@
 			<h:form id="formRegistroPacienteSecond">
 				<pm:field>
 					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
-					<p:inputText required="true"
+					<p:inputText required="true" type="tel" 
 						value="#{personaBean.persona.telefonoFijo}" id="perTelFijo">
 						<f:convertNumber integerOnly="true"></f:convertNumber>
 					</p:inputText>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
-					<p:inputText required="true"
+					<p:inputText required="true" type="tel" 
 						value="#{personaBean.persona.telefonoMovil}" id="perTelMovil">
 						<f:convertNumber integerOnly="true"></f:convertNumber>
 					</p:inputText>

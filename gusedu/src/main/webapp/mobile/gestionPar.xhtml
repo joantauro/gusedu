@@ -21,9 +21,12 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<pm:field>
-				<p:commandButton value="Agregar par"></p:commandButton>
-			</pm:field>
+			<h:form>
+				<pm:field>
+					<p:commandButton value="Agregar par"></p:commandButton>
+				</pm:field>
+			</h:form>
+			<h:form>
 			<p:dataTable emptyMessage="No hay pares registrados" id="tablaPar"
 				var="par" value="#{parBean.pares}" rowKey="#{par.idPar}"
 				paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
@@ -41,6 +44,7 @@
 					<p:commandButton icon="ui-icon-eye" />
 				</p:column>
 			</p:dataTable>
+			</h:form>
 		</pm:content>
 	</pm:page>
 </h:body>

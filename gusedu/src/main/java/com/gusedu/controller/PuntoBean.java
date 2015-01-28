@@ -38,5 +38,22 @@ public class PuntoBean {
 		this.puntos = puntos;
 	}
 		
+	public String detallePunto(Integer id){
+		punto = puntoService.puntoById(id);
+		return "pm:detallePunto?transition=flip";
+	}		
+	
+	public void cargarPunto(Integer id){
+		punto = puntoService.puntoById(id);
+	}
+	
+	public void eliminarPunto(){		
+		puntoService.deletePunto(punto);
+		punto = new Punto();		
+	}
+	
+	public void cancelar(){
+		punto = new Punto();	
+	}
 	
 }

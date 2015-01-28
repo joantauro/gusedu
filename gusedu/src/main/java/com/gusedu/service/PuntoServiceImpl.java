@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gusedu.model.Persona;
 import com.gusedu.model.Punto;
 
 @Service
@@ -31,6 +32,48 @@ public class PuntoServiceImpl implements PuntoService{
 		return result;
 	}
 
-	
+	@Transactional
+	public Punto puntoById(Integer id) {
+		return em.find(Punto.class, id);
+	}
+
+	@Transactional
+	public Boolean savePunto(Punto punto) {
+		boolean resultado = false;
+		try {
+			em.persist(punto);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public Boolean updatePunto(Punto punto) {
+		boolean resultado = false;
+		try {
+			em.merge(punto);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public Boolean deletePunto(Punto punto) {
+		boolean resultado = false;
+		try {
+			em.remove(em.getReference(Punto.class, punto.getIdPunto()));
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
 	
 }
