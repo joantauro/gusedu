@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class Grupo {
     @Column(nullable= true, name= "GRU_NOMBRE", length=30)
     private String nombre;
 	
-	@OneToMany(mappedBy="parGrupo")
+	@OneToMany(mappedBy="parGrupo", fetch = FetchType.EAGER)
 	private Collection<Par> gruPares;
 
 	public Integer getIdGrupo() {
@@ -75,10 +76,9 @@ public class Grupo {
 
 	@Override
 	public String toString() {
-		return "Grupo [idGrupo=" + idGrupo + ", nombre=" + nombre
-				+ ", gruPares=" + gruPares + "]";
+		return ""+nombre;
 	}
-	
+
 	
 	
 }

@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
 import com.gusedu.model.Punto;
 
@@ -74,6 +75,21 @@ public class PuntoServiceImpl implements PuntoService{
 			resultado = false;
 		}
 		return resultado;
+	}
+
+	@Transactional
+	public Punto puntoByNombre(String nombrePunto) {
+		Punto result = null;
+		try{					
+			Query q = em.createQuery("SELECT p FROM Punto p WHERE p.nombre=:nombre");
+			q.setParameter("nombre", nombrePunto);
+			result = (Punto) q.getSingleResult();
+		}
+		catch(Exception e){
+			System.out.println("ERROR: " + e.getMessage());
+			result = null;
+		}
+		return result;
 	}
 	
 }

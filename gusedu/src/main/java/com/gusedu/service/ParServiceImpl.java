@@ -32,4 +32,48 @@ public class ParServiceImpl implements ParService{
 		return result;
 	}
 
+	@Transactional
+	public Par parById(Integer id) {
+		return em.find(Par.class, id);
+	}
+
+	@Transactional
+	public Boolean savePar(Par par) {
+		boolean resultado = false;
+		try {
+			em.persist(par);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public Boolean updatePar(Par par) {
+		boolean resultado = false;
+		try {
+			em.merge(par);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public Boolean deletePar(Par par) {
+		boolean resultado = false;
+		try {
+			em.remove(em.getReference(Par.class, par.getIdPar()));
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+	
 }

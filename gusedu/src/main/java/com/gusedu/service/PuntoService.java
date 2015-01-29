@@ -16,4 +16,6 @@ public interface PuntoService {
 	
 	public Boolean deletePunto(Punto punto);
 	
+	public Punto puntoByNombre(String nombrePunto);
+	
 }

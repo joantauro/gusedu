@@ -75,30 +75,24 @@ public class PuntoBean {
 
 	public String actualizarPunto() {
 		if (puntoService.updatePunto(punto)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha actualizado correctamente el punto");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el punto");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return backToConsultar();
 		} else {
-			StaticUtil.errorMessage("Error",
-					"Hubo un error al actualizar los datos del punto");
+			StaticUtil.errorMessage("Error", "Hubo un error al actualizar los datos del punto");
 			return null;
 		}
 	}
 
 	public String añadirPunto() {
 		if (puntoService.savePunto(punto)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha añadido correctamente el punto");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el punto");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return backToConsultar();
 		} else {
-			StaticUtil
-					.errorMessage("Error", "Hubo un error al añadir el punto");
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
 			return null;
 		}
 	}
