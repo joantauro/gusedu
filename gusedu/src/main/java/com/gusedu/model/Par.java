@@ -32,10 +32,10 @@ public class Par {
     @ManyToOne @JoinColumn(name="GRU_CODIGO")
     private Grupo parGrupo;
 
-	@OneToMany(mappedBy="sxpPar")
+	@OneToMany(mappedBy="sxpPar", orphanRemoval=true)
 	private Collection<SintomaPar> parSxp;
 	
-	@OneToMany(mappedBy="expPar")
+	@OneToMany(mappedBy="expPar", orphanRemoval=true)
 	private Collection<EnfermedadPar> parExp;	
 
 	public Integer getIdPar() {

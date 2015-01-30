@@ -11,8 +11,10 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadPar;
+import com.gusedu.model.Par;
 
 @Service
 public class EnfermedadServiceImpl implements EnfermedadService{
@@ -33,7 +35,7 @@ public class EnfermedadServiceImpl implements EnfermedadService{
 	}
 
 	@Transactional
-	public Boolean saveEnfermedad(Enfermedad enfermedad) {
+	public boolean saveEnfermedad(Enfermedad enfermedad) {
 		boolean resultado = false;
 		try {
 			em.persist(enfermedad);
@@ -46,7 +48,7 @@ public class EnfermedadServiceImpl implements EnfermedadService{
 	}
 
 	@Transactional
-	public Boolean saveEnfermedadPar(EnfermedadPar enfermedadPar) {
+	public boolean saveEnfermedadPar(EnfermedadPar enfermedadPar) {
 		boolean resultado = false;
 		try {
 			em.persist(enfermedadPar);
@@ -57,5 +59,43 @@ public class EnfermedadServiceImpl implements EnfermedadService{
 		}
 		return resultado;
 	}
+
+	@Transactional
+	public boolean deleteEnfermedadPar(EnfermedadPar enfermedadPar) {
+		boolean resultado = false;
+		try {
+			em.remove(em.getReference(EnfermedadPar.class, enfermedadPar.getIdEnfermedadPar()));
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public Enfermedad getById(Integer idEnfermedad) {
+		return em.find(Enfermedad.class, idEnfermedad);
+	}
+	
+	@Transactional
+	public EnfermedadPar getByIdPar(Integer idEnfermedadPar) {
+		return em.find(EnfermedadPar.class, idEnfermedadPar);
+	}
+
+	@Transactional
+	public EnfermedadPar getByParameters(Enfermedad enfermedad, Par par) {
+		EnfermedadPar result = null;
+		try {
+			Query q = em.createQuery("SELECT exp FROM EnfermedadPar exp WHERE exp.expPar=:par " +
+					"AND expEnfermedad=:enfermedad");
+			q.setParameter("par", par);
+			q.setParameter("enfermedad", enfermedad);
+			result = (EnfermedadPar) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}	
 
 }

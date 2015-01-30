@@ -31,6 +31,7 @@ public class PersonaBean {
 	private Persona personaSeleccionada;	
 	private List<Terapia> terapiasPaciente;	
 	
+	
 	public PersonaBean(){
 		persona = new Persona();
 		personaSeleccionada = new Persona();					

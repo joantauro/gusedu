@@ -17,6 +17,7 @@ public interface ClienteService {
 	
 	public Cliente getClienteById(Integer idCliente);
 	
-	public List<Cliente> getClientesPacientes();		
+	public List<Cliente> getClientesPacientes();
+		
 	
 }

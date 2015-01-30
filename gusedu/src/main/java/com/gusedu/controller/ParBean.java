@@ -55,8 +55,10 @@ public class ParBean {
 	private Enfermedad enfermedadAdd;
 	private Sintoma sintomaAdd;
 	private List<Enfermedad> enfermedadesAll;
-	private List<Sintoma> sintomaAll;
+	private List<Sintoma> sintomaAll;	
 
+	private EnfermedadPar expToDelete;
+	
 	public ParBean() {
 		par = new Par();
 		punto1 = new Punto();
@@ -274,9 +276,46 @@ public class ParBean {
 		}else{
 			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedads");
 			return null;
-		}
-		
+		}	
+	}
+	
+	public void cargarPreRemove(int id){		
+		enfermedadAdd = enfermedadService.getById(id);
 	}
 
+	public void removeEnfermedadPar(){
+		expToDelete = enfermedadService.getByParameters(enfermedadAdd, parSeleccionado);
+		enfermedadService.deleteEnfermedadPar(expToDelete);
+		enfermedadAdd = new Enfermedad();
+	}
+	
+	public void cancelar(){
+		enfermedadAdd = new Enfermedad();		
+	}
+	
+	public void cancelarPar(){
+		parSeleccionado = new Par();		
+	}
+	
+	public void cargarRemovePar(int id){
+		parSeleccionado = parService.parById(id);
+	}
+	
+	public void removePar(){
+		parService.deletePar(parSeleccionado);
+		parSeleccionado = new Par();
+	}
+	
+	public String cargarUpdatePar(int id){
+		par = parService.parById(id);
+		return "pm:editarPar?transition=flip";
+	}
+	
+	public String mergePar(){
+		parService.updatePar(par);
+		par = new Par();
+		return "pm:consultarPares?transition=flip";
+	}
+	
 }
 

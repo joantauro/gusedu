@@ -45,8 +45,32 @@
 						<p:commandButton icon="ui-icon-eye" ajax="false"
 							action="#{parBean.cargarPar(par.idPar)}" />
 					</p:column>
+					<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+						action="#{parBean.cargarUpdatePar(par.idPar)}" ajax="false" />
+					<p:column headerText="Opciones">
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
+							actionListener="#{parBean.cargarRemovePar(par.idPar)}"
+							oncomplete="PF('dlgEliminarPar').show();" />
+
+					</p:column>
 				</p:dataTable>
 			</h:form>
+
+			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarPar"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check" ajax="false"
+						actionListener="#{parBean.removePar}"
+						oncomplete="PF('dlgEliminarPar').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" ajax="false"
+						actionListener="#{parBean.cancelarPar}"
+						oncomplete="PF('dlgEliminarPar').hide();" />
+				</h:form>
+			</p:dialog>
+
 		</pm:content>
 	</pm:page>
 
@@ -62,7 +86,7 @@
 				<p:outputLabel value="Punto 1: " for="advPunto1" />
 				<pm:field>
 					<p:autoComplete id="advPunto1" queryDelay="100"
-						value="#{parBean.punto1}" required="true" 
+						value="#{parBean.punto1}" required="true"
 						completeMethod="#{parBean.autoCompletar}" var="punto1"
 						itemLabel="#{punto1.nombre}" itemValue="#{punto1}"
 						converter="#{puntoConverter}" panelStyleClass="ui-themes">
@@ -71,7 +95,7 @@
 				<p:outputLabel value="Punto 2: " for="advPunto2" />
 				<pm:field>
 					<p:autoComplete id="advPunto2" queryDelay="100"
-						value="#{parBean.punto2}" required="true" 
+						value="#{parBean.punto2}" required="true"
 						completeMethod="#{parBean.autoCompletar}" var="punto2"
 						itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
 						converter="#{puntoConverter}" panelStyleClass="ui-themes">
@@ -89,6 +113,54 @@
 				<p:panelGrid columns="2">
 					<p:commandButton icon="ui-icon-check"
 						action="#{parBean.agregarPar}" ajax="false" value="Añadir"></p:commandButton>
+					<p:commandButton icon="ui-icon-delete"
+						action="#{parBean.backToConsultar}" immediate="true" ajax="false"
+						value="Cancelar"></p:commandButton>
+				</p:panelGrid>
+
+			</h:form>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="editarPar">
+		<pm:header title="Editar Par">
+			<h:form>
+				<p:commandButton action="#{parBean.backToConsultar}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<p:outputLabel value="Punto 1: " for="advPunto1" />
+				<pm:field>
+					<p:autoComplete id="advPunto1" queryDelay="100"
+						value="#{parBean.punto1}" required="true"
+						completeMethod="#{parBean.autoCompletar}" var="punto1"
+						itemLabel="#{punto1.nombre}" itemValue="#{punto1}"
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+				</pm:field>
+				<p:outputLabel value="Punto 2: " for="advPunto2" />
+				<pm:field>
+					<p:autoComplete id="advPunto2" queryDelay="100"
+						value="#{parBean.punto2}" required="true"
+						completeMethod="#{parBean.autoCompletar}" var="punto2"
+						itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="selGrupo" value="Grupo: " />
+					<p:selectOneMenu id="selGrupo" required="true"
+						value="#{parBean.grupoSeleccionado.idGrupo}">
+						<f:selectItem itemLabel="Elija un grupo" />
+						<f:selectItems value="#{parBean.grupos}" var="grupo"
+							itemValue="#{grupo.idGrupo}" itemLabel="#{grupo.nombre}" />
+					</p:selectOneMenu>
+				</pm:field>
+				<p:panelGrid columns="2">
+					<p:commandButton icon="ui-icon-check" action="#{parBean.mergePar}"
+						ajax="false" value="Editar"></p:commandButton>
 					<p:commandButton icon="ui-icon-delete"
 						action="#{parBean.backToConsultar}" immediate="true" ajax="false"
 						value="Cancelar"></p:commandButton>
@@ -131,9 +203,15 @@
 							id="tabEnfermedades" var="enf" value="#{parBean.enfermedadesPar}"
 							rowKey="#{enf.idEnfermedad}" paginator="true" rows="5"
 							tableStyleClass="ui-table-columntoggle">
-							
+
 							<p:column headerText="Nombre">
 								<h:outputLabel value="#{enf.nombre}"></h:outputLabel>
+							</p:column>
+							<p:column headerText="Opciones">
+								<p:commandButton styleClass="ui-btn-inline"
+									icon="ui-icon-delete"
+									actionListener="#{parBean.cargarPreRemove(enf.idEnfermedad)}"
+									oncomplete="PF('dlgEliminarEnf').show();" />
 							</p:column>
 						</p:dataTable>
 					</p:tab>
@@ -147,6 +225,20 @@
 					</p:tab>
 				</p:accordionPanel>
 			</h:form>
+			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarEnf"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check" ajax="false"
+						actionListener="#{parBean.removeEnfermedadPar}"
+						oncomplete="PF('dlgEliminarEnf').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" ajax="false"
+						actionListener="#{parBean.cancelar}"
+						oncomplete="PF('dlgEliminarEnf').hide();" />
+				</h:form>
+			</p:dialog>
 		</pm:content>
 	</pm:page>
 
@@ -178,6 +270,7 @@
 			</h:form>
 		</pm:content>
 	</pm:page>
+
 
 	<pm:page id="nuevoSintoma">
 		<pm:header title="Añadir sintoma">
