@@ -64,7 +64,7 @@ public class ParBean {
 		parSeleccionado = new Par();
 		enfermedadAdd = new Enfermedad();
 		sintomaAdd = new Sintoma();
-		grupoSeleccionado = new Grupo();
+		grupoSeleccionado = new Grupo();		
 	}
 
 	public Par getPar() {
@@ -196,6 +196,10 @@ public class ParBean {
 		punto1 = new Punto();
 		punto2 = new Punto();
 		grupoSeleccionado = new Grupo();
+		par = new Par();
+		par.setParPunto1(punto1);
+		par.setParPunto2(punto2);
+		par.setParGrupo(grupoSeleccionado);
 		return "pm:consultarPares?transition=flip";
 	}
 
@@ -203,6 +207,10 @@ public class ParBean {
 		par = new Par();
 		punto1 = new Punto();
 		punto2 = new Punto();
+		par = new Par();
+		par.setParPunto1(punto1);
+		par.setParPunto2(punto2);
+		par.setParGrupo(grupoSeleccionado);
 		return "pm:nuevoPar?transition=flip";
 	}
 
@@ -225,15 +233,9 @@ public class ParBean {
 			par.setParPunto2(punto2);
 		if (parService.savePar(par)) {
 			grupoSeleccionado = new Grupo();
-			punto1 = new Punto();
-			punto2 = new Punto();
 			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el par");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
-			par = new Par();
-			par.setParPunto1(punto1);
-			par.setParPunto2(punto2);
-			par.setParGrupo(grupoSeleccionado);
 			return "pm:agregarPar?transtion=flip";
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");
@@ -253,6 +255,10 @@ public class ParBean {
 		sintomaAdd = new Sintoma();
 		enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 		sintomasPar = parService.getSintomas(parSeleccionado);
+		par = new Par();
+		par.setParPunto1(punto1);
+		par.setParPunto2(punto2);
+		par.setParGrupo(grupoSeleccionado);
 		return "pm:detallePar?transition=flip";
 	}
 	

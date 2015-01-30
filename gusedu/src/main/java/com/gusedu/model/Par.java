@@ -23,13 +23,13 @@ public class Par {
     @Column(nullable= true, name= "PAR_URL", length=300)
     private String url;    
     
-    @ManyToOne @JoinColumn(name="PUN_CODIGO_P1", nullable=false)
+    @ManyToOne @JoinColumn(name="PUN_CODIGO_P1")
     private Punto parPunto1;
     
-    @ManyToOne @JoinColumn(name="PUN_CODIGO_P2", nullable=false)
+    @ManyToOne @JoinColumn(name="PUN_CODIGO_P2")
     private Punto parPunto2;
     
-    @ManyToOne @JoinColumn(name="GRU_CODIGO", nullable=false)
+    @ManyToOne @JoinColumn(name="GRU_CODIGO")
     private Grupo parGrupo;
 
 	@OneToMany(mappedBy="sxpPar")

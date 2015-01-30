@@ -62,7 +62,7 @@
 				<p:outputLabel value="Punto 1: " for="advPunto1" />
 				<pm:field>
 					<p:autoComplete id="advPunto1" queryDelay="100"
-						value="#{parBean.punto1}"
+						value="#{parBean.punto1}" required="true" 
 						completeMethod="#{parBean.autoCompletar}" var="punto1"
 						itemLabel="#{punto1.nombre}" itemValue="#{punto1}"
 						converter="#{puntoConverter}" panelStyleClass="ui-themes">
@@ -71,7 +71,7 @@
 				<p:outputLabel value="Punto 2: " for="advPunto2" />
 				<pm:field>
 					<p:autoComplete id="advPunto2" queryDelay="100"
-						value="#{parBean.punto2}"
+						value="#{parBean.punto2}" required="true" 
 						completeMethod="#{parBean.autoCompletar}" var="punto2"
 						itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
 						converter="#{puntoConverter}" panelStyleClass="ui-themes">
@@ -79,7 +79,7 @@
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="selGrupo" value="Grupo: " />
-					<p:selectOneMenu id="selGrupo"
+					<p:selectOneMenu id="selGrupo" required="true"
 						value="#{parBean.grupoSeleccionado.idGrupo}">
 						<f:selectItem itemLabel="Elija un grupo" />
 						<f:selectItems value="#{parBean.grupos}" var="grupo"
