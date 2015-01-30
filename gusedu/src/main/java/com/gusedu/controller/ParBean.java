@@ -308,10 +308,16 @@ public class ParBean {
 	
 	public String cargarUpdatePar(int id){
 		par = parService.parById(id);
+		punto1 = par.getParPunto1();
+		punto2 = par.getParPunto2();
+		grupoSeleccionado = par.getParGrupo();
 		return "pm:editarPar?transition=flip";
 	}
 	
 	public String mergePar(){
+		par.setParPunto1(punto1);
+		par.setParPunto2(punto2);
+		par.setParGrupo(grupoSeleccionado);
 		parService.updatePar(par);
 		par = new Par();
 		return "pm:consultarPares?transition=flip";

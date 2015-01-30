@@ -41,18 +41,16 @@
 					<p:column headerText="Grupo">
 						<p:outputLabel value="#{par.parGrupo.nombre}" />
 					</p:column>
-					<p:column headerText="Detalle">
-						<p:commandButton icon="ui-icon-eye" ajax="false"
-							action="#{parBean.cargarPar(par.idPar)}" />
-					</p:column>
-					<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
-						action="#{parBean.cargarUpdatePar(par.idPar)}" ajax="false" />
 					<p:column headerText="Opciones">
+						<p:commandButton icon="ui-icon-eye" styleClass="ui-btn-inline"
+							ajax="false" action="#{parBean.cargarPar(par.idPar)}" />
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							action="#{parBean.cargarUpdatePar(par.idPar)}" ajax="false" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
 							actionListener="#{parBean.cargarRemovePar(par.idPar)}"
 							oncomplete="PF('dlgEliminarPar').show();" />
-
 					</p:column>
+
 				</p:dataTable>
 			</h:form>
 
