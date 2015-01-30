@@ -123,11 +123,18 @@
 						</p:panelGrid>
 					</p:tab>
 					<p:tab title="Enfermedades relacionadas">
+						<h:form>
+							<p:button outcome="pm:nuevaEnfermedad" value="Agregar enfermedad"
+								icon="ui-icon-plus" />
+						</h:form>
 						<p:dataTable emptyMessage="No hay enfermedades registradas"
 							id="tabEnfermedades" var="enf" value="#{parBean.enfermedadesPar}"
 							rowKey="#{enf.idEnfermedad}" paginator="true" rows="5"
 							tableStyleClass="ui-table-columntoggle">
-
+							
+							<p:column headerText="Nombre">
+								<h:outputLabel value="#{enf.nombre}"></h:outputLabel>
+							</p:column>
 						</p:dataTable>
 					</p:tab>
 					<p:tab title="Sintomas relacionados">
@@ -139,6 +146,57 @@
 						</p:dataTable>
 					</p:tab>
 				</p:accordionPanel>
+			</h:form>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="nuevaEnfermedad">
+		<pm:header title="Añadir enfermedad">
+			<h:form>
+				<p:commandButton action="#{parBean.backToDetalle}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel for="selEnfermedad" value="Enfermedad: " />
+					<p:selectOneMenu id="selEnfermedad"
+						value="#{parBean.enfermedadAdd.idEnfermedad}">
+						<f:selectItem itemLabel="Elija una enfermedad" />
+						<f:selectItems value="#{parBean.enfermedadesAll}" var="enf"
+							itemValue="#{enf.idEnfermedad}" itemLabel="#{enf.nombre}" />
+					</p:selectOneMenu>
+				</pm:field>
+				<p:panelGrid columns="2">
+					<p:commandButton icon="ui-icon-check"
+						action="#{parBean.addEnfermedad}" ajax="false" value="Añadir"></p:commandButton>
+					<p:commandButton icon="ui-icon-delete"
+						action="#{parBean.backToDetalle}" immediate="true" ajax="false"
+						value="Cancelar"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="nuevoSintoma">
+		<pm:header title="Añadir sintoma">
+			<h:form>
+				<p:commandButton action="#{parBean.backToDetalle}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel for="selSintoma" value="Sintoma: " />
+					<p:selectOneMenu id="selSintoma"
+						value="#{parBean.sintomaAdd.idSintoma}">
+						<f:selectItem itemLabel="Elija un sintoma" />
+						<f:selectItems value="#{parBean.sintomaAll}" var="sin"
+							itemValue="#{sin.idSintoma}" itemLabel="#{sin.nombre}" />
+					</p:selectOneMenu>
+				</pm:field>
 			</h:form>
 		</pm:content>
 	</pm:page>

@@ -34,6 +34,9 @@ public class Par {
 
 	@OneToMany(mappedBy="sxpPar")
 	private Collection<SintomaPar> parSxp;
+	
+	@OneToMany(mappedBy="expPar")
+	private Collection<EnfermedadPar> parExp;	
 
 	public Integer getIdPar() {
 		return idPar;
@@ -81,6 +84,14 @@ public class Par {
 
 	public void setParSxp(Collection<SintomaPar> parSxp) {
 		this.parSxp = parSxp;
+	}
+
+	public Collection<EnfermedadPar> getParExp() {
+		return parExp;
+	}
+
+	public void setParExp(Collection<EnfermedadPar> parExp) {
+		this.parExp = parExp;
 	}
 
 	@Override

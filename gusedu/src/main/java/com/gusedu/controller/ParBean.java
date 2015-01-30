@@ -10,13 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Enfermedad;
+import com.gusedu.model.EnfermedadPar;
 import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
+import com.gusedu.service.EnfermedadService;
 import com.gusedu.service.GrupoService;
 import com.gusedu.service.ParService;
 import com.gusedu.service.PuntoService;
+import com.gusedu.service.SintomaService;
 import com.gusedu.util.StaticUtil;
 
 @Controller
@@ -30,6 +33,12 @@ public class ParBean {
 	
 	@Autowired
 	GrupoService grupoService;
+	
+	@Autowired
+	EnfermedadService enfermedadService;
+	
+	@Autowired
+	SintomaService sintomaService;
 
 	private Par par;
 	private List<Par> pares;
@@ -43,11 +52,18 @@ public class ParBean {
 	private Par parSeleccionado;
 	private List<Enfermedad> enfermedadesPar;
 	private List<Sintoma> sintomasPar;
+	private Enfermedad enfermedadAdd;
+	private Sintoma sintomaAdd;
+	private List<Enfermedad> enfermedadesAll;
+	private List<Sintoma> sintomaAll;
 
 	public ParBean() {
 		par = new Par();
 		punto1 = new Punto();
 		punto2 = new Punto();
+		parSeleccionado = new Par();
+		enfermedadAdd = new Enfermedad();
+		sintomaAdd = new Sintoma();
 		grupoSeleccionado = new Grupo();
 	}
 
@@ -141,6 +157,40 @@ public class ParBean {
 		this.sintomasPar = sintomasPar;
 	}
 
+	public Enfermedad getEnfermedadAdd() {
+		return enfermedadAdd;
+	}
+
+	public void setEnfermedadAdd(Enfermedad enfermedadAdd) {
+		this.enfermedadAdd = enfermedadAdd;
+	}
+
+	public Sintoma getSintomaAdd() {
+		return sintomaAdd;
+	}
+
+	public void setSintomaAdd(Sintoma sintomaAdd) {
+		this.sintomaAdd = sintomaAdd;
+	}
+
+	public List<Enfermedad> getEnfermedadesAll() {
+		enfermedadesAll = enfermedadService.getAll();
+		return enfermedadesAll;
+	}
+
+	public void setEnfermedadesAll(List<Enfermedad> enfermedadesAll) {
+		this.enfermedadesAll = enfermedadesAll;
+	}
+
+	public List<Sintoma> getSintomaAll() {
+		sintomaAll = sintomaService.getAll();
+		return sintomaAll;
+	}
+
+	public void setSintomaAll(List<Sintoma> sintomaAll) {
+		this.sintomaAll = sintomaAll;
+	}
+
 	public String backToConsultar() {
 		par = new Par();
 		punto1 = new Punto();
@@ -193,6 +243,30 @@ public class ParBean {
 		enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 		sintomasPar = parService.getSintomas(parSeleccionado);
 		return "pm:detallePar?transition=flip";
+	}		
+	
+	public String backToDetalle(){
+		enfermedadAdd = new Enfermedad();
+		sintomaAdd = new Sintoma();
+		enfermedadesPar = parService.getEnfermedades(parSeleccionado);
+		sintomasPar = parService.getSintomas(parSeleccionado);
+		return "pm:detallePar?transition=flip";
+	}
+	
+	public String addEnfermedad(){
+		EnfermedadPar toAdd = new EnfermedadPar();
+		toAdd.setExpEnfermedad(enfermedadAdd);
+		toAdd.setExpPar(parSeleccionado);
+		if(enfermedadService.saveEnfermedadPar(toAdd)){
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente la enfermedad");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			context.getFlash().setKeepMessages(true);
+			return backToDetalle();
+		}else{
+			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedads");
+			return null;
+		}
+		
 	}
 
 }

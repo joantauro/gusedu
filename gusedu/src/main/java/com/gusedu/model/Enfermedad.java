@@ -1,10 +1,13 @@
 package com.gusedu.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +20,9 @@ public class Enfermedad {
 	
     @Column(nullable = true, name = "ENF_NOMBRE")
     private String nombre;
+    
+	@OneToMany(mappedBy="expEnfermedad")
+	private Collection<EnfermedadPar> enfExp;
 
 	public Integer getIdEnfermedad() {
 		return idEnfermedad;
@@ -32,6 +38,14 @@ public class Enfermedad {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Collection<EnfermedadPar> getEnfExp() {
+		return enfExp;
+	}
+
+	public void setEnfExp(Collection<EnfermedadPar> enfExp) {
+		this.enfExp = enfExp;
 	}
         
 	
