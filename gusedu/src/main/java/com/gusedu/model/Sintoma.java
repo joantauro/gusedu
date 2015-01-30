@@ -23,6 +23,9 @@ public class Sintoma {
 
 	@OneToMany(mappedBy="sxtSintoma")
 	private Collection<SintomaTerapia> sinSintomaTerapias;
+	
+	@OneToMany(mappedBy="sxpSintoma")
+	private Collection<SintomaPar> sinSxp;
 
 	public Integer getIdSintoma() {
 		return idSintoma;
@@ -46,6 +49,14 @@ public class Sintoma {
 
 	public void setSinSintomaTerapias(Collection<SintomaTerapia> sinSintomaTerapias) {
 		this.sinSintomaTerapias = sinSintomaTerapias;
+	}
+
+	public Collection<SintomaPar> getSinSxp() {
+		return sinSxp;
+	}
+
+	public void setSinSxp(Collection<SintomaPar> sinSxp) {
+		this.sinSxp = sinSxp;
 	}
 
 	@Override

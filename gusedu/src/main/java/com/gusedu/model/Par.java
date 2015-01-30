@@ -1,5 +1,7 @@
 package com.gusedu.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,10 +18,7 @@ public class Par {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "PAR_CODIGO")
-    private Integer idPar;
-    
-    @Column(nullable= true, name= "PAR_ENFERMEDAD", length=30)
-    private String enfermedad;
+    private Integer idPar;   
     
     @Column(nullable= true, name= "PAR_URL", length=300)
     private String url;    
@@ -32,20 +32,15 @@ public class Par {
     @ManyToOne @JoinColumn(name="GRU_CODIGO", nullable=false)
     private Grupo parGrupo;
 
+	@OneToMany(mappedBy="sxpPar")
+	private Collection<SintomaPar> parSxp;
+
 	public Integer getIdPar() {
 		return idPar;
 	}
 
 	public void setIdPar(Integer idPar) {
 		this.idPar = idPar;
-	}
-
-	public String getEnfermedad() {
-		return enfermedad;
-	}
-
-	public void setEnfermedad(String enfermedad) {
-		this.enfermedad = enfermedad;
 	}
 
 	public String getUrl() {
@@ -80,6 +75,14 @@ public class Par {
 		this.parGrupo = parGrupo;
 	}
 
+	public Collection<SintomaPar> getParSxp() {
+		return parSxp;
+	}
+
+	public void setParSxp(Collection<SintomaPar> parSxp) {
+		this.parSxp = parSxp;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,7 +110,7 @@ public class Par {
 
 	@Override
 	public String toString() {
-		return "Par [idPar=" + idPar + ", enfermedad=" + enfermedad + ", url="
+		return "Par [idPar=" + idPar + ", url="
 				+ url + ", parPunto1=" + parPunto1 + ", parPunto2=" + parPunto2
 				+ ", parGrupo=" + parGrupo + "]";
 	}    

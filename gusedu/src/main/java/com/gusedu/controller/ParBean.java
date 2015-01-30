@@ -9,9 +9,11 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
+import com.gusedu.model.Sintoma;
 import com.gusedu.service.GrupoService;
 import com.gusedu.service.ParService;
 import com.gusedu.service.PuntoService;
@@ -37,6 +39,10 @@ public class ParBean {
 	private Punto punto2;
 	
 	private Grupo grupoSeleccionado;
+	
+	private Par parSeleccionado;
+	private List<Enfermedad> enfermedadesPar;
+	private List<Sintoma> sintomasPar;
 
 	public ParBean() {
 		par = new Par();
@@ -111,6 +117,30 @@ public class ParBean {
 		this.grupos = grupos;
 	}
 
+	public Par getParSeleccionado() {
+		return parSeleccionado;
+	}
+
+	public void setParSeleccionado(Par parSeleccionado) {
+		this.parSeleccionado = parSeleccionado;
+	}
+
+	public List<Enfermedad> getEnfermedadesPar() {
+		return enfermedadesPar;
+	}
+
+	public void setEnfermedadesPar(List<Enfermedad> enfermedadesPar) {
+		this.enfermedadesPar = enfermedadesPar;
+	}
+
+	public List<Sintoma> getSintomasPar() {
+		return sintomasPar;
+	}
+
+	public void setSintomasPar(List<Sintoma> sintomasPar) {
+		this.sintomasPar = sintomasPar;
+	}
+
 	public String backToConsultar() {
 		par = new Par();
 		punto1 = new Punto();
@@ -156,6 +186,13 @@ public class ParBean {
 			StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");
 			return null;
 		}
+	}
+	
+	public String cargarPar(int id){
+		parSeleccionado = parService.parById(id);
+		enfermedadesPar = parService.getEnfermedades(parSeleccionado);
+		sintomasPar = parService.getSintomas(parSeleccionado);
+		return "pm:detallePar?transition=flip";
 	}
 
 }

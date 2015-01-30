@@ -38,11 +38,12 @@
 					<p:column headerText="Punto 2">
 						<p:outputLabel value="#{par.parPunto2.nombre}" />
 					</p:column>
-					<p:column headerText="Enfermedad">
-						<p:outputLabel value="#{par.enfermedad}" />
+					<p:column headerText="Grupo">
+						<p:outputLabel value="#{par.parGrupo.nombre}" />
 					</p:column>
 					<p:column headerText="Detalle">
-						<p:commandButton icon="ui-icon-eye" />
+						<p:commandButton icon="ui-icon-eye" ajax="false"
+							action="#{parBean.cargarPar(par.idPar)}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
@@ -60,20 +61,20 @@
 			<h:form>
 				<p:outputLabel value="Punto 1: " for="advPunto1" />
 				<pm:field>
-					<p:autoComplete id="advPunto1" queryDelay="300"
+					<p:autoComplete id="advPunto1" queryDelay="100"
 						value="#{parBean.punto1}"
 						completeMethod="#{parBean.autoCompletar}" var="punto1"
 						itemLabel="#{punto1.nombre}" itemValue="#{punto1}"
-						converter="puntoConverter" panelStyleClass="ui-themes">
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
 					</p:autoComplete>
 				</pm:field>
 				<p:outputLabel value="Punto 2: " for="advPunto2" />
 				<pm:field>
-					<p:autoComplete id="advPunto2" queryDelay="300"
+					<p:autoComplete id="advPunto2" queryDelay="100"
 						value="#{parBean.punto2}"
 						completeMethod="#{parBean.autoCompletar}" var="punto2"
 						itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
-						converter="puntoConverter" panelStyleClass="ui-themes">
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
 					</p:autoComplete>
 				</pm:field>
 				<pm:field>
@@ -84,10 +85,6 @@
 						<f:selectItems value="#{parBean.grupos}" var="grupo"
 							itemValue="#{grupo.idGrupo}" itemLabel="#{grupo.nombre}" />
 					</p:selectOneMenu>
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="parEnfermedad" value="Enfermedad: " />
-					<p:inputText id="parEnfermedad" value="#{parBean.par.enfermedad}" />
 				</pm:field>
 				<p:panelGrid columns="2">
 					<p:commandButton icon="ui-icon-check"
@@ -101,7 +98,50 @@
 		</pm:content>
 	</pm:page>
 
+	<pm:page id="detallePar">
+		<pm:header title="Detalle de Par">
+			<h:form>
+				<p:commandButton action="#{parBean.backToConsultar}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<p:accordionPanel>
+					<p:tab title="Detalles">
+						<p:panelGrid columns="2">
+							<h:outputLabel value="Punto 1: " />
+							<h:outputLabel
+								value="#{parBean.parSeleccionado.parPunto1.nombre}" />
 
+							<h:outputLabel value="Punto 2: " />
+							<h:outputLabel
+								value="#{parBean.parSeleccionado.parPunto1.nombre}" />
+
+							<h:outputLabel value="Grupo: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.parGrupo.nombre}" />
+						</p:panelGrid>
+					</p:tab>
+					<p:tab title="Enfermedades relacionadas">
+						<p:dataTable emptyMessage="No hay enfermedades registradas"
+							id="tabEnfermedades" var="enf" value="#{parBean.enfermedadesPar}"
+							rowKey="#{enf.idEnfermedad}" paginator="true" rows="5"
+							tableStyleClass="ui-table-columntoggle">
+
+						</p:dataTable>
+					</p:tab>
+					<p:tab title="Sintomas relacionados">
+						<p:dataTable emptyMessage="No hay sintomas registrados"
+							id="tabSintomas" var="sin" value="#{parBean.sintomasPar}"
+							rowKey="#{sin.idSintoma}" paginator="true" rows="5"
+							tableStyleClass="ui-table-columntoggle">
+
+						</p:dataTable>
+					</p:tab>
+				</p:accordionPanel>
+			</h:form>
+		</pm:content>
+	</pm:page>
 
 </h:body>
 </html>

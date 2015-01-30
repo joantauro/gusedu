@@ -5,18 +5,17 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.gusedu.model.Punto;
 import com.gusedu.service.PuntoService;
 
-@Controller
-@FacesConverter("puntoConverter")
-public class PuntoConverter implements Converter{
 
+@Service 
+public class PuntoConverter implements Converter{
+	
 	@Autowired
 	PuntoService puntoService;
 	
@@ -26,7 +25,7 @@ public class PuntoConverter implements Converter{
 		if(value==null || value.isEmpty()){
 			return null;
 		}
-		try{						
+		try{				
 			Punto punto = puntoService.puntoByNombre(value);
 			return punto;
 		}catch(Exception e){
