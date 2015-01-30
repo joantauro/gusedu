@@ -231,6 +231,9 @@ public class ParBean {
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			par = new Par();
+			par.setParPunto1(punto1);
+			par.setParPunto2(punto2);
+			par.setParGrupo(grupoSeleccionado);
 			return "pm:agregarPar?transtion=flip";
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");
