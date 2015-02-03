@@ -36,7 +36,18 @@ public class Par {
 	private Collection<SintomaPar> parSxp;
 	
 	@OneToMany(mappedBy="expPar", orphanRemoval=true)
-	private Collection<EnfermedadPar> parExp;	
+	private Collection<EnfermedadPar> parExp;
+	
+	@OneToMany(mappedBy="txpPar", orphanRemoval=true)
+	private Collection<TerapiaPar> parTxp;	
+
+	public Collection<TerapiaPar> getParTxp() {
+		return parTxp;
+	}
+
+	public void setParTxp(Collection<TerapiaPar> parTxp) {
+		this.parTxp = parTxp;
+	}
 
 	public Integer getIdPar() {
 		return idPar;

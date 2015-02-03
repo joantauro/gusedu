@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -41,6 +42,28 @@ public class Terapia {
     
 	@OneToMany(mappedBy="sxtTerapia")
 	private Collection<SintomaTerapia> terSintomaTerapias;
+
+	@OneToOne(mappedBy="diaTerapia")
+	private Diagnostico terDiagnostico;
+	
+	@OneToMany(mappedBy="txpTerapia", orphanRemoval=true)
+	private Collection<TerapiaPar> terTerapiaPares;		
+	
+	public Diagnostico getTerDiagnostico() {
+		return terDiagnostico;
+	}
+
+	public void setTerDiagnostico(Diagnostico terDiagnostico) {
+		this.terDiagnostico = terDiagnostico;
+	}
+
+	public Collection<TerapiaPar> getTerTerapiaPares() {
+		return terTerapiaPares;
+	}
+
+	public void setTerTerapiaPares(Collection<TerapiaPar> terTerapiaPares) {
+		this.terTerapiaPares = terTerapiaPares;
+	}
 
 	public Integer getIdTerapia() {
 		return idTerapia;
