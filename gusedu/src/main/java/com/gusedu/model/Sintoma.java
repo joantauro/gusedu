@@ -21,10 +21,10 @@ public class Sintoma {
     @Column(nullable = true, name = "SIN_DESCRIPCION", length=40)
     private String descripcion;
 
-	@OneToMany(mappedBy="sxtSintoma")
+	@OneToMany(mappedBy="sxtSintoma", orphanRemoval=true)
 	private Collection<SintomaTerapia> sinSintomaTerapias;
 	
-	@OneToMany(mappedBy="sxpSintoma")
+	@OneToMany(mappedBy="sxpSintoma", orphanRemoval=true)
 	private Collection<SintomaPar> sinSxp;
 
 	public Integer getIdSintoma() {

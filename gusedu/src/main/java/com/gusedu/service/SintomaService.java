@@ -8,4 +8,12 @@ public interface SintomaService {
 
 	public List<Sintoma> getAll();
  	
+	public boolean saveSintoma(Sintoma sintoma);
+	
+	public boolean updateSintoma(Sintoma sintoma);
+	
+	public boolean deleteSintoma(Sintoma sintoma);
+	
+	public Sintoma getById(Integer id);
+	
 }

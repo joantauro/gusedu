@@ -12,10 +12,97 @@
 		href="#{request.contextPath}/resources/images/gusedu.ico" />
 </h:head>
 <h:body>
-	<p:growl showDetail="true" autoUpdate="true" />
+	<p:growl showDetail="true" autoUpdate="true"  />
 	<pm:page id="gestionEnfermedad">
 		<pm:header title="Gestión de Enfermedades">
-			<h:form>				
+			<h:form>
+				<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
+					styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
+			<h:form>
+				<p:commandButton action="#{enfermedadBean.preAdd}"
+					value="Agregar enfermedad" ajax="false"></p:commandButton>
+			</h:form>
+			<h:form>			
+				<p:dataTable emptyMessage="No hay enfermedades registradas"
+					id="tablaEnfermedad" var="enf"
+					value="#{enfermedadBean.enfermedades}" rowKey="#{enf.idEnfermedad}"
+					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{enf.nombre}"></p:outputLabel>
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							ajax="false"
+							action="#{enfermedadBean.preUpdate(enf.idEnfermedad)}" />
+
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"							
+							actionListener="#{enfermedadBean.preDelete(enf.idEnfermedad)}"
+							oncomplete="PF('dlgEliminarEnfermedad').show();" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarEnfermedad"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check" ajax="false"
+						actionListener="#{enfermedadBean.delete}"
+						oncomplete="PF('dlgEliminarEnfermedad').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" ajax="false"
+						actionListener="#{enfermedadBean.cancelar}"
+						oncomplete="PF('dlgEliminarEnfermedad').hide();" />
+				</h:form>
+			</p:dialog>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="agregarEnfermedad">
+		<pm:header title="Agregar enfermedad">
+			<h:form>
+				<p:button outcome="gestionEnfermedad" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel value="Nombre: " for="enfNombre"></p:outputLabel>
+					<p:inputText id="enfNombre" required="true"
+						value="#{enfermedadBean.enfermedad.nombre}" />
+				</pm:field>
+				<p:commandButton ajax="false" action="#{enfermedadBean.add}"
+					value="Agregar" />
+			</h:form>
+		</pm:content>
+	</pm:page>
+
+
+	<pm:page id="editarEnfermedad">
+		<pm:header title="Editar enfermedad">
+			<h:form>
+				<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
+					styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel value="Nombre: " for="enfNombre"></p:outputLabel>
+					<p:inputText id="enfNombre" required="true"
+						value="#{enfermedadBean.enfermedad.nombre}" />
+				</pm:field>
+				<p:commandButton ajax="false" action="#{enfermedadBean.update}"
+					value="Editar" />
+			</h:form>
+		</pm:content>
+	</pm:page>
+</h:body>
+</html>

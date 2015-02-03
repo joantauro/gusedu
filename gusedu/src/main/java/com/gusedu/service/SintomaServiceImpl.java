@@ -11,6 +11,8 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gusedu.model.Enfermedad;
+import com.gusedu.model.EnfermedadPar;
 import com.gusedu.model.Sintoma;
 
 @Service
@@ -19,6 +21,7 @@ public class SintomaServiceImpl implements SintomaService{
 	@PersistenceContext
 	EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Sintoma> getAll() {
 		List<Sintoma> result = new ArrayList<>();
@@ -29,6 +32,50 @@ public class SintomaServiceImpl implements SintomaService{
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;
+	}
+
+	@Transactional
+	public boolean saveSintoma(Sintoma sintoma) {
+		boolean resultado = false;
+		try {
+			em.persist(sintoma);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public boolean updateSintoma(Sintoma sintoma) {
+		boolean resultado = false;
+		try {
+			em.merge(sintoma);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public boolean deleteSintoma(Sintoma sintoma) {
+		boolean resultado = false;
+		try {
+			em.remove(em.getReference(Sintoma.class, sintoma.getIdSintoma()));
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public Sintoma getById(Integer id) {
+		return em.find(Sintoma.class, id);
 	}
 
 }

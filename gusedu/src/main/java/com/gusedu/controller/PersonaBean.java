@@ -79,7 +79,7 @@ public class PersonaBean {
 	public void setTerapiasPaciente(List<Terapia> terapiasPaciente) {
 		this.terapiasPaciente = terapiasPaciente;
 	}
-
+	
 	public String registroPaciente(){
 		if(personaService.registroPaciente(persona)){
 			persona = new Persona();

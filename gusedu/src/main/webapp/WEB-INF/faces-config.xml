@@ -41,8 +41,13 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>grupoBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.GrupoBean</managed-bean-class>
+		<managed-bean-name>enfermedadBean</managed-bean-name>
+		<managed-bean-class>com.gusedu.controller.EnfermedadBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>sintomaBean</managed-bean-name>
+		<managed-bean-class>com.gusedu.controller.SintomaBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

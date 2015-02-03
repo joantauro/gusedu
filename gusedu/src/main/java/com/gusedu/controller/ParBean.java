@@ -15,6 +15,7 @@ import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
+import com.gusedu.model.SintomaPar;
 import com.gusedu.service.EnfermedadService;
 import com.gusedu.service.GrupoService;
 import com.gusedu.service.ParService;
@@ -58,6 +59,7 @@ public class ParBean {
 	private List<Sintoma> sintomaAll;	
 
 	private EnfermedadPar expToDelete;
+	private SintomaPar sxpToDelete;
 	
 	public ParBean() {
 		par = new Par();
@@ -238,10 +240,10 @@ public class ParBean {
 			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el par");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
-			return "pm:agregarPar?transtion=flip";
+			return "pm:consultarPares?faces-redirect=true";
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");
-			return null;
+			return "pm:nuevoPar?faces-redirect=true";
 		}
 	}
 	
@@ -261,7 +263,7 @@ public class ParBean {
 		par.setParPunto1(punto1);
 		par.setParPunto2(punto2);
 		par.setParGrupo(grupoSeleccionado);
-		return "pm:detallePar?transition=flip";
+		return "pm:detallePar?faces-redirect=true";
 	}
 	
 	public String addEnfermedad(){
@@ -272,9 +274,27 @@ public class ParBean {
 			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente la enfermedad");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
+			enfermedadAdd = new Enfermedad();
+			enfermedadesPar = parService.getEnfermedades(parSeleccionado);
+			sintomasPar = parService.getSintomas(parSeleccionado);
+			return "pm:detallePar?faces-redirect=true";
+		}else{
+			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedad");
+			return "pm:nuevoSintoma?faces-redirect=true";
+		}	
+	}
+	
+	public String addSintoma(){		
+		SintomaPar toAdd = new SintomaPar();
+		toAdd.setSxpPar(parSeleccionado);
+		toAdd.setSxpSintoma(sintomaAdd);
+		if(enfermedadService.saveSintomaPar(toAdd)){
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el sintoma");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			context.getFlash().setKeepMessages(true);
 			return backToDetalle();
 		}else{
-			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedads");
+			StaticUtil.correctMesage("Error", "No se pudo añadir el sintoma");
 			return null;
 		}	
 	}
@@ -283,6 +303,16 @@ public class ParBean {
 		enfermedadAdd = enfermedadService.getById(id);
 	}
 
+	public void cargarPreRemoveSintoma(int id){
+		sintomaAdd = sintomaService.getById(id);
+	}
+
+	public void removeSintomaPar(){		
+		sxpToDelete = enfermedadService.getByParameters(sintomaAdd, parSeleccionado);
+		enfermedadService.deleteSintomaPar(sxpToDelete);
+		sintomaAdd = new Sintoma();
+	}
+	
 	public void removeEnfermedadPar(){
 		expToDelete = enfermedadService.getByParameters(enfermedadAdd, parSeleccionado);
 		enfermedadService.deleteEnfermedadPar(expToDelete);
@@ -291,6 +321,7 @@ public class ParBean {
 	
 	public void cancelar(){
 		enfermedadAdd = new Enfermedad();		
+		sintomaAdd = new Sintoma();
 	}
 	
 	public void cancelarPar(){

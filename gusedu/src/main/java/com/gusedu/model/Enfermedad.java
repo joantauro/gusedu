@@ -1,4 +1,4 @@
-package com.gusedu.model;
+ package com.gusedu.model;
 
 import java.util.Collection;
 
@@ -11,17 +11,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ENFERMEDAD")
+@Table(name = "ENFERMEDAD")
 public class Enfermedad {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "ENF_CODIGO")
-    private Integer idEnfermedad;
-	
-    @Column(nullable = true, name = "ENF_NOMBRE")
-    private String nombre;
-    
-	@OneToMany(mappedBy="expEnfermedad")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, name = "ENF_CODIGO")
+	private Integer idEnfermedad;
+
+	@Column(nullable = true, name = "ENF_NOMBRE")
+	private String nombre;
+
+	@OneToMany(mappedBy = "expEnfermedad", orphanRemoval = true)
 	private Collection<EnfermedadPar> enfExp;
 
 	public Integer getIdEnfermedad() {
@@ -47,6 +48,5 @@ public class Enfermedad {
 	public void setEnfExp(Collection<EnfermedadPar> enfExp) {
 		this.enfExp = enfExp;
 	}
-        
-	
+
 }

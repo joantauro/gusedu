@@ -214,10 +214,24 @@
 						</p:dataTable>
 					</p:tab>
 					<p:tab title="Sintomas relacionados">
+						<h:form>
+							<p:button outcome="pm:nuevoSintoma" value="Agregar sintoma"
+								icon="ui-icon-plus" />
+						</h:form>
 						<p:dataTable emptyMessage="No hay sintomas registrados"
 							id="tabSintomas" var="sin" value="#{parBean.sintomasPar}"
 							rowKey="#{sin.idSintoma}" paginator="true" rows="5"
 							tableStyleClass="ui-table-columntoggle">
+
+							<p:column headerText="Nombre">
+								<h:outputLabel value="#{sin.descripcion}"></h:outputLabel>
+							</p:column>
+							<p:column headerText="Opciones">
+								<p:commandButton styleClass="ui-btn-inline"
+									icon="ui-icon-delete"
+									actionListener="#{parBean.cargarPreRemoveSintoma(sin.idSintoma)}"
+									oncomplete="PF('dlgEliminarSin').show();" />
+							</p:column>
 
 						</p:dataTable>
 					</p:tab>
@@ -237,6 +251,21 @@
 						oncomplete="PF('dlgEliminarEnf').hide();" />
 				</h:form>
 			</p:dialog>
+			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarSin"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check" ajax="false"
+						actionListener="#{parBean.removeSintomaPar}"
+						oncomplete="PF('dlgEliminarSin').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" ajax="false"
+						actionListener="#{parBean.cancelar}"
+						oncomplete="PF('dlgEliminarSin').hide();" />
+				</h:form>
+			</p:dialog>
+
 		</pm:content>
 	</pm:page>
 
@@ -285,9 +314,16 @@
 						value="#{parBean.sintomaAdd.idSintoma}">
 						<f:selectItem itemLabel="Elija un sintoma" />
 						<f:selectItems value="#{parBean.sintomaAll}" var="sin"
-							itemValue="#{sin.idSintoma}" itemLabel="#{sin.nombre}" />
+							itemValue="#{sin.idSintoma}" itemLabel="#{sin.descripcion}" />
 					</p:selectOneMenu>
 				</pm:field>
+				<p:panelGrid columns="2">
+					<p:commandButton icon="ui-icon-check"
+						action="#{parBean.addSintoma}" ajax="false" value="Añadir"></p:commandButton>
+					<p:commandButton icon="ui-icon-delete"
+						action="#{parBean.backToDetalle}" immediate="true" ajax="false"
+						value="Cancelar"></p:commandButton>
+				</p:panelGrid>
 			</h:form>
 		</pm:content>
 	</pm:page>
