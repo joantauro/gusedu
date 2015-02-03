@@ -31,7 +31,6 @@
 				<p:dataTable emptyMessage="No hay pares registrados" id="tablaPar"
 					var="par" value="#{parBean.pares}" rowKey="#{par.idPar}"
 					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
-
 					<p:column headerText="Punto 1">
 						<p:outputLabel value="#{par.parPunto1.nombre}" />
 					</p:column>
@@ -50,7 +49,6 @@
 							actionListener="#{parBean.cargarRemovePar(par.idPar)}"
 							oncomplete="PF('dlgEliminarPar').show();" />
 					</p:column>
-
 				</p:dataTable>
 			</h:form>
 
@@ -68,7 +66,6 @@
 						oncomplete="PF('dlgEliminarPar').hide();" />
 				</h:form>
 			</p:dialog>
-
 		</pm:content>
 	</pm:page>
 
@@ -115,7 +112,6 @@
 						action="#{parBean.backToConsultar}" immediate="true" ajax="false"
 						value="Cancelar"></p:commandButton>
 				</p:panelGrid>
-
 			</h:form>
 		</pm:content>
 	</pm:page>
@@ -163,7 +159,6 @@
 						action="#{parBean.backToConsultar}" immediate="true" ajax="false"
 						value="Cancelar"></p:commandButton>
 				</p:panelGrid>
-
 			</h:form>
 		</pm:content>
 	</pm:page>

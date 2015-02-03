@@ -23,37 +23,35 @@ public class VisitaBean {
 
 	@Autowired
 	PersonaService personaService;
-	
+
 	@Autowired
 	ClienteService clienteService;
-	
+
 	@Autowired
 	VisitaService visitaService;
-	
+
 	@Autowired
 	TerapiaService terapiaService;
-	
+
 	private String busquedaDni;
 	private Cliente busquedaCliente;
-	
+
 	private Boolean esPresencial;
 	private Integer prioridad;
 
 	private List<Visita> visitasPaciente;
 	private Visita visita;
-	
-	
+
 	private Visita visitaSeleccionada;
 	private List<Terapia> terapiasDeVisita;
-	
-		
-	public VisitaBean(){
-		busquedaCliente = new Cliente();		
+
+	public VisitaBean() {
+		busquedaCliente = new Cliente();
 		busquedaDni = "";
 		visita = new Visita();
 		visitaSeleccionada = new Visita();
 	}
-	
+
 	public String getBusquedaDni() {
 		return busquedaDni;
 	}
@@ -70,7 +68,7 @@ public class VisitaBean {
 		this.busquedaCliente = busquedaCliente;
 	}
 
-	public String volverRegistroVisita(){
+	public String volverRegistroVisita() {
 		busquedaDni = "";
 		busquedaCliente = new Cliente();
 		return "pm:registroVisita?transition=flip";
@@ -124,53 +122,63 @@ public class VisitaBean {
 		this.terapiasDeVisita = terapiasDeVisita;
 	}
 
-	public String volver(){
+	public String volver() {
 		visitaSeleccionada = new Visita();
 		visita = new Visita();
 		busquedaDni = "";
 		busquedaCliente = new Cliente();
 		return "index?faces-redirect=true";
 	}
-	
-	public String buscarPersona(){
+
+	public String buscarPersona() {
 		busquedaCliente = personaService.buscarPorDni(busquedaDni);
-		if(busquedaCliente==null){
-			StaticUtil.errorMessage("Error", "No se ha encontrado el paciente buscado");
+		if (busquedaCliente == null) {
+			StaticUtil.errorMessage("Error",
+					"No se ha encontrado el paciente buscado");
 			return null;
-		}		
-		visitasPaciente = visitaService.getVisitasCliente(busquedaCliente);		
+		}
+		visitasPaciente = visitaService.getVisitasCliente(busquedaCliente);
 		return "pm:registroVisita2?transition=flip";
 	}
-	
-	public String registrarVisita(){
+
+	public String registrarVisita() {
 		visita.setEsPresencial(esPresencial);
 		visita.setPrioridad(prioridad);
 		visita.setEstado(1);
 		visita.setVisCliente(busquedaCliente);
 		Date fechaActual = StaticUtil.getFechaActual();
 		visita.setFechaCreacion(fechaActual);
-		if(visitaService.saveVisita(visita)){
+		if (visitaService.saveVisita(visita)) {
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
 			visitaSeleccionada = visita;
 			visita = new Visita();
-			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la visita");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			StaticUtil.correctMesage("Éxito",
+					"Se ha registrado correctamente la visita");
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return "gestionVisita?faces-redirect=true";
-		}else{			
+		} else {
 			return null;
 		}
 	}
-	
-	public String cargarVisitas(int idCliente){
-		visitasPaciente = visitaService.getVisitasCliente(clienteService.getClienteById(idCliente)); 		
+
+	public String cargarVisitas(int idCliente) {
+		visitasPaciente = visitaService.getVisitasCliente(clienteService.getClienteById(idCliente));
 		return "consultarVisitas?faces-redirect=true";
 	}
-	
-	public String cargarVisitaEspecifica(int idVisita){
+
+	public String cargarVisitaEspecifica(int idVisita) {
 		visitaSeleccionada = visitaService.getVisitaById(idVisita);
 		terapiasDeVisita = terapiaService.terapiasPorVisita(visitaSeleccionada);
 		return "detalleVisita?faces-redirect=true";
 	}
-	
+
+	// Terapias
+
+	public String preAdd() {
+		
+		return "pm:nuevaTerapia";
+	}
+
 }

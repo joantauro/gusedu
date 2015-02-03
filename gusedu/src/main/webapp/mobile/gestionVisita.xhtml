@@ -24,7 +24,7 @@
 			<h:form>
 				<pm:field>
 					<p:commandButton value="Añadir Terapia" icon="ui-icon-heart"
-						iconPos="right" />
+						action="#{visitaBean.preAdd}" iconPos="right" />
 				</pm:field>
 				<pm:field>
 					<p:commandButton value="Añadir Producto" icon="ui-icon-shop"
@@ -52,7 +52,7 @@
 							<p:column headerText="Terapeuta">
 								<h:outputText value="#{ter.usuarioCreacion}" />
 							</p:column>
-							<p:column headerText="Sintomas">
+							<p:column headerText="Opciones">
 								<p:commandButton icon="ui-icon-eye" />
 							</p:column>
 						</p:dataTable>
@@ -65,5 +65,19 @@
 		</pm:content>
 	</pm:page>
 
+	<pm:page id="nuevaTerapia">
+		<pm:header title="Añadir Terapia">
+			<h:form>
+				<p:button outcome="gestionVisita" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<pm:field>
+				
+			</pm:field>		
+		
+		</pm:content>
+	</pm:page>
 </h:body>
 </html>
