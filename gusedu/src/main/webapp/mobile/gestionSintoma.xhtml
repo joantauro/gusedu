@@ -28,10 +28,12 @@
 			<pm:field>
 				<h:form id="formBusqueda">
 					<p:outputLabel value="Filtrar: " for="inpQuery" />
-					<p:inputText value="#{sintomaBean.query}" id="inpQuery" />
-					<p:commandButton actionListener="#{sintomaBean.filtrarBusqueda}" 
-					 id="btnFiltro" value="Filtrar" update=":#{p:component('tablaSintoma')}" />
-				</h:form>
+					<p:inputText value="#{sintomaBean.query}" id="inpQuery" >
+						<p:ajax event="keyup" update=":#{p:component('tablaSintoma')}"
+							listener="#{sintomaBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>				
 			</pm:field>
 			<h:form>
 				<p:dataTable emptyMessage="No hay sintomas registradas"

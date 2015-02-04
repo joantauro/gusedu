@@ -16,8 +16,8 @@
 	<pm:page id="gestionEnfermedad">
 		<pm:header title="Gestión de Enfermedades">
 			<h:form>
-				<p:button outcome="indexOpciones" value="Volver" icon="ui-icon-arrow-l"
-					styleClass="ui-btn-left ui-btn-inline" />
+				<p:button outcome="indexOpciones" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
@@ -28,9 +28,11 @@
 			<pm:field>
 				<h:form id="formBusqueda">
 					<p:outputLabel value="Filtrar: " for="inpQuery" />
-					<p:inputText value="#{enfermedadBean.query}" id="inpQuery" />
-					<p:commandButton actionListener="#{enfermedadBean.filtrarBusqueda}" 
-					 id="btnFiltro" value="Filtrar" update=":#{p:component('tablaEnfermedad')}" />
+					<p:inputText value="#{enfermedadBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaEnfermedad')}"
+							listener="#{enfermedadBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
 				</h:form>
 			</pm:field>
 			<h:form id="formTabla">
