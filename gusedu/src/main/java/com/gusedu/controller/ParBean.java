@@ -31,13 +31,13 @@ public class ParBean {
 
 	@Autowired
 	PuntoService puntoService;
-	
+
 	@Autowired
 	GrupoService grupoService;
-	
+
 	@Autowired
 	EnfermedadService enfermedadService;
-	
+
 	@Autowired
 	SintomaService sintomaService;
 
@@ -47,20 +47,20 @@ public class ParBean {
 
 	private Punto punto1;
 	private Punto punto2;
-	
+
 	private Grupo grupoSeleccionado;
-	
+
 	private Par parSeleccionado;
 	private List<Enfermedad> enfermedadesPar;
 	private List<Sintoma> sintomasPar;
 	private Enfermedad enfermedadAdd;
 	private Sintoma sintomaAdd;
 	private List<Enfermedad> enfermedadesAll;
-	private List<Sintoma> sintomaAll;	
+	private List<Sintoma> sintomaAll;
 
 	private EnfermedadPar expToDelete;
 	private SintomaPar sxpToDelete;
-	
+
 	public ParBean() {
 		par = new Par();
 		punto1 = new Punto();
@@ -68,7 +68,7 @@ public class ParBean {
 		parSeleccionado = new Par();
 		enfermedadAdd = new Enfermedad();
 		sintomaAdd = new Sintoma();
-		grupoSeleccionado = new Grupo();		
+		grupoSeleccionado = new Grupo();
 	}
 
 	public Par getPar() {
@@ -232,9 +232,16 @@ public class ParBean {
 	}
 
 	public String agregarPar() {
-			par.setParGrupo(grupoSeleccionado);
-			par.setParPunto1(punto1);
-			par.setParPunto2(punto2);
+		par.setParGrupo(grupoSeleccionado);
+		par.setParPunto1(punto1);
+		par.setParPunto2(punto2);
+		Par newPar = parService.parByPuntos(punto1, punto2);
+		if (newPar != null) {
+			StaticUtil.errorMessage("Error", "El par ya existe");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			context.getFlash().setKeepMessages(true);
+			return "pm:nuevoPar?faces-redirect=true";
+		}
 		if (parService.savePar(par)) {
 			grupoSeleccionado = new Grupo();
 			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el par");
@@ -246,15 +253,15 @@ public class ParBean {
 			return "pm:nuevoPar?faces-redirect=true";
 		}
 	}
-	
-	public String cargarPar(int id){
+
+	public String cargarPar(int id) {
 		parSeleccionado = parService.parById(id);
 		enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 		sintomasPar = parService.getSintomas(parSeleccionado);
 		return "pm:detallePar?transition=flip";
-	}		
-	
-	public String backToDetalle(){
+	}
+
+	public String backToDetalle() {
 		enfermedadAdd = new Enfermedad();
 		sintomaAdd = new Sintoma();
 		enfermedadesPar = parService.getEnfermedades(parSeleccionado);
@@ -265,94 +272,103 @@ public class ParBean {
 		par.setParGrupo(grupoSeleccionado);
 		return "pm:detallePar?faces-redirect=true";
 	}
-	
-	public String addEnfermedad(){
+
+	public String addEnfermedad() {
 		EnfermedadPar toAdd = new EnfermedadPar();
 		toAdd.setExpEnfermedad(enfermedadAdd);
 		toAdd.setExpPar(parSeleccionado);
-		if(enfermedadService.saveEnfermedadPar(toAdd)){
-			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente la enfermedad");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		if (enfermedadService.saveEnfermedadPar(toAdd)) {
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente la enfermedad");
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			enfermedadAdd = new Enfermedad();
 			enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 			sintomasPar = parService.getSintomas(parSeleccionado);
 			return "pm:detallePar?faces-redirect=true";
-		}else{
-			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedad");
+		} else {
+			StaticUtil
+					.correctMesage("Error", "No se pudo añadir la enfermedad");
 			return "pm:nuevoSintoma?faces-redirect=true";
-		}	
+		}
 	}
-	
-	public String addSintoma(){		
+
+	public String addSintoma() {
 		SintomaPar toAdd = new SintomaPar();
 		toAdd.setSxpPar(parSeleccionado);
 		toAdd.setSxpSintoma(sintomaAdd);
-		if(enfermedadService.saveSintomaPar(toAdd)){
-			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el sintoma");
+		if (enfermedadService.saveSintomaPar(toAdd)) {
+			StaticUtil.correctMesage("Éxito","Se ha añadido correctamente el sintoma");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return backToDetalle();
-		}else{
+		} else {
 			StaticUtil.correctMesage("Error", "No se pudo añadir el sintoma");
 			return null;
-		}	
+		}
 	}
-	
-	public void cargarPreRemove(int id){		
+
+	public void cargarPreRemove(int id) {
 		enfermedadAdd = enfermedadService.getById(id);
 	}
 
-	public void cargarPreRemoveSintoma(int id){
+	public void cargarPreRemoveSintoma(int id) {
 		sintomaAdd = sintomaService.getById(id);
 	}
 
-	public void removeSintomaPar(){		
+	public void removeSintomaPar() {
 		sxpToDelete = enfermedadService.getByParameters(sintomaAdd, parSeleccionado);
 		enfermedadService.deleteSintomaPar(sxpToDelete);
 		sintomaAdd = new Sintoma();
 	}
-	
-	public void removeEnfermedadPar(){
+
+	public void removeEnfermedadPar() {
 		expToDelete = enfermedadService.getByParameters(enfermedadAdd, parSeleccionado);
 		enfermedadService.deleteEnfermedadPar(expToDelete);
 		enfermedadAdd = new Enfermedad();
 	}
-	
-	public void cancelar(){
-		enfermedadAdd = new Enfermedad();		
+
+	public void cancelar() {
+		enfermedadAdd = new Enfermedad();
 		sintomaAdd = new Sintoma();
 	}
-	
-	public void cancelarPar(){
-		parSeleccionado = new Par();		
+
+	public void cancelarPar() {
+		parSeleccionado = new Par();
 	}
-	
-	public void cargarRemovePar(int id){
+
+	public void cargarRemovePar(int id) {
 		parSeleccionado = parService.parById(id);
 	}
-	
-	public void removePar(){
+
+	public void removePar() {
 		parService.deletePar(parSeleccionado);
 		parSeleccionado = new Par();
 	}
-	
-	public String cargarUpdatePar(int id){
+
+	public String cargarUpdatePar(int id) {
 		par = parService.parById(id);
 		punto1 = par.getParPunto1();
 		punto2 = par.getParPunto2();
 		grupoSeleccionado = par.getParGrupo();
 		return "pm:editarPar?transition=flip";
 	}
-	
-	public String mergePar(){
+
+	public String mergePar() {
 		par.setParPunto1(punto1);
 		par.setParPunto2(punto2);
 		par.setParGrupo(grupoSeleccionado);
+		Par newPar = parService.parByPuntos(punto1, punto2);
+		if (newPar != null) {
+			StaticUtil.errorMessage("Error", "El par ya existe");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			context.getFlash().setKeepMessages(true);
+			return "pm:nuevoPar?faces-redirect=true";
+		}
 		parService.updatePar(par);
 		par = new Par();
 		return "pm:consultarPares?transition=flip";
 	}
-	
-}
 
+}
