@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 public class StaticUtil {
@@ -26,4 +27,9 @@ public class StaticUtil {
 		return date;
 	}
 
+	public static void keepMessages(){
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		context.getFlash().setKeepMessages(true);
+	}
+	
 }

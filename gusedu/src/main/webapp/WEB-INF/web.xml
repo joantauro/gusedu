@@ -25,8 +25,13 @@
     <welcome-file>mobile/index.jsf</welcome-file>
   </welcome-file-list>
   
+  <context-param>
+<param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+<param-value>32768</param-value>
+</context-param>
+  
   <error-page>
-    <location>/error.html</location>
+    <location>/error.jsf</location>
 </error-page>
  
   <!-- JSF Mapping -->

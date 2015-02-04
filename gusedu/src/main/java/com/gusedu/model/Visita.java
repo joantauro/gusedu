@@ -1,5 +1,6 @@
 package com.gusedu.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -97,7 +98,7 @@ public class Visita {
 	public void setVisCliente(Cliente visCliente) {
 		this.visCliente = visCliente;
 	}
-
+	
 	public Collection<Terapia> getVisTerapias() {
 		return visTerapias;
 	}

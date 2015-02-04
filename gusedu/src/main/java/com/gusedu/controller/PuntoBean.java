@@ -65,34 +65,49 @@ public class PuntoBean {
 
 	public String backToIndex() {
 		punto = new Punto();
-		return "index";
+		return "index?faces-redirect=true";
 	}
-
-	public String backToConsultar() {
+	
+	public String backToConsultar(){
 		punto = new Punto();
-		return "pm:consultarPuntos?transition=flip";
+		return "pm:consultarPuntos";
+	}
+	
+	public void cancelar(){
+		punto = new Punto();
 	}
 
 	public String actualizarPunto() {
+		if(esRepetido()){
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
+			StaticUtil.keepMessages();
+			return "pm:gestionPunto";
+		}		
 		if (puntoService.updatePunto(punto)) {
 			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el punto");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-			context.getFlash().setKeepMessages(true);
-			return backToConsultar();
+			StaticUtil.keepMessages();
+			punto = new Punto();
+			return "pm:consultarPuntos?faces-redirect=true";
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al actualizar los datos del punto");
-			return null;
+			StaticUtil.keepMessages();
+			return "pm:gestionPunto";
 		}
 	}
 
 	public String añadirPunto() {
+		if(esRepetido()){
+			StaticUtil.errorMessage("Error", "El nombre del punto ya existe");
+			StaticUtil.keepMessages();
+			return null;
+		}
 		if (puntoService.savePunto(punto)) {
 			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el punto");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-			context.getFlash().setKeepMessages(true);
-			return backToConsultar();
+			StaticUtil.keepMessages();
+			punto = new Punto();
+			return "pm:consultarPuntos?faces-redirect=true";
 		} else {
-			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");			
 			return null;
 		}
 	}
@@ -102,4 +117,14 @@ public class PuntoBean {
 		return "pm:nuevoPunto?transition=flip";
 	}
 
+	public boolean esRepetido(){
+		List<Punto> allPuntos = puntoService.getAllPuntos();
+		for(Punto p : allPuntos){
+			if(p.getNombre().toLowerCase().equals(punto.getNombre())){
+				return true;
+			}
+		}
+		return false;
+	}		
+	
 }
