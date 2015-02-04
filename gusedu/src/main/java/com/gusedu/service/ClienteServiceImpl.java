@@ -92,4 +92,17 @@ public class ClienteServiceImpl implements ClienteService{
 		return em.find(Cliente.class, idCliente);
 	}
 
+	@Override
+	public Cliente getClienteByIdPersona(Integer idPersona) {
+		Cliente result = null;
+		try {
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliPersona.idPersona=:idPersona");
+			q.setParameter("idPersona", idPersona);
+			result = (Cliente) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;		
+	}
+
 }

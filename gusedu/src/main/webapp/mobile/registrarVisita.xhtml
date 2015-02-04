@@ -23,16 +23,53 @@
 		<pm:content>
 			<h:form>
 				<pm:field>
-					<p:outputLabel for="searchDni" value="Buscar cliente: " />
-					<p:inputText required="true" id="searchDni"
-						value="#{visitaBean.busquedaDni}"
-						placeholder="Ingrese el DNI del cliente" type="search" />
-				</pm:field>
-				<pm:field>
-					<p:commandButton value="Buscar" ajax="false"
-						action="#{visitaBean.buscarPersona}" />
+					<p:outputLabel for="searchQuery" value="Buscar cliente: " />
+					<p:inputText id="searchQuery" value="#{visitaBean.query}"
+						placeholder="Ingrese su busqueda" type="search">
+						<p:ajax event="keyup" update=":#{p:component('tablaPaciente')}"
+							listener="#{visitaBean.filtrarPersonas}" />
+					</p:inputText>
 				</pm:field>
 			</h:form>
+			<h:form>
+
+				<p:dataTable id="tablaPaciente" var="pac"
+					emptyMessage="No se han encontrado pacientes"
+					value="#{visitaBean.clientes}" paginator="true" rows="5">
+
+					<p:column headerText="DNI">
+						<h:outputText value="#{pac.cliPersona.dni}" />
+					</p:column>
+
+					<p:column headerText="Ap. Paterno">
+						<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
+					</p:column>
+
+					<p:column headerText="Ap. Materno">
+						<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
+					</p:column>
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{pac.cliPersona.nombres}" />
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:commandButton ajax="false"
+							action="#{visitaBean.cargarPaciente(pac.cliPersona.idPersona)}"
+							icon="ui-icon-check" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<h:form>
+				<p:panelGrid style="text-align:center;" columns="1">
+					<h:outputText value="&lt;br/&gt;" escape="false" />
+					<p:outputLabel value="¿No se encontraron resultados?" />
+					<p:button outcome="registrarPaciente" icon="ui-icon-plus"
+						value="Agregar nuevo paciente" />
+				</p:panelGrid>
+			</h:form>
+
 		</pm:content>
 	</pm:page>
 

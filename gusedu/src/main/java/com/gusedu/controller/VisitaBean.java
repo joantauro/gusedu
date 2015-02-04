@@ -1,5 +1,6 @@
 package com.gusedu.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;
@@ -32,6 +34,9 @@ public class VisitaBean {
 
 	@Autowired
 	TerapiaService terapiaService;
+
+	private List<Cliente> clientes;
+	private String query;
 
 	private String busquedaDni;
 	private Cliente busquedaCliente;
@@ -122,21 +127,55 @@ public class VisitaBean {
 		this.terapiasDeVisita = terapiasDeVisita;
 	}
 
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public List<Cliente> getClientes() {
+		if (query != null) {
+			if (!query.isEmpty()) {
+				return clientes;
+			}
+		}
+		return clienteService.getClientesPacientes();
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
 	public String volver() {
 		visitaSeleccionada = new Visita();
 		visita = new Visita();
-		busquedaDni = "";
+		query = "";
 		busquedaCliente = new Cliente();
 		return "index?faces-redirect=true";
 	}
 
-	public String buscarPersona() {
-		busquedaCliente = personaService.buscarPorDni(busquedaDni);
-		if (busquedaCliente == null) {
-			StaticUtil.errorMessage("Error",
-					"No se ha encontrado el paciente buscado");
-			return null;
+	public void filtrarPersonas() {
+		clientes = clienteService.getClientesPacientes();
+		List<Cliente> filtrados = new ArrayList<>();
+		for (Cliente c : clientes) {
+			if (c.getCliPersona().getDni().toString().toLowerCase()
+					.contains(query.toLowerCase())
+					|| c.getCliPersona().getApellidoPaterno().toLowerCase()
+							.contains(query.toLowerCase())
+					|| c.getCliPersona().getApellidoMaterno().toLowerCase()
+							.contains(query.toLowerCase())
+					|| c.getCliPersona().getNombres().toLowerCase()
+							.contains(query.toLowerCase())) {
+				filtrados.add(c);
+			}
 		}
+		clientes = filtrados;
+	}
+
+	public String cargarPaciente(int idPersona) {
+		busquedaCliente = clienteService.getClienteByIdPersona(idPersona);
 		visitasPaciente = visitaService.getVisitasCliente(busquedaCliente);
 		return "pm:registroVisita2?transition=flip";
 	}
@@ -164,7 +203,8 @@ public class VisitaBean {
 	}
 
 	public String cargarVisitas(int idCliente) {
-		visitasPaciente = visitaService.getVisitasCliente(clienteService.getClienteById(idCliente));
+		visitasPaciente = visitaService.getVisitasCliente(clienteService
+				.getClienteById(idCliente));
 		return "consultarVisitas?faces-redirect=true";
 	}
 
@@ -177,7 +217,7 @@ public class VisitaBean {
 	// Terapias
 
 	public String preAdd() {
-		
+
 		return "pm:nuevaTerapia";
 	}
 
