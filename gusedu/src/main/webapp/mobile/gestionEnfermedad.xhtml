@@ -12,7 +12,7 @@
 		href="#{request.contextPath}/resources/images/gusedu.ico" />
 </h:head>
 <h:body>
-	<p:growl showDetail="true" autoUpdate="true"  />
+	<p:growl showDetail="true" autoUpdate="true" />
 	<pm:page id="gestionEnfermedad">
 		<pm:header title="Gestión de Enfermedades">
 			<h:form>
@@ -25,7 +25,15 @@
 				<p:commandButton action="#{enfermedadBean.preAdd}"
 					value="Agregar enfermedad" ajax="false"></p:commandButton>
 			</h:form>
-			<h:form>			
+			<pm:field>
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{enfermedadBean.query}" id="inpQuery" />
+					<p:commandButton actionListener="#{enfermedadBean.filtrarBusqueda}" 
+					 id="btnFiltro" value="Filtrar" update=":#{p:component('tablaEnfermedad')}" />
+				</h:form>
+			</pm:field>
+			<h:form id="formTabla">
 				<p:dataTable emptyMessage="No hay enfermedades registradas"
 					id="tablaEnfermedad" var="enf"
 					value="#{enfermedadBean.enfermedades}" rowKey="#{enf.idEnfermedad}"
@@ -40,7 +48,7 @@
 							ajax="false"
 							action="#{enfermedadBean.preUpdate(enf.idEnfermedad)}" />
 
-						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"							
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
 							actionListener="#{enfermedadBean.preDelete(enf.idEnfermedad)}"
 							oncomplete="PF('dlgEliminarEnfermedad').show();" />
 					</p:column>

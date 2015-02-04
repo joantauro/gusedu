@@ -25,6 +25,14 @@
 				<p:commandButton action="#{sintomaBean.preAdd}"
 					value="Agregar sintoma" ajax="false"></p:commandButton>
 			</h:form>
+			<pm:field>
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{sintomaBean.query}" id="inpQuery" />
+					<p:commandButton actionListener="#{sintomaBean.filtrarBusqueda}" 
+					 id="btnFiltro" value="Filtrar" update=":#{p:component('tablaSintoma')}" />
+				</h:form>
+			</pm:field>
 			<h:form>
 				<p:dataTable emptyMessage="No hay sintomas registradas"
 					id="tablaSintoma" var="sin"

@@ -1,5 +1,6 @@
 package com.gusedu.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.context.ExternalContext;
@@ -8,6 +9,7 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Sintoma;
 import com.gusedu.service.SintomaService;
 import com.gusedu.util.StaticUtil;
@@ -18,6 +20,8 @@ public class SintomaBean {
 	private Sintoma sintoma;
 	private List<Sintoma> sintomas;
 
+	private String query;
+	
 	@Autowired
 	SintomaService sintomaService;
 
@@ -34,12 +38,24 @@ public class SintomaBean {
 	}
 
 	public List<Sintoma> getSintomas() {
-		sintomas = sintomaService.getAll();
-		return sintomas;
+		if(query != null){
+			if(!query.isEmpty()){
+				return sintomas;
+			}
+		}
+		return sintomaService.getAll();		
 	}
 
 	public void setSintomas(List<Sintoma> sintomas) {
 		this.sintomas = sintomas;
+	}
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
 	}
 
 	public String preAdd() {
@@ -113,4 +129,16 @@ public class SintomaBean {
 		return repetido;
 	}
 
+	public void filtrarBusqueda() {
+		sintomas = sintomaService.getAll();
+		List<Sintoma> filtrados = new ArrayList<>();
+		for (Sintoma s : sintomas) {
+			if (s.getDescripcion().toLowerCase().contains(query.toLowerCase())) {
+				filtrados.add(s);
+			}
+		}
+		sintomas = filtrados;
+	}
+
+	
 }
