@@ -21,12 +21,36 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
+
+			<pm:field>
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{parBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaPar')}"
+							listener="#{parBean.filtrarBusqueda}">
+						</p:ajax> 
+					</p:inputText>
+				</h:form>
+			</pm:field>
+
 			<h:form>
 				<pm:field>
-					<p:commandButton value="Agregar par"
-						action="#{parBean.toRegistrar}" ajax="false"></p:commandButton>
+					<p:commandButton value="Asc. Punto 1"
+						update=":#{p:component('tablaPar')}"
+						actionListener="#{parBean.orderAscP1}" icon="ui-icon-arrow-u"
+						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					<p:commandButton value="Asc. Punto 2"
+						update=":#{p:component('tablaPar')}"
+						actionListener="#{parBean.orderAscP2}" icon="ui-icon-arrow-u"
+						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					<p:commandButton value="Goiz"
+						update=":#{p:component('tablaPar')}"
+						actionListener="#{parBean.orderGoiz}" icon="ui-icon-tag"
+						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
 				</pm:field>
 			</h:form>
+
+
 			<h:form>
 				<p:dataTable emptyMessage="No hay pares registrados" id="tablaPar"
 					var="par" value="#{parBean.pares}" rowKey="#{par.idPar}"
@@ -50,6 +74,15 @@
 							oncomplete="PF('dlgEliminarPar').show();" />
 					</p:column>
 				</p:dataTable>
+			</h:form>
+
+			<h:form style="text-align:center;">
+				<h:outputText value="&lt;br/&gt;" escape="false" />
+				<p:outputLabel value="¿No se encontraron resultados?" />
+				<pm:field>
+					<p:commandButton value="Agregar par"
+						action="#{parBean.toRegistrar}" ajax="false"></p:commandButton>
+				</pm:field>
 			</h:form>
 
 			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarPar"
@@ -232,7 +265,7 @@
 				</p:accordionPanel>
 			</h:form>
 			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarEnf"
-				showEffect="pop" closable="false" >
+				showEffect="pop" closable="false">
 				<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
 						icon="ui-icon-check" ajax="false"
@@ -240,8 +273,7 @@
 						oncomplete="PF('dlgEliminarEnf').hide();" />
 
 					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-						icon="ui-icon-delete"
-						actionListener="#{parBean.cancelar}"
+						icon="ui-icon-delete" actionListener="#{parBean.cancelar}"
 						oncomplete="PF('dlgEliminarEnf').hide();" />
 				</h:form>
 			</p:dialog>

@@ -33,8 +33,8 @@ public class VisitaBean {
 	VisitaService visitaService;
 
 	@Autowired
-	TerapiaService terapiaService;
-
+	TerapiaService terapiaService;	
+	
 	private List<Cliente> clientes;
 	private String query;
 
@@ -213,11 +213,10 @@ public class VisitaBean {
 		terapiasDeVisita = terapiaService.terapiasPorVisita(visitaSeleccionada);
 		return "detalleVisita?faces-redirect=true";
 	}
-
+	
 	// Terapias
 
 	public String preAdd() {
-
 		return "pm:nuevaTerapia";
 	}
 

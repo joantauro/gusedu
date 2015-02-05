@@ -10,7 +10,13 @@ import com.gusedu.model.Sintoma;
 
 public interface ParService {
 	
-	public List<Par> getAllPares();	
+	public List<Par> getAllPares();
+	
+	public List<Par> getAllParesOrderByP1();
+	
+	public List<Par> getAllParesOrderByP2();
+	
+	public List<Par> getAllParesOrderGoiz();
 
 	public Par parById(Integer id);
 	

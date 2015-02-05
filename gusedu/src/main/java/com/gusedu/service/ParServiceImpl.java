@@ -124,5 +124,43 @@ public class ParServiceImpl implements ParService{
 		}
 		return result;
 	}
+
+	@Transactional
+	public List<Par> getAllParesOrderByP1() {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Par p ORDER BY p.parPunto1.nombre ASC");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;	
+	}
+
+	@Transactional
+	public List<Par> getAllParesOrderByP2() {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Par p ORDER BY p.parPunto2.nombre ASC");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+
+	}
+
+	@Transactional
+	public List<Par> getAllParesOrderGoiz() {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Par p ORDER BY p.parPunto1.ordenGoiz ASC");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+
+	}
 	
 }

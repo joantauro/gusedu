@@ -61,6 +61,12 @@ public class ParBean {
 	private EnfermedadPar expToDelete;
 	private SintomaPar sxpToDelete;
 
+	private String query;
+	
+	int ascP1;
+	int ascP2;
+	int goiz;
+
 	public ParBean() {
 		par = new Par();
 		punto1 = new Punto();
@@ -83,6 +89,14 @@ public class ParBean {
 		return punto1;
 	}
 
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
 	public void setPunto1(Punto punto1) {
 		this.punto1 = punto1;
 	}
@@ -96,8 +110,15 @@ public class ParBean {
 	}
 
 	public List<Par> getPares() {
-		pares = parService.getAllPares();
-		return pares;
+		if (query != null) {
+			if (!query.isEmpty()) {
+				return pares;
+			}
+		}
+		if (ascP1!=0 || ascP2!=0 || goiz!=0){
+			return pares;
+		}
+		return parService.getAllPares();
 	}
 
 	public void setPares(List<Par> pares) {
@@ -235,17 +256,20 @@ public class ParBean {
 		par.setParGrupo(grupoSeleccionado);
 		par.setParPunto1(punto1);
 		par.setParPunto2(punto2);
-		Par newPar = parService.parByPuntos(punto1, punto2,grupoSeleccionado);
+		Par newPar = parService.parByPuntos(punto1, punto2, grupoSeleccionado);
 		if (newPar != null) {
 			StaticUtil.errorMessage("Error", "El par ya existe");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return "pm:nuevoPar";
 		}
 		if (parService.savePar(par)) {
 			grupoSeleccionado = new Grupo();
-			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el par");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente el par");
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return "pm:consultarPares";
 		} else {
@@ -261,10 +285,10 @@ public class ParBean {
 		return "pm:detallePar?transition=flip";
 	}
 
-	public String toDetalle(){
+	public String toDetalle() {
 		return "pm:detallePar";
 	}
-	
+
 	public String backToDetalle() {
 		enfermedadAdd = new Enfermedad();
 		sintomaAdd = new Sintoma();
@@ -282,14 +306,16 @@ public class ParBean {
 		toAdd.setExpEnfermedad(enfermedadAdd);
 		toAdd.setExpPar(parSeleccionado);
 		if (enfermedadService.saveEnfermedadPar(toAdd)) {
-			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente la enfermedad");
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente la enfermedad");
 			StaticUtil.keepMessages();
 			enfermedadAdd = new Enfermedad();
 			enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 			sintomasPar = parService.getSintomas(parSeleccionado);
 			return "pm:detallePar";
 		} else {
-			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedad");
+			StaticUtil
+					.correctMesage("Error", "No se pudo añadir la enfermedad");
 			return "pm:nuevoSintoma";
 		}
 	}
@@ -299,8 +325,10 @@ public class ParBean {
 		toAdd.setSxpPar(parSeleccionado);
 		toAdd.setSxpSintoma(sintomaAdd);
 		if (enfermedadService.saveSintomaPar(toAdd)) {
-			StaticUtil.correctMesage("Éxito","Se ha añadido correctamente el sintoma");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente el sintoma");
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return backToDetalle();
 		} else {
@@ -318,13 +346,15 @@ public class ParBean {
 	}
 
 	public void removeSintomaPar() {
-		sxpToDelete = enfermedadService.getByParameters(sintomaAdd, parSeleccionado);
+		sxpToDelete = enfermedadService.getByParameters(sintomaAdd,
+				parSeleccionado);
 		enfermedadService.deleteSintomaPar(sxpToDelete);
 		sintomaAdd = new Sintoma();
 	}
 
 	public void removeEnfermedadPar() {
-		expToDelete = enfermedadService.getByParameters(enfermedadAdd, parSeleccionado);
+		expToDelete = enfermedadService.getByParameters(enfermedadAdd,
+				parSeleccionado);
 		enfermedadService.deleteEnfermedadPar(expToDelete);
 		enfermedadAdd = new Enfermedad();
 	}
@@ -362,7 +392,8 @@ public class ParBean {
 		Par newPar = parService.parByPuntos(punto1, punto2, grupoSeleccionado);
 		if (newPar != null) {
 			StaticUtil.errorMessage("Error", "El par ya existe");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return "pm:nuevoPar";
 		}
@@ -371,4 +402,38 @@ public class ParBean {
 		return "pm:consultarPares?transition=flip";
 	}
 
+	public void filtrarBusqueda() {
+		pares = parService.getAllPares();
+		List<Par> filtrados = new ArrayList<>();
+		for (Par p : pares) {
+			if (p.getParPunto1().getNombre().toLowerCase().contains(query)
+					|| p.getParPunto2().getNombre().toLowerCase()
+							.contains(query)) {
+				filtrados.add(p);
+			}
+		}
+		pares = filtrados;
+	}
+
+	public void orderAscP1(){
+		ascP1 = 1;
+		ascP2 = 0;
+		goiz = 0;
+		pares = parService.getAllParesOrderByP1();
+	}
+	
+	public void orderAscP2(){
+		ascP1 = 0;
+		ascP2 = 1;
+		goiz = 0;
+		pares = parService.getAllParesOrderByP2();
+	}
+	
+	public void orderGoiz(){
+		ascP1 = 0;
+		ascP2 = 0;
+		goiz = 1;
+		pares = parService.getAllParesOrderGoiz();
+	}
+	
 }
