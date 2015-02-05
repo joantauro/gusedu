@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Enfermedad;
+import com.gusedu.model.EnfermedadPar;
 import com.gusedu.service.EnfermedadService;
+import com.gusedu.service.ParService;
 
 @Controller
 public class EnfermedadParBean {
@@ -15,8 +17,12 @@ public class EnfermedadParBean {
 	@Autowired
 	EnfermedadService enfermedadService;
 	
+	@Autowired
+	ParService parService;
+	
 	private Enfermedad enfermedad;
-	private List<Enfermedad> enfermedades;
+	private List<Enfermedad> enfermedades;	
+	private List<EnfermedadPar> enfermedadesPar;
 	
 	public EnfermedadParBean(){
 		enfermedad = new Enfermedad(); 
@@ -38,6 +44,14 @@ public class EnfermedadParBean {
 		this.enfermedades = enfermedades;
 	}
 
+	public List<EnfermedadPar> getEnfermedadesPar() {
+		return enfermedadesPar;
+	}
+
+	public void setEnfermedadesPar(List<EnfermedadPar> enfermedadesPar) {
+		this.enfermedadesPar = enfermedadesPar;
+	}
+
 	public List<Enfermedad> autoComplete(String query){
 		List<Enfermedad> allEnfermedades = enfermedadService.getAll();
 		List<Enfermedad> enfermedadesFiltradas = new ArrayList<>();
@@ -52,7 +66,8 @@ public class EnfermedadParBean {
 	}
 
 	public String cargarEnfermedad(){
+		enfermedadesPar = parService.parByEnfermedad(enfermedad);
 		return "pm:mostrarPares?transition=flip";
-	}
+	}		
 	
 }
