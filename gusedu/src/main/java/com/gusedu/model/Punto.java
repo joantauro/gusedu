@@ -26,12 +26,23 @@ public class Punto {
 
     @Column(nullable= true, name= "PUN_UBICACION_M", length=100)
     private String ubicacionMedia;    
+
+    @Column(nullable= true, name= "PUN_ORDEN_GOIZ")
+    private Integer ordenGoiz;
     
 	@OneToMany(mappedBy="parPunto1")
 	private Collection<Par> punPares1;
 	
 	@OneToMany(mappedBy="parPunto2")
 	private Collection<Par> punPares2;
+
+	public Integer getOrdenGoiz() {
+		return ordenGoiz;
+	}
+
+	public void setOrdenGoiz(Integer ordenGoiz) {
+		this.ordenGoiz = ordenGoiz;
+	}
 
 	public Integer getIdPunto() {
 		return idPunto;

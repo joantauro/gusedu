@@ -31,10 +31,28 @@
 					</p:inputText>
 				</h:form>
 			</pm:field>
+
+			<h:form>
+				<pm:field>
+					<p:commandButton value="Asc."
+						update=":#{p:component('tablaPunto')}"
+						actionListener="#{puntoBean.orderAsc}" icon="ui-icon-arrow-u"
+						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					<p:commandButton value="Desc."
+						update=":#{p:component('tablaPunto')}"
+						actionListener="#{puntoBean.orderDesc}" icon="ui-icon-arrow-d"
+						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					<p:commandButton value="Goiz"
+						update=":#{p:component('tablaPunto')}"
+						actionListener="#{puntoBean.orderGoiz}" icon="ui-icon-tag"
+						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+				</pm:field>
+			</h:form>
+
 			<h:form>
 				<p:dataTable emptyMessage="No hay puntos registrados"
 					id="tablaPunto" var="pun" value="#{puntoBean.puntos}"
-					rowKey="#{pun.idPunto}" paginator="true" rows="5"
+					rowKey="#{pun.idPunto}" paginator="true" rows="3"
 					tableStyleClass="ui-table-columntoggle">
 
 					<p:column headerText="Nombre">
@@ -98,12 +116,19 @@
 						value="#{puntoBean.punto.nombre}" />
 				</pm:field>
 				<pm:field>
+					<p:outputLabel for="puntoOrdGoiz" value="Orden Goiz: " />
+					<p:inputText id="puntoOrdGoiz" required="true"
+						value="#{puntoBean.punto.ordenGoiz}" />
+				</pm:field>
+				<pm:field>
 					<p:outputLabel for="puntoUbicacionCorta" value="Ubicacion corta: " />
 					<p:selectOneMenu id="puntoUbicacionCorta" required="true"
 						value="#{puntoBean.punto.ubicacionCorta}">
 						<f:selectItem itemLabel="Cabeza" itemValue="Cabeza" />
 						<f:selectItem itemLabel="Cuello" itemValue="Cuello" />
 						<f:selectItem itemLabel="Torso" itemValue="Torso" />
+						<f:selectItem itemLabel="Espalda" itemValue="Espalda" />
+						<f:selectItem itemLabel="Área Pélvica" itemValue="Área Pélvica" />
 						<f:selectItem itemLabel="Brazo" itemValue="Brazo" />
 						<f:selectItem itemLabel="Pierna" itemValue="Pierna" />
 					</p:selectOneMenu>
@@ -165,12 +190,19 @@
 						value="#{puntoBean.punto.nombre}" />
 				</pm:field>
 				<pm:field>
+					<p:outputLabel for="puntoOrdGoiz" value="Orden Goiz: " />
+					<p:inputText id="puntoOrdGoiz" required="true"
+						value="#{puntoBean.punto.ordenGoiz}" />
+				</pm:field>
+				<pm:field>
 					<p:outputLabel for="puntoUbicacionCorta" value="Ubicacion corta: " />
 					<p:selectOneMenu id="puntoUbicacionCorta" required="true"
 						value="#{puntoBean.punto.ubicacionCorta}">
 						<f:selectItem itemLabel="Cabeza" itemValue="Cabeza" />
 						<f:selectItem itemLabel="Cuello" itemValue="Cuello" />
 						<f:selectItem itemLabel="Torso" itemValue="Torso" />
+						<f:selectItem itemLabel="Espalda" itemValue="Espalda" />
+						<f:selectItem itemLabel="Área Pélvica" itemValue="Área Pélvica" />
 						<f:selectItem itemLabel="Brazo" itemValue="Brazo" />
 						<f:selectItem itemLabel="Pierna" itemValue="Pierna" />
 					</p:selectOneMenu>

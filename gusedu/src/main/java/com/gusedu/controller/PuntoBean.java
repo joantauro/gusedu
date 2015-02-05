@@ -25,6 +25,9 @@ public class PuntoBean {
 
 	private String query;
 
+	int asc;
+	int desc;
+
 	public PuntoBean() {
 		punto = new Punto();
 		puntos = new ArrayList<>();
@@ -43,6 +46,9 @@ public class PuntoBean {
 			if (!query.isEmpty()) {
 				return puntos;
 			}
+		}
+		if (asc != 0 || desc != 0) {
+			return puntos;
 		}
 		return puntoService.getAllPuntos();
 	}
@@ -94,32 +100,37 @@ public class PuntoBean {
 
 	public String actualizarPunto() {
 		if (esRepetido()) {
-			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");			
+			StaticUtil
+					.errorMessage("Error", "Hubo un error al añadir el punto");
 			return null;
 		}
 		if (puntoService.updatePunto(punto)) {
 			punto = new Punto();
-			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el punto");
-			StaticUtil.keepMessages();			
+			StaticUtil.correctMesage("Éxito",
+					"Se ha actualizado correctamente el punto");
+			StaticUtil.keepMessages();
 			return "pm:consultarPuntos?transition=flip";
 		} else {
-			StaticUtil.errorMessage("Error", "Hubo un error al actualizar los datos del punto");			
+			StaticUtil.errorMessage("Error",
+					"Hubo un error al actualizar los datos del punto");
 			return null;
 		}
 	}
 
 	public String añadirPunto() {
 		if (esRepetido()) {
-			StaticUtil.errorMessage("Error", "El nombre del punto ya existe");			
+			StaticUtil.errorMessage("Error", "El nombre del punto ya existe");
 			return null;
 		}
 		if (puntoService.savePunto(punto)) {
-			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el punto");
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente el punto");
 			StaticUtil.keepMessages();
 			punto = new Punto();
 			return "pm:consultarPuntos?transition=flip";
 		} else {
-			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
+			StaticUtil
+					.errorMessage("Error", "Hubo un error al añadir el punto");
 			return null;
 		}
 	}
@@ -148,6 +159,22 @@ public class PuntoBean {
 			}
 		}
 		puntos = filtrados;
+	}
+
+	public void orderAsc() {
+		asc = 1;
+		desc = 0;
+		puntos = puntoService.getAllOrdenAlfabeticoAsc();
+	}
+
+	public void orderDesc() {
+		desc = 1;
+		asc = 0;
+		puntos = puntoService.getAllOrdenAlfabeticoDesc();
+	}
+
+	public void orderGoiz() {
+
 	}
 
 }
