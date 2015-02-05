@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Cliente;
-import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;

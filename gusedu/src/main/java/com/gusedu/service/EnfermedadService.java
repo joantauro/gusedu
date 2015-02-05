@@ -22,6 +22,8 @@ public interface EnfermedadService {
 	
 	public Enfermedad getById(Integer idEnfermedad);
 	
+	public Enfermedad getByNombre(String nombre);
+	
 	//EnfermedadPar
 	
 	public boolean saveEnfermedadPar(EnfermedadPar enfermedadPar);
@@ -37,5 +39,7 @@ public interface EnfermedadService {
 	public boolean deleteSintomaPar(SintomaPar sintomaPar);
 	
 	public SintomaPar getByParameters(Sintoma sintoma, Par par);
+	
+	
 	
 }

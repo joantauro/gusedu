@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Cliente;
-import com.gusedu.model.Sintoma;
 import com.gusedu.service.ClienteService;
 import com.gusedu.util.StaticUtil;
 

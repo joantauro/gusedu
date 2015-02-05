@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Cliente;
-import com.gusedu.model.Persona;
-import com.gusedu.model.Visita;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{

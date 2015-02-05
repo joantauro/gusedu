@@ -17,47 +17,48 @@
 			<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
 				styleClass="ui-btn-left ui-btn-inline" />
 		</pm:header>
-		<pm:field>
-			<h:form id="formBusqueda">
-				<p:outputLabel value="Filtrar: " for="inpQuery" />
-				<p:inputText value="#{pacienteBean.query}" id="inpQuery">
-					<p:ajax event="keyup" update=":#{p:component('tablaPac')}"
-						listener="#{pacienteBean.filtrarBusqueda}">
-					</p:ajax>
-				</p:inputText>
+		<pm:content>
+			<pm:field>
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{pacienteBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaPac')}"
+							listener="#{pacienteBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+			</pm:field>
+			<h:form>
+				<p:dataTable id="tablaPac" var="pac"
+					value="#{pacienteBean.clientes}" rowKey="#{pac.idCliente}"
+					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="DNI" sortBy="#{pac.cliPersona.dni}">
+						<h:outputText value="#{pac.cliPersona.dni}" />
+					</p:column>
+
+					<p:column headerText="Ap. Paterno"
+						sortBy="#{pac.cliPersona.apellidoPaterno}">
+						<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
+					</p:column>
+
+					<p:column headerText="Ap. Materno"
+						sortBy="#{pac.cliPersona.apellidoMaterno}">
+						<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
+					</p:column>
+
+					<p:column headerText="Nombre" sortBy="#{pac.cliPersona.nombres}">
+						<h:outputText value="#{pac.cliPersona.nombres}" />
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:commandButton icon="ui-icon-edit"
+							action="#{pacienteBean.preEditarPaciente(pac.idCliente)}" />
+					</p:column>
+
+				</p:dataTable>
 			</h:form>
-		</pm:field>
-		<h:form>
-			<p:dataTable id="tablaPac" var="pac" value="#{pacienteBean.clientes}"
-				rowKey="#{pac.idCliente}" paginator="true" rows="5"
-				tableStyleClass="ui-table-columntoggle">
-
-				<p:column headerText="DNI" sortBy="#{pac.cliPersona.dni}">
-					<h:outputText value="#{pac.cliPersona.dni}" />
-				</p:column>
-
-				<p:column headerText="Ap. Paterno"
-					sortBy="#{pac.cliPersona.apellidoPaterno}">
-					<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
-				</p:column>
-
-				<p:column headerText="Ap. Materno"
-					sortBy="#{pac.cliPersona.apellidoMaterno}">
-					<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
-				</p:column>
-
-				<p:column headerText="Nombre" sortBy="#{pac.cliPersona.nombres}">
-					<h:outputText value="#{pac.cliPersona.nombres}" />
-				</p:column>
-
-				<p:column headerText="Opciones">
-					<p:commandButton icon="ui-icon-edit"
-						action="#{pacienteBean.preEditarPaciente(pac.idCliente)}" />
-				</p:column>
-
-			</p:dataTable>
-		</h:form>
-
+		</pm:content>
 	</pm:page>
 </h:body>
 </html>

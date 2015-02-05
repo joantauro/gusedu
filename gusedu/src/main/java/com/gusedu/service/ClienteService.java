@@ -3,7 +3,6 @@ package com.gusedu.service;
 import java.util.List;
 
 import com.gusedu.model.Cliente;
-import com.gusedu.model.Visita;
 
 public interface ClienteService {
 

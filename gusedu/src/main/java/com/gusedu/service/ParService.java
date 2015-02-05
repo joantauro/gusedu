@@ -3,6 +3,7 @@ package com.gusedu.service;
 import java.util.List;
 
 import com.gusedu.model.Enfermedad;
+import com.gusedu.model.EnfermedadPar;
 import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
@@ -31,5 +32,8 @@ public interface ParService {
 	public List<Sintoma> getSintomas(Par par);
 	
 	public Par parByPuntos(Punto p1, Punto p2, Grupo g);
+
+	public List<EnfermedadPar> parByEnfermedad(Enfermedad enfermedad);
 	
 }
+

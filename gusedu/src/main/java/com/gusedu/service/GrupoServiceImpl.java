@@ -19,6 +19,7 @@ public class GrupoServiceImpl implements GrupoService{
 	@PersistenceContext
 	EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Grupo> getAllGrupos() {
 		List<Grupo> result = new ArrayList<>();

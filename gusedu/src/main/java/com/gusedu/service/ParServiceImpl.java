@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Enfermedad;
+import com.gusedu.model.EnfermedadPar;
 import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
@@ -125,6 +126,7 @@ public class ParServiceImpl implements ParService{
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Par> getAllParesOrderByP1() {
 		List<Par> result = new ArrayList<>();
@@ -137,6 +139,7 @@ public class ParServiceImpl implements ParService{
 		return result;	
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Par> getAllParesOrderByP2() {
 		List<Par> result = new ArrayList<>();
@@ -150,6 +153,7 @@ public class ParServiceImpl implements ParService{
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Par> getAllParesOrderGoiz() {
 		List<Par> result = new ArrayList<>();
@@ -160,7 +164,20 @@ public class ParServiceImpl implements ParService{
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;
+	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<EnfermedadPar> parByEnfermedad(Enfermedad enfermedad) {
+		List<EnfermedadPar> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM EnfermedadPar p WHERE p.expEnfermedad=:enfermedad");
+			q.setParameter("enfermedad", enfermedad);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
 	}
 	
 }

@@ -3,13 +3,9 @@ package com.gusedu.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Punto;
 import com.gusedu.service.PuntoService;
 import com.gusedu.util.StaticUtil;

@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadPar;
 import com.gusedu.model.Par;
-import com.gusedu.model.Persona;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaPar;
 
@@ -174,4 +173,17 @@ public class EnfermedadServiceImpl implements EnfermedadService {
 		return result;
 	}
 
+	@Transactional
+	public Enfermedad getByNombre(String nombre) {
+		Enfermedad result = null;
+		try {
+			Query q = em
+					.createQuery("SELECT e FROM Enfermedad WHERE e.nombre=:nombre");
+			q.setParameter("nombre", nombre);
+			result = (Enfermedad) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
 }

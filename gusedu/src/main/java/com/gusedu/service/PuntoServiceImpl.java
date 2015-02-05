@@ -11,8 +11,6 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gusedu.model.Cliente;
-import com.gusedu.model.Persona;
 import com.gusedu.model.Punto;
 
 @Service
@@ -21,6 +19,7 @@ public class PuntoServiceImpl implements PuntoService{
 	@PersistenceContext
 	EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Punto> getAllPuntos() {
 		List<Punto> result = new ArrayList<>();
@@ -92,6 +91,7 @@ public class PuntoServiceImpl implements PuntoService{
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Punto> getAllOrdenAlfabeticoAsc() {
 		List<Punto> result = new ArrayList<>();
@@ -104,6 +104,7 @@ public class PuntoServiceImpl implements PuntoService{
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Punto> getAllOrdenAlfabeticoDesc() {
 		List<Punto> result = new ArrayList<>();

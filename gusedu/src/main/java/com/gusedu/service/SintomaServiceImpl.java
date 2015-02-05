@@ -11,8 +11,6 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gusedu.model.Enfermedad;
-import com.gusedu.model.EnfermedadPar;
 import com.gusedu.model.Sintoma;
 
 @Service
