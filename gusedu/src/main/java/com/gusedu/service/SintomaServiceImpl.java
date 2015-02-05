@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Sintoma;
 
 @Service
@@ -74,6 +75,20 @@ public class SintomaServiceImpl implements SintomaService{
 	@Transactional
 	public Sintoma getById(Integer id) {
 		return em.find(Sintoma.class, id);
+	}
+
+	@Transactional
+	public Sintoma getByNombre(String nombre) {
+		Sintoma result = null;
+		try {
+			Query q = em
+					.createQuery("SELECT s FROM Sintoma s WHERE s.descripcion=:nombre");
+			q.setParameter("nombre", nombre);
+			result = (Sintoma) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;				
 	}
 
 }

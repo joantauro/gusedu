@@ -8,6 +8,7 @@ import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
+import com.gusedu.model.SintomaPar;
 
 public interface ParService {
 	
@@ -34,6 +35,8 @@ public interface ParService {
 	public Par parByPuntos(Punto p1, Punto p2, Grupo g);
 
 	public List<EnfermedadPar> parByEnfermedad(Enfermedad enfermedad);
+	
+	public List<SintomaPar> parBySintoma(Sintoma sintoma);
 	
 }
 

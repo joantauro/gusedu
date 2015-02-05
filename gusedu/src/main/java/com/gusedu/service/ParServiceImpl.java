@@ -17,6 +17,7 @@ import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
+import com.gusedu.model.SintomaPar;
 
 @Service
 public class ParServiceImpl implements ParService{
@@ -173,6 +174,20 @@ public class ParServiceImpl implements ParService{
 		try {
 			Query q = em.createQuery("SELECT p FROM EnfermedadPar p WHERE p.expEnfermedad=:enfermedad");
 			q.setParameter("enfermedad", enfermedad);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SintomaPar> parBySintoma(Sintoma sintoma) {
+		List<SintomaPar> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM SintomaPar p WHERE p.sxpSintoma=:sintoma");
+			q.setParameter("sintoma", sintoma);
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());

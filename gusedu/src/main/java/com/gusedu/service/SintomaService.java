@@ -16,4 +16,6 @@ public interface SintomaService {
 	
 	public Sintoma getById(Integer id);
 	
+	public Sintoma getByNombre(String nombre);
+	
 }
