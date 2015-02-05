@@ -21,28 +21,29 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<pm:field>
-				<p:outputLabel for="enfermedadBusqueda" value="Enfermedad: " />
-				<p:autoComplete id="enfermedadBusqueda" queryDelay="100"
-					value="#{enfermedadParBean.enfermedad}" required="true"
-					completeMethod="#{enfermedadParBean.autoComplete}" var="enfs"
-					itemLabel="#{enf.nombre}" itemValue="#{enf}"
-					converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
-				</p:autoComplete>
-			</pm:field>
-			<pm:field>
-				<h:form>
-					<p:commandButton value="Buscar"
-						action="#{enfermedadParBean.cargarEnfermedad}" />
-				</h:form>
-			</pm:field>
+			<h:form>
+				<pm:field>
+					<p:outputLabel for="enfermedadBusqueda" value="Enfermedad: " />
+					<p:autoComplete id="enfermedadBusqueda" queryDelay="100"
+						value="#{enfermedadParBean.enfermedad}" required="true"
+						completeMethod="#{enfermedadParBean.autoComplete}" var="enfs"
+						itemLabel="#{enfs.nombre}" itemValue="#{enfs}"
+						converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+				</pm:field>
+				<pm:field>
+					<h:form>
+						<p:commandButton value="Buscar" action="#{enfermedadParBean.cargarEnfermedad}" ajax="false" />
+					</h:form>
+				</pm:field>
+			</h:form>
 		</pm:content>
 	</pm:page>
 
 	<pm:page id="mostrarPares">
 		<pm:header title="Pares por enfermedad">
-			<h:form>
-				<p:button outcome="pm:enfermedadPar" value="Volver"
+			<h:form>						
+				<p:commandButton action="#{enfermedadParBean.toEnfermedadPar}"
 					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>

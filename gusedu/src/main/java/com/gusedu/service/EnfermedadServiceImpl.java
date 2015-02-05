@@ -178,7 +178,7 @@ public class EnfermedadServiceImpl implements EnfermedadService {
 		Enfermedad result = null;
 		try {
 			Query q = em
-					.createQuery("SELECT e FROM Enfermedad WHERE e.nombre=:nombre");
+					.createQuery("SELECT e FROM Enfermedad e WHERE e.nombre=:nombre");
 			q.setParameter("nombre", nombre);
 			result = (Enfermedad) q.getSingleResult();
 		} catch (NoResultException e) {

@@ -24,7 +24,7 @@ public class EnfermedadParBean {
 	private List<Enfermedad> enfermedades;	
 	private List<EnfermedadPar> enfermedadesPar;
 	
-	public EnfermedadParBean(){
+	public EnfermedadParBean(){		
 		enfermedad = new Enfermedad(); 
 	}
 
@@ -69,5 +69,10 @@ public class EnfermedadParBean {
 		enfermedadesPar = parService.parByEnfermedad(enfermedad);
 		return "pm:mostrarPares?transition=flip";
 	}		
+	
+	public String toEnfermedadPar(){
+		enfermedad = new Enfermedad();
+		return "pm:enfermedadPar?transition=flip";
+	}
 	
 }
