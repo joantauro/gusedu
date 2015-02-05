@@ -31,6 +31,7 @@ public class PersonaBean {
 	private Persona personaSeleccionada;	
 	private List<Terapia> terapiasPaciente;	
 	
+	private String query;
 	
 	public PersonaBean(){
 		persona = new Persona();
@@ -66,8 +67,15 @@ public class PersonaBean {
 	public Persona getPersonaSeleccionada() {
 		return personaSeleccionada;
 	}
-
 	
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
 	public void setPersonaSeleccionada(Persona personaSeleccionada) {
 		this.personaSeleccionada = personaSeleccionada;
 	}	

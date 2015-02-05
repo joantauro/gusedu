@@ -17,9 +17,18 @@
 			<p:button outcome="index" value="Volver" icon="ui-icon-arrow-l"
 				styleClass="ui-btn-left ui-btn-inline" />
 		</pm:header>
+		<pm:field>
+			<h:form id="formBusqueda">
+				<p:outputLabel value="Filtrar: " for="inpQuery" />
+				<p:inputText value="#{pacienteBean.query}" id="inpQuery">
+					<p:ajax event="keyup" update=":#{p:component('tablaPac')}"
+						listener="#{pacienteBean.filtrarBusqueda}">
+					</p:ajax>
+				</p:inputText>
+			</h:form>
+		</pm:field>
 		<h:form>
-
-			<p:dataTable id="paciente" var="pac" value="#{personaBean.pacientes}"
+			<p:dataTable id="tablaPac" var="pac" value="#{pacienteBean.clientes}"
 				rowKey="#{pac.idCliente}" paginator="true" rows="5"
 				tableStyleClass="ui-table-columntoggle">
 
@@ -41,9 +50,9 @@
 					<h:outputText value="#{pac.cliPersona.nombres}" />
 				</p:column>
 
-				<p:column headerText="Visitas">
-					<p:commandButton icon="ui-icon-eye"
-						action="#{visitaBean.cargarVisitas(pac.idCliente)}" />
+				<p:column headerText="Opciones">
+					<p:commandButton icon="ui-icon-edit"
+						action="#{pacienteBean.preEditarPaciente(pac.idCliente)}" />
 				</p:column>
 
 			</p:dataTable>

@@ -89,11 +89,8 @@ public class SintomaBean {
 
 	public String update() {
 		if (sintomaService.updateSintoma(sintoma)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha actualizado correctamente el sintoma");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			context.getFlash().setKeepMessages(true);
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el sintoma");
+			StaticUtil.keepMessages();
 			return "pm:gestionSintoma?faces-redirect=true";
 		} else {
 			StaticUtil

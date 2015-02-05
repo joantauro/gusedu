@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+</h:head>
+<h:body>
+	<pm:page id="editarCliente">
+		<pm:header title="Editar Cliente">
+			<h:form>
+				<p:button outcome="consultarPacientes" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>			
+				<pm:field>
+					<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
+					<p:calendar required="true"
+						value="#{pacienteBean.cliente.cliPersona.fechaNacimiento}" id="perFecNac"
+						pattern="dd/MM/yyyy" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perDni" value="Dni: " />
+					<p:inputText required="true"
+						value="#{pacienteBean.cliente.cliPersona.dni}" id="perDni" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perNombre" value="Nombre: " />
+					<p:inputText required="true"
+						value="#{pacienteBean.cliente.cliPersona.nombres}" id="perNombre" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perApPat" value="Apellido Paterno: " />
+					<p:inputText required="true"
+						value="#{pacienteBean.cliente.cliPersona.apellidoPaterno}"
+						id="perApPat" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perApMat" value="Apellido Materno: " />
+					<p:inputText required="true"
+						value="#{pacienteBean.cliente.cliPersona.apellidoMaterno}"
+						id="perApMat" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perCorreo" value="Correo: " />
+					<p:inputText required="true"
+						value="#{pacienteBean.cliente.cliPersona.correo}" id="perCorreo" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perSexo" value="Sexo: " />
+					<p:selectOneButton required="true" id="perSexo"
+						value="#{pacienteBean.cliente.cliPersona.sexo}">
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+						<f:selectItem itemLabel="Femenino" itemValue="F" />
+					</p:selectOneButton>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perEstadoCivil" value="Estado Civil: " />
+					<p:selectOneButton id="perEstadoCivil"
+						value="#{pacienteBean.cliente.cliPersona.estadoCivil}">
+						<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+						<f:selectItem itemLabel="Casado" itemValue="Casado" />
+						<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+						<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+					</p:selectOneButton>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
+					<p:inputText required="true" type="tel" 
+						value="#{pacienteBean.cliente.cliPersona.telefonoFijo}" id="perTelFijo" />										
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
+					<p:inputText required="true" type="tel" 
+						value="#{pacienteBean.cliente.cliPersona.telefonoMovil}" id="perTelMovil" />					
+				</pm:field>
+				<p:panelGrid columns="2">
+					<p:commandButton action="#{pacienteBean.editar}"
+						value="Actualizar" icon="ui-icon-check" />
+					<p:commandButton value="Cancelar" immediate="true"
+						action="#{pacienteBean.cancelar}"
+						ajax="false" icon="ui-icon-delete" />
+				</p:panelGrid>
+			</h:form>
+		</pm:content>
+	</pm:page>
+</h:body>
+</html>
