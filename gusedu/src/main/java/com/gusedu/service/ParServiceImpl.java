@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Enfermedad;
+import com.gusedu.model.Grupo;
 import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
@@ -108,12 +109,13 @@ public class ParServiceImpl implements ParService{
 	}
 
 	@Transactional
-	public Par parByPuntos(Punto p1, Punto p2) {
+	public Par parByPuntos(Punto p1, Punto p2, Grupo g) {
 		Par result = null;
 		try{
-			Query q = em.createQuery("SELECT p FROM Par p WHERE p.parPunto1=:p1 AND p.parPunto2=:p2");
+			Query q = em.createQuery("SELECT p FROM Par p WHERE p.parPunto1=:p1 AND p.parPunto2=:p2 AND p.parGrupo=:g");
 			q.setParameter("p1", p1);
 			q.setParameter("p2", p2);
+			q.setParameter("g", g);
 			result = (Par) q.getSingleResult();
 			
 		}

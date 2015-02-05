@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Punto;
 import com.gusedu.service.PuntoService;
 import com.gusedu.util.StaticUtil;
@@ -21,6 +22,8 @@ public class PuntoBean {
 
 	private Punto punto;
 	private List<Punto> puntos;
+
+	private String query;
 
 	public PuntoBean() {
 		punto = new Punto();
@@ -36,8 +39,12 @@ public class PuntoBean {
 	}
 
 	public List<Punto> getPuntos() {
-		puntos = puntoService.getAllPuntos();
-		return puntos;
+		if (query != null) {
+			if (!query.isEmpty()) {
+				return puntos;
+			}
+		}
+		return puntoService.getAllPuntos();
 	}
 
 	public void setPuntos(List<Punto> puntos) {
@@ -67,64 +74,80 @@ public class PuntoBean {
 		punto = new Punto();
 		return "index?faces-redirect=true";
 	}
-	
-	public String backToConsultar(){
+
+	public String backToConsultar() {
 		punto = new Punto();
-		return "pm:consultarPuntos";
+		return "pm:consultarPuntos?transition=flip";
 	}
-	
-	public void cancelar(){
+
+	public void cancelar() {
 		punto = new Punto();
 	}
 
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
 	public String actualizarPunto() {
-		if(esRepetido()){
-			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
-			StaticUtil.keepMessages();
-			return "pm:gestionPunto";
-		}		
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");			
+			return null;
+		}
 		if (puntoService.updatePunto(punto)) {
-			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el punto");
-			StaticUtil.keepMessages();
 			punto = new Punto();
-			return "pm:consultarPuntos?faces-redirect=true";
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el punto");
+			StaticUtil.keepMessages();			
+			return "pm:consultarPuntos?transition=flip";
 		} else {
-			StaticUtil.errorMessage("Error", "Hubo un error al actualizar los datos del punto");
-			StaticUtil.keepMessages();
-			return "pm:gestionPunto";
+			StaticUtil.errorMessage("Error", "Hubo un error al actualizar los datos del punto");			
+			return null;
 		}
 	}
 
 	public String añadirPunto() {
-		if(esRepetido()){
-			StaticUtil.errorMessage("Error", "El nombre del punto ya existe");
-			StaticUtil.keepMessages();
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "El nombre del punto ya existe");			
 			return null;
 		}
 		if (puntoService.savePunto(punto)) {
 			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el punto");
 			StaticUtil.keepMessages();
 			punto = new Punto();
-			return "pm:consultarPuntos?faces-redirect=true";
+			return "pm:consultarPuntos?transition=flip";
 		} else {
-			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");			
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
 			return null;
 		}
 	}
-	
-	public String nuevoPunto(){
+
+	public String nuevoPunto() {
 		punto = new Punto();
 		return "pm:nuevoPunto?transition=flip";
 	}
 
-	public boolean esRepetido(){
+	public boolean esRepetido() {
 		List<Punto> allPuntos = puntoService.getAllPuntos();
-		for(Punto p : allPuntos){
-			if(p.getNombre().toLowerCase().equals(punto.getNombre())){
+		for (Punto p : allPuntos) {
+			if (p.getNombre().toLowerCase().equals(punto.getNombre())) {
 				return true;
 			}
 		}
 		return false;
-	}		
-	
+	}
+
+	public void filtrarBusqueda() {
+		puntos = puntoService.getAllPuntos();
+		List<Punto> filtrados = new ArrayList<>();
+		for (Punto p : puntos) {
+			if (p.getNombre().toLowerCase().contains(query.toLowerCase())) {
+				filtrados.add(p);
+			}
+		}
+		puntos = filtrados;
+	}
+
 }

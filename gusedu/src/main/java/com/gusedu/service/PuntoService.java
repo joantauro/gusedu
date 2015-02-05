@@ -8,6 +8,10 @@ public interface PuntoService {
 
 	public List<Punto> getAllPuntos();
 	
+	public List<Punto> getAllOrdenAlfabeticoAsc();
+	
+	public List<Punto> getAllOrdenAlfabeticoDesc();
+	
 	public Punto puntoById(Integer id);
 	
 	public Boolean savePunto(Punto punto);

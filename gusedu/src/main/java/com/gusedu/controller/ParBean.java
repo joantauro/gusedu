@@ -235,22 +235,22 @@ public class ParBean {
 		par.setParGrupo(grupoSeleccionado);
 		par.setParPunto1(punto1);
 		par.setParPunto2(punto2);
-		Par newPar = parService.parByPuntos(punto1, punto2);
+		Par newPar = parService.parByPuntos(punto1, punto2,grupoSeleccionado);
 		if (newPar != null) {
 			StaticUtil.errorMessage("Error", "El par ya existe");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
-			return "pm:nuevoPar?faces-redirect=true";
+			return "pm:nuevoPar";
 		}
 		if (parService.savePar(par)) {
 			grupoSeleccionado = new Grupo();
 			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el par");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
-			return "pm:consultarPares?faces-redirect=true";
+			return "pm:consultarPares";
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");
-			return "pm:nuevoPar?faces-redirect=true";
+			return "pm:nuevoPar";
 		}
 	}
 
@@ -261,6 +261,10 @@ public class ParBean {
 		return "pm:detallePar?transition=flip";
 	}
 
+	public String toDetalle(){
+		return "pm:detallePar";
+	}
+	
 	public String backToDetalle() {
 		enfermedadAdd = new Enfermedad();
 		sintomaAdd = new Sintoma();
@@ -270,7 +274,7 @@ public class ParBean {
 		par.setParPunto1(punto1);
 		par.setParPunto2(punto2);
 		par.setParGrupo(grupoSeleccionado);
-		return "pm:detallePar?faces-redirect=true";
+		return "pm:detallePar";
 	}
 
 	public String addEnfermedad() {
@@ -278,19 +282,15 @@ public class ParBean {
 		toAdd.setExpEnfermedad(enfermedadAdd);
 		toAdd.setExpPar(parSeleccionado);
 		if (enfermedadService.saveEnfermedadPar(toAdd)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha añadido correctamente la enfermedad");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			context.getFlash().setKeepMessages(true);
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente la enfermedad");
+			StaticUtil.keepMessages();
 			enfermedadAdd = new Enfermedad();
 			enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 			sintomasPar = parService.getSintomas(parSeleccionado);
-			return "pm:detallePar?faces-redirect=true";
+			return "pm:detallePar";
 		} else {
-			StaticUtil
-					.correctMesage("Error", "No se pudo añadir la enfermedad");
-			return "pm:nuevoSintoma?faces-redirect=true";
+			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedad");
+			return "pm:nuevoSintoma";
 		}
 	}
 
@@ -359,12 +359,12 @@ public class ParBean {
 		par.setParPunto1(punto1);
 		par.setParPunto2(punto2);
 		par.setParGrupo(grupoSeleccionado);
-		Par newPar = parService.parByPuntos(punto1, punto2);
+		Par newPar = parService.parByPuntos(punto1, punto2, grupoSeleccionado);
 		if (newPar != null) {
 			StaticUtil.errorMessage("Error", "El par ya existe");
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
-			return "pm:nuevoPar?faces-redirect=true";
+			return "pm:nuevoPar";
 		}
 		parService.updatePar(par);
 		par = new Par();

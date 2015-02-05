@@ -227,13 +227,12 @@
 									actionListener="#{parBean.cargarPreRemoveSintoma(sin.idSintoma)}"
 									oncomplete="PF('dlgEliminarSin').show();" />
 							</p:column>
-
 						</p:dataTable>
 					</p:tab>
 				</p:accordionPanel>
 			</h:form>
 			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarEnf"
-				showEffect="pop" closable="false" modal="true">
+				showEffect="pop" closable="false" >
 				<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
 						icon="ui-icon-check" ajax="false"
@@ -241,13 +240,13 @@
 						oncomplete="PF('dlgEliminarEnf').hide();" />
 
 					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-						icon="ui-icon-delete" ajax="false"
+						icon="ui-icon-delete"
 						actionListener="#{parBean.cancelar}"
 						oncomplete="PF('dlgEliminarEnf').hide();" />
 				</h:form>
 			</p:dialog>
 			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarSin"
-				showEffect="pop" closable="false" modal="true">
+				showEffect="pop" closable="false">
 				<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
 						icon="ui-icon-check" ajax="false"
@@ -260,7 +259,6 @@
 						oncomplete="PF('dlgEliminarSin').hide();" />
 				</h:form>
 			</p:dialog>
-
 		</pm:content>
 	</pm:page>
 
@@ -275,7 +273,7 @@
 			<h:form>
 				<pm:field>
 					<p:outputLabel for="selEnfermedad" value="Enfermedad: " />
-					<p:selectOneMenu id="selEnfermedad"
+					<p:selectOneMenu id="selEnfermedad" required="true"
 						value="#{parBean.enfermedadAdd.idEnfermedad}">
 						<f:selectItem itemLabel="Elija una enfermedad" />
 						<f:selectItems value="#{parBean.enfermedadesAll}" var="enf"
@@ -305,7 +303,7 @@
 			<h:form>
 				<pm:field>
 					<p:outputLabel for="selSintoma" value="Sintoma: " />
-					<p:selectOneMenu id="selSintoma"
+					<p:selectOneMenu id="selSintoma" required="true"
 						value="#{parBean.sintomaAdd.idSintoma}">
 						<f:selectItem itemLabel="Elija un sintoma" />
 						<f:selectItems value="#{parBean.sintomaAll}" var="sin"
@@ -316,7 +314,7 @@
 					<p:commandButton icon="ui-icon-check"
 						action="#{parBean.addSintoma}" ajax="false" value="Añadir"></p:commandButton>
 					<p:commandButton icon="ui-icon-delete"
-						action="#{parBean.backToDetalle}" immediate="true" ajax="false"
+						action="#{parBean.backToDetalle}" immediate="true"
 						value="Cancelar"></p:commandButton>
 				</p:panelGrid>
 			</h:form>

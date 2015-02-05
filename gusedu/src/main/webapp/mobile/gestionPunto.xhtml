@@ -21,11 +21,16 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>
-				<pm:field>
-					<p:commandButton icon="ui-icon-plus" action="#{puntoBean.nuevoPunto}" ajax="false" value="Agregar punto"></p:commandButton>
-				</pm:field>
-			</h:form>
+			<pm:field>
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{puntoBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaPunto')}"
+							listener="#{puntoBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+			</pm:field>
 			<h:form>
 				<p:dataTable emptyMessage="No hay puntos registrados"
 					id="tablaPunto" var="pun" value="#{puntoBean.puntos}"
@@ -65,15 +70,24 @@
 				</h:form>
 			</p:dialog>
 
+			<h:form style="text-align:center;">
+				<h:outputText value="&lt;br/&gt;" escape="false" />
+				<p:outputLabel value="¿No se encontraron resultados?" />
+				<pm:field>
+					<p:commandButton icon="ui-icon-plus"
+						action="#{puntoBean.nuevoPunto}" ajax="false"
+						value="Agregar punto"></p:commandButton>
+				</pm:field>
+			</h:form>
+
 		</pm:content>
 	</pm:page>
 
 	<pm:page id="gestionPunto">
 		<pm:header title="Gestion Punto">
 			<h:form>
-				<p:button outcome="pm:consultarPuntos"
-					value="Volver" icon="ui-icon-arrow-l"
-					styleClass="ui-btn-left ui-btn-inline" />
+				<p:button outcome="pm:consultarPuntos" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
@@ -104,7 +118,8 @@
 						action="#{puntoBean.actualizarPunto}" ajax="false"
 						value="Modificar"></p:commandButton>
 					<p:commandButton icon="ui-icon-delete"
-						action="#{puntoBean.backToConsultar}" ajax="false" value="Cancelar"></p:commandButton>
+						action="#{puntoBean.backToConsultar}" ajax="false"
+						value="Cancelar"></p:commandButton>
 				</p:panelGrid>
 			</h:form>
 		</pm:content>
@@ -167,10 +182,10 @@
 				</pm:field>
 				<p:panelGrid columns="2">
 					<p:commandButton icon="ui-icon-check"
-						action="#{puntoBean.añadirPunto}" ajax="false"
-						value="Añadir"></p:commandButton>
+						action="#{puntoBean.añadirPunto}" ajax="false" value="Añadir"></p:commandButton>
 					<p:commandButton icon="ui-icon-delete"
-						action="#{puntoBean.backToConsultar}" ajax="false" value="Cancelar"></p:commandButton>
+						action="#{puntoBean.backToConsultar}" ajax="false"
+						value="Cancelar"></p:commandButton>
 				</p:panelGrid>
 			</h:form>
 		</pm:content>

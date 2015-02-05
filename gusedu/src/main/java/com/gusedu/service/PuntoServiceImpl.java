@@ -91,5 +91,30 @@ public class PuntoServiceImpl implements PuntoService{
 		}
 		return result;
 	}
+
+	@Override
+	public List<Punto> getAllOrdenAlfabeticoAsc() {
+		List<Punto> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Punto p ORDER BY p.nombre ASC");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Punto> getAllOrdenAlfabeticoDesc() {
+		List<Punto> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Punto p ORDER BY p.nombre DESC");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+	
 	
 }
