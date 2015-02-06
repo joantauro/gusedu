@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Cliente;
 import com.gusedu.model.Terapia;
+import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.TerapiaService;
@@ -30,6 +31,7 @@ public class VisitaBean {
 	private List<Cliente> clientes;
 	private List<Visita> visitasPaciente;
 	private List<Terapia> terapiasDeVisita;
+	private List<TipoTerapia> tipoTerapias;
 	
 	private Cliente cliente;
 	private String query;
@@ -37,14 +39,17 @@ public class VisitaBean {
 	private Boolean esPresencial;
 	private Integer prioridad;		
 	
-	private Visita visita;
-	
+	private Visita visita;	
 	private Terapia terapia;
+	private TipoTerapia tipoTerapia;
+	
+	private Integer idTipoTerapia;
 
 	public VisitaBean() {
 		cliente = new Cliente();
 		visita = new Visita();
 		terapia = new Terapia();
+		tipoTerapia = new TipoTerapia();
 		query = "";
 		esPresencial = null;
 		prioridad = null;
@@ -56,6 +61,23 @@ public class VisitaBean {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public List<TipoTerapia> getTipoTerapias() {
+		tipoTerapias = terapiaService.getTipoTerapias();
+		return tipoTerapias;
+	}
+
+	public void setTipoTerapias(List<TipoTerapia> tipoTerapias) {
+		this.tipoTerapias = tipoTerapias;
+	}
+
+	public Integer getIdTipoTerapia() {
+		return idTipoTerapia;
+	}
+
+	public void setIdTipoTerapia(Integer idTipoTerapia) {
+		this.idTipoTerapia = idTipoTerapia;
 	}
 
 	public Boolean getEsPresencial() {
@@ -72,6 +94,14 @@ public class VisitaBean {
 
 	public void setVisitasPaciente(List<Visita> visitasPaciente) {
 		this.visitasPaciente = visitasPaciente;
+	}
+
+	public TipoTerapia getTipoTerapia() {
+		return tipoTerapia;
+	}
+
+	public void setTipoTerapia(TipoTerapia tipoTerapia) {
+		this.tipoTerapia = tipoTerapia;
 	}
 
 	public Integer getPrioridad() {
@@ -134,6 +164,8 @@ public class VisitaBean {
 
 	public String volver() {
 		query = "";
+		terapia = new Terapia();
+		visita = new Visita();
 		return "registrarVisita?faces-redirect=true";
 	}
 	
@@ -198,22 +230,51 @@ public class VisitaBean {
 	}
 
 	public String cargarVisitas(int idCliente) {
-		visitasPaciente = visitaService.getVisitasCliente(clienteService
-				.getClienteById(idCliente));
+		visitasPaciente = visitaService.getVisitasCliente(clienteService.getClienteById(idCliente));
 		return "consultarVisitas";
 	}
 
 	public String cargarVisitaEspecifica(int idVisita) {
-		// visitaSeleccionada = visitaService.getVisitaById(idVisita);
-		// terapiasDeVisita =
-		// terapiaService.terapiasPorVisita(visitaSeleccionada);
-		return "detalleVisita";
+		visita = visitaService.getVisitaById(idVisita);
+		terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+		return "detalleVisita?faces-redirect=true";
 	}
 
 	// Terapias
 
-	public String preAdd() {
+	public String preAdd() {		
+		terapia = new Terapia();		
+		terapia.setTerVisita(visita);
+		idTipoTerapia = null;
+		tipoTerapia = new TipoTerapia();
 		return "pm:nuevaTerapia";
+		
+	}
+	
+	public String addTerapia(){
+		tipoTerapia = terapiaService.tteById(idTipoTerapia);
+		terapia.setTerTipoTerapia(tipoTerapia);
+		terapia.setFechaRealizada(StaticUtil.getFechaActual());			
+		if(terapiaService.saveTerapia(terapia)){
+			tipoTerapia = new TipoTerapia();
+			terapia = new Terapia();
+			idTipoTerapia = null;
+			tipoTerapia = new TipoTerapia();
+			StaticUtil.correctMesage("Exito", "Se agregó correctamente la terapia");
+			StaticUtil.keepMessages();
+			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+			return "pm:gestionVisita";
+		}else{
+			StaticUtil.errorMessage("Error", "Hubo un error al agregar");
+			return null;	
+		}
+		
+	}
+
+	public String cancelar(){
+		tipoTerapia = new TipoTerapia();
+		terapia = new Terapia();
+		return "pm:gestionVisita";
 	}
 	
 	

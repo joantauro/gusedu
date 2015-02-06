@@ -12,14 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Terapia;
+import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 
 @Service
-public class TerapiaServiceImpl implements TerapiaService{
+public class TerapiaServiceImpl implements TerapiaService {
 
 	@PersistenceContext
 	EntityManager em;
-	
+
 	@Transactional
 	public boolean saveTerapia(Terapia terapia) {
 		boolean resultado = false;
@@ -43,7 +44,7 @@ public class TerapiaServiceImpl implements TerapiaService{
 			System.out.println("ERROR: " + e.getMessage());
 			resultado = false;
 		}
-		return resultado;		
+		return resultado;
 	}
 
 	@Transactional
@@ -64,13 +65,32 @@ public class TerapiaServiceImpl implements TerapiaService{
 	public List<Terapia> terapiasPorVisita(Visita visita) {
 		List<Terapia> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT t FROM Terapia t WHERE t.terVisita=:visita");
+			Query q = em
+					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita=:visita");
 			q.setParameter("visita", visita);
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<TipoTerapia> getTipoTerapias() {
+		List<TipoTerapia> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT t FROM TipoTerapia t");			
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@Transactional
+	public TipoTerapia tteById(Integer idTipoTerapia) {
+		return em.find(TipoTerapia.class, idTipoTerapia);
 	}
 
 }
