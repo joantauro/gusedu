@@ -1,6 +1,5 @@
 package com.gusedu.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 

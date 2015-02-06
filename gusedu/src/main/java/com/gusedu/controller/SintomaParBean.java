@@ -70,7 +70,7 @@ public class SintomaParBean {
 		return "pm:mostrarPares?transition=flip";
 	}		
 	
-	public String toEnfermedadPar(){
+	public String toSintomaPar(){
 		sintoma = new Sintoma();
 		return "pm:sintomaPar?transition=flip";
 	}

@@ -30,24 +30,21 @@
 			</pm:field>
 			<h:form>
 				<p:dataTable id="tablaPac" var="pac"
-					value="#{pacienteBean.clientes}" rowKey="#{pac.idCliente}"
-					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+					value="#{pacienteBean.clientes}" paginator="true" rows="5">
 
-					<p:column headerText="DNI" sortBy="#{pac.cliPersona.dni}">
+					<p:column headerText="DNI">
 						<h:outputText value="#{pac.cliPersona.dni}" />
 					</p:column>
 
-					<p:column headerText="Ap. Paterno"
-						sortBy="#{pac.cliPersona.apellidoPaterno}">
+					<p:column headerText="Ap. Paterno" >						
 						<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
 					</p:column>
 
-					<p:column headerText="Ap. Materno"
-						sortBy="#{pac.cliPersona.apellidoMaterno}">
+					<p:column headerText="Ap. Materno">
 						<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
 					</p:column>
 
-					<p:column headerText="Nombre" sortBy="#{pac.cliPersona.nombres}">
+					<p:column headerText="Nombre">
 						<h:outputText value="#{pac.cliPersona.nombres}" />
 					</p:column>
 

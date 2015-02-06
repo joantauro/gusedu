@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -14,7 +11,6 @@ import com.gusedu.model.Cliente;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;
-import com.gusedu.service.PersonaService;
 import com.gusedu.service.TerapiaService;
 import com.gusedu.service.VisitaService;
 import com.gusedu.util.StaticUtil;
@@ -23,59 +19,43 @@ import com.gusedu.util.StaticUtil;
 public class VisitaBean {
 
 	@Autowired
-	PersonaService personaService;
-
-	@Autowired
 	ClienteService clienteService;
 
 	@Autowired
 	VisitaService visitaService;
 
 	@Autowired
-	TerapiaService terapiaService;	
-	
+	TerapiaService terapiaService;
+
 	private List<Cliente> clientes;
+	private List<Visita> visitasPaciente;
+	private List<Terapia> terapiasDeVisita;
+	
+	private Cliente cliente;
 	private String query;
 
-	private String busquedaDni;
-	private Cliente busquedaCliente;
-
 	private Boolean esPresencial;
-	private Integer prioridad;
-
-	private List<Visita> visitasPaciente;
+	private Integer prioridad;		
+	
 	private Visita visita;
-
-	private Visita visitaSeleccionada;
-	private List<Terapia> terapiasDeVisita;
+	
+	private Terapia terapia;
 
 	public VisitaBean() {
-		busquedaCliente = new Cliente();
-		busquedaDni = "";
+		cliente = new Cliente();
 		visita = new Visita();
-		visitaSeleccionada = new Visita();
+		terapia = new Terapia();
+		query = "";
+		esPresencial = null;
+		prioridad = null;
 	}
 
-	public String getBusquedaDni() {
-		return busquedaDni;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setBusquedaDni(String busquedaDni) {
-		this.busquedaDni = busquedaDni;
-	}
-
-	public Cliente getBusquedaCliente() {
-		return busquedaCliente;
-	}
-
-	public void setBusquedaCliente(Cliente busquedaCliente) {
-		this.busquedaCliente = busquedaCliente;
-	}
-
-	public String volverRegistroVisita() {
-		busquedaDni = "";
-		busquedaCliente = new Cliente();
-		return "pm:registroVisita?transition=flip";
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Boolean getEsPresencial() {
@@ -110,12 +90,12 @@ public class VisitaBean {
 		this.visita = visita;
 	}
 
-	public Visita getVisitaSeleccionada() {
-		return visitaSeleccionada;
+	public Terapia getTerapia() {
+		return terapia;
 	}
 
-	public void setVisitaSeleccionada(Visita visitaSeleccionada) {
-		this.visitaSeleccionada = visitaSeleccionada;
+	public void setTerapia(Terapia terapia) {
+		this.terapia = terapia;
 	}
 
 	public List<Terapia> getTerapiasDeVisita() {
@@ -134,6 +114,11 @@ public class VisitaBean {
 		this.query = query;
 	}
 
+	public String volverRegistroVisita() {
+		cliente = new Cliente();
+		return "pm:registroVisita?transition=flip";
+	}
+
 	public List<Cliente> getClientes() {
 		if (query != null) {
 			if (!query.isEmpty()) {
@@ -148,10 +133,26 @@ public class VisitaBean {
 	}
 
 	public String volver() {
-		visitaSeleccionada = new Visita();
+		query = "";
+		return "registrarVisita?faces-redirect=true";
+	}
+	
+	public String backToRegistrarVisita(){
+		cliente = new Cliente();
+		visita = new Visita();
+		terapia = new Terapia();
+		esPresencial = null;
+		prioridad = null;
+		return "registrarVisita?faces-redirect=true";
+	}
+
+	public String backToIndex() {
+		cliente = new Cliente();
+		terapia = new Terapia();
 		visita = new Visita();
 		query = "";
-		busquedaCliente = new Cliente();
+		esPresencial = null;
+		prioridad = null;
 		return "index?faces-redirect=true";
 	}
 
@@ -174,8 +175,8 @@ public class VisitaBean {
 	}
 
 	public String cargarPaciente(int idPersona) {
-		busquedaCliente = clienteService.getClienteByIdPersona(idPersona);
-		visitasPaciente = visitaService.getVisitasCliente(busquedaCliente);
+		cliente = clienteService.getClienteByIdPersona(idPersona);
+		visitasPaciente = visitaService.getVisitasCliente(cliente);
 		return "pm:registroVisita2?transition=flip";
 	}
 
@@ -183,18 +184,13 @@ public class VisitaBean {
 		visita.setEsPresencial(esPresencial);
 		visita.setPrioridad(prioridad);
 		visita.setEstado(1);
-		visita.setVisCliente(busquedaCliente);
+		visita.setVisCliente(cliente);
 		Date fechaActual = StaticUtil.getFechaActual();
 		visita.setFechaCreacion(fechaActual);
 		if (visitaService.saveVisita(visita)) {
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
-			visitaSeleccionada = visita;
-			visita = new Visita();
-			StaticUtil.correctMesage("Éxito",
-					"Se ha registrado correctamente la visita");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			context.getFlash().setKeepMessages(true);
+			StaticUtil.correctMesage("Éxito","Se ha registrado correctamente la visita");
+			StaticUtil.keepMessages();
 			return "gestionVisita?faces-redirect=true";
 		} else {
 			return null;
@@ -204,19 +200,22 @@ public class VisitaBean {
 	public String cargarVisitas(int idCliente) {
 		visitasPaciente = visitaService.getVisitasCliente(clienteService
 				.getClienteById(idCliente));
-		return "consultarVisitas?faces-redirect=true";
+		return "consultarVisitas";
 	}
 
 	public String cargarVisitaEspecifica(int idVisita) {
-		visitaSeleccionada = visitaService.getVisitaById(idVisita);
-		terapiasDeVisita = terapiaService.terapiasPorVisita(visitaSeleccionada);
-		return "detalleVisita?faces-redirect=true";
+		// visitaSeleccionada = visitaService.getVisitaById(idVisita);
+		// terapiasDeVisita =
+		// terapiaService.terapiasPorVisita(visitaSeleccionada);
+		return "detalleVisita";
 	}
-	
+
 	// Terapias
 
 	public String preAdd() {
 		return "pm:nuevaTerapia";
 	}
+	
+	
 
 }

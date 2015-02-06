@@ -20,12 +20,12 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>			
+			<h:form>
 				<pm:field>
 					<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
 					<p:calendar required="true"
-						value="#{pacienteBean.cliente.cliPersona.fechaNacimiento}" id="perFecNac"
-						pattern="dd/MM/yyyy" />
+						value="#{pacienteBean.cliente.cliPersona.fechaNacimiento}"
+						id="perFecNac" pattern="dd/MM/yyyy" />
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perDni" value="Dni: " />
@@ -74,20 +74,22 @@
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
-					<p:inputText required="true" type="tel" 
-						value="#{pacienteBean.cliente.cliPersona.telefonoFijo}" id="perTelFijo" />										
+					<p:inputText required="true" type="tel"
+						value="#{pacienteBean.cliente.cliPersona.telefonoFijo}"
+						id="perTelFijo" />
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
-					<p:inputText required="true" type="tel" 
-						value="#{pacienteBean.cliente.cliPersona.telefonoMovil}" id="perTelMovil" />					
+					<p:inputText required="true" type="tel"
+						value="#{pacienteBean.cliente.cliPersona.telefonoMovil}"
+						id="perTelMovil" />
 				</pm:field>
 				<p:panelGrid columns="2">
-					<p:commandButton action="#{pacienteBean.editar}"
-						value="Actualizar" icon="ui-icon-check" />
+					<p:commandButton action="#{pacienteBean.editar}" value="Actualizar"
+						icon="ui-icon-check" />
 					<p:commandButton value="Cancelar" immediate="true"
-						action="#{pacienteBean.cancelar}"
-						ajax="false" icon="ui-icon-delete" />
+						action="#{pacienteBean.cancelar}" ajax="false"
+						icon="ui-icon-delete" />
 				</p:panelGrid>
 			</h:form>
 		</pm:content>

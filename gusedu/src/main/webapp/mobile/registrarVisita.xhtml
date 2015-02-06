@@ -16,7 +16,7 @@
 	<pm:page id="registroVisita">
 		<pm:header title="Nueva visita">
 			<h:form>
-				<p:commandButton action="#{visitaBean.volver}" value="Volver"
+				<p:commandButton action="#{visitaBean.backToIndex}" value="Volver"
 					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
@@ -97,7 +97,7 @@
 						<p:panelGrid columns="2">
 							<p:commandButton value="Registrar"
 								action="#{visitaBean.registrarVisita}" />
-							<p:commandButton value="Cancelar" action="#{visitaBean.volver}" />
+							<p:commandButton value="Cancelar" action="#{visitaBean.backToIndex}" />
 						</p:panelGrid>
 					</pm:field>
 				</p:panel>
@@ -107,29 +107,27 @@
 					collapsed="true">
 					<p:panelGrid columns="2">
 						<p:outputLabel for="perNombre" value="Nombre: " />
-						<p:outputLabel
-							value="#{visitaBean.busquedaCliente.cliPersona.nombres}"
+						<p:outputLabel value="#{visitaBean.cliente.cliPersona.nombres}"
 							id="perNombre" />
 
 						<p:outputLabel for="perApPaterno" value="Apellido Paterno: " />
 						<p:outputLabel
-							value="#{visitaBean.busquedaCliente.cliPersona.apellidoPaterno}"
+							value="#{visitaBean.cliente.cliPersona.apellidoPaterno}"
 							id="perApPaterno" />
 
 						<p:outputLabel for="perApMaterno" value="Apellido Materno: " />
 						<p:outputLabel
-							value="#{visitaBean.busquedaCliente.cliPersona.apellidoMaterno}"
+							value="#{visitaBean.cliente.cliPersona.apellidoMaterno}"
 							id="perApMaterno" />
 
 
 						<p:outputLabel for="perCorreo" value="Correo: " />
-						<p:outputLabel
-							value="#{visitaBean.busquedaCliente.cliPersona.correo}"
+						<p:outputLabel value="#{visitaBean.cliente.cliPersona.correo}"
 							id="perCorreo" />
 
 						<p:outputLabel for="perTelefono" value="Celular: " />
 						<p:outputLabel
-							value="#{visitaBean.busquedaCliente.cliPersona.telefonoMovil}"
+							value="#{visitaBean.cliente.cliPersona.telefonoMovil}"
 							id="perTelefono" />
 					</p:panelGrid>
 				</p:panel>
@@ -143,14 +141,19 @@
 						rowKey="#{vis.idCliente}" paginator="true" rows="5"
 						tableStyleClass="ui-table-columntoggle">
 
-						<p:column headerText="Fecha: " sortBy="#{vis.fechaCreacion}">
-							<h:outputText value="#{vis.fechaCreacion}" />
+						<p:column headerText="Fecha: ">
+							<h:outputText value="#{vis.fechaCreacion}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
 						</p:column>
-						<p:column headerText="Estado: " sortBy="#{vis.estado}">
-							<h:outputText value="#{vis.estado}" />
+						<p:column headerText="Estado: ">
+							<h:outputText value="No realizada" rendered="#{vis.estado lt 1}" />		
+							<h:outputText value="Realizada" rendered="#{vis.estado gt 0}" />																				
 						</p:column>
-						<p:column headerText="Prioridad " sortBy="#{vis.prioridad}">
-							<h:outputText value="#{vis.prioridad}" />
+						<p:column headerText="Prioridad ">
+							<h:outputText value="Baja" rendered="#{vis.prioridad eq 1}" />		
+							<h:outputText value="Media" rendered="#{vis.prioridad eq 2}" />
+							<h:outputText value="Alta" rendered="#{vis.prioridad eq 3}" />
 						</p:column>
 						<p:column headerText="Detalle">
 							<p:commandButton

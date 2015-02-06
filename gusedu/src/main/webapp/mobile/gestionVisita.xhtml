@@ -16,8 +16,9 @@
 	<pm:page id="gestionVisita">
 		<pm:header title="Gestion Visita">
 			<h:form>
-				<p:commandButton action="#{visitaBean.volver}" value="Volver"
-					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+				<p:commandButton action="#{visitaBean.backToRegistrarVisita}"
+					value="Volver" icon="ui-icon-arrow-l"
+					styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
@@ -74,9 +75,18 @@
 		</pm:header>
 		<pm:content>
 			<pm:field>
+				<p:outputLabel for="iFecProxima" value="Fecha Proxima: " />
+				<p:calendar id="iFecProxima" value="#{visitaBean.terapia.fechaProxima}"  />							
+			</pm:field>
+			<pm:field>
+				<p:outputLabel for="iDescripcion" value="Descripcion:" />
+				<p:inputTextarea id="iDescripcion" value="#{visitaBean.terapia.descripcion}" />
+				<p:outputLabel for="iDescripcion" value="(Opcional)" />
+			</pm:field>
+			<pm:field>
 				
-			</pm:field>		
-		
+			</pm:field>
+
 		</pm:content>
 	</pm:page>
 </h:body>
