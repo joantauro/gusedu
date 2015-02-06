@@ -49,6 +49,9 @@ public class Terapia {
 	@OneToMany(mappedBy="txpTerapia", orphanRemoval=true)
 	private Collection<TerapiaPar> terTerapiaPares;		
 	
+	@OneToMany(mappedBy="extTerapia")
+	private Collection<EnfermedadTerapia> terEnfermedadTerapias;	
+	
 	public Diagnostico getTerDiagnostico() {
 		return terDiagnostico;
 	}
@@ -127,6 +130,15 @@ public class Terapia {
 
 	public void setTerSintomaTerapias(Collection<SintomaTerapia> terSintomaTerapias) {
 		this.terSintomaTerapias = terSintomaTerapias;
+	}
+
+	public Collection<EnfermedadTerapia> getTerEnfermedadTerapias() {
+		return terEnfermedadTerapias;
+	}
+
+	public void setTerEnfermedadTerapias(
+			Collection<EnfermedadTerapia> terEnfermedadTerapias) {
+		this.terEnfermedadTerapias = terEnfermedadTerapias;
 	}
 
 	@Override

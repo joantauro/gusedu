@@ -24,6 +24,9 @@ public class Enfermedad {
 
 	@OneToMany(mappedBy = "expEnfermedad", orphanRemoval = true)
 	private Collection<EnfermedadPar> enfExp;
+	
+	@OneToMany(mappedBy="extEnfermedad", orphanRemoval=true)
+	private Collection<EnfermedadTerapia> enfEnfermedadTerapias;
 
 	public Integer getIdEnfermedad() {
 		return idEnfermedad;
@@ -47,6 +50,15 @@ public class Enfermedad {
 
 	public void setEnfExp(Collection<EnfermedadPar> enfExp) {
 		this.enfExp = enfExp;
+	}
+
+	public Collection<EnfermedadTerapia> getEnfEnfermedadTerapias() {
+		return enfEnfermedadTerapias;
+	}
+
+	public void setEnfEnfermedadTerapias(
+			Collection<EnfermedadTerapia> enfEnfermedadTerapias) {
+		this.enfEnfermedadTerapias = enfEnfermedadTerapias;
 	}
 
 }
