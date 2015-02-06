@@ -17,29 +17,31 @@ import javax.persistence.Table;
 @Table(name = "VISITA")
 public class Visita {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "VIS_CODIGO")
-    private Integer idVisita;
-	
-    @Column(nullable = true, name = "VIS_PRESENCIAL")
-    private Boolean esPresencial;
-    
-    @Column(nullable = true, name = "VIS_ESTADO")
-    private Integer estado;
-    
-    @Column(nullable = true, name = "VIS_PRIORIDAD")
-    private Integer prioridad;
-    
-    @Column(nullable = true, name = "VIS_FEC_CREACION")
-    private Date fechaCreacion;
-    
-    @Column(nullable = true, name = "VIS_USU_CREACION")
-    private Date usuarioCreacion;
-    
-    @ManyToOne @JoinColumn(name="CLI_CODIGO", nullable=false)
-    private Cliente visCliente;	
-	
-    @OneToMany(mappedBy="terVisita")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, name = "VIS_CODIGO")
+	private Integer idVisita;
+
+	@Column(nullable = true, name = "VIS_PRESENCIAL")
+	private Boolean esPresencial;
+
+	@Column(nullable = true, name = "VIS_ESTADO")
+	private Integer estado;
+
+	@Column(nullable = true, name = "VIS_PRIORIDAD")
+	private Integer prioridad;
+
+	@Column(nullable = true, name = "VIS_FEC_CREACION")
+	private Date fechaCreacion;
+
+	@Column(nullable = true, name = "VIS_USU_CREACION")
+	private Date usuarioCreacion;
+
+	@ManyToOne
+	@JoinColumn(name = "CLI_CODIGO", nullable = false)
+	private Cliente visCliente;
+
+	@OneToMany(mappedBy = "terVisita", orphanRemoval = true)
 	private Collection<Terapia> visTerapias;
 
 	public Integer getIdVisita() {
@@ -97,7 +99,7 @@ public class Visita {
 	public void setVisCliente(Cliente visCliente) {
 		this.visCliente = visCliente;
 	}
-	
+
 	public Collection<Terapia> getVisTerapias() {
 		return visTerapias;
 	}
@@ -140,5 +142,5 @@ public class Visita {
 				+ ", usuarioCreacion=" + usuarioCreacion + ", visCliente="
 				+ visCliente + ", visTerapias=" + visTerapias + "]";
 	}
-       
+
 }
