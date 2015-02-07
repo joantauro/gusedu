@@ -2,6 +2,8 @@ package com.gusedu.service;
 
 import java.util.List;
 
+import com.gusedu.model.EnfermedadTerapia;
+import com.gusedu.model.SintomaTerapia;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
@@ -19,5 +21,14 @@ public interface TerapiaService {
 	public List<TipoTerapia> getTipoTerapias();
 	
 	public TipoTerapia tteById(Integer idTipoTerapia);
+	
+	public Terapia terapiaById(Integer idTerapia);
+	
+	//Core
+	
+	public List<EnfermedadTerapia> getEnfermedadesByTerapia(Terapia terapia);
+	
+	public List<SintomaTerapia> getSintomasByTerapia(Terapia terapia);
+	
 	
 }

@@ -58,7 +58,7 @@
 								<h:outputText value="#{ter.usuarioCreacion}" />
 							</p:column>
 							<p:column headerText="Opciones">
-								<p:commandButton icon="ui-icon-eye"  />
+								<p:commandButton icon="ui-icon-eye" action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
 							</p:column>
 						</p:dataTable>
 					</p:tab>

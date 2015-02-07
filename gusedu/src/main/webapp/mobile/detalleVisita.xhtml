@@ -37,10 +37,14 @@
 							tableStyleClass="ui-table-columntoggle">
 
 							<p:column headerText="Fec. Relizada">
-								<h:outputText value="#{ter.fechaRealizada}" />
+								<h:outputText value="#{ter.fechaRealizada}">
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+								</h:outputText>
 							</p:column>
 							<p:column headerText="Fec. Proxima">
-								<h:outputText value="#{ter.fechaProxima}" />
+								<h:outputText value="#{ter.fechaProxima}">
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+								</h:outputText>
 							</p:column>
 							<p:column headerText="Tipo">
 								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
@@ -48,8 +52,9 @@
 							<p:column headerText="Terapeuta">
 								<h:outputText value="#{ter.usuarioCreacion}" />
 							</p:column>
-							<p:column headerText="Sintomas">
-								<p:commandButton icon="ui-icon-eye" />
+							<p:column headerText="Opciones">
+								<p:commandButton icon="ui-icon-eye"
+									action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
 							</p:column>
 						</p:dataTable>
 					</p:tab>

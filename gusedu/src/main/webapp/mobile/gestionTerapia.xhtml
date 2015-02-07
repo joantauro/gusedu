@@ -17,8 +17,40 @@
 		<pm:header title="Gestion Terapia">
 		</pm:header>
 		<pm:content>
-			
+			<p:tabView id="tab" dynamic="true">
+				<p:tab title="1) Enfermedades">
+					<h:form id="formEnfermedad">
+						<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
+						<pm:field>
+							<p:autoComplete id="autoEnfermedad" queryDelay="100"
+								value="#{terapiaBean.enfermedad}" required="true"
+								completeMethod="#{terapiaBean.autoCompletarEnfermedad}"
+								var="enf" itemLabel="#{enf.nombre}" itemValue="#{enf}"
+								converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
+							</p:autoComplete>
+						</pm:field>
+						<p:commandButton id="btnAgregar" value="Agregar"
+							actionListener="#{terapiaBean.addEnfermedad}"></p:commandButton>
+					</h:form>
+					<h:form id="formTablaEnfermedad">
+						<p:dataTable emptyMessage="No hay enfermedades en la terapia"
+							id="tablaEnf" var="ext" value="#{terapiaBean.terEnfermedades}"
+							paginator="true" rows="3">
+							<p:column headerText="Nombre">
+								<p:outputLabel value="#{ext.extEnfermedad.nombre}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+				<p:tab title="2) Sintomas">
+					<h:outputText value="Francis Ford Coppola's ..." />
+				</p:tab>
+				<p:tab title="3) Continuar">
+					<h:outputText value="After a break of more than 15 years..." />
+				</p:tab>
+			</p:tabView>
 		</pm:content>
 	</pm:page>
 </h:body>
 </html>
+

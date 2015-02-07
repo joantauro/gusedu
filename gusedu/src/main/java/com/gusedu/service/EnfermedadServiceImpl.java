@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadPar;
+import com.gusedu.model.EnfermedadTerapia;
 import com.gusedu.model.Par;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaPar;
@@ -185,5 +186,31 @@ public class EnfermedadServiceImpl implements EnfermedadService {
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;
+	}
+
+	@Transactional
+	public boolean saveEnfermedadTerapia(EnfermedadTerapia enfermedadTerapia) {
+		boolean resultado = false;
+		try {
+			em.persist(enfermedadTerapia);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@Transactional
+	public boolean deleteEnfermedadTerapia(EnfermedadTerapia enfermedadTerapia) {
+		boolean resultado = false;
+		try {
+			em.remove(em.getReference(EnfermedadTerapia.class, enfermedadTerapia.getIdEnfermedad()));
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
 	}
 }

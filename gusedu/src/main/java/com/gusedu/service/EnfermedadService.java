@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadPar;
+import com.gusedu.model.EnfermedadTerapia;
 import com.gusedu.model.Par;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaPar;
@@ -39,6 +40,13 @@ public interface EnfermedadService {
 	public boolean deleteSintomaPar(SintomaPar sintomaPar);
 	
 	public SintomaPar getByParameters(Sintoma sintoma, Par par);
+	
+	//EnfermedadTerapia
+	
+	public boolean saveEnfermedadTerapia(EnfermedadTerapia enfermedadTerapia);
+
+	public boolean deleteEnfermedadTerapia(EnfermedadTerapia enfermedadTerapia);
+
 	
 	
 	

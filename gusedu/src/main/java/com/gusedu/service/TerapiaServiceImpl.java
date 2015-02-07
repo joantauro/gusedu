@@ -11,6 +11,8 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gusedu.model.EnfermedadTerapia;
+import com.gusedu.model.SintomaTerapia;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
@@ -91,6 +93,39 @@ public class TerapiaServiceImpl implements TerapiaService {
 	@Transactional
 	public TipoTerapia tteById(Integer idTipoTerapia) {
 		return em.find(TipoTerapia.class, idTipoTerapia);
+	}
+
+	@Transactional
+	public Terapia terapiaById(Integer idTerapia) {
+		return em.find(Terapia.class, idTerapia);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<EnfermedadTerapia> getEnfermedadesByTerapia(Terapia terapia) {
+		List<EnfermedadTerapia> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT et FROM EnfermedadTerapia et WHERE et.extTerapia=:terapia");
+			q.setParameter("terapia", terapia);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<SintomaTerapia> getSintomasByTerapia(Terapia terapia) {
+		List<SintomaTerapia> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT st FROM SintomaTerapia st WHERE st.sxtTerapia=:terapia");
+			q.setParameter("terapia", terapia);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
 	}
 
 }

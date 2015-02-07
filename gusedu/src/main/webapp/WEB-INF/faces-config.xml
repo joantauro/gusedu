@@ -65,5 +65,10 @@
 		<managed-bean-class>com.gusedu.controller.SintomaParBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>terapiaBean</managed-bean-name>
+		<managed-bean-class>com.gusedu.controller.TerapiaBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 </faces-config>

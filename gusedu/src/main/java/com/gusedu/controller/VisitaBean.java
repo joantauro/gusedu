@@ -275,8 +275,6 @@ public class VisitaBean {
 		tipoTerapia = new TipoTerapia();
 		terapia = new Terapia();
 		return "pm:gestionVisita";
-	}
+	}	
 	
-	
-
 }
