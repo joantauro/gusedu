@@ -17,13 +17,14 @@
 		<pm:header title="Gestion Terapia">
 			<p:button outcome="gestionVisita" value="Volver"
 				icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			<h:form>
+				<p:commandButton value="Continuar" icon="ui-icon-arrow-r"
+					iconPos="right" styleClass="ui-btn-right ui-btn-inline" />
+			</h:form>
 		</pm:header>
 		<pm:content>
 			<p:tabView id="tab" cache="false" activeIndex="#{terapiaBean.index}">
-				<p:tab title="1) Datos generales">
-
-				</p:tab>
-				<p:tab title="2) Enfermedades">
+				<p:tab title="Enfermedades">
 					<h:form id="formEnfermedad">
 						<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
 						<pm:field>
@@ -47,7 +48,7 @@
 						</p:dataTable>
 					</h:form>
 				</p:tab>
-				<p:tab title="3) Sintomas">
+				<p:tab title="Sintomas">
 					<h:form id="formSintoma">
 						<p:outputLabel value="Agregar sintoma" for="autoSintoma"></p:outputLabel>
 						<pm:field>
@@ -72,6 +73,9 @@
 							paginator="true" rows="3">
 							<p:column headerText="Nombre">
 								<p:outputLabel value="#{sxt.sxtSintoma.descripcion}" />
+							</p:column>
+							<p:column headerText="Dolor">
+								<p:outputLabel value="#{sxt.dolor}" />
 							</p:column>
 						</p:dataTable>
 					</h:form>

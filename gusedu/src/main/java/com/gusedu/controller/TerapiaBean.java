@@ -130,7 +130,7 @@ public class TerapiaBean {
 			if(enfermedadService.saveEnfermedadTerapia(enfermedadTerapia)){
 				StaticUtil.correctMesage("Éxito", "Se agregó correctamente la enfermedad");	
 				enfermedad = new Enfermedad();
-				index = 1;
+				index = 0;
 				return "gestionTerapia?faces-redirect=true";
 			}else{
 				StaticUtil.errorMessage("Error", "Hubo un error al guardar la enfermedad");
@@ -152,7 +152,7 @@ public class TerapiaBean {
 				StaticUtil.correctMesage("Éxito", "Se agregó correctamente el sintoma");	
 				sintoma = new Sintoma();
 				sliderDolor = 0;
-				index = 2;
+				index = 1;
 				return "gestionTerapia?faces-redirect=true";
 			}else{
 				StaticUtil.errorMessage("Error", "Hubo un error al guardar el sintoma");
