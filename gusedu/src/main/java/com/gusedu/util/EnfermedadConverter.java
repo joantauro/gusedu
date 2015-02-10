@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gusedu.model.Enfermedad;
-import com.gusedu.model.Punto;
 import com.gusedu.service.EnfermedadService;
 
 @Service

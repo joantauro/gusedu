@@ -21,40 +21,39 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-
-			<pm:field>
-				<h:form id="formBusqueda">
-					<p:outputLabel value="Filtrar: " for="inpQuery" />
-					<p:inputText value="#{parBean.query}" id="inpQuery">
-						<p:ajax event="keyup" update=":#{p:component('tablaPar')}"
-							listener="#{parBean.filtrarBusqueda}">
-						</p:ajax> 
-					</p:inputText>
-				</h:form>
-			</pm:field>
-
-			<h:form>
+			<p:panel toggleable="true" header="Filtros">
 				<pm:field>
-					<p:commandButton value="Asc. Punto 1"
-						update=":#{p:component('tablaPar')}"
-						actionListener="#{parBean.orderAscP1}" icon="ui-icon-arrow-u"
-						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
-					<p:commandButton value="Asc. Punto 2"
-						update=":#{p:component('tablaPar')}"
-						actionListener="#{parBean.orderAscP2}" icon="ui-icon-arrow-u"
-						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
-					<p:commandButton value="Goiz"
-						update=":#{p:component('tablaPar')}"
-						actionListener="#{parBean.orderGoiz}" icon="ui-icon-tag"
-						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					<h:form id="formBusqueda">
+						<p:outputLabel value="Filtrar: " for="inpQuery" />
+						<p:inputText value="#{parBean.query}" id="inpQuery">
+							<p:ajax event="keyup" update=":#{p:component('tablaPar')}"
+								listener="#{parBean.filtrarBusqueda}">
+							</p:ajax>
+						</p:inputText>
+					</h:form>
 				</pm:field>
-			</h:form>
 
-
+				<h:form>
+					<pm:field>
+						<p:commandButton value="Asc. Punto 1"
+							update=":#{p:component('tablaPar')}"
+							actionListener="#{parBean.orderAscP1}" icon="ui-icon-arrow-u"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Asc. Punto 2"
+							update=":#{p:component('tablaPar')}"
+							actionListener="#{parBean.orderAscP2}" icon="ui-icon-arrow-u"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Goiz" update=":#{p:component('tablaPar')}"
+							actionListener="#{parBean.orderGoiz}" icon="ui-icon-tag"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					</pm:field>
+				</h:form>
+			</p:panel>
+			<h:outputText value="&lt;br/&gt;" escape="false" />
 			<h:form>
 				<p:dataTable emptyMessage="No hay pares registrados" id="tablaPar"
 					var="par" value="#{parBean.pares}" rowKey="#{par.idPar}"
-					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+					paginator="true" rows="8" tableStyleClass="ui-table-columntoggle">
 					<p:column headerText="Punto 1">
 						<p:outputLabel value="#{par.parPunto1.nombre}" />
 					</p:column>

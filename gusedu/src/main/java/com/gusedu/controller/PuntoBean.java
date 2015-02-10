@@ -79,7 +79,7 @@ public class PuntoBean {
 
 	public String backToConsultar() {
 		punto = new Punto();
-		return "pm:consultarPuntos?transition=flip";
+		return "gestionPunto?faces-redirect=true";
 	}
 
 	public void cancelar() {
@@ -95,20 +95,13 @@ public class PuntoBean {
 	}
 
 	public String actualizarPunto() {
-		if (esRepetido()) {
-			StaticUtil
-					.errorMessage("Error", "Hubo un error al añadir el punto");
-			return null;
-		}
 		if (puntoService.updatePunto(punto)) {
 			punto = new Punto();
-			StaticUtil.correctMesage("Éxito",
-					"Se ha actualizado correctamente el punto");
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el punto");
 			StaticUtil.keepMessages();
 			return "pm:consultarPuntos?transition=flip";
 		} else {
-			StaticUtil.errorMessage("Error",
-					"Hubo un error al actualizar los datos del punto");
+			StaticUtil.errorMessage("Error", "Hubo un error al actualizar los datos del punto");
 			return null;
 		}
 	}
@@ -119,14 +112,12 @@ public class PuntoBean {
 			return null;
 		}
 		if (puntoService.savePunto(punto)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha añadido correctamente el punto");
-			StaticUtil.keepMessages();
 			punto = new Punto();
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el punto");
+			StaticUtil.keepMessages();			
 			return "pm:consultarPuntos?transition=flip";
 		} else {
-			StaticUtil
-					.errorMessage("Error", "Hubo un error al añadir el punto");
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
 			return null;
 		}
 	}
@@ -144,7 +135,7 @@ public class PuntoBean {
 			}
 		}
 		return false;
-	}
+	}	
 
 	public void filtrarBusqueda() {
 		puntos = puntoService.getAllPuntos();

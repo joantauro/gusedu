@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Sintoma;
+import com.gusedu.model.SintomaTerapia;
 
 @Service
 public class SintomaServiceImpl implements SintomaService{
@@ -88,6 +89,19 @@ public class SintomaServiceImpl implements SintomaService{
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;				
+	}
+
+	@Transactional
+	public boolean saveSintomaTerapia(SintomaTerapia sintomaTerapia) {
+		boolean resultado = false;
+		try {
+			em.persist(sintomaTerapia);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
 	}
 
 }

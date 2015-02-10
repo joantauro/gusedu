@@ -306,17 +306,15 @@ public class ParBean {
 		toAdd.setExpEnfermedad(enfermedadAdd);
 		toAdd.setExpPar(parSeleccionado);
 		if (enfermedadService.saveEnfermedadPar(toAdd)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha añadido correctamente la enfermedad");
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente la enfermedad");
 			StaticUtil.keepMessages();
 			enfermedadAdd = new Enfermedad();
 			enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 			sintomasPar = parService.getSintomas(parSeleccionado);
 			return "pm:detallePar";
 		} else {
-			StaticUtil
-					.correctMesage("Error", "No se pudo añadir la enfermedad");
-			return "pm:nuevoSintoma";
+			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedad");
+			return null;
 		}
 	}
 
@@ -325,10 +323,8 @@ public class ParBean {
 		toAdd.setSxpPar(parSeleccionado);
 		toAdd.setSxpSintoma(sintomaAdd);
 		if (enfermedadService.saveSintomaPar(toAdd)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha añadido correctamente el sintoma");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el sintoma");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return backToDetalle();
 		} else {
@@ -392,10 +388,9 @@ public class ParBean {
 		Par newPar = parService.parByPuntos(punto1, punto2, grupoSeleccionado);
 		if (newPar != null) {
 			StaticUtil.errorMessage("Error", "El par ya existe");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			context.getFlash().setKeepMessages(true);
-			return "pm:nuevoPar";
+			return null;
 		}
 		parService.updatePar(par);
 		par = new Par();

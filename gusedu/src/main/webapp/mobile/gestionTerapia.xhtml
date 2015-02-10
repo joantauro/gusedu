@@ -15,10 +15,17 @@
 	<p:growl showDetail="true" autoUpdate="true" />
 	<pm:page id="gestionTerapia">
 		<pm:header title="Gestion Terapia">
+			<p:button outcome="gestionVisita" value="Volver"
+				icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 		</pm:header>
 		<pm:content>
-			<p:tabView id="tab" dynamic="true">
-				<p:tab title="1) Enfermedades">
+			<p:tabView id="tab" cache="false" activeIndex="#{terapiaBean.index}">
+				<p:tab title="1) Datos generales">
+					
+					
+					
+				</p:tab>
+				<p:tab title="2) Enfermedades">
 					<h:form id="formEnfermedad">
 						<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
 						<pm:field>
@@ -29,8 +36,8 @@
 								converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
 							</p:autoComplete>
 						</pm:field>
-						<p:commandButton id="btnAgregar" value="Agregar"
-							actionListener="#{terapiaBean.addEnfermedad}"></p:commandButton>
+						<p:commandButton id="btnAgregar" value="Agregar" ajax="false"
+							action="#{terapiaBean.addEnfermedad}"></p:commandButton>
 					</h:form>
 					<h:form id="formTablaEnfermedad">
 						<p:dataTable emptyMessage="No hay enfermedades en la terapia"
@@ -42,11 +49,34 @@
 						</p:dataTable>
 					</h:form>
 				</p:tab>
-				<p:tab title="2) Sintomas">
-					<h:outputText value="Francis Ford Coppola's ..." />
-				</p:tab>
-				<p:tab title="3) Continuar">
-					<h:outputText value="After a break of more than 15 years..." />
+				<p:tab title="3) Sintomas">
+					<h:form id="formSintoma">
+						<p:outputLabel value="Agregar sintoma" for="autoSintoma"></p:outputLabel>
+						<pm:field>
+							<p:autoComplete id="autoSintoma" queryDelay="100"
+								value="#{terapiaBean.sintoma}" required="true"
+								completeMethod="#{terapiaBean.autoCompletarSintoma}" var="sin"
+								itemLabel="#{sin.descripcion}" itemValue="#{sin}"
+								converter="#{sintomaConverter}" panelStyleClass="ui-themes">
+							</p:autoComplete>
+						</pm:field>
+						<pm:field>
+							<p:outputLabel value="Dolor: " for="inpDolor" />
+							<pm:inputSlider id="inpDolor" value="#{terapiaBean.sliderDolor}"
+								minValue="1" maxValue="10" required="true" />
+						</pm:field>
+						<p:commandButton id="btnAgregar" value="Agregar" ajax="false"
+							action="#{terapiaBean.addSintoma}"></p:commandButton>
+					</h:form>
+					<h:form id="formTablaSintoma">
+						<p:dataTable emptyMessage="No hay sintomas en la terapia"
+							id="tablaSin" var="sxt" value="#{terapiaBean.terSintomas}"
+							paginator="true" rows="3">
+							<p:column headerText="Nombre">
+								<p:outputLabel value="#{sxt.sxtSintoma.descripcion}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
 				</p:tab>
 			</p:tabView>
 		</pm:content>

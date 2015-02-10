@@ -28,8 +28,8 @@
 						action="#{visitaBean.preAdd}" iconPos="right" ajax="false" />
 				</pm:field>
 				<pm:field>
-					<p:commandButton value="Añadir Producto" ajax="false" icon="ui-icon-shop"
-						iconPos="right" />
+					<p:commandButton value="Añadir Producto" ajax="false"
+						icon="ui-icon-shop" iconPos="right" />
 				</pm:field>
 			</h:form>
 			<h:form>
@@ -58,7 +58,8 @@
 								<h:outputText value="#{ter.usuarioCreacion}" />
 							</p:column>
 							<p:column headerText="Opciones">
-								<p:commandButton icon="ui-icon-eye" action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
+								<p:commandButton icon="ui-icon-eye"
+									action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
 							</p:column>
 						</p:dataTable>
 					</p:tab>
@@ -80,17 +81,6 @@
 		<pm:content>
 			<h:form>
 				<pm:field>
-					<p:outputLabel for="iFecProxima" value="Fecha Proxima: " />
-					<p:calendar id="iFecProxima" required="true"
-						value="#{visitaBean.terapia.fechaProxima}" />
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="iDescripcion" value="Descripcion:" />
-					<p:inputTextarea id="iDescripcion" placeholder="Opcional"
-						value="#{visitaBean.terapia.descripcion}" />
-
-				</pm:field>
-				<pm:field>
 					<p:outputLabel for="iTipoTerapia" value="Tipo de terapia: " />
 					<p:selectOneMenu id="iTipoTerapia"
 						value="#{visitaBean.idTipoTerapia}">
@@ -99,12 +89,26 @@
 							itemValue="#{tte.idTipoTerapia}" itemLabel="#{tte.nombre}" />
 					</p:selectOneMenu>
 				</pm:field>
-				<p:panelGrid columns="2">
-					<p:commandButton value="Agregar" action="#{visitaBean.addTerapia}"
-						update=":gestionVisita" />
-					<p:commandButton value="Cancelar" immediate="true"
-						action="#{visitaBean.cancelar}" />
-				</p:panelGrid>
+				<pm:field>
+					<p:outputLabel for="iFecProxima" value="Fecha Proxima: " />
+					<p:calendar id="iFecProxima" required="true" style="!important"
+						value="#{visitaBean.terapia.fechaProxima}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="iDescripcion" value="Descripcion:" />
+					<p:inputTextarea id="iDescripcion" placeholder="Opcional"
+						value="#{visitaBean.terapia.descripcion}" />
+
+				</pm:field>
+
+				<pm:field>
+					<p:panelGrid columns="2">
+						<p:commandButton value="Agregar" action="#{visitaBean.addTerapia}"
+							update=":gestionVisita" />
+						<p:commandButton value="Cancelar" immediate="true"
+							action="#{visitaBean.cancelar}" />
+					</p:panelGrid>
+				</pm:field>
 			</h:form>
 		</pm:content>
 	</pm:page>

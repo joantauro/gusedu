@@ -3,6 +3,7 @@ package com.gusedu.service;
 import java.util.List;
 
 import com.gusedu.model.Sintoma;
+import com.gusedu.model.SintomaTerapia;
 
 public interface SintomaService {
 
@@ -17,5 +18,9 @@ public interface SintomaService {
 	public Sintoma getById(Integer id);
 	
 	public Sintoma getByNombre(String nombre);
+	
+	//SintomaTerapia
+	
+	public boolean saveSintomaTerapia(SintomaTerapia sintomaTerapia);
 	
 }

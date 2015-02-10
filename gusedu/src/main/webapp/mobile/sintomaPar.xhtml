@@ -24,7 +24,7 @@
 			<h:form>
 				<p:outputLabel for="sintomaBusqueda" value="Sintoma: " />
 				<pm:field>
-					<p:autoComplete id="sintomaBusqueda" queryDelay="100"
+					<p:autoComplete autocomplete="false" id="sintomaBusqueda" queryDelay="100"
 						value="#{sintomaParBean.sintoma}" required="true"
 						completeMethod="#{sintomaParBean.autoComplete}" var="sin"
 						itemLabel="#{sin.descripcion}" itemValue="#{sin}"

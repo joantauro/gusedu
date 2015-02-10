@@ -52,7 +52,7 @@ public class VisitaBean {
 		tipoTerapia = new TipoTerapia();
 		query = "";
 		esPresencial = null;
-		prioridad = null;
+		prioridad = 1;
 	}
 
 	public Cliente getCliente() {

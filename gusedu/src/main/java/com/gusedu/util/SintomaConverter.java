@@ -9,7 +9,6 @@ import javax.faces.convert.ConverterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gusedu.model.Enfermedad;
 import com.gusedu.model.Sintoma;
 import com.gusedu.service.SintomaService;
 

@@ -83,7 +83,7 @@
 		</pm:header>
 		<pm:content>
 			<h:form>
-				<p:panel header="Nueva Visita">
+				<p:panel header="Nueva Visita" toggleable="true" collapsed="false">
 					<p:panelGrid columns="2">
 						<p:outputLabel for="boolPresencial" value="Visita Presencial: "></p:outputLabel>
 						<p:selectBooleanCheckbox value="#{visitaBean.esPresencial}"
@@ -103,8 +103,7 @@
 				</p:panel>
 			</h:form>
 			<h:form>
-				<p:panel header="Datos del cliente" toggleable="true"
-					collapsed="true">
+				<p:panel header="Datos del cliente" toggleable="true" collapsed="false">
 					<p:panelGrid columns="2">
 						<p:outputLabel for="perNombre" value="Nombre: " />
 						<p:outputLabel value="#{visitaBean.cliente.cliPersona.nombres}"
@@ -132,8 +131,7 @@
 					</p:panelGrid>
 				</p:panel>
 			</h:form>
-			<p:panel header="Historial de visitas" toggleable="true"
-				collapsed="true">
+			<p:panel header="Historial de visitas" toggleable="true" collapsed="false">
 				<h:form>
 					<p:dataTable id="visitas" var="vis"
 						value="#{visitaBean.visitasPaciente}"
@@ -143,7 +141,7 @@
 
 						<p:column headerText="Fecha: ">
 							<h:outputText value="#{vis.fechaCreacion}">
-								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"  />
 							</h:outputText>
 						</p:column>
 						<p:column headerText="Estado: ">

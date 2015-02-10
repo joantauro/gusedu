@@ -21,6 +21,7 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
+			<p:panel header="Filtros" toggleable="true">
 			<pm:field>
 				<h:form id="formBusqueda">
 					<p:outputLabel value="Filtrar: " for="inpQuery" />
@@ -48,11 +49,12 @@
 						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
 				</pm:field>
 			</h:form>
-
+			</p:panel>
+			<h:outputText value="&lt;br/&gt;" escape="false" />
 			<h:form>
 				<p:dataTable emptyMessage="No hay puntos registrados"
 					id="tablaPunto" var="pun" value="#{puntoBean.puntos}"
-					rowKey="#{pun.idPunto}" paginator="true" rows="3"
+					rowKey="#{pun.idPunto}" paginator="true" rows="8"
 					tableStyleClass="ui-table-columntoggle">
 
 					<p:column headerText="Nombre">
@@ -93,7 +95,7 @@
 				<p:outputLabel value="¿No se encontraron resultados?" />
 				<pm:field>
 					<p:commandButton icon="ui-icon-plus"
-						action="#{puntoBean.nuevoPunto}" ajax="false"
+						action="#{puntoBean.nuevoPunto}" update=":nuevoPunto"
 						value="Agregar punto"></p:commandButton>
 				</pm:field>
 			</h:form>
@@ -190,7 +192,7 @@
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="puntoOrdGoiz" value="Orden Goiz: " />
-					<p:inputText id="puntoOrdGoiz" required="true"
+					<p:inputText id="puntoOrdGoiz"
 						value="#{puntoBean.punto.ordenGoiz}" />
 				</pm:field>
 				<pm:field>
@@ -213,7 +215,7 @@
 				</pm:field>
 				<p:panelGrid columns="2">
 					<p:commandButton icon="ui-icon-check"
-						action="#{puntoBean.añadirPunto}" ajax="false" value="Añadir"></p:commandButton>
+						action="#{puntoBean.añadirPunto}" update=":consultarPuntos" value="Añadir"></p:commandButton>
 					<p:commandButton icon="ui-icon-delete"
 						action="#{puntoBean.backToConsultar}" ajax="false"
 						value="Cancelar"></p:commandButton>
