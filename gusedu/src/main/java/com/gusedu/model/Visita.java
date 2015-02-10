@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -43,7 +44,10 @@ public class Visita {
 
 	@OneToMany(mappedBy = "terVisita", orphanRemoval = true)
 	private Collection<Terapia> visTerapias;
-
+	
+	@OneToOne(mappedBy="hclVisita")
+	private HistoriaClinica visHistoriaClinica;
+	
 	public Integer getIdVisita() {
 		return idVisita;
 	}
@@ -106,6 +110,14 @@ public class Visita {
 
 	public void setVisTerapias(Collection<Terapia> visTerapias) {
 		this.visTerapias = visTerapias;
+	}
+
+	public HistoriaClinica getVisHistoriaClinica() {
+		return visHistoriaClinica;
+	}
+
+	public void setVisHistoriaClinica(HistoriaClinica visHistoriaClinica) {
+		this.visHistoriaClinica = visHistoriaClinica;
 	}
 
 	@Override

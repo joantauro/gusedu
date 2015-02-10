@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.model.HistoriaClinica;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;
+import com.gusedu.service.HistoriaClinicaService;
 import com.gusedu.service.TerapiaService;
 import com.gusedu.service.VisitaService;
 import com.gusedu.util.StaticUtil;
@@ -28,28 +30,31 @@ public class VisitaBean {
 	@Autowired
 	TerapiaService terapiaService;
 
+	@Autowired
+	HistoriaClinicaService historiaClinicaService;
+
 	private List<Cliente> clientes;
 	private List<Visita> visitasPaciente;
 	private List<Terapia> terapiasDeVisita;
 	private List<TipoTerapia> tipoTerapias;
-	
+
 	private Cliente cliente;
 	private String query;
-
 	private Boolean esPresencial;
-	private Integer prioridad;		
-	
-	private Visita visita;	
+	private Integer prioridad;
+	private Integer idTipoTerapia;
+
+	private Visita visita;
 	private Terapia terapia;
 	private TipoTerapia tipoTerapia;
-	
-	private Integer idTipoTerapia;
+	private HistoriaClinica historiaClinica;
 
 	public VisitaBean() {
 		cliente = new Cliente();
 		visita = new Visita();
 		terapia = new Terapia();
 		tipoTerapia = new TipoTerapia();
+		historiaClinica = new HistoriaClinica();
 		query = "";
 		esPresencial = null;
 		prioridad = 1;
@@ -57,6 +62,14 @@ public class VisitaBean {
 
 	public Cliente getCliente() {
 		return cliente;
+	}
+
+	public HistoriaClinica getHistoriaClinica() {
+		return historiaClinica;
+	}
+
+	public void setHistoriaClinica(HistoriaClinica historiaClinica) {
+		this.historiaClinica = historiaClinica;
 	}
 
 	public void setCliente(Cliente cliente) {
@@ -168,8 +181,8 @@ public class VisitaBean {
 		visita = new Visita();
 		return "registrarVisita?faces-redirect=true";
 	}
-	
-	public String backToRegistrarVisita(){
+
+	public String backToRegistrarVisita() {
 		cliente = new Cliente();
 		visita = new Visita();
 		terapia = new Terapia();
@@ -221,7 +234,8 @@ public class VisitaBean {
 		visita.setFechaCreacion(fechaActual);
 		if (visitaService.saveVisita(visita)) {
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
-			StaticUtil.correctMesage("Éxito","Se ha registrado correctamente la visita");
+			StaticUtil.correctMesage("Éxito",
+					"Se ha registrado correctamente la visita");
 			StaticUtil.keepMessages();
 			return "gestionVisita?faces-redirect=true";
 		} else {
@@ -230,7 +244,8 @@ public class VisitaBean {
 	}
 
 	public String cargarVisitas(int idCliente) {
-		visitasPaciente = visitaService.getVisitasCliente(clienteService.getClienteById(idCliente));
+		visitasPaciente = visitaService.getVisitasCliente(clienteService
+				.getClienteById(idCliente));
 		return "consultarVisitas";
 	}
 
@@ -240,41 +255,68 @@ public class VisitaBean {
 		return "detalleVisita?faces-redirect=true";
 	}
 
+	// Historia clínica
+
+	public String preNuevaHistoria() {
+		if (historiaClinicaService.getHistoriaByVisita(visita) == null) {
+			historiaClinica = new HistoriaClinica();
+			historiaClinica.setHclVisita(visita);
+		} else {
+			historiaClinica = historiaClinicaService.getHistoriaByVisita(visita);
+		}
+		return "pm:historiaClinica";
+	}
+
+	public String nuevaHistoria() {
+		if (historiaClinicaService.saveHistoriaClinica(historiaClinica)) {
+			StaticUtil.correctMesage("Éxito",
+					"Se han guardado los datos médicos");
+			StaticUtil.keepMessages();
+			return "pm:gestionVisita";
+		} else {
+			StaticUtil.errorMessage("Error",
+					"Hubo un error al guardar los datos");
+			return null;
+		}
+
+	}
+
 	// Terapias
 
-	public String preAdd() {		
-		terapia = new Terapia();		
+	public String preAdd() {
+		terapia = new Terapia();
 		terapia.setTerVisita(visita);
 		idTipoTerapia = null;
 		tipoTerapia = new TipoTerapia();
 		return "pm:nuevaTerapia";
-		
+
 	}
-	
-	public String addTerapia(){
+
+	public String addTerapia() {
 		tipoTerapia = terapiaService.tteById(idTipoTerapia);
 		terapia.setTerTipoTerapia(tipoTerapia);
-		terapia.setFechaRealizada(StaticUtil.getFechaActual());			
-		if(terapiaService.saveTerapia(terapia)){
+		terapia.setFechaRealizada(StaticUtil.getFechaActual());
+		if (terapiaService.saveTerapia(terapia)) {
 			tipoTerapia = new TipoTerapia();
 			terapia = new Terapia();
 			idTipoTerapia = null;
 			tipoTerapia = new TipoTerapia();
-			StaticUtil.correctMesage("Exito", "Se agregó correctamente la terapia");
+			StaticUtil.correctMesage("Exito",
+					"Se agregó correctamente la terapia");
 			StaticUtil.keepMessages();
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
 			return "pm:gestionVisita";
-		}else{
+		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al agregar");
-			return null;	
+			return null;
 		}
-		
+
 	}
 
-	public String cancelar(){
+	public String cancelar() {
 		tipoTerapia = new TipoTerapia();
 		terapia = new Terapia();
 		return "pm:gestionVisita";
-	}	
-	
+	}
+
 }

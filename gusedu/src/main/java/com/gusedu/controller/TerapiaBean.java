@@ -38,7 +38,7 @@ public class TerapiaBean {
 	private Sintoma sintoma;
 	
 	private int index;
-	private int sliderDolor;
+	private int sliderDolor;	
 	
 	public TerapiaBean(){
 		sliderDolor = 0;

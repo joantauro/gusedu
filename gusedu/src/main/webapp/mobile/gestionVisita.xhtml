@@ -24,6 +24,11 @@
 		<pm:content>
 			<h:form>
 				<pm:field>
+					<p:commandButton value="Datos médicos" icon="ui-icon-eye"
+						action="#{visitaBean.preNuevaHistoria}" iconPos="right"
+						ajax="false" />
+				</pm:field>
+				<pm:field>
 					<p:commandButton value="Añadir Terapia" icon="ui-icon-heart"
 						action="#{visitaBean.preAdd}" iconPos="right" ajax="false" />
 				</pm:field>
@@ -112,5 +117,67 @@
 			</h:form>
 		</pm:content>
 	</pm:page>
+
+	<pm:page id="historiaClinica">
+		<pm:header title="Historia Clinica">
+			<h:form>
+				<p:button outcome="gestionVisita" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel for="inputPeso" value="Peso: " />
+					<p:inputText id="inputPeso" required="true" value="#{visitaBean.historiaClinica.peso}"
+						placeholder="Ejemplo: 72.2, la unidad de medida es kg.">
+						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
+							maxIntegerDigits="3"></f:convertNumber>
+					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="inputTalla" value="Talla: " />
+					<p:inputText id="inputTalla" required="true" value="#{visitaBean.historiaClinica.talla}"
+						placeholder="Ejemplo: 1.75, la unidad de medida es m.">
+						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
+							maxIntegerDigits="1"></f:convertNumber>
+					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="inputTemperatura" value="Temperatura: " />
+					<p:inputText id="inputTemperatura" required="true" value="#{visitaBean.historiaClinica.temperatura}"
+						placeholder="Ejemplo: 37.5, la unidad termométrica es ºC">
+						<f:convertNumber pattern="#0.0" maxFractionDigits="1"
+							maxIntegerDigits="1"></f:convertNumber>
+					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="inputTension" value="Tensión Arterial: " />
+					<p:inputText id="inputTension" required="true" value="#{visitaBean.historiaClinica.tensionArterial}"
+						placeholder="Ejemplo: 110/80, la unidad de medida es mmHg">
+					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="inputGlucosa" value="Glucosa: " />
+					<p:inputText id="inputGlucosa" required="true" value="#{visitaBean.historiaClinica.glucosa}"
+						placeholder="Ejemplo: 75, la unidad de medida es mg/dl">
+						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
+							maxIntegerDigits="3"></f:convertNumber>
+					</p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="inputAdicional" value="Datos Adicionales: " />
+					<p:inputTextarea id="inputAdicional" maxlength="500" value="#{visitaBean.historiaClinica.datosAdicionales}"
+						placeholder="(Opcional)" />
+				</pm:field>
+				<p:panelGrid columns="2">
+					<p:commandButton value="Guardar"
+						action="#{visitaBean.nuevaHistoria}" />
+					<p:commandButton value="Cancelar" />
+				</p:panelGrid>
+			</h:form>
+		</pm:content>
+	</pm:page>
+
 </h:body>
 </html>
