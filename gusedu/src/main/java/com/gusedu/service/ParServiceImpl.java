@@ -194,5 +194,33 @@ public class ParServiceImpl implements ParService{
 		}
 		return result;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Par> getParesBySintoma(Sintoma sintoma) {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p.sxpPar FROM SintomaPar p WHERE p.sxpSintoma=:sintoma");
+			q.setParameter("sintoma", sintoma);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Par> getParesByEnfermedad(Enfermedad enfermedad) {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT e.expPar FROM EnfermedadPar e WHERE e.expEnfermedad=:enfermedad");
+			q.setParameter("enfermedad", enfermedad);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
 	
 }

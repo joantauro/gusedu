@@ -151,8 +151,9 @@ public class Visita {
 		return "Visita [idVisita=" + idVisita + ", esPresencial="
 				+ esPresencial + ", estado=" + estado + ", prioridad="
 				+ prioridad + ", fechaCreacion=" + fechaCreacion
-				+ ", usuarioCreacion=" + usuarioCreacion + ", visCliente="
-				+ visCliente + ", visTerapias=" + visTerapias + "]";
+				+ ", usuarioCreacion=" + usuarioCreacion + "]";
 	}
 
+	
+	
 }

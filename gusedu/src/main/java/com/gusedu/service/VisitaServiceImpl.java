@@ -78,4 +78,18 @@ public class VisitaServiceImpl implements VisitaService{
 		return em.find(Visita.class, idVisita);
 	}
 
+	@Override
+	public Visita getLastVisitaCliente(Cliente cliente) {
+		Visita result = null;
+		try {
+			Query q = em.createQuery("SELECT v FROM Visita v WHERE v.visCliente=:cliente ORDER BY v.fechaCreacion DESC");
+			q.setParameter("cliente", cliente);
+			q.setMaxResults(1);
+			result = (Visita) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
 }

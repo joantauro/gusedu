@@ -16,4 +16,6 @@ public interface VisitaService {
 	public List<Visita> getVisitasCliente(Cliente cliente);
 	
 	public Visita getVisitaById(Integer idVisita);
+	
+	public Visita getLastVisitaCliente(Cliente cliente);
 }

@@ -21,7 +21,7 @@ public class HistoriaClinicaServiceImpl implements HistoriaClinicaService {
 	public boolean saveHistoriaClinica(HistoriaClinica historiaClinica) {
 		boolean resultado = false;
 		try {
-			em.merge(historiaClinica);
+			em.merge(historiaClinica);			
 			resultado = true;
 		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());

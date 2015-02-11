@@ -38,5 +38,9 @@ public interface ParService {
 	
 	public List<SintomaPar> parBySintoma(Sintoma sintoma);
 	
+	public List<Par> getParesBySintoma(Sintoma sintoma);
+	
+	public List<Par> getParesByEnfermedad(Enfermedad enfermedad);
+	
 }
 

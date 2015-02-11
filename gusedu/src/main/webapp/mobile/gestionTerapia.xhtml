@@ -18,7 +18,7 @@
 			<p:button outcome="gestionVisita" value="Volver"
 				icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			<h:form>
-				<p:commandButton value="Continuar" icon="ui-icon-arrow-r"
+				<p:commandButton oncomplete="PF('dlgFinalizar').show();" value="Finalizar" icon="ui-icon-arrow-r"
 					iconPos="right" styleClass="ui-btn-right ui-btn-inline" />
 			</h:form>
 		</pm:header>
@@ -81,6 +81,19 @@
 					</h:form>
 				</p:tab>
 			</p:tabView>
+			<p:dialog header="¿Finalizar?" widgetVar="dlgFinalizar" resizable="true"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+					<p:commandButton value="Si" styleClass="ui-btn-inline"
+						icon="ui-icon-check" ajax="false"
+						action="#{terapiaBean.finalizarEdicion}" 
+						oncomplete="PF('dlgFinalizar').hide();" />
+
+					<p:commandButton value="No" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" ajax="false"
+						oncomplete="PF('dlgFinalizar').hide();" />
+				</h:form>
+			</p:dialog>
 		</pm:content>
 	</pm:page>
 </h:body>

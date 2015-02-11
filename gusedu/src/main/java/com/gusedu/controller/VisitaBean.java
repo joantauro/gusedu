@@ -260,6 +260,9 @@ public class VisitaBean {
 	public String preNuevaHistoria() {
 		if (historiaClinicaService.getHistoriaByVisita(visita) == null) {
 			historiaClinica = new HistoriaClinica();
+			//Trick
+			visita = visitaService.getLastVisitaCliente(visita.getVisCliente());
+			//
 			historiaClinica.setHclVisita(visita);
 		} else {
 			historiaClinica = historiaClinicaService.getHistoriaByVisita(visita);
@@ -269,13 +272,11 @@ public class VisitaBean {
 
 	public String nuevaHistoria() {
 		if (historiaClinicaService.saveHistoriaClinica(historiaClinica)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se han guardado los datos médicos");
+			StaticUtil.correctMesage("Éxito", "Se han guardado los datos médicos");
 			StaticUtil.keepMessages();
 			return "pm:gestionVisita";
 		} else {
-			StaticUtil.errorMessage("Error",
-					"Hubo un error al guardar los datos");
+			StaticUtil.errorMessage("Error", "Hubo un error al guardar los datos");
 			return null;
 		}
 
