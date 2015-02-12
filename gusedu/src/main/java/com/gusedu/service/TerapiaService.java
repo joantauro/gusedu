@@ -5,6 +5,7 @@ import java.util.List;
 import com.gusedu.model.EnfermedadTerapia;
 import com.gusedu.model.SintomaTerapia;
 import com.gusedu.model.Terapia;
+import com.gusedu.model.TerapiaPar;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 
@@ -30,5 +31,7 @@ public interface TerapiaService {
 	
 	public List<SintomaTerapia> getSintomasByTerapia(Terapia terapia);
 	
+	public boolean saveTerapiaPar(TerapiaPar terapiaPar);
+			
 	
 }

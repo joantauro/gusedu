@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gusedu.model.EnfermedadTerapia;
 import com.gusedu.model.SintomaTerapia;
 import com.gusedu.model.Terapia;
+import com.gusedu.model.TerapiaPar;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 
@@ -126,6 +127,19 @@ public class TerapiaServiceImpl implements TerapiaService {
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;
+	}
+
+	@Transactional
+	public boolean saveTerapiaPar(TerapiaPar terapiaPar) {
+		boolean resultado = false;
+		try {
+			em.persist(terapiaPar);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
 	}
 
 }

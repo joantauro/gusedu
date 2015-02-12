@@ -13,6 +13,7 @@ import com.gusedu.model.Par;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaTerapia;
 import com.gusedu.model.Terapia;
+import com.gusedu.model.TerapiaPar;
 import com.gusedu.service.EnfermedadService;
 import com.gusedu.service.ParService;
 import com.gusedu.service.SintomaService;
@@ -41,12 +42,15 @@ public class TerapiaBean {
 	private List<SintomaTerapia> terSintomas;
 	private List<Par> paresSugeridos;
 	private List<Par> paresSeleccionados;
-
+	private List<Par> allPares;
+	
 	private Enfermedad enfermedad;
 	private Sintoma sintoma;
 
 	private int index;
 	private int sliderDolor;
+	
+	private int size;
 
 	public TerapiaBean() {
 		sliderDolor = 0;
@@ -138,9 +142,28 @@ public class TerapiaBean {
 		this.sintoma = sintoma;
 	}
 
+	public List<Par> getAllPares() {
+		allPares = parService.getAllPares();
+		return allPares;
+	}
+
+	public void setAllPares(List<Par> allPares) {
+		this.allPares = allPares;
+	}
+
+	public int getSize() {
+		size = paresSeleccionados.size();
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
 	public String cargarTerapiaEspecifica(int id) {
 		terapia = terapiaService.terapiaById(id);
 		index = 0;
+		//If terapiaPares = null
 		return "gestionTerapia?faces-redirect=true";
 	}
 
@@ -337,5 +360,39 @@ public class TerapiaBean {
 		}
 		return null;
 	}
-		
+
+	public boolean shouldBeRendered(int idPar) {
+		for (Par par : paresSeleccionados) {
+			if (par.getIdPar() == idPar) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public String addParRastreo(int idPar) {
+		Par toAdd = parService.parById(idPar);
+		boolean existe = false;
+		for (Par par : paresSeleccionados) {
+			if (par.getIdPar() == idPar) {
+				existe = true;
+				break;
+			}
+		}
+		if (!(existe)) {
+			paresSeleccionados.add(toAdd);
+		}
+		return null;
+	}
+	
+	public String finalizarTerapia(){
+		for(Par p : paresSeleccionados){
+			TerapiaPar toPersist = new TerapiaPar();
+			toPersist.setTxpPar(p);
+			toPersist.setTxpTerapia(terapia);
+			terapiaService.saveTerapiaPar(toPersist);
+		}
+		return "detalleTerapia?faces-redirect=true";
+	}
+	
 }
