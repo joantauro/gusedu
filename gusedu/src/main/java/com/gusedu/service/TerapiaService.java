@@ -25,13 +25,10 @@ public interface TerapiaService {
 	
 	public Terapia terapiaById(Integer idTerapia);
 	
-	//Core
-	
 	public List<EnfermedadTerapia> getEnfermedadesByTerapia(Terapia terapia);
 	
 	public List<SintomaTerapia> getSintomasByTerapia(Terapia terapia);
 	
-	public boolean saveTerapiaPar(TerapiaPar terapiaPar);
-			
+	public boolean saveTerapiaPar(TerapiaPar terapiaPar);	
 	
 }

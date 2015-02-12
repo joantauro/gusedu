@@ -43,6 +43,7 @@ public class TerapiaBean {
 	private List<Par> paresSugeridos;
 	private List<Par> paresSeleccionados;
 	private List<Par> allPares;
+	private List<Par> paresTerapia;
 	
 	private Enfermedad enfermedad;
 	private Sintoma sintoma;
@@ -160,11 +161,24 @@ public class TerapiaBean {
 		this.size = size;
 	}
 
+	public List<Par> getParesTerapia() {
+		return paresTerapia;
+	}
+
+	public void setParesTerapia(List<Par> paresTerapia) {
+		this.paresTerapia = paresTerapia;
+	}
+
 	public String cargarTerapiaEspecifica(int id) {
 		terapia = terapiaService.terapiaById(id);
 		index = 0;
-		//If terapiaPares = null
-		return "gestionTerapia?faces-redirect=true";
+		paresTerapia = parService.paresByTerapia(terapia);
+		if(paresTerapia==null || paresTerapia.isEmpty()){
+			return "gestionTerapia?faces-redirect=true";
+		}else{
+			return "detalleTerapia?faces-redirect=true";
+		}
+		
 	}
 
 	public String addEnfermedad() {
@@ -392,6 +406,7 @@ public class TerapiaBean {
 			toPersist.setTxpTerapia(terapia);
 			terapiaService.saveTerapiaPar(toPersist);
 		}
+		paresTerapia = parService.paresByTerapia(terapia);
 		return "detalleTerapia?faces-redirect=true";
 	}
 	

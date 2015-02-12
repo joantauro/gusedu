@@ -324,7 +324,7 @@
 
 
 	<pm:page id="nuevoSintoma">
-		<pm:header title="Añadir sintoma">
+		<pm:header title="Añadir síntoma">
 			<h:form>
 				<p:commandButton action="#{parBean.backToDetalle}" value="Volver"
 					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
@@ -336,7 +336,7 @@
 					<p:outputLabel for="selSintoma" value="Sintoma: " />
 					<p:selectOneMenu id="selSintoma" required="true"
 						value="#{parBean.sintomaAdd.idSintoma}">
-						<f:selectItem itemLabel="Elija un sintoma" />
+						<f:selectItem itemLabel="Elija un síntoma" />
 						<f:selectItems value="#{parBean.sintomaAll}" var="sin"
 							itemValue="#{sin.idSintoma}" itemLabel="#{sin.descripcion}" />
 					</p:selectOneMenu>

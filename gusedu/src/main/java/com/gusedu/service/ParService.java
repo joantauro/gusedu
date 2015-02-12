@@ -9,6 +9,7 @@ import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaPar;
+import com.gusedu.model.Terapia;
 
 public interface ParService {
 	
@@ -41,6 +42,8 @@ public interface ParService {
 	public List<Par> getParesBySintoma(Sintoma sintoma);
 	
 	public List<Par> getParesByEnfermedad(Enfermedad enfermedad);
+	
+	public List<Par> paresByTerapia(Terapia terapia);
 	
 }
 

@@ -18,6 +18,7 @@ import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaPar;
+import com.gusedu.model.Terapia;
 
 @Service
 public class ParServiceImpl implements ParService{
@@ -216,6 +217,20 @@ public class ParServiceImpl implements ParService{
 		try {
 			Query q = em.createQuery("SELECT e.expPar FROM EnfermedadPar e WHERE e.expEnfermedad=:enfermedad");
 			q.setParameter("enfermedad", enfermedad);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Par> paresByTerapia(Terapia terapia) {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT txp.txpPar FROM TerapiaPar txp WHERE txp.txpTerapia=:terapia");
+			q.setParameter("terapia", terapia);
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());

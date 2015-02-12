@@ -14,7 +14,7 @@
 <h:body>
 	<p:growl showDetail="true" autoUpdate="true" />
 	<pm:page id="gestionSintoma">
-		<pm:header title="Gestión de Sintomas">
+		<pm:header title="Gestión de Síntomas">
 			<h:form>
 				<p:button outcome="indexOpciones" value="Volver" icon="ui-icon-arrow-l"
 					styleClass="ui-btn-left ui-btn-inline" />
@@ -23,7 +23,7 @@
 		<pm:content>
 			<h:form>
 				<p:commandButton action="#{sintomaBean.preAdd}"
-					value="Agregar sintoma" ajax="false"></p:commandButton>
+					value="Agregar síntoma" ajax="false"></p:commandButton>
 			</h:form>
 			<pm:field>
 				<h:form id="formBusqueda">
@@ -36,7 +36,7 @@
 				</h:form>				
 			</pm:field>
 			<h:form>
-				<p:dataTable emptyMessage="No hay sintomas registradas"
+				<p:dataTable emptyMessage="No hay síntomas registradas"
 					id="tablaSintoma" var="sin"
 					value="#{sintomaBean.sintomas}" rowKey="#{sin.idSintoma}"
 					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
@@ -75,7 +75,7 @@
 	</pm:page>
 	
 		<pm:page id="agregarSintoma">
-		<pm:header title="Agregar sintoma">
+		<pm:header title="Agregar síntoma">
 			<h:form>
 				<p:button outcome="gestionSintoma" value="Volver"
 					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
@@ -96,7 +96,7 @@
 
 
 	<pm:page id="editarSintoma">
-		<pm:header title="Editar sintoma">
+		<pm:header title="Editar síntoma">
 			<h:form>
 				<p:button outcome="gestionSintoma" value="Volver" icon="ui-icon-arrow-l"
 					styleClass="ui-btn-left ui-btn-inline" />
