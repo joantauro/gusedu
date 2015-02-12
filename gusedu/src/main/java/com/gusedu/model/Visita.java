@@ -37,6 +37,9 @@ public class Visita {
 
 	@Column(nullable = true, name = "VIS_USU_CREACION")
 	private Date usuarioCreacion;
+	
+	@Column(nullable = true, name = "VIS_COSTO_TOTAL")
+	private Double costoTotal;
 
 	@ManyToOne
 	@JoinColumn(name = "CLI_CODIGO", nullable = false)
@@ -110,6 +113,14 @@ public class Visita {
 
 	public void setVisTerapias(Collection<Terapia> visTerapias) {
 		this.visTerapias = visTerapias;
+	}
+
+	public Double getCostoTotal() {
+		return costoTotal;
+	}
+
+	public void setCostoTotal(Double costoTotal) {
+		this.costoTotal = costoTotal;
 	}
 
 	public HistoriaClinica getVisHistoriaClinica() {
