@@ -1,6 +1,7 @@
 package com.gusedu.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class TerapiaBean {
 	private List<EnfermedadTerapia> terEnfermedades;
 	private List<SintomaTerapia> terSintomas;
 	private List<Par> paresSugeridos;
+	private List<Par> paresSeleccionados;
 
 	private Enfermedad enfermedad;
 	private Sintoma sintoma;
@@ -51,6 +53,7 @@ public class TerapiaBean {
 		terapia = new Terapia();
 		enfermedad = new Enfermedad();
 		sintoma = new Sintoma();
+		paresSeleccionados = new ArrayList<Par>();
 	}
 
 	public int getIndex() {
@@ -66,7 +69,6 @@ public class TerapiaBean {
 	}
 
 	public List<Par> getParesSugeridos() {
-		paresSugeridos = getSugeridos();
 		return paresSugeridos;
 	}
 
@@ -112,6 +114,14 @@ public class TerapiaBean {
 		this.terapias = terapias;
 	}
 
+	public List<Par> getParesSeleccionados() {
+		return paresSeleccionados;
+	}
+
+	public void setParesSeleccionados(List<Par> paresSeleccionados) {
+		this.paresSeleccionados = paresSeleccionados;
+	}
+
 	public Enfermedad getEnfermedad() {
 		return enfermedad;
 	}
@@ -143,14 +153,12 @@ public class TerapiaBean {
 			return null;
 		} else {
 			if (enfermedadService.saveEnfermedadTerapia(enfermedadTerapia)) {
-				StaticUtil.correctMesage("Éxito",
-						"Se agregó correctamente la enfermedad");
+				StaticUtil.correctMesage("Éxito", "Se agregó correctamente la enfermedad");
 				enfermedad = new Enfermedad();
 				index = 0;
 				return "gestionTerapia?faces-redirect=true";
 			} else {
-				StaticUtil.errorMessage("Error",
-						"Hubo un error al guardar la enfermedad");
+				StaticUtil.errorMessage("Error", "Hubo un error al guardar la enfermedad");
 				return null;
 			}
 		}
@@ -166,15 +174,13 @@ public class TerapiaBean {
 		} else {
 			sintomaTerapia.setDolor(sliderDolor);
 			if (sintomaService.saveSintomaTerapia(sintomaTerapia)) {
-				StaticUtil.correctMesage("Éxito",
-						"Se agregó correctamente el sintoma");
+				StaticUtil.correctMesage("Éxito", "Se agregó correctamente el sintoma");
 				sintoma = new Sintoma();
 				sliderDolor = 0;
 				index = 1;
 				return "gestionTerapia?faces-redirect=true";
 			} else {
-				StaticUtil.errorMessage("Error",
-						"Hubo un error al guardar el sintoma");
+				StaticUtil.errorMessage("Error", "Hubo un error al guardar el sintoma");
 				return null;
 			}
 		}
@@ -210,8 +216,7 @@ public class TerapiaBean {
 		List<EnfermedadTerapia> terEnf = terapiaService
 				.getEnfermedadesByTerapia(terapia);
 		for (EnfermedadTerapia e : terEnf) {
-			if (e.getExtEnfermedad().getNombre()
-					.equalsIgnoreCase(enfermedad.getNombre())) {
+			if (e.getExtEnfermedad().getNombre().equalsIgnoreCase(enfermedad.getNombre())) {
 				return true;
 			}
 		}
@@ -219,11 +224,9 @@ public class TerapiaBean {
 	}
 
 	public boolean sintomaRepetido() {
-		List<SintomaTerapia> terSin = terapiaService
-				.getSintomasByTerapia(terapia);
+		List<SintomaTerapia> terSin = terapiaService.getSintomasByTerapia(terapia);
 		for (SintomaTerapia e : terSin) {
-			if (e.getSxtSintoma().getDescripcion()
-					.equalsIgnoreCase(sintoma.getDescripcion())) {
+			if (e.getSxtSintoma().getDescripcion().equalsIgnoreCase(sintoma.getDescripcion())) {
 				return true;
 			}
 		}
@@ -231,7 +234,9 @@ public class TerapiaBean {
 	}
 
 	public String finalizarEdicion() {
-		return "gestionTerapiaDetalle";
+		paresSugeridos = getSugeridos();
+		paresSeleccionados = new ArrayList<>();
+		return "gestionTerapiaDetalle?faces-redirect=true";
 	}
 	
 	public List<Par> getSugeridos() {
@@ -294,4 +299,43 @@ public class TerapiaBean {
 		return sugeridos;
 	}
 
+
+	public String addToElegidos(int idPar){
+		Par toAdd = parService.parById(idPar);
+		boolean esRepetido = false;
+		for(Par p : paresSeleccionados){
+			if(p.getIdPar() == idPar){
+				esRepetido = true;
+			}
+		}
+		if(!(esRepetido)){
+			paresSeleccionados.add(toAdd);
+			for(Par p : paresSugeridos){
+				if(p.getIdPar() == toAdd.getIdPar()){
+					paresSugeridos.remove(p);
+					return null;
+				}
+			}			
+		} else{
+			StaticUtil.errorMessage("Error", "El par ya ha sido agregado");
+			return null;
+		}
+		return null;
+	}
+	
+
+	public String addAllToElegidos() {
+		HashSet<Par> allPares = new HashSet<>();
+		allPares.addAll(paresSeleccionados);
+		allPares.addAll(paresSugeridos);
+		paresSeleccionados.clear();
+		paresSeleccionados.addAll(allPares);
+		paresSugeridos.clear();
+		for (Par par : paresSeleccionados) {
+			System.out.println(par.getParPunto1().getNombre() + " "
+					+ par.getParPunto2().getNombre());
+		}
+		return null;
+	}
+		
 }
