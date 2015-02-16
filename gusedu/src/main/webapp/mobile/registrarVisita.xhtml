@@ -147,6 +147,10 @@
 						<p:column headerText="Estado: ">
 							<h:outputText value="No realizada" rendered="#{vis.estado lt 1}" />		
 							<h:outputText value="Realizada" rendered="#{vis.estado gt 0}" />																				
+						</p:column>	
+						<p:column headerText="Tipo">
+							<h:outputText value="Presencial" rendered="#{vis.esPresencial == true}" />
+							<h:outputText value="No presencial" rendered="#{vis.esPresencial == false}" />
 						</p:column>
 						<p:column headerText="Prioridad ">
 							<h:outputText value="Baja" rendered="#{vis.prioridad eq 1}" />		

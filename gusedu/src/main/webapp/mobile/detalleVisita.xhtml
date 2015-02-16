@@ -52,6 +52,11 @@
 							<p:column headerText="Terapeuta">
 								<h:outputText value="#{ter.usuarioCreacion}" />
 							</p:column>
+							<p:column headerText="Costo" style="vertical-align:middle;">
+								<h:outputText value="#{ter.terTipoTerapia.costo}">
+									<f:convertNumber type="currency" locale="es_PE"></f:convertNumber>
+								</h:outputText>
+							</p:column>
 							<p:column headerText="Opciones">
 								<p:commandButton icon="ui-icon-eye"
 									action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />

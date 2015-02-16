@@ -62,7 +62,8 @@
 								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
 							</p:column>
 							<p:column headerText="Terapeuta" style="vertical-align:middle;">
-								<h:outputText value="#{ter.usuarioCreacion}" />
+								<h:outputText value="#{ter.usuarioCreacion}" rendered="#{ter.usuarioCreacion ne null}"/>
+								<h:outputText value="No especificado" rendered="#{ter.usuarioCreacion eq null}"/>
 							</p:column>
 							<p:column headerText="Costo" style="vertical-align:middle;">
 								<h:outputText value="#{ter.terTipoTerapia.costo}">

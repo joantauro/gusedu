@@ -34,7 +34,7 @@
 						<p:outputLabel value="#{sxt.dolor}" />
 					</p:column>
 				</p:dataTable>
-
+				<h:outputText value="&lt;br/&gt;" escape="false" />
 				<p:outputLabel for="tablaSintoma" value="Enfermedades en la terapia"></p:outputLabel>
 				<p:dataTable emptyMessage="No hay enfermedades en la terapia"
 					id="tablaEnf" var="ext" value="#{terapiaBean.terEnfermedades}"
@@ -44,7 +44,7 @@
 					</p:column>
 				</p:dataTable>
 
-
+				<h:outputText value="&lt;br/&gt;" escape="false" />
 				<p:outputLabel for="tablaPar" value="Pares realizados en la terapia"></p:outputLabel>
 				<p:dataTable emptyMessage="No hay pares en la terapia" id="tablaPar"
 					var="parTerapia" value="#{terapiaBean.paresTerapia}"
