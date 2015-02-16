@@ -223,10 +223,11 @@
 						</p:panelGrid>
 						<h:outputText value="&lt;br/&gt;" escape="false" />
 						<h:outputText value="&lt;br/&gt;" escape="false" />
-						<p:outputPanel style="text-align:center;" >					
+						<!-- 426 x 137 -->
+						<p:outputPanel style="text-align:center;">
 							<p:graphicImage library="uploads"
-								rendered="#{parBean.parSeleccionado.url ne null}" width="426"
-								height="138" name="#{parBean.parSeleccionado.url}"></p:graphicImage>
+								rendered="#{parBean.parSeleccionado.url ne null}"
+								name="#{parBean.parSeleccionado.url}"></p:graphicImage>
 						</p:outputPanel>
 					</p:tab>
 					<p:tab title="Enfermedades relacionadas">
