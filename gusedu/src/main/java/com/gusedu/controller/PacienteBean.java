@@ -54,15 +54,30 @@ public class PacienteBean {
 		this.clientes = clientes;
 	}
 
+	public String preDatosClinicosPaciente(Integer idCliente){
+		cliente = clienteService.getClienteById(idCliente);
+		return "datosClinicos?faces-redirect=true";
+	}
+	
+	public String guardarDatosClinicos() {
+		if (clienteService.updateCliente(cliente)) {
+		 	StaticUtil.correctMesage("Éxito", "Se ha actualizado los datos correctamente");
+			StaticUtil.keepMessages();
+			return "consultarPacientes?faces-redirect=true";
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo actualizar");
+			return null;
+		}
+	}
+	
 	public String preEditarPaciente(Integer idCliente) {
 		cliente = clienteService.getClienteById(idCliente);
 		return "editarCliente?faces-redirect=true";
-	}
+	}		
 
 	public String editar() {
 		if (clienteService.updateCliente(cliente)) {
-			StaticUtil
-					.correctMesage("Éxito", "Se ha actualizado correctamente");
+		 	StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente");
 			StaticUtil.keepMessages();
 			return "consultarPacientes?faces-redirect=true";
 		} else {

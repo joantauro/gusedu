@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+</h:head>
+<h:body>
+	<pm:page id="datosClinicos">
+		<pm:header title="Datos Clínicos">
+			<h:form>
+				<p:button outcome="consultarPacientes" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<pm:field>
+					<p:outputLabel for="deposicionRegular"
+						value="¿Hace deposiciones regulares?"></p:outputLabel>
+					<p:inputText id="deposicionRegular"
+						value="#{pacienteBean.cliente.deposicionRegular}"></p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="cansancioRegular"
+						value="¿Tiene cansancio regular?"></p:outputLabel>
+					<p:inputText id="cansancioRegular"
+						value="#{pacienteBean.cliente.cansancioRegular}"></p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="resfrioRegular" value="¿Tiene resfrío regular?"></p:outputLabel>
+					<p:inputText id="resfrioRegular"
+						value="#{pacienteBean.cliente.resfrioRegular}"></p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="dolorCabezaRegular"
+						value="¿Tiene dolor de cabeza regular?"></p:outputLabel>
+					<p:inputText id="dolorCabezaRegular"
+						value="#{pacienteBean.cliente.dolorCabezaRegular}"></p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="gastricoRegular"
+						value="¿Tiene problemas gástricos?"></p:outputLabel>
+					<p:inputText id="gastricoRegular"
+						value="#{pacienteBean.cliente.gastricoRegular}"></p:inputText>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="operacion"
+						value="¿Se ha realizado alguna operación?"></p:outputLabel>
+					<p:inputText id="operacion"
+						value="#{pacienteBean.cliente.operacion}"></p:inputText>
+				</pm:field>
+				<p:panelGrid columns="2">
+					<p:commandButton action="#{pacienteBean.guardarDatosClinicos}"
+						value="Actualizar" icon="ui-icon-check" />
+					<p:commandButton value="Cancelar" immediate="true"
+						action="#{pacienteBean.cancelar}" ajax="false"
+						icon="ui-icon-delete" />
+				</p:panelGrid>
+			</h:form>
+		</pm:content>
+	</pm:page>
+</h:body>
+</html>

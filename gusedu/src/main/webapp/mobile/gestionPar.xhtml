@@ -71,6 +71,8 @@
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
 							actionListener="#{parBean.cargarRemovePar(par.idPar)}"
 							oncomplete="PF('dlgEliminarPar').show();" />
+						<p:commandButton icon="ui-icon-action" styleClass="ui-btn-inline"
+							ajax="false" action="#{parBean.toFileUpload(par.idPar)}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
@@ -213,11 +215,19 @@
 
 							<h:outputLabel value="Punto 2: " />
 							<h:outputLabel
-								value="#{parBean.parSeleccionado.parPunto1.nombre}" />
+								value="#{parBean.parSeleccionado.parPunto2.nombre}" />
 
 							<h:outputLabel value="Grupo: " />
 							<h:outputLabel value="#{parBean.parSeleccionado.parGrupo.nombre}" />
+
 						</p:panelGrid>
+						<h:outputText value="&lt;br/&gt;" escape="false" />
+						<h:outputText value="&lt;br/&gt;" escape="false" />
+						<p:outputPanel style="text-align:center;" >					
+							<p:graphicImage library="uploads"
+								rendered="#{parBean.parSeleccionado.url ne null}" width="426"
+								height="138" name="#{parBean.parSeleccionado.url}"></p:graphicImage>
+						</p:outputPanel>
 					</p:tab>
 					<p:tab title="Enfermedades relacionadas">
 						<h:form>
@@ -349,6 +359,24 @@
 						value="Cancelar"></p:commandButton>
 				</p:panelGrid>
 			</h:form>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="uploadImage">
+		<pm:header title="Subir imagen de par">
+			<h:form>
+				<p:commandButton action="#{parBean.cancelUpload}" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+
+			<h:form enctype="multipart/form-data">
+				<p:fileUpload value="#{parBean.uploadedFile}" mode="simple" />
+				<p:commandButton value="Subir" action="#{parBean.handleFileUpload}"
+					ajax="false" />
+			</h:form>
+
 		</pm:content>
 	</pm:page>
 

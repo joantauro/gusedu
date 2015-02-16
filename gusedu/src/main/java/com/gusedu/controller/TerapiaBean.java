@@ -173,6 +173,8 @@ public class TerapiaBean {
 		terapia = terapiaService.terapiaById(id);
 		index = 0;
 		paresTerapia = parService.paresByTerapia(terapia);
+		terEnfermedades = terapiaService.getEnfermedadesByTerapia(terapia);
+		terSintomas = terapiaService.getSintomasByTerapia(terapia);
 		if(paresTerapia==null || paresTerapia.isEmpty()){
 			return "gestionTerapia?faces-redirect=true";
 		}else{

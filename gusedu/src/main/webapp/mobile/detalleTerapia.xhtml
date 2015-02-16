@@ -23,17 +23,40 @@
 		</pm:header>
 		<pm:content>
 			<h:form id="formTerapia">
-				<p:dataTable emptyMessage="No hay pares de la terapia" id="tablaPar"
-					var="parTerapia" value="#{terapiaBean.paresTerapia}" paginator="true"
-					rows="8">
+				<p:outputLabel for="tablaSintoma" value="Sintomas en la terapia"></p:outputLabel>
+				<p:dataTable id="tablaSintoma"
+					emptyMessage="No hay sintomas en la terapia" var="sxt"
+					value="#{terapiaBean.terSintomas}" paginator="true" rows="5">
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{sxt.sxtSintoma.descripcion}" />
+					</p:column>
+					<p:column headerText="Dolor">
+						<p:outputLabel value="#{sxt.dolor}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:outputLabel for="tablaSintoma" value="Enfermedades en la terapia"></p:outputLabel>
+				<p:dataTable emptyMessage="No hay enfermedades en la terapia"
+					id="tablaEnf" var="ext" value="#{terapiaBean.terEnfermedades}"
+					paginator="true" rows="3">
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{ext.extEnfermedad.nombre}" />
+					</p:column>
+				</p:dataTable>
+
+
+				<p:outputLabel for="tablaPar" value="Pares realizados en la terapia"></p:outputLabel>
+				<p:dataTable emptyMessage="No hay pares en la terapia" id="tablaPar"
+					var="parTerapia" value="#{terapiaBean.paresTerapia}"
+					paginator="true" rows="8">
 					<p:column headerText="Punto 1">
 						<p:outputLabel value="#{parTerapia.parPunto1.nombre}" />
 					</p:column>
 					<p:column headerText="Punto 2">
 						<p:outputLabel value="#{parTerapia.parPunto2.nombre}" />
-					</p:column>					
+					</p:column>
 				</p:dataTable>
-			</h:form>		
+			</h:form>
 		</pm:content>
 	</pm:page>
 </h:body>

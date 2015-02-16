@@ -32,6 +32,25 @@ public class Cliente {
     @Column(nullable = true, name = "CLI_ACTIVO")
     private Boolean esActivo;
     
+    @Column(nullable = true, name = "CLI_DEP_REGULAR")
+    private String deposicionRegular;
+    
+    @Column(nullable = true, name = "CLI_CAN_REGULAR")
+    private String cansancioRegular;
+    
+    @Column(nullable = true, name = "CLI_RES_REGULAR")
+    private String resfrioRegular;
+    
+    @Column(nullable = true, name = "CLI_DOLCAB_REGULAR")
+    private String dolorCabezaRegular;
+    
+    @Column(nullable = true, name = "CLI_PRO_GASTRICO")
+    private String gastricoRegular;
+
+    @Column(nullable = true, name = "CLI_OPERACION")
+    private String operacion;
+
+    
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PER_CODIGO", nullable = true)
 	private Persona cliPersona;
@@ -60,6 +79,54 @@ public class Cliente {
 
 	public String getUsuarioCreacion() {
 		return usuarioCreacion;
+	}
+
+	public String getDeposicionRegular() {
+		return deposicionRegular;
+	}
+
+	public void setDeposicionRegular(String deposicionRegular) {
+		this.deposicionRegular = deposicionRegular;
+	}
+
+	public String getCansancioRegular() {
+		return cansancioRegular;
+	}
+
+	public void setCansancioRegular(String cansancioRegular) {
+		this.cansancioRegular = cansancioRegular;
+	}
+
+	public String getResfrioRegular() {
+		return resfrioRegular;
+	}
+
+	public void setResfrioRegular(String resfrioRegular) {
+		this.resfrioRegular = resfrioRegular;
+	}
+
+	public String getDolorCabezaRegular() {
+		return dolorCabezaRegular;
+	}
+
+	public void setDolorCabezaRegular(String dolorCabezaRegular) {
+		this.dolorCabezaRegular = dolorCabezaRegular;
+	}
+
+	public String getGastricoRegular() {
+		return gastricoRegular;
+	}
+
+	public void setGastricoRegular(String gastricoRegular) {
+		this.gastricoRegular = gastricoRegular;
+	}
+
+	public String getOperacion() {
+		return operacion;
+	}
+
+	public void setOperacion(String operacion) {
+		this.operacion = operacion;
 	}
 
 	public void setUsuarioCreacion(String usuarioCreacion) {

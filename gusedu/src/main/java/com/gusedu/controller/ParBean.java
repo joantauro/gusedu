@@ -1,11 +1,18 @@
 package com.gusedu.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -47,7 +54,7 @@ public class ParBean {
 
 	private Punto punto1;
 	private Punto punto2;
-
+	private UploadedFile uploadedFile;
 	private Grupo grupoSeleccionado;
 
 	private Par parSeleccionado;
@@ -62,7 +69,7 @@ public class ParBean {
 	private SintomaPar sxpToDelete;
 
 	private String query;
-	
+
 	int ascP1;
 	int ascP2;
 	int goiz;
@@ -93,6 +100,14 @@ public class ParBean {
 		return query;
 	}
 
+	public UploadedFile getUploadedFile() {
+		return uploadedFile;
+	}
+
+	public void setUploadedFile(UploadedFile uploadedFile) {
+		this.uploadedFile = uploadedFile;
+	}
+
 	public void setQuery(String query) {
 		this.query = query;
 	}
@@ -115,7 +130,7 @@ public class ParBean {
 				return pares;
 			}
 		}
-		if (ascP1!=0 || ascP2!=0 || goiz!=0){
+		if (ascP1 != 0 || ascP2 != 0 || goiz != 0) {
 			return pares;
 		}
 		return parService.getAllPares();
@@ -228,6 +243,44 @@ public class ParBean {
 		return "pm:consultarPares?transition=flip";
 	}
 
+	public String toFileUpload(int idPar) {
+		par = parService.parById(idPar);
+		return "pm:uploadImage?transition=flip";
+	}
+
+	public String cancelUpload() {
+		par = new Par();
+		return "pm:consultarPares?Transition=flip";
+	}
+
+	public String handleFileUpload(){
+		String name = uploadedFile.getFileName();
+        System.out.println(name);
+        return null;
+	}
+	
+	public String saveFile(String fileName, InputStream in) {
+		String destino = "C:\\gusedu\\uploads\\";
+		try {
+			OutputStream out = new FileOutputStream(new File(destino + fileName));
+			int readBytes = 0;
+			byte[] bytes = new byte[1024];
+
+			while ((readBytes = in.read(bytes)) != -1) {
+				out.write(bytes, 0, readBytes);
+			}
+
+			in.close();
+			out.flush();
+			out.close();
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return destino + fileName;
+	}
+
 	public String toRegistrar() {
 		par = new Par();
 		punto1 = new Punto();
@@ -306,14 +359,16 @@ public class ParBean {
 		toAdd.setExpEnfermedad(enfermedadAdd);
 		toAdd.setExpPar(parSeleccionado);
 		if (enfermedadService.saveEnfermedadPar(toAdd)) {
-			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente la enfermedad");
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente la enfermedad");
 			StaticUtil.keepMessages();
 			enfermedadAdd = new Enfermedad();
 			enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 			sintomasPar = parService.getSintomas(parSeleccionado);
 			return "pm:detallePar";
 		} else {
-			StaticUtil.correctMesage("Error", "No se pudo añadir la enfermedad");
+			StaticUtil
+					.correctMesage("Error", "No se pudo añadir la enfermedad");
 			return null;
 		}
 	}
@@ -323,8 +378,10 @@ public class ParBean {
 		toAdd.setSxpPar(parSeleccionado);
 		toAdd.setSxpSintoma(sintomaAdd);
 		if (enfermedadService.saveSintomaPar(toAdd)) {
-			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el sintoma");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente el sintoma");
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return backToDetalle();
 		} else {
@@ -388,7 +445,8 @@ public class ParBean {
 		Par newPar = parService.parByPuntos(punto1, punto2, grupoSeleccionado);
 		if (newPar != null) {
 			StaticUtil.errorMessage("Error", "El par ya existe");
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
 			return null;
 		}
@@ -410,25 +468,25 @@ public class ParBean {
 		pares = filtrados;
 	}
 
-	public void orderAscP1(){
+	public void orderAscP1() {
 		ascP1 = 1;
 		ascP2 = 0;
 		goiz = 0;
 		pares = parService.getAllParesOrderByP1();
 	}
-	
-	public void orderAscP2(){
+
+	public void orderAscP2() {
 		ascP1 = 0;
 		ascP2 = 1;
 		goiz = 0;
 		pares = parService.getAllParesOrderByP2();
 	}
-	
-	public void orderGoiz(){
+
+	public void orderGoiz() {
 		ascP1 = 0;
 		ascP2 = 0;
 		goiz = 1;
 		pares = parService.getAllParesOrderGoiz();
 	}
-	
+
 }
