@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.EnfermedadTerapia;
+import com.gusedu.model.Par;
 import com.gusedu.model.SintomaTerapia;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TerapiaPar;
@@ -140,6 +141,34 @@ public class TerapiaServiceImpl implements TerapiaService {
 			resultado = false;
 		}
 		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Par> getTerapiaParesFromTerapia(Terapia terapia) {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT tp.txpPar FROM TerapiaPar tp WHERE tp.txpTerapia=:terapia");
+			q.setParameter("terapia", terapia);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public TerapiaPar TerapiaParByParAndTerapia(Terapia terapia, Par par) {
+		TerapiaPar result = null;
+		try {
+			Query q = em.createQuery("SELECT tp FROM TerapiaPar tp WHERE tp.txpTerapia=:terapia AND tp.txpPar=:par");
+			q.setParameter("terapia", terapia);
+			q.setParameter("par", par);
+			result = (TerapiaPar) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
 	}
 
 }

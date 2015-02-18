@@ -3,6 +3,7 @@ package com.gusedu.service;
 import java.util.List;
 
 import com.gusedu.model.EnfermedadTerapia;
+import com.gusedu.model.Par;
 import com.gusedu.model.SintomaTerapia;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TerapiaPar;
@@ -31,4 +32,7 @@ public interface TerapiaService {
 	
 	public boolean saveTerapiaPar(TerapiaPar terapiaPar);	
 	
+	public List<Par> getTerapiaParesFromTerapia(Terapia terapia);
+	
+	public TerapiaPar TerapiaParByParAndTerapia(Terapia terapia, Par par);
 }

@@ -37,13 +37,7 @@ public class Persona {
     
     @Column(name="PER_FEC_NACIMIENTO", nullable=true)
     private Date fechaNacimiento;
-    
-    @Column(name="PER_TALLA", nullable=true)
-    private Double talla;
-    
-    @Column(name="PER_PESO", nullable=true)
-    private Double peso;
-    
+        
     @Column(name="PER_ESTADO_CIVIL", nullable=true, length=15)
     private String estadoCivil;
     
@@ -131,22 +125,6 @@ public class Persona {
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	public Double getTalla() {
-		return talla;
-	}
-
-	public void setTalla(Double talla) {
-		this.talla = talla;
-	}
-
-	public Double getPeso() {
-		return peso;
-	}
-
-	public void setPeso(Double peso) {
-		this.peso = peso;
 	}
 
 	public String getEstadoCivil() {
@@ -269,11 +247,11 @@ public class Persona {
 				+ ", nombres=" + nombres + ", apellidoPaterno="
 				+ apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno
 				+ ", correo=" + correo + ", fechaNacimiento=" + fechaNacimiento
-				+ ", talla=" + talla + ", peso=" + peso + ", estadoCivil="
-				+ estadoCivil + ", sexo=" + sexo + ", nit=" + nit
-				+ ", esClientePotencial=" + esClientePotencial
+				+ ", estadoCivil=" + estadoCivil + ", sexo=" + sexo + ", nit="
+				+ nit + ", telefonoFijo=" + telefonoFijo + ", telefonoMovil="
+				+ telefonoMovil + ", esClientePotencial=" + esClientePotencial
 				+ ", fechaCreacion=" + fechaCreacion + ", usuarioCreacion="
 				+ usuarioCreacion + "]";
-	}	    
+	}
 	
 }

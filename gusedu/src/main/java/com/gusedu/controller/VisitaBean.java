@@ -56,8 +56,8 @@ public class VisitaBean {
 		tipoTerapia = new TipoTerapia();
 		historiaClinica = new HistoriaClinica();
 		query = "";
-		esPresencial = null;
-		prioridad = 1;
+		esPresencial = true;
+		prioridad = 2;
 	}
 
 	public Cliente getCliente() {
@@ -186,8 +186,8 @@ public class VisitaBean {
 		cliente = new Cliente();
 		visita = new Visita();
 		terapia = new Terapia();
-		esPresencial = null;
-		prioridad = null;
+		esPresencial = true;
+		prioridad = 2;
 		return "registrarVisita?faces-redirect=true";
 	}
 
@@ -196,8 +196,8 @@ public class VisitaBean {
 		terapia = new Terapia();
 		visita = new Visita();
 		query = "";
-		esPresencial = null;
-		prioridad = null;
+		esPresencial = true;
+		prioridad = 2;
 		return "index?faces-redirect=true";
 	}
 

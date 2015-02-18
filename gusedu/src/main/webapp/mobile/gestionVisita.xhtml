@@ -54,9 +54,10 @@
 							</p:column>
 							<p:column headerText="Fec. Proxima"
 								style="vertical-align:middle;">
-								<h:outputText value="#{ter.fechaProxima}">
+								<h:outputText value="#{ter.fechaProxima}" rendered="#{ter.fechaProxima ne null}">
 									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 								</h:outputText>
+								<h:outputText value="No especificado" rendered="#{ter.fechaProxima eq null}"></h:outputText>
 							</p:column>
 							<p:column headerText="Tipo" style="vertical-align:middle;">
 								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
@@ -107,7 +108,7 @@
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="iFecProxima" value="Fecha Proxima: " />
-					<p:calendar id="iFecProxima" required="true" style="!important"
+					<p:calendar id="iFecProxima" style="!important"
 						value="#{visitaBean.terapia.fechaProxima}" />
 				</pm:field>
 				<pm:field>

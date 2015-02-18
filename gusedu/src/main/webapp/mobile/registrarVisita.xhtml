@@ -83,27 +83,16 @@
 		</pm:header>
 		<pm:content>
 			<h:form>
-				<p:panel header="Nueva Visita" toggleable="true" collapsed="false">
-					<p:panelGrid columns="2">
-						<p:outputLabel for="boolPresencial" value="Visita Presencial: "></p:outputLabel>
-						<p:selectBooleanCheckbox value="#{visitaBean.esPresencial}"
-							id="boolPresencial" required="true" />
-
-						<p:outputLabel for="sliderPrioridad" value="Prioridad: "></p:outputLabel>
-						<pm:inputSlider id="sliderPrioridad" required="true"
-							value="#{visitaBean.prioridad}" minValue="1" maxValue="3" />
-					</p:panelGrid>
+				<p:panel header="Nueva Visita" toggleable="true" collapsed="false">					
 					<pm:field>
-						<p:panelGrid columns="2">
-							<p:commandButton value="Registrar"
-								action="#{visitaBean.registrarVisita}" />
-							<p:commandButton value="Cancelar" action="#{visitaBean.backToIndex}" />
-						</p:panelGrid>
+						<p:commandButton value="Crear nueva visita"
+							action="#{visitaBean.registrarVisita}" />
 					</pm:field>
 				</p:panel>
 			</h:form>
 			<h:form>
-				<p:panel header="Datos del cliente" toggleable="true" collapsed="false">
+				<p:panel header="Datos del cliente" toggleable="true"
+					collapsed="false">
 					<p:panelGrid columns="2">
 						<p:outputLabel for="perNombre" value="Nombre: " />
 						<p:outputLabel value="#{visitaBean.cliente.cliPersona.nombres}"
@@ -131,7 +120,8 @@
 					</p:panelGrid>
 				</p:panel>
 			</h:form>
-			<p:panel header="Historial de visitas" toggleable="true" collapsed="false">
+			<p:panel header="Historial de visitas" toggleable="true"
+				collapsed="false">
 				<h:form>
 					<p:dataTable id="visitas" var="vis"
 						value="#{visitaBean.visitasPaciente}"
@@ -141,20 +131,22 @@
 
 						<p:column headerText="Fecha: ">
 							<h:outputText value="#{vis.fechaCreacion}">
-								<f:convertDateTime pattern="dd/MM/yyyy HH:mm"  />
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 							</h:outputText>
 						</p:column>
 						<p:column headerText="Estado: ">
-							<h:outputText value="No realizada" rendered="#{vis.estado lt 1}" />		
-							<h:outputText value="Realizada" rendered="#{vis.estado gt 0}" />																				
-						</p:column>	
+							<h:outputText value="No realizada" rendered="#{vis.estado lt 1}" />
+							<h:outputText value="Realizada" rendered="#{vis.estado gt 0}" />
+						</p:column>
 						<p:column headerText="Tipo">
-							<h:outputText value="Presencial" rendered="#{vis.esPresencial == true}" />
-							<h:outputText value="No presencial" rendered="#{vis.esPresencial == false}" />
+							<h:outputText value="Presencial"
+								rendered="#{vis.esPresencial == true}" />
+							<h:outputText value="No presencial"
+								rendered="#{vis.esPresencial == false}" />
 						</p:column>
 						<p:column headerText="Prioridad ">
-							<h:outputText value="Baja" rendered="#{vis.prioridad eq 1}" />		
-							<h:outputText value="Media" rendered="#{vis.prioridad eq 2}" />
+							<h:outputText value="Baja" rendered="#{vis.prioridad eq 1}" />
+							<h:outputText value="Normal" rendered="#{vis.prioridad eq 2}" />
 							<h:outputText value="Alta" rendered="#{vis.prioridad eq 3}" />
 						</p:column>
 						<p:column headerText="Detalle">

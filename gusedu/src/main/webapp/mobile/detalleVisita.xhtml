@@ -36,30 +36,31 @@
 							rowKey="#{ter.idTerapia}" paginator="true" rows="5"
 							tableStyleClass="ui-table-columntoggle">
 
-							<p:column headerText="Fec. Relizada">
+							<p:column headerText="Fec. Relizada"
+								style="vertical-align:middle;">
 								<h:outputText value="#{ter.fechaRealizada}">
 									<f:convertDateTime pattern="dd-MM-yyyy" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Fec. Proxima">
+							<p:column headerText="Fec. Proxima"
+								style="vertical-align:middle;">
 								<h:outputText value="#{ter.fechaProxima}">
 									<f:convertDateTime pattern="dd-MM-yyyy" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Tipo">
+							<p:column headerText="Tipo" style="vertical-align:middle;">
 								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
 							</p:column>
-							<p:column headerText="Terapeuta">
-								<h:outputText value="#{ter.usuarioCreacion}" />
+							<p:column headerText="Terapeuta" style="vertical-align:middle;">
+								<h:outputText value="#{ter.usuarioCreacion}"
+									rendered="#{ter.usuarioCreacion ne null}" />
+								<h:outputText value="No especificado"
+									rendered="#{ter.usuarioCreacion eq null}" />
 							</p:column>
 							<p:column headerText="Costo" style="vertical-align:middle;">
 								<h:outputText value="#{ter.terTipoTerapia.costo}">
 									<f:convertNumber type="currency" locale="es_PE"></f:convertNumber>
 								</h:outputText>
-							</p:column>
-							<p:column headerText="Opciones">
-								<p:commandButton icon="ui-icon-eye"
-									action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
 							</p:column>
 						</p:dataTable>
 					</p:tab>

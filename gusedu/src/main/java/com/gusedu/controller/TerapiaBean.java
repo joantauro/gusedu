@@ -1,7 +1,6 @@
 package com.gusedu.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +36,21 @@ public class TerapiaBean {
 
 	private Terapia terapia;
 	private List<Terapia> terapias;
-
+	private List<Par> allPares;
+	
 	private List<EnfermedadTerapia> terEnfermedades;
 	private List<SintomaTerapia> terSintomas;
-	private List<Par> paresSugeridos;
-	private List<Par> paresSeleccionados;
-	private List<Par> allPares;
-	private List<Par> paresTerapia;
 	
+	private List<Par> paresSugeridos;
+	private List<Par> paresSeleccionados;	
+	private List<Par> paresTerapia;
+
 	private Enfermedad enfermedad;
 	private Sintoma sintoma;
 
 	private int index;
 	private int sliderDolor;
-	
+
 	private int size;
 
 	public TerapiaBean() {
@@ -168,25 +168,34 @@ public class TerapiaBean {
 	public void setParesTerapia(List<Par> paresTerapia) {
 		this.paresTerapia = paresTerapia;
 	}
-
+	
+	//Método para cargar una terapia en específico segun el Id.
 	public String cargarTerapiaEspecifica(int id) {
+		//Cargar tab inicial: Enfermedad
+		index = 0;		
+		//Carga la terapia específica
 		terapia = terapiaService.terapiaById(id);
-		index = 0;
+		//Carga los pares realizados en la terapia
 		paresTerapia = parService.paresByTerapia(terapia);
+		//Carga las enfermedades de la terapia
 		terEnfermedades = terapiaService.getEnfermedadesByTerapia(terapia);
+		//Carga los sintomas de la terapia		
 		terSintomas = terapiaService.getSintomasByTerapia(terapia);
-		if(paresTerapia==null || paresTerapia.isEmpty()){
+		//Redirect de acuerdo a los pares en la terapia
+		if (paresTerapia == null || paresTerapia.isEmpty()) {
 			return "gestionTerapia?faces-redirect=true";
-		}else{
+		} else {
 			return "detalleTerapia?faces-redirect=true";
 		}
-		
 	}
 
+	//Método para agregar una nueva enfermedad a la terapia
 	public String addEnfermedad() {
+		//Crea una nueva EnfermedadTerapia
 		EnfermedadTerapia enfermedadTerapia = new EnfermedadTerapia();
 		enfermedadTerapia.setExtTerapia(terapia);
 		enfermedadTerapia.setExtEnfermedad(enfermedad);
+		//Verifica si existe
 		if (enfermedadRepetida()) {
 			StaticUtil.errorMessage("Error", "La enfermedad ya existe");
 			return null;
@@ -194,6 +203,7 @@ public class TerapiaBean {
 			if (enfermedadService.saveEnfermedadTerapia(enfermedadTerapia)) {
 				StaticUtil.correctMesage("Éxito", "Se agregó correctamente la enfermedad");
 				enfermedad = new Enfermedad();
+				//Index de tab: enfermedad
 				index = 0;
 				return "gestionTerapia?faces-redirect=true";
 			} else {
@@ -203,10 +213,13 @@ public class TerapiaBean {
 		}
 	}
 
+	//Método para agregar un nuevo síntoma a la terapia
 	public String addSintoma() {
+		//Crea un nuevo SintomaTerapia
 		SintomaTerapia sintomaTerapia = new SintomaTerapia();
 		sintomaTerapia.setSxtTerapia(terapia);
 		sintomaTerapia.setSxtSintoma(sintoma);
+		//Verifica si existe
 		if (sintomaRepetido()) {
 			StaticUtil.errorMessage("Error", "El sintoma ya existe");
 			return null;
@@ -216,7 +229,8 @@ public class TerapiaBean {
 				StaticUtil.correctMesage("Éxito", "Se agregó correctamente el sintoma");
 				sintoma = new Sintoma();
 				sliderDolor = 0;
-				index = 1;
+				//Index de tab: Sintoma				
+				index = 1;								
 				return "gestionTerapia?faces-redirect=true";
 			} else {
 				StaticUtil.errorMessage("Error", "Hubo un error al guardar el sintoma");
@@ -225,6 +239,7 @@ public class TerapiaBean {
 		}
 	}
 
+	//Método para autocompletar la búsqueda de Enfermedad
 	public List<Enfermedad> autoCompletarEnfermedad(String query) {
 		List<Enfermedad> allEnfermedades = enfermedadService.getAll();
 		List<Enfermedad> enfFiltrados = new ArrayList<Enfermedad>();
@@ -237,7 +252,8 @@ public class TerapiaBean {
 		}
 		return enfFiltrados;
 	}
-
+	
+	//Método para autocompletar la búsqueda de Sintoma
 	public List<Sintoma> autoCompletarSintoma(String query) {
 		List<Sintoma> allSintomas = sintomaService.getAll();
 		List<Sintoma> sinFiltrados = new ArrayList<Sintoma>();
@@ -251,9 +267,9 @@ public class TerapiaBean {
 		return sinFiltrados;
 	}
 
+	//Método para verificar si la enfermedad ya existe 
 	public boolean enfermedadRepetida() {
-		List<EnfermedadTerapia> terEnf = terapiaService
-				.getEnfermedadesByTerapia(terapia);
+		List<EnfermedadTerapia> terEnf = terapiaService.getEnfermedadesByTerapia(terapia);
 		for (EnfermedadTerapia e : terEnf) {
 			if (e.getExtEnfermedad().getNombre().equalsIgnoreCase(enfermedad.getNombre())) {
 				return true;
@@ -262,6 +278,7 @@ public class TerapiaBean {
 		return false;
 	}
 
+	//Método para verificar si el síntoma ya existe	
 	public boolean sintomaRepetido() {
 		List<SintomaTerapia> terSin = terapiaService.getSintomasByTerapia(terapia);
 		for (SintomaTerapia e : terSin) {
@@ -272,34 +289,53 @@ public class TerapiaBean {
 		return false;
 	}
 
+	//Método para finalizar la edición de síntomas y enfermedades
 	public String finalizarEdicion() {
+		//Usa el método getSugeridos para cargar los pares según enfermedades y síntomas
 		paresSugeridos = getSugeridos();
-		paresSeleccionados = new ArrayList<>();
+		//Obtiene pares de una terapia específica
+		List<Par> paresDb = terapiaService.getTerapiaParesFromTerapia(terapia);
+		//Verifica si existen pares en la terapia.
+		if (paresDb != null) {
+			paresSeleccionados = paresDb;
+		} else {
+			paresSeleccionados = new ArrayList<>();
+		}
 		return "gestionTerapiaDetalle?faces-redirect=true";
 	}
-	
+
+	//Método para obtener la lista de pares sugeridos según las enfermedades y sintomas de la terapia.
 	public List<Par> getSugeridos() {
+		//Crea una nueva lista para guardar los pares sugeridos.
 		List<Par> sugeridos = new ArrayList<>();
+		//Carga las enfermedades y síntomas asociados a la terapia.
 		terSintomas = terapiaService.getSintomasByTerapia(terapia);
 		terEnfermedades = terapiaService.getEnfermedadesByTerapia(terapia);
-
+		//Verifica si existen síntomas
 		if (terSintomas != null) {
 			for (SintomaTerapia sxt : terSintomas) {
+				//Se obtiene los pares relacionados al síntoma específico según opciones de Biomagnetismo.
 				List<Par> paresSintoma = parService.getParesBySintoma(sxt.getSxtSintoma());
+				//Verifica si hay pares asociados al síntoma.
 				if (paresSintoma != null) {
 					for (Par par : paresSintoma) {
 						boolean esExistente = false;
+						//Verifica si la lista de sugeridos esta vacía.
 						if (sugeridos != null) {
 							if (sugeridos.isEmpty()) {
+								//Si está vacía guarda el par sin verificar si ya está repetido.
 								sugeridos.add(par);
 							} else {
+								//En caso no esté vacía verifica si el par ya ha sido agregado.
 								for (Par sugerido : sugeridos) {
 									if (sugerido.getIdPar() == par.getIdPar()) {
+										//Si el par ya existe, se pasa al siguiente posible par sugerido.
 										esExistente = true;
 										break;
-									}									
+									}
 								}
-								if(esExistente == false){
+								if (esExistente == false) {
+									//Si el par no existe, se agrega el par a los pares sugeridos.
 									sugeridos.add(par);
 								}
 							}
@@ -309,24 +345,31 @@ public class TerapiaBean {
 			}
 		}
 
+		//Verifica si existen síntomas		
 		if (terEnfermedades != null) {
 			for (EnfermedadTerapia ext : terEnfermedades) {
-				List<Par> paresEnfermedad = parService.getParesByEnfermedad(ext
-						.getExtEnfermedad());
+				//Se obtiene los pares relacionados a la enfermedad según opciones de Biomagnetismo.
+				List<Par> paresEnfermedad = parService.getParesByEnfermedad(ext.getExtEnfermedad());
+				//Verifica si hay pares asociados a la enfermedad.				
 				if (paresEnfermedad != null) {
 					for (Par par : paresEnfermedad) {
 						boolean esExistente = false;
+						//Verifica si la lista de sugeridos esta vacía.
 						if (sugeridos != null) {
 							if (sugeridos.isEmpty()) {
+								//Si está vacía guarda el par sin verificar si ya está repetido.								
 								sugeridos.add(par);
 							} else {
+								//En caso no esté vacía verifica si el par ya ha sido agregado.
 								for (Par sugerido : sugeridos) {
 									if (sugerido.getIdPar() == par.getIdPar()) {
+										//Si el par ya existe, se pasa al siguiente posible par sugerido.
 										esExistente = true;
 										break;
-									}									
+									}
 								}
-								if(esExistente == false){
+								if (esExistente == false) {
+									//Si el par no existe, se agrega el par a los pares sugeridos.
 									sugeridos.add(par);
 								}
 							}
@@ -337,79 +380,64 @@ public class TerapiaBean {
 		}
 		return sugeridos;
 	}
-
-
-	public String addToElegidos(int idPar){
-		Par toAdd = parService.parById(idPar);
-		boolean esRepetido = false;
-		for(Par p : paresSeleccionados){
-			if(p.getIdPar() == idPar){
-				esRepetido = true;
-			}
-		}
-		if(!(esRepetido)){
-			paresSeleccionados.add(toAdd);
-			for(Par p : paresSugeridos){
-				if(p.getIdPar() == toAdd.getIdPar()){
-					paresSugeridos.remove(p);
-					return null;
-				}
-			}			
-		} else{
-			StaticUtil.errorMessage("Error", "El par ya ha sido agregado");
-			return null;
-		}
-		return null;
-	}
 	
-
-	public String addAllToElegidos() {
-		HashSet<Par> allPares = new HashSet<>();
-		allPares.addAll(paresSeleccionados);
-		allPares.addAll(paresSugeridos);
-		paresSeleccionados.clear();
-		paresSeleccionados.addAll(allPares);
-		paresSugeridos.clear();
-		for (Par par : paresSeleccionados) {
-			System.out.println(par.getParPunto1().getNombre() + " "
-					+ par.getParPunto2().getNombre());
-		}
-		return null;
-	}
-
+	//Método para verificar si el botón de agregar a pares elegidos debe ser renderizado.
 	public boolean shouldBeRendered(int idPar) {
 		for (Par par : paresSeleccionados) {
 			if (par.getIdPar() == idPar) {
+				//Si el id del Par ya esta entre los pares seleccionados el botón no es renderizado.
 				return false;
 			}
 		}
 		return true;
 	}
 
+	//Método para pintar el row de la tabla de azul en caso sea un par sugerido.
+	public String shouldBeColored(int idPar) {
+		for (Par par : paresSugeridos) {
+			if (par.getIdPar() == idPar) {
+				//Si el id del Par está dentro de los pares sugeridos entonces se pinta la línea.
+				return "colored";
+			}
+		}
+		return null;
+	}
+
+	//Método para agregar el par de la lista del rastreo a la lista de elegidos.
 	public String addParRastreo(int idPar) {
+		//Carga el par según espcífico el id obtenido.
 		Par toAdd = parService.parById(idPar);
 		boolean existe = false;
 		for (Par par : paresSeleccionados) {
 			if (par.getIdPar() == idPar) {
+				//En caso el par ya haya sido agregado se ignora.
 				existe = true;
 				break;
 			}
 		}
 		if (!(existe)) {
+			//Si el par de rastreo no ha sido asignado se agrega a la lista de seleccionados.
 			paresSeleccionados.add(toAdd);
 		}
 		return null;
 	}
-	
-	public String finalizarTerapia(){
-		for(Par p : paresSeleccionados){
+
+	//Método para finalizar la edición de los pares en la terapia.
+	public String finalizarTerapia() {
+		//Crea un TerapiaPar por cada uno de los pares seleccionados.
+		for (Par p : paresSeleccionados) {
 			TerapiaPar toPersist = new TerapiaPar();
 			toPersist.setTxpPar(p);
 			toPersist.setTxpTerapia(terapia);
-			terapiaService.saveTerapiaPar(toPersist);
+			//Se verifica si el TerapiaPar ya ha sido agregado antes
+			if(terapiaService.TerapiaParByParAndTerapia(terapia, p)!=null){
+				//Si no ha sido agregado se agrega a la terapia.
+				terapiaService.saveTerapiaPar(toPersist);
+			}			
 		}
+		//Se recarga los pares asignados a la terapia.
 		paresTerapia = parService.paresByTerapia(terapia);
 		return "detalleTerapia?faces-redirect=true";
 	}
-	
+
 }
