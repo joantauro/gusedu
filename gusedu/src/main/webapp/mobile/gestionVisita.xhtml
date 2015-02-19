@@ -140,44 +140,42 @@
 		<pm:content>
 			<h:form>
 				<pm:field>
-					<p:outputLabel for="inputPeso" value="Peso: " />
+					<p:outputLabel for="inputPeso" value="Peso (kg):" />
 					<p:inputText id="inputPeso" required="true"
-						value="#{visitaBean.historiaClinica.peso}"
-						placeholder="Ejemplo: 72.2, la unidad de medida es kg.">
+						value="#{visitaBean.historiaClinica.peso}">
 						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
 							maxIntegerDigits="3"></f:convertNumber>
 					</p:inputText>
 				</pm:field>
 				<pm:field>
-					<p:outputLabel for="inputTalla" value="Talla: " />
+					<p:outputLabel for="inputTalla" value="Talla (m): " />
 					<p:inputText id="inputTalla" required="true"
-						value="#{visitaBean.historiaClinica.talla}"
-						placeholder="Ejemplo: 1.75, la unidad de medida es m.">
+						value="#{visitaBean.historiaClinica.talla}">
 						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
 							maxIntegerDigits="1"></f:convertNumber>
 					</p:inputText>
 				</pm:field>
 				<pm:field>
-					<p:outputLabel for="inputTemperatura" value="Temperatura: " />
+					<p:outputLabel for="inputTemperatura" value="Temperatura (ºC): " />
 					<p:inputText id="inputTemperatura" required="true"
 						value="#{visitaBean.historiaClinica.temperatura}"
-						placeholder="Ejemplo: 37.5, la unidad termométrica es ºC">
+						placeholder="Rango óptimo: 36.7ºC-37.2ºC">
 						<f:convertNumber pattern="#0.0" maxFractionDigits="1"
 							maxIntegerDigits="1"></f:convertNumber>
 					</p:inputText>
 				</pm:field>
 				<pm:field>
-					<p:outputLabel for="inputTension" value="Tensión Arterial: " />
+					<p:outputLabel for="inputTension" value="Tensión Arterial (mmHg): " />
 					<p:inputText id="inputTension" required="true"
 						value="#{visitaBean.historiaClinica.tensionArterial}"
-						placeholder="Ejemplo: 110/80, la unidad de medida es mmHg">
+						placeholder="Rango óptimo: 120/80 o menos">
 					</p:inputText>
 				</pm:field>
 				<pm:field>
-					<p:outputLabel for="inputGlucosa" value="Glucosa: " />
+					<p:outputLabel for="inputGlucosa" value="Glucosa (mg/dl): " />
 					<p:inputText id="inputGlucosa" required="true"
 						value="#{visitaBean.historiaClinica.glucosa}"
-						placeholder="Ejemplo: 75, la unidad de medida es mg/dl">
+						placeholder="Rango óptimo: 70-100 en ayunas.">
 						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
 							maxIntegerDigits="3"></f:convertNumber>
 					</p:inputText>
@@ -191,7 +189,7 @@
 				<p:panelGrid columns="2">
 					<p:commandButton value="Guardar"
 						action="#{visitaBean.nuevaHistoria}" />
-					<p:commandButton value="Cancelar" />
+					<p:commandButton value="Cancelar" action="pm:gestionVisita" ajax="false" immediate="true"/>
 				</p:panelGrid>
 			</h:form>
 		</pm:content>

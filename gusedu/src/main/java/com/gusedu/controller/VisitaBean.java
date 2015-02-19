@@ -158,7 +158,7 @@ public class VisitaBean {
 	//Método que limpia las entidades y regresa a registrarVisita
 	public String backToRegistrarVisita() {
 		this.clearEntities();
-		return "registrarVisita?faces-redirect=true";
+		return "registrarVisita";
 	}
 
 	//Método que limpia las entidades y regresa al index
