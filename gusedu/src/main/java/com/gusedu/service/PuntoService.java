@@ -12,6 +12,8 @@ public interface PuntoService {
 	
 	public List<Punto> getAllOrdenAlfabeticoDesc();
 	
+	public List<Punto> getAllOrdenGoiz();
+	
 	public Punto puntoById(Integer id);
 	
 	public Boolean savePunto(Punto punto);

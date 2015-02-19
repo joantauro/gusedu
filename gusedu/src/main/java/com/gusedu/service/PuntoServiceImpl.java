@@ -116,6 +116,19 @@ public class PuntoServiceImpl implements PuntoService{
 		}
 		return result;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Punto> getAllOrdenGoiz() {
+		List<Punto> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Punto p ORDER BY p.ordenGoiz ASC");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
 	
 	
 }

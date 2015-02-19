@@ -23,6 +23,7 @@ public class PuntoBean {
 
 	int asc;
 	int desc;
+	int goiz;
 
 	public PuntoBean() {
 		punto = new Punto();
@@ -43,7 +44,7 @@ public class PuntoBean {
 				return puntos;
 			}
 		}
-		if (asc != 0 || desc != 0) {
+		if (asc != 0 || desc != 0 || goiz != 0) {
 			return puntos;
 		}
 		return puntoService.getAllPuntos();
@@ -151,17 +152,22 @@ public class PuntoBean {
 	public void orderAsc() {
 		asc = 1;
 		desc = 0;
+		goiz = 0;
 		puntos = puntoService.getAllOrdenAlfabeticoAsc();
 	}
 
 	public void orderDesc() {
 		desc = 1;
 		asc = 0;
+		goiz = 0;
 		puntos = puntoService.getAllOrdenAlfabeticoDesc();
 	}
 
 	public void orderGoiz() {
-
+		desc = 0;
+		asc = 0;
+		goiz = 1;
+		puntos = puntoService.getAllOrdenGoiz();
 	}
 
 }

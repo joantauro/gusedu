@@ -27,7 +27,7 @@ public class Punto {
     @Column(nullable= true, name= "PUN_UBICACION_M", length=100)
     private String ubicacionMedia;    
 
-    @Column(nullable= true, name= "PUN_ORDEN_GOIZ")
+    @Column(nullable= true, name= "PUN_ORDEN_FISICO")
     private Integer ordenGoiz;
     
 	@OneToMany(mappedBy="parPunto1")
