@@ -37,7 +37,7 @@ public class Modelo {
 	@JoinColumn(name = "MAR_CODIGO", nullable = false)
 	private Marca modMarca;
 	
-	@OneToMany(mappedBy="proModelo", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="proModelo")
 	private Collection<Producto> modProductos;
 
 	public Integer getIdModelo() {

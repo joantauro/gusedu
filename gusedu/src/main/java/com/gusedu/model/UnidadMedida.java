@@ -22,7 +22,7 @@ public class UnidadMedida {
     @Column(nullable = true, name = "UME_DESCRIPCION", length=40)
     private String descripcion;	
     
-	@OneToMany(mappedBy="proUnidadMedida", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="proUnidadMedida")
 	private Collection<Producto> umeProductos;
 
 	public Integer getIdUnidadMedida() {

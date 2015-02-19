@@ -29,7 +29,7 @@ public class TipoProducto {
     @Column(nullable = true, name = "TPR_USU_MODIFICACION")
     private String usuarioModificacion;
     
-	@OneToMany(mappedBy="proTipoProducto", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="proTipoProducto")
 	private Collection<Producto> tprProductos;
 
 	public Integer getIdTipoProducto() {

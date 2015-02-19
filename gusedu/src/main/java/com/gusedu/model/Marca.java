@@ -22,7 +22,7 @@ public class Marca {
     @Column(nullable = true, name = "MAR_NOMBRE", length=40)
     private String nombre;	
     
-	@OneToMany(mappedBy="modMarca", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="modMarca")
 	private Collection<Modelo> marModelos;
 
 	public Integer getIdMarca() {
