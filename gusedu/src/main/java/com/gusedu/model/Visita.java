@@ -51,6 +51,9 @@ public class Visita {
 	@OneToOne(mappedBy="hclVisita")
 	private HistoriaClinica visHistoriaClinica;
 	
+	@OneToMany(mappedBy="pxvVisita")
+	private Collection<ProductoVisita> visProductoVisitas;
+	
 	public Integer getIdVisita() {
 		return idVisita;
 	}
@@ -105,6 +108,14 @@ public class Visita {
 
 	public void setVisCliente(Cliente visCliente) {
 		this.visCliente = visCliente;
+	}
+
+	public Collection<ProductoVisita> getVisProductoVisitas() {
+		return visProductoVisitas;
+	}
+
+	public void setVisProductoVisitas(Collection<ProductoVisita> visProductoVisitas) {
+		this.visProductoVisitas = visProductoVisitas;
 	}
 
 	public Collection<Terapia> getVisTerapias() {
