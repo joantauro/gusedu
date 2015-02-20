@@ -41,6 +41,7 @@
 				<p:accordionPanel>
 					<p:tab title="Terapias">
 						<p:dataTable id="terapias" var="ter"
+							paginatorAlwaysVisible="false"
 							value="#{visitaBean.terapiasDeVisita}"
 							emptyMessage="No se han registrado terapias"
 							rowKey="#{ter.idTerapia}" paginator="true" rows="5"
@@ -54,17 +55,21 @@
 							</p:column>
 							<p:column headerText="Fec. Proxima"
 								style="vertical-align:middle;">
-								<h:outputText value="#{ter.fechaProxima}" rendered="#{ter.fechaProxima ne null}">
+								<h:outputText value="#{ter.fechaProxima}"
+									rendered="#{ter.fechaProxima ne null}">
 									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 								</h:outputText>
-								<h:outputText value="No especificado" rendered="#{ter.fechaProxima eq null}"></h:outputText>
+								<h:outputText value="No especificado"
+									rendered="#{ter.fechaProxima eq null}"></h:outputText>
 							</p:column>
 							<p:column headerText="Tipo" style="vertical-align:middle;">
 								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
 							</p:column>
 							<p:column headerText="Terapeuta" style="vertical-align:middle;">
-								<h:outputText value="#{ter.usuarioCreacion}" rendered="#{ter.usuarioCreacion ne null}"/>
-								<h:outputText value="No especificado" rendered="#{ter.usuarioCreacion eq null}"/>
+								<h:outputText value="#{ter.usuarioCreacion}"
+									rendered="#{ter.usuarioCreacion ne null}" />
+								<h:outputText value="No especificado"
+									rendered="#{ter.usuarioCreacion eq null}" />
 							</p:column>
 							<p:column headerText="Costo" style="vertical-align:middle;">
 								<h:outputText value="#{ter.terTipoTerapia.costo}">
@@ -82,7 +87,7 @@
 					</p:tab>
 				</p:accordionPanel>
 				<p:panel header="Datos generales" toggleable="true">
-				
+
 				</p:panel>
 			</h:form>
 		</pm:content>
@@ -139,57 +144,144 @@
 		</pm:header>
 		<pm:content>
 			<h:form>
-				<pm:field>
-					<p:outputLabel for="inputPeso" value="Peso (kg):" />
-					<p:inputText id="inputPeso" required="true"
-						value="#{visitaBean.historiaClinica.peso}">
-						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
-							maxIntegerDigits="3"></f:convertNumber>
-					</p:inputText>
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="inputTalla" value="Talla (m): " />
-					<p:inputText id="inputTalla" required="true"
-						value="#{visitaBean.historiaClinica.talla}">
-						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
-							maxIntegerDigits="1"></f:convertNumber>
-					</p:inputText>
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="inputTemperatura" value="Temperatura (ºC): " />
-					<p:inputText id="inputTemperatura" required="true"
-						value="#{visitaBean.historiaClinica.temperatura}"
-						placeholder="Rango óptimo: 36.7ºC-37.2ºC">
-						<f:convertNumber pattern="#0.0" maxFractionDigits="1"
-							maxIntegerDigits="1"></f:convertNumber>
-					</p:inputText>
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="inputTension" value="Tensión Arterial (mmHg): " />
-					<p:inputText id="inputTension" required="true"
-						value="#{visitaBean.historiaClinica.tensionArterial}"
-						placeholder="Rango óptimo: 120/80 o menos">
-					</p:inputText>
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="inputGlucosa" value="Glucosa (mg/dl): " />
-					<p:inputText id="inputGlucosa" required="true"
-						value="#{visitaBean.historiaClinica.glucosa}"
-						placeholder="Rango óptimo: 70-100 en ayunas.">
-						<f:convertNumber pattern="#0.00" maxFractionDigits="2"
-							maxIntegerDigits="3"></f:convertNumber>
-					</p:inputText>
-				</pm:field>
-				<pm:field>
-					<p:outputLabel for="inputAdicional" value="Datos Adicionales: " />
-					<p:inputTextarea id="inputAdicional" maxlength="500"
-						value="#{visitaBean.historiaClinica.datosAdicionales}"
-						placeholder="(Opcional)" />
-				</pm:field>
+				<p:panel header="Datos médicos">
+					<pm:field>
+						<p:outputLabel for="inputPeso" value="Peso (kg):" />
+						<p:inputText id="inputPeso" required="true"
+							value="#{visitaBean.historiaClinica.peso}">
+							<f:convertNumber pattern="#0.00" maxFractionDigits="2"
+								maxIntegerDigits="3"></f:convertNumber>
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputTalla" value="Talla (m): " />
+						<p:inputText id="inputTalla" required="true"
+							value="#{visitaBean.historiaClinica.talla}">
+							<f:convertNumber pattern="#0.00" maxFractionDigits="2"
+								maxIntegerDigits="1"></f:convertNumber>
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputTemperatura" value="Temperatura (ºC): " />
+						<p:inputText id="inputTemperatura" required="true"
+							value="#{visitaBean.historiaClinica.temperatura}"
+							placeholder="Rango óptimo: 36.7ºC-37.2ºC">
+							<f:convertNumber pattern="#0.0" maxFractionDigits="1"
+								maxIntegerDigits="1"></f:convertNumber>
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputTension"
+							value="Tensión Arterial (mmHg): " />
+						<p:inputText id="inputTension" required="true"
+							value="#{visitaBean.historiaClinica.tensionArterial}"
+							placeholder="Rango óptimo: 120/80 o menos">
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputGlucosa" value="Glucosa (mg/dl): " />
+						<p:inputText id="inputGlucosa" required="true"
+							value="#{visitaBean.historiaClinica.glucosa}"
+							placeholder="Rango óptimo: 70-100 en ayunas.">
+							<f:convertNumber pattern="#0.00" maxFractionDigits="2"
+								maxIntegerDigits="3"></f:convertNumber>
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputEmbarazo" value="¿Está embarazada?: " />
+						<p:inputSwitch id="inputEmbarazo"
+							value="#{visitaBean.historiaClinica.estaEmbarazada}" onLabel="Si"
+							offLabel="No">
+						</p:inputSwitch>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputEmbarazoMes" value="Mes embarazo: " />
+						<p:inputText id="inputEmbarazoMes"
+							value="#{visitaBean.historiaClinica.mesEmbarazo}"
+							placeholder="Enero-Diciembre">
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputQuimio"
+							value="¿Ha recibido quimioterapias?: " />
+						<p:inputSwitch id="inputQuimio"
+							value="#{visitaBean.historiaClinica.haRecibidoQuimio}"
+							onLabel="Si" offLabel="No">
+						</p:inputSwitch>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputDisp"
+							value="¿Tiene algún dispositivo electrónico?: " />
+						<p:inputSwitch id="inputDisp"
+							value="#{visitaBean.historiaClinica.tieneDispElectronico}"
+							onLabel="Si" offLabel="No">
+						</p:inputSwitch>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="inputAdicional" value="Datos Adicionales: " />
+						<p:inputTextarea id="inputAdicional" maxlength="500"
+							value="#{visitaBean.historiaClinica.datosAdicionales}"
+							placeholder="(Opcional)" />
+					</pm:field>
+				</p:panel>
+				<p:panel header="Datos nutricionales">
+					<pm:field>
+						<p:outputLabel for="esVegetariano" value="¿Es vegetariano?: " />
+						<p:inputSwitch id="esVegetariano"
+							value="#{visitaBean.historiaClinica.esVegetariano}" onLabel="Si"
+							offLabel="No">
+						</p:inputSwitch>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="azucar" value="¿Consume azucar?: " />
+						<p:inputSwitch id="azucar"
+							value="#{visitaBean.historiaClinica.azucar}" onLabel="Si"
+							offLabel="No">
+						</p:inputSwitch>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="sal" value="¿Consume sal yodada?: " />
+						<p:inputSwitch id="sal"
+							value="#{visitaBean.historiaClinica.salYodada}" onLabel="Si"
+							offLabel="No">
+						</p:inputSwitch>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="vasosAgua" value="Agua: " />
+						<p:inputText id="vasosAgua" required="true"
+							value="#{visitaBean.historiaClinica.agua}"
+							placeholder="Número de veces al día que consume agua">
+							<f:convertNumber integerOnly="true"></f:convertNumber>
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="habitoDesayuno" value="Desayuno: " />
+						<p:inputText id="habitoDesayuno"
+							value="#{visitaBean.historiaClinica.desayuno}"
+							placeholder="Habitos recurrentes: ¿Consume frutas o verduras?">
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="habitoAlmuerzo" value="Almuerzo: " />
+						<p:inputText id="habitoAlmuerzo"
+							value="#{visitaBean.historiaClinica.almuerzo}"
+							placeholder="Habitos recurrentes: ¿Consume frutas o verduras?">
+						</p:inputText>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="habitoCena" value="Cena: " />
+						<p:inputText id="habitoCena"
+							value="#{visitaBean.historiaClinica.cena}"
+							placeholder="Habitos recurrentes: ¿Consume frutas o verduras?">
+						</p:inputText>
+					</pm:field>
+				</p:panel>
+
 				<p:panelGrid columns="2">
 					<p:commandButton value="Guardar"
 						action="#{visitaBean.nuevaHistoria}" />
-					<p:commandButton value="Cancelar" action="pm:gestionVisita" ajax="false" immediate="true"/>
+					<p:commandButton value="Cancelar" action="pm:gestionVisita"
+						ajax="false" immediate="true" />
 				</p:panelGrid>
 			</h:form>
 		</pm:content>

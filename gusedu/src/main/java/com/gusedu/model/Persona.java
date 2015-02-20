@@ -44,6 +44,9 @@ public class Persona {
     @Column(name="PER_SEXO", nullable=true, length=1)
     private String sexo;
     
+    @Column(name="PER_SIGNO_ZODIACAL", nullable=true)
+    private String signoZodiacal;    
+    
     @Column(name="PER_NIT", nullable=true)
     private Integer nit;
     
@@ -213,6 +216,14 @@ public class Persona {
 
 	public void setTelefonoMovil(Integer telefonoMovil) {
 		this.telefonoMovil = telefonoMovil;
+	}
+
+	public String getSignoZodiacal() {
+		return signoZodiacal;
+	}
+
+	public void setSignoZodiacal(String signoZodiacal) {
+		this.signoZodiacal = signoZodiacal;
 	}
 
 	@Override

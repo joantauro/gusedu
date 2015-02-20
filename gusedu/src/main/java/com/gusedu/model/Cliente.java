@@ -49,7 +49,15 @@ public class Cliente {
 
     @Column(nullable = true, name = "CLI_OPERACION")
     private String operacion;
+    
+    @Column(nullable = true, name = "CLI_CIRUGIA_ESTETICA")
+    private String cirugia;
 
+    @Column(nullable = true, name = "CLI_ALERGIA")
+    private String alergia;
+    
+    @Column(nullable = true, name = "CLI_MEDICAMENTOS")
+    private String medicamentos;   
     
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PER_CODIGO", nullable = true)
@@ -157,6 +165,30 @@ public class Cliente {
 		this.esActivo = esActivo;
 	}
 	
+	public String getCirugia() {
+		return cirugia;
+	}
+
+	public void setCirugia(String cirugia) {
+		this.cirugia = cirugia;
+	}
+
+	public String getAlergia() {
+		return alergia;
+	}
+
+	public void setAlergia(String alergia) {
+		this.alergia = alergia;
+	}
+
+	public String getMedicamentos() {
+		return medicamentos;
+	}
+
+	public void setMedicamentos(String medicamentos) {
+		this.medicamentos = medicamentos;
+	}
+
 	public Boolean getEsActivo() {
 		return esActivo;
 	}

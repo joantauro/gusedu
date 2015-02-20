@@ -18,8 +18,9 @@
 			<p:button outcome="gestionVisita" value="Volver"
 				icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			<h:form>
-				<p:commandButton oncomplete="PF('dlgFinalizar').show();" value="Finalizar" icon="ui-icon-arrow-r"
-					iconPos="right" styleClass="ui-btn-right ui-btn-inline" />
+				<p:commandButton oncomplete="PF('dlgFinalizar').show();"
+					value="Finalizar" icon="ui-icon-arrow-r" iconPos="right"
+					styleClass="ui-btn-right ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
@@ -41,7 +42,7 @@
 					<h:form id="formTablaEnfermedad">
 						<p:dataTable emptyMessage="No hay enfermedades en la terapia"
 							id="tablaEnf" var="ext" value="#{terapiaBean.terEnfermedades}"
-							paginator="true" rows="3">
+							paginator="true" rows="3" paginatorAlwaysVisible="false">
 							<p:column headerText="Nombre">
 								<p:outputLabel value="#{ext.extEnfermedad.nombre}" />
 							</p:column>
@@ -68,9 +69,10 @@
 							action="#{terapiaBean.addSintoma}"></p:commandButton>
 					</h:form>
 					<h:form id="formTablaSintoma">
-						<p:dataTable emptyMessage="No hay sintomas en la terapia"
-							id="tablaSin" var="sxt" value="#{terapiaBean.terSintomas}"
-							paginator="true" rows="3">
+						<p:dataTable paginatorAlwaysVisible="false"
+							emptyMessage="No hay sintomas en la terapia" id="tablaSin"
+							var="sxt" value="#{terapiaBean.terSintomas}" paginator="true"
+							rows="3">
 							<p:column headerText="Nombre">
 								<p:outputLabel value="#{sxt.sxtSintoma.descripcion}" />
 							</p:column>
@@ -81,12 +83,12 @@
 					</h:form>
 				</p:tab>
 			</p:tabView>
-			<p:dialog header="¿Finalizar?" widgetVar="dlgFinalizar" resizable="true"
-				showEffect="pop" closable="false" modal="true">
+			<p:dialog header="¿Finalizar?" widgetVar="dlgFinalizar"
+				resizable="true" showEffect="pop" closable="false" modal="true">
 				<h:form>
 					<p:commandButton value="Si" styleClass="ui-btn-inline"
 						icon="ui-icon-check" ajax="false"
-						action="#{terapiaBean.finalizarEdicion}" 
+						action="#{terapiaBean.finalizarEdicion}"
 						oncomplete="PF('dlgFinalizar').hide();" />
 
 					<p:commandButton value="No" styleClass="ui-btn-inline"

@@ -144,7 +144,7 @@ public class TerapiaBean {
 	}
 
 	public List<Par> getAllPares() {
-		allPares = parService.getAllPares();
+		allPares = parService.getAllParesOrderGoiz();
 		return allPares;
 	}
 
@@ -430,7 +430,7 @@ public class TerapiaBean {
 			toPersist.setTxpPar(p);
 			toPersist.setTxpTerapia(terapia);
 			//Se verifica si el TerapiaPar ya ha sido agregado antes
-			if(terapiaService.TerapiaParByParAndTerapia(terapia, p)!=null){
+			if(terapiaService.TerapiaParByParAndTerapia(terapia, p)==null){
 				//Si no ha sido agregado se agrega a la terapia.
 				terapiaService.saveTerapiaPar(toPersist);
 			}			

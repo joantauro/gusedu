@@ -32,4 +32,72 @@ public class StaticUtil {
 		context.getFlash().setKeepMessages(true);
 	}
 	
+	public static String signoZodiacal(int mes, int dia) {
+		switch (mes+1) {
+		case 1:
+			if (dia >= 21)
+				return "Acuario";
+			else
+				return "Capricornio";
+		case 2:
+			if (dia >= 20)
+				return "Piscis";
+			else
+				return "Acuario";
+		case 3:
+			if (dia >= 21)
+				return "Aries";
+			else
+				return "Piscis";
+		case 4:
+			if (dia >= 21)
+				return "Tauro";
+			else
+				return "Aries";
+		case 5:
+			if (dia >= 21)
+				return "Géminis";
+			else
+				return "Tauro";
+
+		case 6:
+			if (dia >= 21)
+				return "Cáncer";
+			else
+				return "Géminis";
+		case 7:
+			if (dia >= 23)
+				return "Leo";
+			else
+				return "Cáncer";
+		case 8:
+			if (dia >= 23)
+				return "Virgo";
+			else
+				return "Leo";
+		case 9:
+			if (dia >= 23)
+				return "Libra";
+			else
+				return "Virgo";
+		case 10:
+			if (dia >= 23)
+				return "Escorpio";
+			else
+				return "Libra";
+		case 11:
+			if (dia >= 23)
+				return "Sagitario";
+			else
+				return "Escorpio";
+		case 12:
+			if (dia >= 22)
+				return "Capricornio";
+			else
+				return "Sagitario";
+		default:
+			return null;
+		}
+	}
+	
 }

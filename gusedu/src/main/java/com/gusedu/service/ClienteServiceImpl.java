@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.util.StaticUtil;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
@@ -32,10 +33,14 @@ public class ClienteServiceImpl implements ClienteService{
 		return resultado;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Transactional
 	public boolean updateCliente(Cliente cliente) {
 		boolean resultado = false;
 		try {
+			if(cliente.getCliPersona().getFechaNacimiento()!=null){
+				cliente.getCliPersona().setSignoZodiacal(StaticUtil.signoZodiacal(cliente.getCliPersona().getFechaNacimiento().getMonth(), cliente.getCliPersona().getFechaNacimiento().getDate()));
+			}
 			em.merge(cliente);
 			resultado = true;
 		} catch (Exception e) {

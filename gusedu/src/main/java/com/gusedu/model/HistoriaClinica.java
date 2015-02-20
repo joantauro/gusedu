@@ -40,6 +40,45 @@ public class HistoriaClinica {
 	@Column(nullable = true, name = "HCL_DATOS_ADICIONALES", length = 500)
 	private String datosAdicionales;
 	
+	//Update V2
+	
+	@Column(nullable = true, name = "HCL_EMBARAZO")
+	private Boolean estaEmbarazada;
+	
+	@Column(nullable = true, name = "HCL_MES_EMBARAZO")
+	private String mesEmbarazo;	
+	
+	@Column(nullable = true, name = "HCL_QUIMIOTERAPIA")
+	private Boolean haRecibidoQuimio;
+	
+	@Column(nullable = true, name = "HCL_DISP_ELECTRONICO")
+	private Boolean tieneDispElectronico;	
+	
+	//Update nutricional
+	
+ //Nutricionales
+    
+    @Column(nullable = true, name = "CLI_AZUCAR")
+    private Boolean azucar;
+    
+    @Column(nullable = true, name = "CLI_SAL_YODADA")
+    private Boolean salYodada;    
+    
+    @Column(nullable = true, name = "CLI_ES_VEGETARIANO")
+    private Boolean esVegetariano;   
+    
+    @Column(nullable = true, name = "CLI_HAB_DESAYUNO")
+    private String desayuno;    
+    
+    @Column(nullable = true, name = "CLI_HAB_ALMUERZO")
+    private String almuerzo;    
+    
+    @Column(nullable = true, name = "CLI_HAB_CENA")
+    private String cena;    
+    
+    @Column(nullable = true, name = "CLI_AGUA")
+    private Integer agua;    
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "VIS_CODIGO", nullable = true)
 	private Visita hclVisita;
@@ -116,6 +155,38 @@ public class HistoriaClinica {
 		this.hclVisita = hclVisita;
 	}
 
+	public Boolean getEstaEmbarazada() {
+		return estaEmbarazada;
+	}
+
+	public void setEstaEmbarazada(Boolean estaEmbarazada) {
+		this.estaEmbarazada = estaEmbarazada;
+	}
+
+	public String getMesEmbarazo() {
+		return mesEmbarazo;
+	}
+
+	public void setMesEmbarazo(String mesEmbarazo) {
+		this.mesEmbarazo = mesEmbarazo;
+	}
+
+	public Boolean getHaRecibidoQuimio() {
+		return haRecibidoQuimio;
+	}
+
+	public void setHaRecibidoQuimio(Boolean haRecibidoQuimio) {
+		this.haRecibidoQuimio = haRecibidoQuimio;
+	}
+
+	public Boolean getTieneDispElectronico() {
+		return tieneDispElectronico;
+	}
+
+	public void setTieneDispElectronico(Boolean tieneDispElectronico) {
+		this.tieneDispElectronico = tieneDispElectronico;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -142,6 +213,62 @@ public class HistoriaClinica {
 		} else if (!idHistoriaClinica.equals(other.idHistoriaClinica))
 			return false;
 		return true;
+	}
+
+	public Boolean getAzucar() {
+		return azucar;
+	}
+
+	public void setAzucar(Boolean azucar) {
+		this.azucar = azucar;
+	}
+
+	public Boolean getSalYodada() {
+		return salYodada;
+	}
+
+	public void setSalYodada(Boolean salYodada) {
+		this.salYodada = salYodada;
+	}
+
+	public String getDesayuno() {
+		return desayuno;
+	}
+
+	public void setDesayuno(String desayuno) {
+		this.desayuno = desayuno;
+	}
+
+	public String getAlmuerzo() {
+		return almuerzo;
+	}
+
+	public void setAlmuerzo(String almuerzo) {
+		this.almuerzo = almuerzo;
+	}
+
+	public String getCena() {
+		return cena;
+	}
+
+	public void setCena(String cena) {
+		this.cena = cena;
+	}
+
+	public Integer getAgua() {
+		return agua;
+	}
+
+	public void setAgua(Integer agua) {
+		this.agua = agua;
+	}
+
+	public Boolean getEsVegetariano() {
+		return esVegetariano;
+	}
+
+	public void setEsVegetariano(Boolean esVegetariano) {
+		this.esVegetariano = esVegetariano;
 	}
 
 	@Override

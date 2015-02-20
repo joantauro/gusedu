@@ -17,6 +17,7 @@ import com.gusedu.model.Persona;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoCliente;
 import com.gusedu.model.Usuario;
+import com.gusedu.util.StaticUtil;
 
 @Service
 public class PersonaServiceImpl implements PersonaService {
@@ -40,10 +41,14 @@ public class PersonaServiceImpl implements PersonaService {
 		return resultado;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Transactional
 	public boolean updatePersona(Persona persona) {
 		boolean resultado = false;
 		try {
+			if(persona.getFechaNacimiento()!=null){
+				persona.setSignoZodiacal(StaticUtil.signoZodiacal(persona.getFechaNacimiento().getMonth(), persona.getFechaNacimiento().getDate()));
+			}
 			em.merge(persona);
 			resultado = true;
 		} catch (Exception e) {
@@ -89,6 +94,10 @@ public class PersonaServiceImpl implements PersonaService {
 	public boolean registroPaciente(Persona persona) {
 		boolean resultado = false;
 		try {
+			if(persona.getFechaNacimiento()!=null){
+				persona.setSignoZodiacal(StaticUtil.signoZodiacal(persona.getFechaNacimiento().getMonth(), persona.getFechaNacimiento().getDate()));
+			}
+	
 			em.persist(persona);
 
 			Cliente cliente = new Cliente();
@@ -142,30 +151,31 @@ public class PersonaServiceImpl implements PersonaService {
 	public List<Terapia> terapiasPorPersona(Persona persona) {
 		List<Terapia> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT t FROM Terapia t WHERE t.terVisita.visCliente.cliPersona=:persona");
+			Query q = em
+					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita.visCliente.cliPersona=:persona");
 			q.setParameter("persona", persona);
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());
-		}		
+		}
 		return result;
 	}
 
 	@Override
 	public Cliente buscarPorDni(String dni) {
 		Cliente result = null;
-		try{
+		try {
 			Integer intDni = Integer.parseInt(dni);
-			
-			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliPersona.dni=:dni");
+
+			Query q = em
+					.createQuery("SELECT c FROM Cliente c WHERE c.cliPersona.dni=:dni");
 			q.setParameter("dni", intDni);
 			result = (Cliente) q.getSingleResult();
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
 			result = null;
 		}
 		return result;
-	}
+	}	
 
 }
