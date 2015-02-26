@@ -41,10 +41,14 @@ public class VisitaBean {
 
 	private List<Cliente> clientes;
 	private List<Visita> visitasPaciente;
+	
 	private List<Terapia> terapiasDeVisita;
+	private List<ProductoVisita> productosDeVisita;
+	
 	private List<TipoTerapia> tipoTerapias;
 	private List<Producto> allProductos;
-
+	
+	
 	private Cliente cliente;
 	private String query;
 	private Integer idTipoTerapia;
@@ -78,6 +82,15 @@ public class VisitaBean {
 
 	public void setHistoriaClinica(HistoriaClinica historiaClinica) {
 		this.historiaClinica = historiaClinica;
+	}
+
+	public List<ProductoVisita> getProductosDeVisita() {
+		productosDeVisita = productoService.getAllProductosByVisita(visita);
+		return productosDeVisita;
+	}
+
+	public void setProductosDeVisita(List<ProductoVisita> productosDeVisita) {
+		this.productosDeVisita = productosDeVisita;
 	}
 
 	public void setCliente(Cliente cliente) {
@@ -262,14 +275,14 @@ public class VisitaBean {
 		visita.setPrioridad(2);
 		visita.setEstado(1);
 		visita.setVisCliente(cliente);
+		visita.setCostoTotal(0.0);
 		Date fechaActual = StaticUtil.getFechaActual();
 		visita.setFechaCreacion(fechaActual);
 		// Guarda la visita en la base de datos
 		if (visitaService.saveVisita(visita)) {
 			// Carga las terapias de la visita que se abrió
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
-			StaticUtil.correctMesage("Éxito",
-					"Se ha registrado correctamente la visita");
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la visita");
 			StaticUtil.keepMessages();
 			// Redirección
 			return "gestionVisita?faces-redirect=true";
@@ -280,8 +293,7 @@ public class VisitaBean {
 
 	// Método para cargar las visitas de un cliente específico
 	public String cargarVisitas(int idCliente) {
-		visitasPaciente = visitaService.getVisitasCliente(clienteService
-				.getClienteById(idCliente));
+		visitasPaciente = visitaService.getVisitasCliente(clienteService.getClienteById(idCliente));
 		// Redirección
 		return "consultarVisitas";
 	}
@@ -307,8 +319,7 @@ public class VisitaBean {
 			historiaClinica.setHclVisita(visita);
 		} else {
 			// En caso ya exista una, se obtiene de la base de datos
-			historiaClinica = historiaClinicaService
-					.getHistoriaByVisita(visita);
+			historiaClinica = historiaClinicaService.getHistoriaByVisita(visita);
 		}
 		// Redireccion
 		return "pm:historiaClinica";
@@ -318,14 +329,12 @@ public class VisitaBean {
 	public String nuevaHistoria() {
 		// Se guarda la nueva historia clínica en la base de datos
 		if (historiaClinicaService.saveHistoriaClinica(historiaClinica)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se han guardado los datos médicos");
+			StaticUtil.correctMesage("Éxito", "Se han guardado los datos médicos");
 			StaticUtil.keepMessages();
 			// Redirección
 			return "pm:gestionVisita";
 		} else {
-			StaticUtil.errorMessage("Error",
-					"Hubo un error al guardar los datos");
+			StaticUtil.errorMessage("Error", "Hubo un error al guardar los datos");
 			return null;
 		}
 	}
@@ -366,13 +375,38 @@ public class VisitaBean {
 		try {
 			if (cantidadProducto > 0) {
 				costoParcial = cantidadProducto * (producto.getCostoUnitario());
-			}else{
+			} else {
 				costoParcial = 0.0;
 			}
 		} catch (NumberFormatException ex) {
 			System.out.print("Error, no se ha insertado un número");
 		}
+	}
 
+	// Método para agregar el ProductoVisita
+	public String addProductoToVisita() {
+		if(cantidadProducto<=0){
+			return null;
+		}
+		ProductoVisita toAdd = new ProductoVisita();
+		toAdd.setCantidad(cantidadProducto);
+		toAdd.setCostoParcial(costoParcial);
+		toAdd.setPxvProducto(producto);
+		toAdd.setPxvVisita(visita);		
+		if (productoService.saveProductoVisita(toAdd)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el producto");
+			//Actualizar el stock de existencias de producto
+			producto.setExistencias(producto.getExistencias()-cantidadProducto);
+			productoService.updateProducto(producto);
+			//Actualizar el costo total de la visita
+			visita.setCostoTotal(visita.getCostoTotal()+toAdd.getCostoParcial());
+			visitaService.updateVisita(visita);
+			//Limpiar los datos ingresados
+			costoParcial = 0.0; cantidadProducto = 0.0;
+		} else {
+			return null;
+		}
+		return "gestionVisita";
 	}
 
 	// Método que filtra los productos según nombre
@@ -400,13 +434,15 @@ public class VisitaBean {
 		terapia.setFechaRealizada(StaticUtil.getFechaActual());
 		// Se guarda la terapia en la base de datos
 		if (terapiaService.saveTerapia(terapia)) {
+			//Se añade el costo de la terapia a la visita
+			visita.setCostoTotal(visita.getCostoTotal()+terapia.getTerTipoTerapia().getCosto());
+			visitaService.updateVisita(visita);
 			// Se limpian los datos guardados
 			tipoTerapia = new TipoTerapia();
 			terapia = new Terapia();
 			idTipoTerapia = null;
 			tipoTerapia = new TipoTerapia();
-			StaticUtil.correctMesage("Exito",
-					"Se agregó correctamente la terapia");
+			StaticUtil.correctMesage("Exito", "Se agregó correctamente la terapia");
 			StaticUtil.keepMessages();
 			// Se cargan las terapias de la visita (añadiendo la actual)
 			terapiasDeVisita = terapiaService.terapiasPorVisita(visita);

@@ -23,6 +23,9 @@ public class ProductoVisita {
 	@Column(nullable=true, name="PXV_COSTO_PARCIAL")
 	private Double costoParcial;	
 	
+	@Column(nullable=true, name="PXV_CURRENCY_SYMBOL")
+	private String currencySymbol;		
+	
     @ManyToOne @JoinColumn(name="PRO_CODIGO", nullable=false)
     private Producto pxvProducto;   
     
@@ -59,6 +62,14 @@ public class ProductoVisita {
 
 	public void setCantidad(Double cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public String getCurrencySymbol() {
+		return currencySymbol;
+	}
+
+	public void setCurrencySymbol(String currencySymbol) {
+		this.currencySymbol = currencySymbol;
 	}
 
 	public Double getCostoParcial() {

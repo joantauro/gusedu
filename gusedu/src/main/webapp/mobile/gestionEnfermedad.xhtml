@@ -23,7 +23,7 @@
 		<pm:content>
 			<h:form>
 				<p:commandButton action="#{enfermedadBean.preAdd}"
-					value="Agregar enfermedad" ajax="false"></p:commandButton>
+					value="Agregar enfermedad" update=":agregarEnfermedad:formAgregarEnfermedad"></p:commandButton>
 			</h:form>
 			<pm:field>
 				<h:form id="formBusqueda">
@@ -47,7 +47,7 @@
 
 					<p:column headerText="Opciones">
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
-							ajax="false"
+							update=":editarEnfermedad:formEditarEnfermedad"
 							action="#{enfermedadBean.preUpdate(enf.idEnfermedad)}" />
 
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
@@ -61,12 +61,13 @@
 				showEffect="pop" closable="false" modal="true">
 				<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
-						icon="ui-icon-check" ajax="false"
+						icon="ui-icon-check"
+						update=":gestionEnfermedad:formTabla"
 						actionListener="#{enfermedadBean.delete}"
 						oncomplete="PF('dlgEliminarEnfermedad').hide();" />
 
 					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-						icon="ui-icon-delete" ajax="false"
+						icon="ui-icon-delete"
 						actionListener="#{enfermedadBean.cancelar}"
 						oncomplete="PF('dlgEliminarEnfermedad').hide();" />
 				</h:form>
@@ -82,13 +83,13 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>
+			<h:form id="formAgregarEnfermedad">
 				<pm:field>
 					<p:outputLabel value="Nombre: " for="enfNombre"></p:outputLabel>
 					<p:inputText id="enfNombre" required="true"
 						value="#{enfermedadBean.enfermedad.nombre}" />
 				</pm:field>
-				<p:commandButton ajax="false" action="#{enfermedadBean.add}"
+				<p:commandButton update=":gestionEnfermedad:formTabla" action="#{enfermedadBean.add}"
 					value="Agregar" />
 			</h:form>
 		</pm:content>
@@ -103,13 +104,13 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>
+			<h:form id="formEditarEnfermedad">
 				<pm:field>
 					<p:outputLabel value="Nombre: " for="enfNombre"></p:outputLabel>
 					<p:inputText id="enfNombre" required="true"
 						value="#{enfermedadBean.enfermedad.nombre}" />
 				</pm:field>
-				<p:commandButton ajax="false" action="#{enfermedadBean.update}"
+				<p:commandButton update=":gestionEnfermedad:formTabla" action="#{enfermedadBean.update}"
 					value="Editar" />
 			</h:form>
 		</pm:content>

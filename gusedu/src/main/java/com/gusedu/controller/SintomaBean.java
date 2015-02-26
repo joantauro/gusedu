@@ -3,9 +3,6 @@ package com.gusedu.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -65,19 +62,14 @@ public class SintomaBean {
 	public String add() {
 		if (esRepetido()) {
 			StaticUtil.errorMessage("Error", "El nombre está duplicado");
-			sintoma = new Sintoma();
-			return "pm:agregarSintoma?faces-redirect=true";
+			return null;
 		}
 		if (sintomaService.saveSintoma(sintoma)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha registrado correctamente el sintoma");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			context.getFlash().setKeepMessages(true);
-			return "pm:gestionSintoma?faces-redirect=true";
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el síntoma");
+			return "pm:gestionSintoma";
 		} else {
-			StaticUtil.errorMessage("Error", "No se pudo registrar el sintoma");
-			return "pm:agregarSintoma?faces-redirect=true";
+			StaticUtil.errorMessage("Error", "No se pudo registrar el síntoma");
+			return null;
 		}
 	}
 
@@ -88,13 +80,11 @@ public class SintomaBean {
 
 	public String update() {
 		if (sintomaService.updateSintoma(sintoma)) {
-			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el sintoma");
-			StaticUtil.keepMessages();
-			return "pm:gestionSintoma?faces-redirect=true";
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el sintoma");			
+			return "pm:gestionSintoma";
 		} else {
-			StaticUtil
-					.errorMessage("Error", "No se pudo actualizar el sintoma");
-			return "pm:editarSintoma?faces-redirect=true";
+			StaticUtil.errorMessage("Error", "No se pudo actualizar el sintoma");
+			return null;
 		}
 	}
 
@@ -103,7 +93,11 @@ public class SintomaBean {
 	}
 
 	public void delete() {
-		sintomaService.deleteSintoma(sintoma);
+		if(sintomaService.deleteSintoma(sintoma)){
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el sintoma");
+		}else{
+			StaticUtil.errorMessage("Error", "No se pudo actualizar el síntoma");
+		}
 		sintoma = new Sintoma();
 	}
 

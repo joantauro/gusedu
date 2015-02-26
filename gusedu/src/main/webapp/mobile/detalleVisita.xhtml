@@ -65,7 +65,22 @@
 						</p:dataTable>
 					</p:tab>
 					<p:tab title="Productos">
-
+							<p:dataTable id="productos" var="pro"
+							paginatorAlwaysVisible="false"
+							value="#{visitaBean.productosDeVisita}"
+							emptyMessage="No se han añadido productos" paginator="true"
+							rows="5">
+							<p:column headerText="Nombre" style="vertical-align:middle;">
+								<h:outputText value="#{pro.pxvProducto.descripcionMedia}" />
+							</p:column>
+							<p:column headerText="Cantidad" style="vertical-align:middle;">
+								<h:outputText value="#{pro.cantidad}" />
+							</p:column>
+							<p:column headerText="Costo parcial"
+								style="vertical-align:middle;">
+								<h:outputText value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
+							</p:column>
+						</p:dataTable>
 					</p:tab>
 				</p:accordionPanel>
 			</h:form>

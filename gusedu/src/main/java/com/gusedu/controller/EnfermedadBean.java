@@ -3,9 +3,6 @@ package com.gusedu.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +19,7 @@ public class EnfermedadBean {
 	private Enfermedad enfermedad;
 	private List<Enfermedad> enfermedades;
 
-	private String query;	
+	private String query;
 
 	public EnfermedadBean() {
 		enfermedad = new Enfermedad();
@@ -44,9 +41,9 @@ public class EnfermedadBean {
 		this.enfermedad = enfermedad;
 	}
 
-	public List<Enfermedad> getEnfermedades() {				
-		if(query != null){
-			if(!query.isEmpty()){
+	public List<Enfermedad> getEnfermedades() {
+		if (query != null) {
+			if (!query.isEmpty()) {
 				return enfermedades;
 			}
 		}
@@ -57,49 +54,38 @@ public class EnfermedadBean {
 		this.enfermedades = enfermedades;
 	}
 
-	public String add() {
-		if (esRepetido()) {
-			StaticUtil.errorMessage("Error", "El nombre está duplicado");
-			enfermedad = new Enfermedad();
-			return "pm:agregarEnfermedad?faces-redirect=true";
-		}
-		if (enfermedadService.saveEnfermedad(enfermedad)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha registrado correctamente la enfermedad");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			context.getFlash().setKeepMessages(true);
-			return "pm:gestionEnfermedad?faces-redirect=true";
-		} else {
-			StaticUtil.errorMessage("Error",
-					"No se pudo registrar la enfermedad");
-			return "pm:agregarEnfermedad?faces-redirect=true";
-		}
-	}
-
 	public String preAdd() {
 		enfermedad = new Enfermedad();
 		return "pm:agregarEnfermedad?transition=flip";
 	}
 
+	public String add() {
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "El nombre está duplicado");
+			return null;
+		}
+		if (enfermedadService.saveEnfermedad(enfermedad)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la enfermedad");
+			enfermedad = new Enfermedad();
+			return "pm:gestionEnfermedad?transition=flip";
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo registrar la enfermedad");
+			return null;
+		}
+	}
+
 	public String preUpdate(int idEnfermedad) {
-		enfermedad = new Enfermedad();
 		enfermedad = enfermedadService.getById(idEnfermedad);
 		return "pm:editarEnfermedad?transition=flip";
 	}
 
 	public String update() {
 		if (enfermedadService.updateEnfermedad(enfermedad)) {
-			StaticUtil.correctMesage("Éxito",
-					"Se ha actualizado correctamente la enfermedad");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			context.getFlash().setKeepMessages(true);
-			return null;
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente la enfermedad");
+			return "pm:gestionEnfermedad?transition=flip";
 		} else {
-			StaticUtil.errorMessage("Error",
-					"No se pudo actualizad la enfermedad");
-			return "pm:editarEnfermedad?faces-redirect=true";
+			StaticUtil.errorMessage("Error", "No se pudo actualizar la enfermedad");
+			return null;
 		}
 	}
 
@@ -108,7 +94,11 @@ public class EnfermedadBean {
 	}
 
 	public void delete() {
-		enfermedadService.deleteEnfermedad(enfermedad);
+		if(enfermedadService.deleteEnfermedad(enfermedad)){
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente la enfermedad");			
+		}else{
+			StaticUtil.errorMessage("Error", "No se pudo eliminar la enfermedad");			
+		}		
 		enfermedad = new Enfermedad();
 	}
 

@@ -23,7 +23,7 @@
 		<pm:content>
 			<h:form>
 				<p:commandButton action="#{sintomaBean.preAdd}"
-					value="Agregar síntoma" ajax="false"></p:commandButton>
+					value="Agregar síntoma" update=":agregarSintoma:formAgregarSintoma"></p:commandButton>
 			</h:form>
 			<pm:field>
 				<h:form id="formBusqueda">
@@ -35,7 +35,7 @@
 					</p:inputText>
 				</h:form>				
 			</pm:field>
-			<h:form>
+			<h:form id="formTablaSintomas">
 				<p:dataTable emptyMessage="No hay síntomas registradas"
 					id="tablaSintoma" var="sin"
 					value="#{sintomaBean.sintomas}" rowKey="#{sin.idSintoma}"
@@ -47,7 +47,7 @@
 
 					<p:column headerText="Opciones">
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
-							ajax="false"
+							update=":editarSintoma:formEditarSintoma"
 							action="#{sintomaBean.preUpdate(sin.idSintoma)}" />
 
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
@@ -61,12 +61,12 @@
 				showEffect="pop" closable="false" modal="true">
 				<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
-						icon="ui-icon-check" ajax="false"
+						icon="ui-icon-check" update=":gestionSintoma:formTablaSintomas"
 						actionListener="#{sintomaBean.delete}"
 						oncomplete="PF('dlgEliminarSintoma').hide();" />
 
 					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-						icon="ui-icon-delete" ajax="false"
+						icon="ui-icon-delete"
 						actionListener="#{sintomaBean.cancelar}"
 						oncomplete="PF('dlgEliminarSintoma').hide();" />
 				</h:form>
@@ -82,13 +82,13 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>
+			<h:form id="formAgregarSintoma">
 				<pm:field>
 					<p:outputLabel value="Nombre: " for="sinNombre"></p:outputLabel>
 					<p:inputText id="sinNombre" required="true"
 						value="#{sintomaBean.sintoma.descripcion}" />
 				</pm:field>
-				<p:commandButton ajax="false" action="#{sintomaBean.add}"
+				<p:commandButton update=":gestionSintoma:formTablaSintomas" action="#{sintomaBean.add}"
 					value="Agregar" />
 			</h:form>
 		</pm:content>
@@ -103,13 +103,13 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>
+			<h:form id="formEditarSintoma">
 				<pm:field>
 					<p:outputLabel value="Nombre: " for="sinNombre"></p:outputLabel>
 					<p:inputText id="sinNombre" required="true"
 						value="#{sintomaBean.sintoma.descripcion}" />
 				</pm:field>
-				<p:commandButton ajax="false" action="#{sintomaBean.update}"
+				<p:commandButton update=":gestionSintoma:formTablaSintomas" action="#{sintomaBean.update}"
 					value="Editar" />
 			</h:form>
 		</pm:content>

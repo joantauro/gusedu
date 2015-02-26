@@ -84,11 +84,30 @@
 						</p:dataTable>
 					</p:tab>
 					<p:tab title="Productos">
-
+						<p:dataTable id="productos" var="pro"
+							paginatorAlwaysVisible="false"
+							value="#{visitaBean.productosDeVisita}"
+							emptyMessage="No se han añadido productos" paginator="true"
+							rows="5">
+							<p:column headerText="Nombre" style="vertical-align:middle;">
+								<h:outputText value="#{pro.pxvProducto.descripcionMedia}" />
+							</p:column>
+							<p:column headerText="Cantidad" style="vertical-align:middle;">
+								<h:outputText value="#{pro.cantidad}" />
+							</p:column>
+							<p:column headerText="Costo parcial"
+								style="vertical-align:middle;">
+								<h:outputText value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
+							</p:column>
+						</p:dataTable>
 					</p:tab>
 				</p:accordionPanel>
 				<p:panel header="Datos generales" toggleable="true">
-
+					<pm:field>
+						<p:outputLabel value="Costo total:" />
+						<h:outputText value="#{visitaBean.visita.costoTotal}" />
+					</pm:field>
+					<p:commandButton value="Finalizar" />
 				</p:panel>
 			</h:form>
 		</pm:content>
@@ -394,16 +413,22 @@
 					<p:outputLabel for="inpCantidad" value="Cantidad: "></p:outputLabel>
 					<p:inputText id="inpCantidad"
 						value="#{visitaBean.cantidadProducto}">
-						<f:validateDoubleRange minimum="0.0" maximum="#{visitaBean.producto.existencias}"></f:validateDoubleRange>
+						<f:validateDoubleRange minimum="0.0"
+							maximum="#{visitaBean.producto.existencias}"></f:validateDoubleRange>
 						<p:ajax event="keyup" update="outCostoParcial"
 							listener="#{visitaBean.calculaCostoParcial}" />
 					</p:inputText>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="outCostoParcial" value="Costo Total: "></p:outputLabel>
-					<h:outputText id="outCostoParcial" 
+					<h:outputText id="outCostoParcial"
 						value="#{visitaBean.costoParcial} #{visitaBean.producto.currencySymbol}" />
 				</pm:field>
+				<p:panelGrid columns="">
+					<p:commandButton icon="ui-icon-plus" ajax="false"
+						value="Agregar Producto"
+						action="#{visitaBean.addProductoToVisita}" />
+				</p:panelGrid>
 			</h:form>
 		</pm:content>
 	</pm:page>

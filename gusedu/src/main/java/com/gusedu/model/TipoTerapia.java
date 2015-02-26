@@ -25,6 +25,9 @@ public class TipoTerapia {
     
     @Column(nullable = true, name = "TTE_COSTO")
     private Double costo;
+    
+	@Column(nullable=true, name="TTE_CURRENCY_SYMBOL")
+	private String currencySymbol;	
 
     @Column(nullable = true, name = "TTE_FEC_MODIFICACION")
     private Date fechaModificacion;
@@ -61,6 +64,14 @@ public class TipoTerapia {
 
 	public Date getFechaModificacion() {
 		return fechaModificacion;
+	}
+
+	public String getCurrencySymbol() {
+		return currencySymbol;
+	}
+
+	public void setCurrencySymbol(String currencySymbol) {
+		this.currencySymbol = currencySymbol;
 	}
 
 	public void setFechaModificacion(Date fechaModificacion) {

@@ -45,7 +45,7 @@ public class Visita {
 	@JoinColumn(name = "CLI_CODIGO", nullable = false)
 	private Cliente visCliente;
 
-	@OneToMany(mappedBy = "terVisita", orphanRemoval = true)
+	@OneToMany(mappedBy = "terVisita")
 	private Collection<Terapia> visTerapias;
 	
 	@OneToOne(mappedBy="hclVisita")
