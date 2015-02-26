@@ -47,7 +47,7 @@ public class PuntoBean {
 		if (asc != 0 || desc != 0 || goiz != 0) {
 			return puntos;
 		}
-		return puntoService.getAllPuntos();
+		return puntoService.getAllPuntosRastreables();
 	}
 
 	public void setPuntos(List<Punto> puntos) {

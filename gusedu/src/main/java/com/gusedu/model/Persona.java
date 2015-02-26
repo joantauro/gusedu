@@ -21,7 +21,7 @@ public class Persona {
     private Integer idPersona;
     
     @Column(nullable= true, name= "PER_DNI")
-    private Integer dni;
+    private String dni;
     
     @Column(nullable= false, name= "PER_NOMBRES", length= 100)
     private String nombres;
@@ -82,11 +82,11 @@ public class Persona {
 		this.idPersona = idPersona;
 	}
 
-	public Integer getDni() {
+	public String getDni() {
 		return dni;
 	}
 
-	public void setDni(Integer dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 

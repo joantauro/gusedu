@@ -252,16 +252,17 @@ public class ParBean {
 		return "pm:consultarPares?Transition=flip";
 	}
 
-	public String handleFileUpload(){
+	public String handleFileUpload() {
 		String name = uploadedFile.getFileName();
-        System.out.println(name);
-        return null;
+		System.out.println(name);
+		return null;
 	}
-	
+
 	public String saveFile(String fileName, InputStream in) {
 		String destino = "C:\\gusedu\\uploads\\";
 		try {
-			OutputStream out = new FileOutputStream(new File(destino + fileName));
+			OutputStream out = new FileOutputStream(
+					new File(destino + fileName));
 			int readBytes = 0;
 			byte[] bytes = new byte[1024];
 
@@ -441,14 +442,15 @@ public class ParBean {
 		par.setParPunto1(punto1);
 		par.setParPunto2(punto2);
 		par.setParGrupo(grupoSeleccionado);
-		Par newPar = parService.parByPuntos(punto1, punto2, grupoSeleccionado);
-		if (newPar != null) {
-			StaticUtil.errorMessage("Error", "El par ya existe");
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			context.getFlash().setKeepMessages(true);
-			return null;
-		}
+		// Par newPar = parService.parByPuntos(punto1, punto2,
+		// grupoSeleccionado);
+		// if (newPar != null) {
+		// StaticUtil.errorMessage("Error", "El par ya existe");
+		// ExternalContext context = FacesContext.getCurrentInstance()
+		// .getExternalContext();
+		// context.getFlash().setKeepMessages(true);
+		// return null;
+		// }
 		parService.updatePar(par);
 		par = new Par();
 		return "pm:consultarPares?transition=flip";

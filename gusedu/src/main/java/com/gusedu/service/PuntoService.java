@@ -8,6 +8,8 @@ public interface PuntoService {
 
 	public List<Punto> getAllPuntos();
 	
+	public List<Punto> getAllPuntosRastreables();
+	
 	public List<Punto> getAllOrdenAlfabeticoAsc();
 	
 	public List<Punto> getAllOrdenAlfabeticoDesc();

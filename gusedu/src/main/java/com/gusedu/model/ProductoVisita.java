@@ -18,7 +18,10 @@ public class ProductoVisita {
     private Integer idProductoVisita;      
     
 	@Column(nullable=true, name="PXV_CANTIDAD")
-	private Double cantidad;	
+	private Double cantidad;
+	
+	@Column(nullable=true, name="PXV_COSTO_PARCIAL")
+	private Double costoParcial;	
 	
     @ManyToOne @JoinColumn(name="PRO_CODIGO", nullable=false)
     private Producto pxvProducto;   
@@ -56,6 +59,14 @@ public class ProductoVisita {
 
 	public void setCantidad(Double cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public Double getCostoParcial() {
+		return costoParcial;
+	}
+
+	public void setCostoParcial(Double costoParcial) {
+		this.costoParcial = costoParcial;
 	}
 
 	@Override

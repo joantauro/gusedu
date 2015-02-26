@@ -20,6 +20,9 @@ public class SintomaTerapia {
     @Column(nullable = true, name = "SXT_DOLOR")
     private Integer dolor;
     
+    @Column(nullable= true, name="SXT_DESCRIPCION")
+    private String descripcion;    
+    
     @ManyToOne @JoinColumn(name="TER_CODIGO", nullable=false)
     private Terapia sxtTerapia;	
     
@@ -48,6 +51,14 @@ public class SintomaTerapia {
 
 	public void setSxtTerapia(Terapia sxtTerapia) {
 		this.sxtTerapia = sxtTerapia;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public Sintoma getSxtSintoma() {

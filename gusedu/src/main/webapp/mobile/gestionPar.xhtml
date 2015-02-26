@@ -178,6 +178,16 @@
 					</p:autoComplete>
 				</pm:field>
 				<pm:field>
+					<p:outputLabel for="inPatogeno" value="Patogeno: " />
+					<p:inputText id="inPatogeno" required="false"
+						value="#{parBean.par.patogeno}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="inDescripcion" value="Descricion: " />
+					<p:inputText id="inDescripcion" required="false"
+						value="#{parBean.par.descripcion}" />
+				</pm:field>
+				<pm:field>
 					<p:outputLabel for="selGrupo" value="Grupo: " />
 					<p:selectOneMenu id="selGrupo" required="true"
 						value="#{parBean.grupoSeleccionado.idGrupo}">
@@ -214,8 +224,13 @@
 								value="#{parBean.parSeleccionado.parPunto1.nombre}" />
 
 							<h:outputLabel value="Punto 2: " />
-							<h:outputLabel
-								value="#{parBean.parSeleccionado.parPunto2.nombre}" />
+							<h:outputLabel value="#{parBean.parSeleccionado.parPunto2.nombre}" />
+							
+							<h:outputLabel value="Patógeno: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.patogeno}" />
+
+							<h:outputLabel value="Descripción: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.descripcion}" />
 
 							<h:outputLabel value="Grupo: " />
 							<h:outputLabel value="#{parBean.parSeleccionado.parGrupo.nombre}" />

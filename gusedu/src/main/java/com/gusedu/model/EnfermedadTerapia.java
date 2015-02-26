@@ -17,11 +17,14 @@ public class EnfermedadTerapia {
     @Column(nullable = false, name = "EXT_CODIGO")
     private Integer idEnfermedad;	
     
+    @Column(nullable= true, name="EXT_DESCRIPCION")
+    private String descripcion;
+    
     @ManyToOne @JoinColumn(name="TER_CODIGO", nullable=false)
     private Terapia extTerapia;	
     
     @ManyToOne @JoinColumn(name="ENF_CODIGO", nullable=false)
-    private Enfermedad extEnfermedad;
+    private Enfermedad extEnfermedad;   
 
 	public Integer getIdEnfermedad() {
 		return idEnfermedad;
@@ -45,6 +48,14 @@ public class EnfermedadTerapia {
 
 	public void setExtEnfermedad(Enfermedad extEnfermedad) {
 		this.extEnfermedad = extEnfermedad;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
     
     

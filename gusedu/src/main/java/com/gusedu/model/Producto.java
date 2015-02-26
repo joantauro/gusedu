@@ -29,19 +29,25 @@ public class Producto {
 	@Column(nullable=true, name="PRO_DESCRIPCION_M", length=70)
 	private String descripcionMedia;
 	
-	@Column(nullable=true, name="PRO_DESCRIPCION_L", length=100)
+	@Column(nullable=true, name="PRO_DESCRIPCION_L", length=300)
 	private String descripcionLarga;	
 	
 	@Column(nullable=true, name="PRO_COSTO_UNITARIO")
 	private Double costoUnitario;
 	
+	@Column(nullable=true, name="PRO_CURRENCY_SYMBOL")
+	private String currencySymbol;	
+	
 	@Column(nullable=true, name="PRO_EXISTENCIAS")
 	private Double existencias;	
+	
+	@Column(nullable=true, name="PRO_URL_IMAGEN")
+	private String urlImagen;
 	
     @ManyToOne @JoinColumn(name="TPR_CODIGO", nullable=false)
     private TipoProducto proTipoProducto;	
     
-    @ManyToOne @JoinColumn(name="UME_CODIGO", nullable=false)
+    @ManyToOne @JoinColumn(name="UME_CODIGO", nullable=true)
     private UnidadMedida proUnidadMedida;   
     
     @ManyToOne @JoinColumn(name="MOD_CODIGO", nullable=false)
@@ -110,8 +116,24 @@ public class Producto {
 		return proTipoProducto;
 	}
 
+	public String getUrlImagen() {
+		return urlImagen;
+	}
+
+	public void setUrlImagen(String urlImagen) {
+		this.urlImagen = urlImagen;
+	}
+
 	public void setProTipoProducto(TipoProducto proTipoProducto) {
 		this.proTipoProducto = proTipoProducto;
+	}
+
+	public String getCurrencySymbol() {
+		return currencySymbol;
+	}
+
+	public void setCurrencySymbol(String currencySymbol) {
+		this.currencySymbol = currencySymbol;
 	}
 
 	public UnidadMedida getProUnidadMedida() {

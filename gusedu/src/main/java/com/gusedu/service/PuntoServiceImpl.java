@@ -96,7 +96,7 @@ public class PuntoServiceImpl implements PuntoService{
 	public List<Punto> getAllOrdenAlfabeticoAsc() {
 		List<Punto> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT p FROM Punto p ORDER BY p.nombre ASC");
+			Query q = em.createQuery("SELECT p FROM Punto p WHERE (p.ordenGoiz>0) ORDER BY p.nombre ASC");
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());
@@ -109,7 +109,7 @@ public class PuntoServiceImpl implements PuntoService{
 	public List<Punto> getAllOrdenAlfabeticoDesc() {
 		List<Punto> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT p FROM Punto p ORDER BY p.nombre DESC");
+			Query q = em.createQuery("SELECT p FROM Punto p WHERE (p.ordenGoiz>0) ORDER BY p.nombre DESC");
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());
@@ -122,7 +122,20 @@ public class PuntoServiceImpl implements PuntoService{
 	public List<Punto> getAllOrdenGoiz() {
 		List<Punto> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT p FROM Punto p ORDER BY p.ordenGoiz ASC");
+			Query q = em.createQuery("SELECT p FROM Punto p WHERE (p.ordenGoiz>0) ORDER BY p.ordenGoiz ASC");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Punto> getAllPuntosRastreables() {
+		List<Punto> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Punto p WHERE (p.ordenGoiz>0)");
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());

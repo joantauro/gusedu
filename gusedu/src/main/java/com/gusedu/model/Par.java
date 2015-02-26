@@ -23,6 +23,12 @@ public class Par {
     @Column(nullable= true, name= "PAR_URL", length=300)
     private String url;    
     
+    @Column(nullable = true, name="PAR_DESCRIPCION", length=1000)
+    private String descripcion;
+    
+    @Column(nullable = true, name="PAR_PATOGENO", length=100)
+    private String patogeno;        
+    
     @ManyToOne @JoinColumn(name="PUN_CODIGO_P1")
     private Punto parPunto1;
     
@@ -95,6 +101,22 @@ public class Par {
 
 	public void setParSxp(Collection<SintomaPar> parSxp) {
 		this.parSxp = parSxp;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getPatogeno() {
+		return patogeno;
+	}
+
+	public void setPatogeno(String patogeno) {
+		this.patogeno = patogeno;
 	}
 
 	public Collection<EnfermedadPar> getParExp() {
