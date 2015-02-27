@@ -83,6 +83,7 @@ public class ClienteServiceImpl implements ClienteService{
 		try {
 			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliTipoCliente.descripcion=:paciente");
 			q.setParameter("paciente", "Paciente");
+
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());

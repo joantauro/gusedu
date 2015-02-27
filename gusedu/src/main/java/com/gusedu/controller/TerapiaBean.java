@@ -35,7 +35,6 @@ public class TerapiaBean {
 	ParService parService;
 
 	private Terapia terapia;
-	private List<Terapia> terapias;
 	private List<Par> allPares;
 	
 	private List<EnfermedadTerapia> terEnfermedades;
@@ -93,8 +92,7 @@ public class TerapiaBean {
 		this.sliderDolor = sliderDolor;
 	}
 
-	public List<EnfermedadTerapia> getTerEnfermedades() {
-		terEnfermedades = terapiaService.getEnfermedadesByTerapia(terapia);
+	public List<EnfermedadTerapia> getTerEnfermedades() {		
 		return terEnfermedades;
 	}
 
@@ -102,21 +100,12 @@ public class TerapiaBean {
 		this.terEnfermedades = terEnfermedades;
 	}
 
-	public List<SintomaTerapia> getTerSintomas() {
-		terSintomas = terapiaService.getSintomasByTerapia(terapia);
+	public List<SintomaTerapia> getTerSintomas() {		
 		return terSintomas;
 	}
 
 	public void setTerSintomas(List<SintomaTerapia> terSintomas) {
 		this.terSintomas = terSintomas;
-	}
-
-	public List<Terapia> getTerapias() {
-		return terapias;
-	}
-
-	public void setTerapias(List<Terapia> terapias) {
-		this.terapias = terapias;
 	}
 
 	public List<Par> getParesSeleccionados() {
@@ -144,7 +133,6 @@ public class TerapiaBean {
 	}
 
 	public List<Par> getAllPares() {
-		allPares = parService.getAllParesOrderGoiz();
 		return allPares;
 	}
 
@@ -301,6 +289,7 @@ public class TerapiaBean {
 		} else {
 			paresSeleccionados = new ArrayList<>();
 		}
+		allPares = parService.getAllParesOrderGoiz();
 		return "gestionTerapiaDetalle?faces-redirect=true";
 	}
 

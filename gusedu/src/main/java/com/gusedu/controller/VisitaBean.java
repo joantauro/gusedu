@@ -84,8 +84,7 @@ public class VisitaBean {
 		this.historiaClinica = historiaClinica;
 	}
 
-	public List<ProductoVisita> getProductosDeVisita() {
-		productosDeVisita = productoService.getAllProductosByVisita(visita);
+	public List<ProductoVisita> getProductosDeVisita() {		
 		return productosDeVisita;
 	}
 
@@ -97,8 +96,7 @@ public class VisitaBean {
 		this.cliente = cliente;
 	}
 
-	public List<TipoTerapia> getTipoTerapias() {
-		tipoTerapias = terapiaService.getTipoTerapias();
+	public List<TipoTerapia> getTipoTerapias() {		
 		return tipoTerapias;
 	}
 
@@ -301,8 +299,9 @@ public class VisitaBean {
 	// Método para cargar una específica visita según el Id.
 	public String cargarVisitaEspecifica(int idVisita) {
 		visita = visitaService.getVisitaById(idVisita);
-		// Carga las terapias de la visita seleccionada
+		// Carga las terapias de la visita seleccionada y los productos
 		terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+		productosDeVisita = productoService.getAllProductosByVisita(visita);
 		// Redirección
 		return "detalleVisita?faces-redirect=true";
 	}
@@ -348,6 +347,8 @@ public class VisitaBean {
 		// Se limpia el tipoterapia que se haya seleccionado previamente
 		idTipoTerapia = null;
 		tipoTerapia = new TipoTerapia();
+		//Se carga la lista de tipos de terapia
+		tipoTerapias = terapiaService.getTipoTerapias();
 		// Redireccion
 		return "pm:nuevaTerapia";
 	}

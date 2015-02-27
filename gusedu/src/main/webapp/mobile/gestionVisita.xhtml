@@ -13,6 +13,7 @@
 </h:head>
 <h:body>
 	<p:growl showDetail="true" autoUpdate="true" />
+	
 	<pm:page id="gestionVisita">
 		<pm:header title="Gestion Visita">
 			<h:form>
@@ -26,16 +27,17 @@
 				<pm:field>
 					<p:commandButton value="Datos médicos" icon="ui-icon-eye"
 						action="#{visitaBean.preNuevaHistoria}" iconPos="right"
-						ajax="false" />
+						update=":historiaClinica:formDetalleHistoriaClinica" />
 				</pm:field>
 				<pm:field>
 					<p:commandButton value="Añadir Terapia" icon="ui-icon-heart"
-						action="#{visitaBean.preAdd}" iconPos="right" ajax="false" />
+						action="#{visitaBean.preAdd}" iconPos="right"
+						update=":nuevaTerapia:formNuevaTerapia" />
 				</pm:field>
 				<pm:field>
 					<p:commandButton value="Añadir Producto"
-						action="#{visitaBean.preAddProducto}" ajax="false"
-						icon="ui-icon-shop" iconPos="right" />
+						action="#{visitaBean.preAddProducto}" icon="ui-icon-shop"
+						iconPos="right" />
 				</pm:field>
 			</h:form>
 			<h:form>
@@ -97,7 +99,8 @@
 							</p:column>
 							<p:column headerText="Costo parcial"
 								style="vertical-align:middle;">
-								<h:outputText value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
+								<h:outputText
+									value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
 							</p:column>
 						</p:dataTable>
 					</p:tab>
@@ -121,7 +124,7 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>
+			<h:form id="formNuevaTerapia">
 				<pm:field>
 					<p:outputLabel for="iTipoTerapia" value="Tipo de terapia: " />
 					<p:selectOneMenu id="iTipoTerapia"
@@ -163,7 +166,7 @@
 			</h:form>
 		</pm:header>
 		<pm:content>
-			<h:form>
+			<h:form id="formDetalleHistoriaClinica">
 				<p:panel header="Datos médicos">
 					<pm:field>
 						<p:outputLabel for="inputPeso" value="Peso (kg):" />
@@ -306,7 +309,6 @@
 			</h:form>
 		</pm:content>
 	</pm:page>
-
 
 	<pm:page id="nuevoProducto">
 		<pm:header title="Añadir Producto">
