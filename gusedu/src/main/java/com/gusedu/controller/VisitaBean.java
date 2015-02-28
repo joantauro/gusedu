@@ -407,6 +407,7 @@ public class VisitaBean {
 		} else {
 			return null;
 		}
+		productosDeVisita = productoService.getAllProductosByVisita(visita);
 		return "gestionVisita";
 	}
 

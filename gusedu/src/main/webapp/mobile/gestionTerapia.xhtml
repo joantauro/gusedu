@@ -36,8 +36,9 @@
 								converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
 							</p:autoComplete>
 						</pm:field>
-						<p:commandButton id="btnAgregar" value="Agregar" ajax="false"
-							action="#{terapiaBean.addEnfermedad}"></p:commandButton>
+						<p:commandButton id="btnAgregar" value="Agregar" 
+							update=":gestionTerapia:tab:formTablaEnfermedad"
+							action="#{terapiaBean.addEnfermedad}" />
 					</h:form>
 					<h:form id="formTablaEnfermedad">
 						<p:dataTable emptyMessage="No hay enfermedades en la terapia"
@@ -65,7 +66,8 @@
 							<pm:inputSlider id="inpDolor" value="#{terapiaBean.sliderDolor}"
 								minValue="1" maxValue="10" required="true" />
 						</pm:field>
-						<p:commandButton id="btnAgregar" value="Agregar" ajax="false"
+						<p:commandButton id="btnAgregar" value="Agregar" 
+							update=":gestionTerapia:tab:formTablaSintoma"
 							action="#{terapiaBean.addSintoma}"></p:commandButton>
 					</h:form>
 					<h:form id="formTablaSintoma">

@@ -24,14 +24,11 @@
 			<h:form id="formRegistroPacienteFirst">
 				<pm:field>
 					<p:outputLabel for="perDni" value="Dni: " />
-					<p:inputText value="#{personaBean.persona.dni}" id="perDni">
-						<f:convertNumber maxIntegerDigits="8" minIntegerDigits="8"
-							integerOnly="true"></f:convertNumber>
-					</p:inputText>
+					<p:inputText value="#{personaBean.persona.dni}" id="perDni"/>											
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perNombre" value="Nombre: " />
-					<p:inputText required="true" value="#{personaBean.persona.nombres}"
+					<p:inputText required="true" value="#{personaBean.persona.nombres}" 
 						id="perNombre" />
 				</pm:field>
 				<pm:field>

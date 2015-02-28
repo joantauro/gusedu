@@ -40,7 +40,7 @@
 						iconPos="right" />
 				</pm:field>
 			</h:form>
-			<h:form>
+			<h:form id="formDetalleVisita">
 				<p:accordionPanel>
 					<p:tab title="Terapias">
 						<p:dataTable id="terapias" var="ter"
@@ -75,9 +75,7 @@
 									rendered="#{ter.usuarioCreacion eq null}" />
 							</p:column>
 							<p:column headerText="Costo" style="vertical-align:middle;">
-								<h:outputText value="#{ter.terTipoTerapia.costo}">
-									<f:convertNumber type="currency" locale="es_PE"></f:convertNumber>
-								</h:outputText>
+								<h:outputText value="#{ter.terTipoTerapia.costo} #{ter.terTipoTerapia.currencySymbol}" />																	
 							</p:column>
 							<p:column headerText="Opciones" style="vertical-align:middle;">
 								<p:commandButton icon="ui-icon-eye"
@@ -428,7 +426,7 @@
 				</pm:field>
 				<p:panelGrid columns="">
 					<p:commandButton icon="ui-icon-plus" ajax="false"
-						value="Agregar Producto"
+						value="Agregar Producto" update=":gestionVisita:formDetalleVisita"
 						action="#{visitaBean.addProductoToVisita}" />
 				</p:panelGrid>
 			</h:form>

@@ -92,7 +92,8 @@ public class TerapiaBean {
 		this.sliderDolor = sliderDolor;
 	}
 
-	public List<EnfermedadTerapia> getTerEnfermedades() {		
+	public List<EnfermedadTerapia> getTerEnfermedades() {
+		terEnfermedades = terapiaService.getEnfermedadesByTerapia(terapia);
 		return terEnfermedades;
 	}
 
@@ -100,7 +101,8 @@ public class TerapiaBean {
 		this.terEnfermedades = terEnfermedades;
 	}
 
-	public List<SintomaTerapia> getTerSintomas() {		
+	public List<SintomaTerapia> getTerSintomas() {	
+		terSintomas = terapiaService.getSintomasByTerapia(terapia);
 		return terSintomas;
 	}
 
@@ -193,7 +195,7 @@ public class TerapiaBean {
 				enfermedad = new Enfermedad();
 				//Index de tab: enfermedad
 				index = 0;
-				return "gestionTerapia?faces-redirect=true";
+				return null;
 			} else {
 				StaticUtil.errorMessage("Error", "Hubo un error al guardar la enfermedad");
 				return null;
@@ -219,7 +221,7 @@ public class TerapiaBean {
 				sliderDolor = 0;
 				//Index de tab: Sintoma				
 				index = 1;								
-				return "gestionTerapia?faces-redirect=true";
+				return null;
 			} else {
 				StaticUtil.errorMessage("Error", "Hubo un error al guardar el sintoma");
 				return null;
