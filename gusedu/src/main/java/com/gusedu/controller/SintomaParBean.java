@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaPar;
 import com.gusedu.service.ParService;
 import com.gusedu.service.SintomaService;
 
-@Controller
+@Component
+@Scope(value="session")
 public class SintomaParBean {
 	
 	@Autowired

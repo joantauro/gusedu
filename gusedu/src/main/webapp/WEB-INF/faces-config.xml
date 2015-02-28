@@ -20,55 +20,6 @@
         org.primefaces.mobile.application.MobileNavigationHandler
     </navigation-handler>
 	</application>
-	<managed-bean>
-		<managed-bean-name>personaBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.PersonaBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>visitaBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.VisitaBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>puntoBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.PuntoBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>parBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.ParBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>enfermedadBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.EnfermedadBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>sintomaBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.SintomaBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>pacienteBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.PacienteBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>enfermedadParBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.EnfermedadParBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>sintomaParBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.SintomaParBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>terapiaBean</managed-bean-name>
-		<managed-bean-class>com.gusedu.controller.TerapiaBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
+
 
 </faces-config>

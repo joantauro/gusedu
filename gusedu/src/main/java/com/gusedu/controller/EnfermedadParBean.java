@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadPar;
 import com.gusedu.service.EnfermedadService;
 import com.gusedu.service.ParService;
 
-@Controller
+@Component
+@Scope(value="session")
 public class EnfermedadParBean {
 
 	@Autowired

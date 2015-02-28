@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Cliente;
 import com.gusedu.model.HistoriaClinica;
@@ -21,7 +22,8 @@ import com.gusedu.service.TerapiaService;
 import com.gusedu.service.VisitaService;
 import com.gusedu.util.StaticUtil;
 
-@Controller
+@Component
+@Scope(value="session")
 public class VisitaBean {
 
 	@Autowired

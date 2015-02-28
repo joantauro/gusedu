@@ -13,7 +13,8 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadPar;
@@ -29,7 +30,8 @@ import com.gusedu.service.PuntoService;
 import com.gusedu.service.SintomaService;
 import com.gusedu.util.StaticUtil;
 
-@Controller
+@Component
+@Scope(value="session")
 public class ParBean {
 
 	@Autowired

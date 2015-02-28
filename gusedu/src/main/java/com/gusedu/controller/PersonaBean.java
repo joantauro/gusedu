@@ -1,14 +1,16 @@
 package com.gusedu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Persona;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
 import com.gusedu.util.StaticUtil;
 
-@Controller
+@Component
+@Scope(value="session")
 public class PersonaBean {
 
 	@Autowired
