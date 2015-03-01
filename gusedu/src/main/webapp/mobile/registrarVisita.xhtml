@@ -135,8 +135,9 @@
 							</h:outputText>
 						</p:column>
 						<p:column headerText="Estado: ">
-							<h:outputText value="No realizada" rendered="#{vis.estado lt 1}" />
-							<h:outputText value="Realizada" rendered="#{vis.estado gt 0}" />
+							<h:outputText value="Creada" rendered="#{vis.estado == 1}" />
+							<h:outputText value="Por pagar" rendered="#{vis.estado == 2}" />
+							<h:outputText value="Finalizada" rendered="#{vis.estado == 3}" />
 						</p:column>
 						<p:column headerText="Tipo">
 							<h:outputText value="Presencial"

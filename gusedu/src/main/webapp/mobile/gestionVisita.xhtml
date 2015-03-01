@@ -13,7 +13,7 @@
 </h:head>
 <h:body>
 	<p:growl showDetail="true" autoUpdate="true" />
-	
+
 	<pm:page id="gestionVisita">
 		<pm:header title="Gestion Visita">
 			<h:form>
@@ -75,7 +75,8 @@
 									rendered="#{ter.usuarioCreacion eq null}" />
 							</p:column>
 							<p:column headerText="Costo" style="vertical-align:middle;">
-								<h:outputText value="#{ter.terTipoTerapia.costo} #{ter.terTipoTerapia.currencySymbol}" />																	
+								<h:outputText
+									value="#{ter.terTipoTerapia.costo} #{ter.terTipoTerapia.currencySymbol}" />
 							</p:column>
 							<p:column headerText="Opciones" style="vertical-align:middle;">
 								<p:commandButton icon="ui-icon-eye"
@@ -108,7 +109,7 @@
 						<p:outputLabel value="Costo total:" />
 						<h:outputText value="#{visitaBean.visita.costoTotal}" />
 					</pm:field>
-					<p:commandButton value="Finalizar" />
+					<p:commandButton value="Finalizar" action="#{visitaBean.finalizarVisita}" />
 				</p:panel>
 			</h:form>
 		</pm:content>
@@ -229,6 +230,12 @@
 							value="#{visitaBean.historiaClinica.haRecibidoQuimio}"
 							onLabel="Si" offLabel="No">
 						</p:inputSwitch>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="deposicionRegular"
+							value="¿Hace deposiciones regulares?"></p:outputLabel>
+						<p:inputText id="deposicionRegular"
+							value="#{visitaBean.historiaClinica.deposicionRegular}"></p:inputText>
 					</pm:field>
 					<pm:field>
 						<p:outputLabel for="inputDisp"

@@ -62,6 +62,9 @@ public class Persona {
     @Column(name="PER_FEC_CREACION", nullable=true)
     private Date fechaCreacion;
     
+    @Column(name="PER_ENTERO_GUSEDU", nullable=true)
+    private String comoSeEntero;
+    
     @Column(name="PER_USU_CREACION", nullable=true, length=100)
     private String usuarioCreacion;
     
@@ -204,6 +207,14 @@ public class Persona {
 	
 	public Integer getTelefonoFijo() {
 		return telefonoFijo;
+	}
+
+	public String getComoSeEntero() {
+		return comoSeEntero;
+	}
+
+	public void setComoSeEntero(String comoSeEntero) {
+		this.comoSeEntero = comoSeEntero;
 	}
 
 	public void setTelefonoFijo(Integer telefonoFijo) {

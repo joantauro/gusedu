@@ -16,8 +16,9 @@
 	<pm:page id="detalleVisita">
 		<pm:header title="Detalle Visita">
 			<h:form>
-				<p:commandButton action="#{visitaBean.backToRegistrarVisita}" value="Volver"
-					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+				<p:commandButton action="#{visitaBean.backToRegistrarVisita}"
+					value="Volver" icon="ui-icon-arrow-l"
+					styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
@@ -28,61 +29,74 @@
 				</h:form>
 			</pm:field>
 			<h:form>
-				<p:accordionPanel>
-					<p:tab title="Terapias">
-						<p:dataTable id="terapias" var="ter"
-							value="#{visitaBean.terapiasDeVisita}"
-							emptyMessage="No se han registrado terapias"
-							rowKey="#{ter.idTerapia}" paginator="true" rows="5"
-							tableStyleClass="ui-table-columntoggle">
+				<p:panel header="Terapias">
+					<p:dataTable id="terapias" var="ter"
+						value="#{visitaBean.terapiasDeVisita}"
+						emptyMessage="No se han registrado terapias"
+						rowKey="#{ter.idTerapia}" paginator="true" rows="5"
+						paginatorAlwaysVisible="false">
 
-							<p:column headerText="Fec. Relizada"
-								style="vertical-align:middle;">
-								<h:outputText value="#{ter.fechaRealizada}">
-									<f:convertDateTime pattern="dd-MM-yyyy" />
-								</h:outputText>
-							</p:column>
-							<p:column headerText="Fec. Proxima"
-								style="vertical-align:middle;">
-								<h:outputText value="#{ter.fechaProxima}">
-									<f:convertDateTime pattern="dd-MM-yyyy" />
-								</h:outputText>
-							</p:column>
-							<p:column headerText="Tipo" style="vertical-align:middle;">
-								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
-							</p:column>
-							<p:column headerText="Terapeuta" style="vertical-align:middle;">
-								<h:outputText value="#{ter.usuarioCreacion}"
-									rendered="#{ter.usuarioCreacion ne null}" />
-								<h:outputText value="No especificado"
-									rendered="#{ter.usuarioCreacion eq null}" />
-							</p:column>
-							<p:column headerText="Costo" style="vertical-align:middle;">
-								<h:outputText value="#{ter.terTipoTerapia.costo}">
-									<f:convertNumber type="currency" locale="es_PE"></f:convertNumber>
-								</h:outputText>
-							</p:column>
-						</p:dataTable>
-					</p:tab>
-					<p:tab title="Productos">
-							<p:dataTable id="productos" var="pro"
-							paginatorAlwaysVisible="false"
-							value="#{visitaBean.productosDeVisita}"
-							emptyMessage="No se han añadido productos" paginator="true"
-							rows="5">
-							<p:column headerText="Nombre" style="vertical-align:middle;">
-								<h:outputText value="#{pro.pxvProducto.descripcionMedia}" />
-							</p:column>
-							<p:column headerText="Cantidad" style="vertical-align:middle;">
-								<h:outputText value="#{pro.cantidad}" />
-							</p:column>
-							<p:column headerText="Costo parcial"
-								style="vertical-align:middle;">
-								<h:outputText value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
-							</p:column>
-						</p:dataTable>
-					</p:tab>
-				</p:accordionPanel>
+						<p:column headerText="Fec. Relizada"
+							style="vertical-align:middle;">
+							<h:outputText value="#{ter.fechaRealizada}">
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Fec. Proxima" style="vertical-align:middle;">
+							<h:outputText value="#{ter.fechaProxima}">
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Tipo" style="vertical-align:middle;">
+							<h:outputText value="#{ter.terTipoTerapia.nombre}" />
+						</p:column>
+						<p:column headerText="Terapeuta" style="vertical-align:middle;">
+							<h:outputText value="#{ter.usuarioCreacion}"
+								rendered="#{ter.usuarioCreacion ne null}" />
+							<h:outputText value="No especificado"
+								rendered="#{ter.usuarioCreacion eq null}" />
+						</p:column>
+						<p:column headerText="Costo" style="vertical-align:middle;">
+							<h:outputText value="#{ter.terTipoTerapia.costo}">
+								<f:convertNumber type="currency" locale="es_PE"></f:convertNumber>
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<p:panel header="Productos">
+					<p:dataTable id="productos" var="pro"
+						paginatorAlwaysVisible="false"
+						value="#{visitaBean.productosDeVisita}"
+						emptyMessage="No se han añadido productos" paginator="true"
+						rows="5">
+						<p:column headerText="Nombre" style="vertical-align:middle;">
+							<h:outputText value="#{pro.pxvProducto.descripcionMedia}" />
+						</p:column>
+						<p:column headerText="Cantidad" style="vertical-align:middle;">
+							<h:outputText value="#{pro.cantidad}" />
+						</p:column>
+						<p:column headerText="Costo parcial"
+							style="vertical-align:middle;">
+							<h:outputText
+								value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<p:panel header="Datos generales">
+				
+					<pm:field>
+						<p:outputLabel value="Costo total:" />
+						<h:outputText value="#{visitaBean.visita.costoTotal}" />
+					</pm:field>
+					
+					<pm:field>
+						<p:outputLabel value="Estado: " />
+						<h:outputText value="Creada" rendered="#{visitaBean.visita.estado == 1}" />
+						<h:outputText value="Por pagar" rendered="#{visitaBean.visita.estado == 2}" />
+						<h:outputText value="Finalizada" rendered="#{visitaBean.visita.estado == 3}" />
+					</pm:field>
+					
+				</p:panel>
 			</h:form>
 		</pm:content>
 	</pm:page>

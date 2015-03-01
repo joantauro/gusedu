@@ -32,8 +32,7 @@ public class Cliente {
     @Column(nullable = true, name = "CLI_ACTIVO")
     private Boolean esActivo;
     
-    @Column(nullable = true, name = "CLI_DEP_REGULAR")
-    private String deposicionRegular;
+
     
     @Column(nullable = true, name = "CLI_CAN_REGULAR")
     private String cansancioRegular;
@@ -87,15 +86,7 @@ public class Cliente {
 
 	public String getUsuarioCreacion() {
 		return usuarioCreacion;
-	}
-
-	public String getDeposicionRegular() {
-		return deposicionRegular;
-	}
-
-	public void setDeposicionRegular(String deposicionRegular) {
-		this.deposicionRegular = deposicionRegular;
-	}
+	}	
 
 	public String getCansancioRegular() {
 		return cansancioRegular;

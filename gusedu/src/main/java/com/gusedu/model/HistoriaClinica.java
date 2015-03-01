@@ -42,6 +42,9 @@ public class HistoriaClinica {
 	
 	//Update V2
 	
+    @Column(nullable = true, name = "HCL_DEP_REGULAR")
+    private String deposicionRegular;
+	
 	@Column(nullable = true, name = "HCL_EMBARAZO")
 	private Boolean estaEmbarazada;
 	
@@ -56,7 +59,7 @@ public class HistoriaClinica {
 	
 	//Update nutricional
 	
- //Nutricionales
+	//Nutricionales
     
     @Column(nullable = true, name = "CLI_AZUCAR")
     private Boolean azucar;
@@ -217,6 +220,14 @@ public class HistoriaClinica {
 
 	public Boolean getAzucar() {
 		return azucar;
+	}
+
+	public String getDeposicionRegular() {
+		return deposicionRegular;
+	}
+
+	public void setDeposicionRegular(String deposicionRegular) {
+		this.deposicionRegular = deposicionRegular;
 	}
 
 	public void setAzucar(Boolean azucar) {

@@ -24,11 +24,11 @@
 			<h:form id="formRegistroPacienteFirst">
 				<pm:field>
 					<p:outputLabel for="perDni" value="Dni: " />
-					<p:inputText value="#{personaBean.persona.dni}" id="perDni"/>											
+					<p:inputText value="#{personaBean.persona.dni}" id="perDni" />
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perNombre" value="Nombre: " />
-					<p:inputText required="true" value="#{personaBean.persona.nombres}" 
+					<p:inputText required="true" value="#{personaBean.persona.nombres}"
 						id="perNombre" />
 				</pm:field>
 				<pm:field>
@@ -104,6 +104,11 @@
 						<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
 						<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
 					</p:selectOneButton>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perComo" value="¿Cómo se enteró de Gusedu?" />
+					<p:inputText value="#{personaBean.persona.comoSeEntero}" id="perComo">						
+					</p:inputText>
 				</pm:field>
 				<p:panelGrid columns="2">
 					<p:commandButton value="Registrar"

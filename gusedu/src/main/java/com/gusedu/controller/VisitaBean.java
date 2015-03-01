@@ -474,5 +474,14 @@ public class VisitaBean {
 		visita = new Visita();
 		query = "";
 	}
+	
+	public String finalizarVisita(){
+		visita.setEstado(2);
+		visitaService.updateVisita(visita);
+		StaticUtil.correctMesage("Éxito", "Se ha finalizado exitosamente la visita");
+		StaticUtil.keepMessages();
+		visita = new Visita();
+		return "registrarVisita?faces-redirect=true";
+	}
 
 }
