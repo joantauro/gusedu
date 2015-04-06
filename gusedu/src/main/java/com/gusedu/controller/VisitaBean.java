@@ -351,6 +351,8 @@ public class VisitaBean implements Serializable{
 		terapia = new Terapia();
 		// Se asigna la visita actual a la terapia
 		terapia.setTerVisita(visita);
+		String usuarioCreacion = StaticUtil.userLogged();		
+		terapia.setUsuarioCreacion(usuarioCreacion);
 		// Se limpia el tipoterapia que se haya seleccionado previamente
 		idTipoTerapia = null;
 		tipoTerapia = new TipoTerapia();

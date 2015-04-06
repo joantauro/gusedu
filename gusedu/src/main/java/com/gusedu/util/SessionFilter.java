@@ -29,7 +29,7 @@ public class SessionFilter implements javax.servlet.Filter {
 		Usuario user = (Usuario) httpRequest.getSession().getAttribute("userLogged");
 		if (user == null) {
 			if (urlSolicitada.contains("mobile")) {
-				httpResponse.sendRedirect("/gusedu/index.jsf");
+				httpResponse.sendRedirect("/gusedu/home.jsf");
 				return;
 			} else {
 				chain.doFilter(request, response);

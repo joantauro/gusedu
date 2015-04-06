@@ -70,14 +70,14 @@ public class Auth implements Serializable{
 
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "/index.xhtml?faces-redirect=true";
+		return "/home.xhtml?faces-redirect=true";
 	}
 	
 	public String cancel(){
 		this.username = "";
 		this.password = "";
 		this.userLogged = new Usuario();
-		return "/index.xhtml?faces-redirect=true";
+		return "/home.xhtml?faces-redirect=true";
 	}
 
 	public String getUsername() {

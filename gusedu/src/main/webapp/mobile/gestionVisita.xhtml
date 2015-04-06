@@ -79,7 +79,7 @@
 									value="#{ter.terTipoTerapia.costo} #{ter.terTipoTerapia.currencySymbol}" />
 							</p:column>
 							<p:column headerText="Opciones" style="vertical-align:middle;">
-								<p:commandButton icon="ui-icon-eye"
+								<p:commandButton icon="ui-icon-eye" rendered="#{ter.terTipoTerapia.idTipoTerapia eq 1 or ter.terTipoTerapia.idTipoTerapia eq 2}"
 									action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
 							</p:column>
 						</p:dataTable>

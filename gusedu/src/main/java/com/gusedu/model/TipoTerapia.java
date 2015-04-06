@@ -20,7 +20,7 @@ public class TipoTerapia {
     @Column(nullable = false, name = "TTE_CODIGO")
     private Integer idTipoTerapia;	
     
-    @Column(nullable = true, name = "TTE_NOMBRE", length=20)
+    @Column(nullable = true, name = "TTE_NOMBRE", length=50)
     private String nombre;
     
     @Column(nullable = true, name = "TTE_COSTO")

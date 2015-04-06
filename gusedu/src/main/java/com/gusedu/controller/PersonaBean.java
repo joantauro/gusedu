@@ -2,15 +2,11 @@ package com.gusedu.controller;
 
 import java.io.Serializable;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Persona;
-import com.gusedu.model.Usuario;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
 import com.gusedu.util.StaticUtil;
