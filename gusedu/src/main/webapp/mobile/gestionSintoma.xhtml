@@ -16,30 +16,31 @@
 	<pm:page id="gestionSintoma">
 		<pm:header title="Gestión de Síntomas">
 			<h:form>
-				<p:button outcome="indexOpciones" value="Volver" icon="ui-icon-arrow-l"
-					styleClass="ui-btn-left ui-btn-inline" />
+				<p:button outcome="indexOpciones" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
 			<h:form>
 				<p:commandButton action="#{sintomaBean.preAdd}"
+					rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 					value="Agregar síntoma" update=":agregarSintoma:formAgregarSintoma"></p:commandButton>
 			</h:form>
 			<pm:field>
 				<h:form id="formBusqueda">
 					<p:outputLabel value="Filtrar: " for="inpQuery" />
-					<p:inputText value="#{sintomaBean.query}" id="inpQuery" >
+					<p:inputText value="#{sintomaBean.query}" id="inpQuery">
 						<p:ajax event="keyup" update=":#{p:component('tablaSintoma')}"
 							listener="#{sintomaBean.filtrarBusqueda}">
 						</p:ajax>
 					</p:inputText>
-				</h:form>				
+				</h:form>
 			</pm:field>
 			<h:form id="formTablaSintomas">
 				<p:dataTable emptyMessage="No hay síntomas registradas"
-					id="tablaSintoma" var="sin"
-					value="#{sintomaBean.sintomas}" rowKey="#{sin.idSintoma}"
-					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+					id="tablaSintoma" var="sin" value="#{sintomaBean.sintomas}"
+					rowKey="#{sin.idSintoma}" paginator="true" rows="5"
+					tableStyleClass="ui-table-columntoggle">
 
 					<p:column headerText="Nombre">
 						<p:outputLabel value="#{sin.descripcion}"></p:outputLabel>
@@ -47,10 +48,12 @@
 
 					<p:column headerText="Opciones">
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							update=":editarSintoma:formEditarSintoma"
 							action="#{sintomaBean.preUpdate(sin.idSintoma)}" />
 
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							actionListener="#{sintomaBean.preDelete(sin.idSintoma)}"
 							oncomplete="PF('dlgEliminarSintoma').show();" />
 					</p:column>
@@ -66,15 +69,14 @@
 						oncomplete="PF('dlgEliminarSintoma').hide();" />
 
 					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-						icon="ui-icon-delete"
-						actionListener="#{sintomaBean.cancelar}"
+						icon="ui-icon-delete" actionListener="#{sintomaBean.cancelar}"
 						oncomplete="PF('dlgEliminarSintoma').hide();" />
 				</h:form>
 			</p:dialog>
 		</pm:content>
 	</pm:page>
-	
-		<pm:page id="agregarSintoma">
+
+	<pm:page id="agregarSintoma">
 		<pm:header title="Agregar síntoma">
 			<h:form>
 				<p:button outcome="gestionSintoma" value="Volver"
@@ -88,8 +90,8 @@
 					<p:inputText id="sinNombre" required="true"
 						value="#{sintomaBean.sintoma.descripcion}" />
 				</pm:field>
-				<p:commandButton update=":gestionSintoma:formTablaSintomas" action="#{sintomaBean.add}"
-					value="Agregar" />
+				<p:commandButton update=":gestionSintoma:formTablaSintomas"
+					action="#{sintomaBean.add}" value="Agregar" />
 			</h:form>
 		</pm:content>
 	</pm:page>
@@ -98,8 +100,8 @@
 	<pm:page id="editarSintoma">
 		<pm:header title="Editar síntoma">
 			<h:form>
-				<p:button outcome="gestionSintoma" value="Volver" icon="ui-icon-arrow-l"
-					styleClass="ui-btn-left ui-btn-inline" />
+				<p:button outcome="gestionSintoma" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
 			</h:form>
 		</pm:header>
 		<pm:content>
@@ -109,11 +111,11 @@
 					<p:inputText id="sinNombre" required="true"
 						value="#{sintomaBean.sintoma.descripcion}" />
 				</pm:field>
-				<p:commandButton update=":gestionSintoma:formTablaSintomas" action="#{sintomaBean.update}"
-					value="Editar" />
+				<p:commandButton update=":gestionSintoma:formTablaSintomas"
+					action="#{sintomaBean.update}" value="Editar" />
 			</h:form>
 		</pm:content>
 	</pm:page>
-	
+
 </h:body>
 </html>

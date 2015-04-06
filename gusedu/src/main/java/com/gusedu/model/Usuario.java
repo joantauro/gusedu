@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -25,7 +26,7 @@ public class Usuario {
     @Column(nullable = false, name = "USU_USUARIO", length=50)
     private String usuario;
     
-    @Column(nullable = false, name = "USU_PASSWORD", length=50)
+    @Column(nullable = false, name = "USU_PASSWORD", length=150)
     private String password;
     
     @Column(nullable = true, name = "USU_FEC_CREACION")
@@ -33,6 +34,12 @@ public class Usuario {
     
     @Column(nullable = true, name = "USU_ACTIVO")
     private Boolean esActivo;
+    
+    @Column(nullable = true, name="USU_EMPRESA")
+    private String empresa;
+    
+    @ManyToOne @JoinColumn(name="TUS_CODIGO", nullable=false)
+    private TipoUsuario usuTipoUsuario;
     
 	@OneToMany(mappedBy="menUsuarioEmisor")
 	private Collection<Mensaje> usuMenEmisores;
@@ -90,6 +97,22 @@ public class Usuario {
 
 	public void setUsuMenEmisores(Collection<Mensaje> usuMenEmisores) {
 		this.usuMenEmisores = usuMenEmisores;
+	}
+
+	public TipoUsuario getUsuTipoUsuario() {
+		return usuTipoUsuario;
+	}
+
+	public void setUsuTipoUsuario(TipoUsuario usuTipoUsuario) {
+		this.usuTipoUsuario = usuTipoUsuario;
+	}
+
+	public String getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(String empresa) {
+		this.empresa = empresa;
 	}
 
 	public Collection<Mensaje> getUsuMenReceptores() {

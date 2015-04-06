@@ -24,8 +24,8 @@
 			<h:form>
 				<p:outputLabel for="sintomaBusqueda" value="Síntoma: " />
 				<pm:field>
-					<p:autoComplete autocomplete="false" id="sintomaBusqueda" queryDelay="100"
-						value="#{sintomaParBean.sintoma}" required="true"
+					<p:autoComplete autocomplete="false" id="sintomaBusqueda"
+						queryDelay="100" value="#{sintomaParBean.sintoma}" required="true"
 						completeMethod="#{sintomaParBean.autoComplete}" var="sin"
 						itemLabel="#{sin.descripcion}" itemValue="#{sin}"
 						converter="#{sintomaConverter}">
@@ -38,7 +38,7 @@
 			</h:form>
 		</pm:content>
 	</pm:page>
-	
+
 	<pm:page id="mostrarPares">
 		<pm:header title="Pares por sintoma">
 			<h:form>
@@ -50,8 +50,8 @@
 		<pm:content>
 			<h:form>
 				<p:dataTable emptyMessage="No hay pares asociados" id="tablaPar"
-					var="par" value="#{sintomaParBean.sintomasPar}"
-					paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+					var="par" value="#{sintomaParBean.sintomasPar}" paginator="true"
+					rows="5" tableStyleClass="ui-table-columntoggle">
 
 					<p:column headerText="Punto 1">
 						<p:outputLabel value="#{par.sxpPar.parPunto1.nombre}" />
@@ -67,7 +67,7 @@
 			</h:form>
 		</pm:content>
 	</pm:page>
-	
-	
+
+
 </h:body>
 </html>

@@ -91,6 +91,21 @@ public class ClienteServiceImpl implements ClienteService{
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Cliente> getClientesPacientesByUsuario(String usuario) {
+		List<Cliente> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliTipoCliente.descripcion=:paciente AND c.usuarioCreacion=:usuario");
+			q.setParameter("paciente", "Paciente");
+			q.setParameter("usuario", usuario);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
 	@Transactional
 	public Cliente getClienteById(Integer idCliente) {
 		return em.find(Cliente.class, idCliente);

@@ -1,5 +1,6 @@
 package com.gusedu.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import com.gusedu.service.ParService;
 
 @Component
 @Scope(value="session")
-public class EnfermedadParBean {
+public class EnfermedadParBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	EnfermedadService enfermedadService;

@@ -18,7 +18,7 @@ public interface PersonaService {
 	
 	public Persona getPersonaById(Integer id);
 	
-	public boolean registroPaciente(Persona persona);
+	public boolean registroPaciente(Persona persona, String username);
 	
 	public List<Terapia> terapiasPorPersona(Persona persona); 
 

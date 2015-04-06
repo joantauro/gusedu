@@ -1,17 +1,25 @@
 package com.gusedu.controller;
 
+import java.io.Serializable;
+
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Persona;
+import com.gusedu.model.Usuario;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
 import com.gusedu.util.StaticUtil;
 
 @Component
 @Scope(value="session")
-public class PersonaBean {
+public class PersonaBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	PersonaService personaService;
@@ -35,8 +43,9 @@ public class PersonaBean {
 	
 	//Metodo para registrar un nuevo paciente
 	public String registroPaciente(){		
+		String empresa = StaticUtil.userLogged();
 		//Guarda la persona en la base de datos
-		if(personaService.registroPaciente(persona)){
+		if(personaService.registroPaciente(persona, empresa)){
 			//Crea nuevamente la instancia de persona
 			persona = new Persona();
 			//Muestra mensajes de éxito

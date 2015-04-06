@@ -22,33 +22,33 @@
 		</pm:header>
 		<pm:content>
 			<p:panel header="Filtros" toggleable="true">
-			<pm:field>
-				<h:form id="formBusqueda">
-					<p:outputLabel value="Filtrar: " for="inpQuery" />
-					<p:inputText value="#{puntoBean.query}" id="inpQuery">
-						<p:ajax event="keyup" update=":#{p:component('tablaPunto')}"
-							listener="#{puntoBean.filtrarBusqueda}">
-						</p:ajax>
-					</p:inputText>
-				</h:form>
-			</pm:field>
-
-			<h:form>
 				<pm:field>
-					<p:commandButton value="Asc."
-						update=":#{p:component('tablaPunto')}"
-						actionListener="#{puntoBean.orderAsc}" icon="ui-icon-arrow-u"
-						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
-					<p:commandButton value="Desc."
-						update=":#{p:component('tablaPunto')}"
-						actionListener="#{puntoBean.orderDesc}" icon="ui-icon-arrow-d"
-						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
-					<p:commandButton value="Goiz"
-						update=":#{p:component('tablaPunto')}"
-						actionListener="#{puntoBean.orderGoiz}" icon="ui-icon-tag"
-						styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					<h:form id="formBusqueda">
+						<p:outputLabel value="Filtrar: " for="inpQuery" />
+						<p:inputText value="#{puntoBean.query}" id="inpQuery">
+							<p:ajax event="keyup" update=":#{p:component('tablaPunto')}"
+								listener="#{puntoBean.filtrarBusqueda}">
+							</p:ajax>
+						</p:inputText>
+					</h:form>
 				</pm:field>
-			</h:form>
+
+				<h:form>
+					<pm:field>
+						<p:commandButton value="Asc."
+							update=":#{p:component('tablaPunto')}"
+							actionListener="#{puntoBean.orderAsc}" icon="ui-icon-arrow-u"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Desc."
+							update=":#{p:component('tablaPunto')}"
+							actionListener="#{puntoBean.orderDesc}" icon="ui-icon-arrow-d"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Goiz"
+							update=":#{p:component('tablaPunto')}"
+							actionListener="#{puntoBean.orderGoiz}" icon="ui-icon-tag"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+					</pm:field>
+				</h:form>
 			</p:panel>
 			<h:outputText value="&lt;br/&gt;" escape="false" />
 			<h:form>
@@ -67,9 +67,11 @@
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-eye"
 							action="#{puntoBean.detallePunto(pun.idPunto)}" ajax="false" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{puntoBean.detallePuntoUpdate(pun.idPunto)}"
 							ajax="false" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							actionListener="#{puntoBean.cargarPunto(pun.idPunto)}"
 							oncomplete="PF('dlgEliminar').show();" />
 					</p:column>
@@ -90,7 +92,8 @@
 				</h:form>
 			</p:dialog>
 
-			<h:form style="text-align:center;">
+			<h:form style="text-align:center;"
+				rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 				<h:outputText value="&lt;br/&gt;" escape="false" />
 				<p:outputLabel value="¿No se encontraron resultados?" />
 				<pm:field>
@@ -102,7 +105,8 @@
 		</pm:content>
 	</pm:page>
 
-	<pm:page id="gestionPunto">
+	<pm:page id="gestionPunto"
+		rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 		<pm:header title="Gestión Punto">
 			<h:form>
 				<p:button outcome="pm:consultarPuntos" value="Volver"
@@ -136,7 +140,7 @@
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="puntoUbicacionMedia" value="Ubicación media: " />
-					<p:inputText id="puntoUbicacionMedia" 
+					<p:inputText id="puntoUbicacionMedia"
 						value="#{puntoBean.punto.ubicacionMedia}" />
 				</pm:field>
 				<p:panelGrid columns="2">
@@ -175,7 +179,8 @@
 		</pm:content>
 	</pm:page>
 
-	<pm:page id="nuevoPunto">
+	<pm:page id="nuevoPunto"
+		rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 		<pm:header title="Añadir Punto">
 			<h:form>
 				<p:commandButton action="#{puntoBean.backToConsultar}"
@@ -192,8 +197,7 @@
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="puntoOrdGoiz" value="Orden Goiz: " />
-					<p:inputText id="puntoOrdGoiz"
-						value="#{puntoBean.punto.ordenGoiz}" />
+					<p:inputText id="puntoOrdGoiz" value="#{puntoBean.punto.ordenGoiz}" />
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="puntoUbicacionCorta" value="Ubicación corta: " />
@@ -215,7 +219,8 @@
 				</pm:field>
 				<p:panelGrid columns="2">
 					<p:commandButton icon="ui-icon-check"
-						action="#{puntoBean.añadirPunto}" update=":consultarPuntos" value="Añadir"></p:commandButton>
+						action="#{puntoBean.añadirPunto}" update=":consultarPuntos"
+						value="Añadir"></p:commandButton>
 					<p:commandButton icon="ui-icon-delete"
 						action="#{puntoBean.backToConsultar}" ajax="false"
 						value="Cancelar"></p:commandButton>

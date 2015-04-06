@@ -1,5 +1,6 @@
 package com.gusedu.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import com.gusedu.util.StaticUtil;
 
 @Component
 @Scope(value="session")
-public class PuntoBean {
+public class PuntoBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	PuntoService puntoService;

@@ -16,6 +16,7 @@ import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoCliente;
+import com.gusedu.model.TipoUsuario;
 import com.gusedu.model.Usuario;
 import com.gusedu.util.StaticUtil;
 
@@ -91,7 +92,7 @@ public class PersonaServiceImpl implements PersonaService {
 
 	@SuppressWarnings("deprecation")
 	@Transactional
-	public boolean registroPaciente(Persona persona) {
+	public boolean registroPaciente(Persona persona, String usernameSession) {
 		boolean resultado = false;
 		try {
 			if(persona.getFechaNacimiento()!=null){
@@ -127,12 +128,15 @@ public class PersonaServiceImpl implements PersonaService {
 
 			usuario.setUsuario(username);
 			usuario.setPassword(password);
-
+			TipoUsuario tipoUsuario = new TipoUsuario();
+			tipoUsuario.setIdTipoUsuario(1);
+			usuario.setUsuTipoUsuario(tipoUsuario);
 			tipoCliente.setIdTipoCliente(1);
-
-			cliente.setCliPersona(persona);
 			cliente.setCliTipoCliente(tipoCliente);
-
+			cliente.setUsuarioCreacion(usernameSession);
+			persona.setUsuarioCreacion(usernameSession);			
+			cliente.setCliPersona(persona);						
+			
 			System.out.println(username);
 			System.out.println(password);
 

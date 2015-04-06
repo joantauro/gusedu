@@ -67,17 +67,21 @@
 						<p:commandButton icon="ui-icon-eye" styleClass="ui-btn-inline"
 							ajax="false" action="#{parBean.cargarPar(par.idPar)}" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{parBean.cargarUpdatePar(par.idPar)}" ajax="false" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-delete"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							actionListener="#{parBean.cargarRemovePar(par.idPar)}"
 							oncomplete="PF('dlgEliminarPar').show();" />
 						<p:commandButton icon="ui-icon-action" styleClass="ui-btn-inline"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							ajax="false" action="#{parBean.toFileUpload(par.idPar)}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
 
-			<h:form style="text-align:center;">
+			<h:form style="text-align:center;"
+				rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 				<h:outputText value="&lt;br/&gt;" escape="false" />
 				<p:outputLabel value="¿No se encontraron resultados?" />
 				<pm:field>
@@ -103,7 +107,8 @@
 		</pm:content>
 	</pm:page>
 
-	<pm:page id="nuevoPar">
+	<pm:page id="nuevoPar"
+		rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 		<pm:header title="Añadir Par">
 			<h:form>
 				<p:commandButton action="#{parBean.backToConsultar}" value="Volver"
@@ -150,7 +155,8 @@
 		</pm:content>
 	</pm:page>
 
-	<pm:page id="editarPar">
+	<pm:page id="editarPar"
+		rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 		<pm:header title="Editar Par">
 			<h:form>
 				<p:commandButton action="#{parBean.backToConsultar}" value="Volver"
@@ -224,8 +230,9 @@
 								value="#{parBean.parSeleccionado.parPunto1.nombre}" />
 
 							<h:outputLabel value="Punto 2: " />
-							<h:outputLabel value="#{parBean.parSeleccionado.parPunto2.nombre}" />
-							
+							<h:outputLabel
+								value="#{parBean.parSeleccionado.parPunto2.nombre}" />
+
 							<h:outputLabel value="Patógeno: " />
 							<h:outputLabel value="#{parBean.parSeleccionado.patogeno}" />
 
@@ -248,7 +255,8 @@
 					<p:tab title="Enfermedades relacionadas">
 						<h:form>
 							<p:button outcome="pm:nuevaEnfermedad" value="Agregar enfermedad"
-								icon="ui-icon-plus" />
+								icon="ui-icon-plus"
+								rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}" />
 						</h:form>
 						<p:dataTable emptyMessage="No hay enfermedades registradas"
 							id="tabEnfermedades" var="enf" value="#{parBean.enfermedadesPar}"
@@ -261,6 +269,7 @@
 							<p:column headerText="Opciones">
 								<p:commandButton styleClass="ui-btn-inline"
 									icon="ui-icon-delete"
+									rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 									actionListener="#{parBean.cargarPreRemove(enf.idEnfermedad)}"
 									oncomplete="PF('dlgEliminarEnf').show();" />
 							</p:column>
@@ -269,6 +278,7 @@
 					<p:tab title="Sintomas relacionados">
 						<h:form>
 							<p:button outcome="pm:nuevoSintoma" value="Agregar sintoma"
+								rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 								icon="ui-icon-plus" />
 						</h:form>
 						<p:dataTable emptyMessage="No hay sintomas registrados"
@@ -282,6 +292,7 @@
 							<p:column headerText="Opciones">
 								<p:commandButton styleClass="ui-btn-inline"
 									icon="ui-icon-delete"
+									rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 									actionListener="#{parBean.cargarPreRemoveSintoma(sin.idSintoma)}"
 									oncomplete="PF('dlgEliminarSin').show();" />
 							</p:column>
@@ -319,7 +330,8 @@
 		</pm:content>
 	</pm:page>
 
-	<pm:page id="nuevaEnfermedad">
+	<pm:page id="nuevaEnfermedad"
+		rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 		<pm:header title="Añadir enfermedad">
 			<h:form>
 				<p:commandButton action="#{parBean.backToDetalle}" value="Volver"
@@ -349,7 +361,8 @@
 	</pm:page>
 
 
-	<pm:page id="nuevoSintoma">
+	<pm:page id="nuevoSintoma"
+		rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 		<pm:header title="Añadir síntoma">
 			<h:form>
 				<p:commandButton action="#{parBean.backToDetalle}" value="Volver"
@@ -378,7 +391,8 @@
 		</pm:content>
 	</pm:page>
 
-	<pm:page id="uploadImage">
+	<pm:page id="uploadImage"
+		rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}">
 		<pm:header title="Subir imagen de par">
 			<h:form>
 				<p:commandButton action="#{parBean.cancelUpload}" value="Volver"

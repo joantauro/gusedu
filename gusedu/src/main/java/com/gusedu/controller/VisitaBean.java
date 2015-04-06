@@ -1,5 +1,6 @@
 package com.gusedu.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,9 @@ import com.gusedu.util.StaticUtil;
 
 @Component
 @Scope(value="session")
-public class VisitaBean {
+public class VisitaBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	ClienteService clienteService;
@@ -215,12 +218,13 @@ public class VisitaBean {
 	}
 
 	public List<Cliente> getClientes() {
+		String empresa = StaticUtil.userLogged();
 		if (query != null) {
 			if (!query.isEmpty()) {
 				return clientes;
 			}
 		}
-		return clienteService.getClientesPacientes();
+		return clienteService.getClientesPacientesByUsuario(empresa);
 	}
 
 	public void setClientes(List<Cliente> clientes) {
@@ -241,8 +245,9 @@ public class VisitaBean {
 
 	// Método que filtra las personas según apellidos o nombres
 	public void filtrarPersonas() {
+		String empresa = StaticUtil.userLogged();
 		// Obtener los clientes que son de tipo paciente
-		clientes = clienteService.getClientesPacientes();
+		clientes = clienteService.getClientesPacientesByUsuario(empresa);
 		// Crea una lista vacia donde se guardarán los clientes filtrados
 		List<Cliente> filtrados = new ArrayList<>();
 		for (Cliente c : clientes) {

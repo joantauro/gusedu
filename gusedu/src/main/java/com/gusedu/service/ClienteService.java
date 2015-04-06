@@ -18,6 +18,8 @@ public interface ClienteService {
 	
 	public List<Cliente> getClientesPacientes();
 	
+	public List<Cliente> getClientesPacientesByUsuario(String usuario);
+	
 	public Cliente getClienteByIdPersona(Integer idPersona);
 		
 	

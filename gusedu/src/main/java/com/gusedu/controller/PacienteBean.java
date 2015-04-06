@@ -1,5 +1,6 @@
 package com.gusedu.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import com.gusedu.util.StaticUtil;
 
 @Component
 @Scope(value="session")
-public class PacienteBean {
+public class PacienteBean implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	ClienteService clienteService;
@@ -44,12 +47,13 @@ public class PacienteBean {
 	}
 
 	public List<Cliente> getClientes() {
+		String username = StaticUtil.userLogged();
 		if (query != null) {
 			if (!query.isEmpty()) {
 				return clientes;
 			}
 		}
-		return clienteService.getClientesPacientes();
+		return clienteService.getClientesPacientesByUsuario(username);
 	}
 
 	public void setClientes(List<Cliente> clientes) {
@@ -94,7 +98,8 @@ public class PacienteBean {
 	}
 
 	public void filtrarBusqueda() {
-		clientes = clienteService.getClientesPacientes();
+		String username = StaticUtil.userLogged();
+		clientes = clienteService.getClientesPacientesByUsuario(username);
 		List<Cliente> filtrados = new ArrayList<>();
 		for (Cliente c : clientes) {
 			if (c.getCliPersona().getApellidoPaterno().toLowerCase()
@@ -108,6 +113,6 @@ public class PacienteBean {
 			}
 		}
 		clientes = filtrados;
-	}
+	}	
 
 }

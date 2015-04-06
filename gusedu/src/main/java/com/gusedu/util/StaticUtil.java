@@ -6,6 +6,9 @@ import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
+import com.gusedu.model.Usuario;
 
 public class StaticUtil {
 
@@ -19,6 +22,13 @@ public class StaticUtil {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
 				titulo, mensaje));
+	}
+	
+	public static String userLogged(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+		String username = ((Usuario)(request.getSession().getAttribute("userLogged"))).getEmpresa();
+		return username;
 	}
 
 	public static Date getFechaActual() {

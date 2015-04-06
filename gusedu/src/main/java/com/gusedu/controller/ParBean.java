@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,10 @@ import com.gusedu.util.StaticUtil;
 
 @Component
 @Scope(value="session")
-public class ParBean {
+public class ParBean implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	@Autowired
 	ParService parService;
 
