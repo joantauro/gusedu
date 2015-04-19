@@ -1,7 +1,10 @@
 package com.gusedu.util;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -9,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.gusedu.model.Usuario;
+import com.gusedu.service.UsuarioService;
+import com.gusedu.service.UsuarioServiceImpl;
 
 public class StaticUtil {
 
@@ -110,4 +115,16 @@ public class StaticUtil {
 		}
 	}
 	
+	public static Date sumarRestarDiasFecha(Date fecha, int mes,String tiempo){
+	      Calendar calendar = Calendar.getInstance();
+	      calendar.setTime(fecha); // Configuramos la fecha que se recibe
+	      if(tiempo.equals("D"))
+	      {
+	    	  calendar.add(Calendar.DAY_OF_YEAR, mes);  // numero de mes a añadir, o restar en caso de días<0
+	      }else
+	      {
+	    	  calendar.add(Calendar.MONTH, mes);
+	      }
+	      return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
+	 } 
 }

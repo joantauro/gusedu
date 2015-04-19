@@ -38,6 +38,9 @@ public class Usuario {
     @Column(nullable = true, name="USU_EMPRESA")
     private String empresa;
     
+    @Column(nullable = true, name="USU_FEC_FINM")
+    private Date fechafinm;
+    
     @ManyToOne @JoinColumn(name="TUS_CODIGO", nullable=false)
     private TipoUsuario usuTipoUsuario;
     
@@ -115,6 +118,14 @@ public class Usuario {
 		this.empresa = empresa;
 	}
 
+    public Date getFechafinm() {
+        return fechafinm;
+    }
+
+    public void setFechafinm(Date fechafinm) {
+        this.fechafinm = fechafinm;
+    }	  
+	
 	public Collection<Mensaje> getUsuMenReceptores() {
 		return usuMenReceptores;
 	}
@@ -161,7 +172,9 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [idUsuario=" + idUsuario + ", usuario=" + usuario
 				+ ", password=" + password + ", fechaCreacion=" + fechaCreacion
-				+ ", esActivo=" + esActivo + "]";
-	}	    
+				+ ", esActivo=" + esActivo + ", fechafinm=" + fechafinm + "]";
+	}
+
+  
     
 }

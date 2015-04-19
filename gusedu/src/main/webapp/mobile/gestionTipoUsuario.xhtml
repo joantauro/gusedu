@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+		
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/TemaA.min.css" />
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/jquery.mobile.icons.min.css" />	
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/jquery.mobile.structure-1.4.5.min.css" />
+<!--
+</script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">	
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js">
+</script> 
+-->
+</h:head>
+<h:body>
+<p:growl showDetail="true" autoUpdate="true" />
+<pm:page id="datosTipoUsuario">
+		<pm:header title="Gestión de Tipo de Usuarios">
+			<h:form>
+				<p:button outcome="indexUsuario" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form>
+				<p:commandButton action="#{usuarioBean.preAddTU}"
+					value="Agregar Tipo Usuario" update=":agregarTipoUsuario:formAgregarTipoUsuario"></p:commandButton>
+			</h:form>
+			<pm:field>
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{usuarioBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaUsuario')}"
+							listener="#{usuarioBean.filtrarBusquedaTU}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+			</pm:field>
+			
+			<h:form id="gestionTipoUsuario">
+			<p:growl autoUpdate="true" showDetail="true" />
+				<p:dataTable emptyMessage="No hay usuarios Disponibles" rowIndexVar="valor" 
+					id="tablaUsuario" var="usu" value="#{usuarioBean.tipousuarios}"
+					rowKey="#{usu.idTipoUsuario}" paginator="true" rows="5"
+					tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="N°">
+						<p:outputLabel value="#{valor+1}" />
+					</p:column>
+					<p:column headerText="Descripcion">
+						<p:outputLabel value="#{usu.descripcion}" />
+					</p:column>
+					<p:column headerText="Opciones">
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							update=":editarTipoUsuario:formEditarTipoUsuario"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							action="#{usuarioBean.preUpdateTU(usu.idTipoUsuario)}" />
+						<p:commandButton
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							styleClass="ui-btn-inline" icon="ui-icon-delete"
+							actionListener="#{usuarioBean.preDeleteTU(usu.idTipoUsuario)}"
+							oncomplete="PF('dlgEliminarTipoUsuario').show();" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<p:dialog header="¿Eliminar? " widgetVar="dlgEliminarTipoUsuario"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+				
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check" update=":datosTipoUsuario:gestionTipoUsuario"
+						actionListener="#{usuarioBean.deleteTU}"
+						oncomplete="PF('dlgEliminarTipoUsuario').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" actionListener="#{usuarioBean.cancelar}"
+						oncomplete="PF('dlgEliminarTipoUsuario').hide();" />
+				</h:form>
+			</p:dialog>
+		</pm:content>
+ </pm:page>
+ 
+  <pm:page id="agregarTipoUsuario">
+		<pm:header title="Agregar Tipo Usuario">
+			<h:form>
+				<p:button outcome="gestionTipoUsuario" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form id="formAgregarTipoUsuario">
+			 	 <pm:field>
+					<p:outputLabel value="Descripcion : " for="tusuNombre"></p:outputLabel>
+					<p:inputText id="tusuNombre"  required="true"
+						value="#{usuarioBean.tipousuario.descripcion}" />
+				</pm:field>
+				<p:commandButton update=":datosTipoUsuario:gestionTipoUsuario"
+					action="#{usuarioBean.AddTU}" value="Agregar" />
+			</h:form>
+		</pm:content>
+	</pm:page>
+   <pm:page id="editarTipoUsuario">
+		<pm:header title="Editar Tipo Usuario">
+			<h:form>
+				<p:button outcome="gestionTipoUsuario" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form id="formEditarTipoUsuario">
+			 	 <pm:field>
+					<p:outputLabel value="Descripcion : " for="tusuNombre"></p:outputLabel>
+					<p:inputText id="tusuNombre" 
+						value="#{usuarioBean.tipousuario.descripcion}" />
+				</pm:field>
+				<p:commandButton update=":datosTipoUsuario:gestionTipoUsuario"
+					action="#{usuarioBean.updateTU}" value="Agregar" />
+			</h:form>
+		</pm:content>
+	</pm:page>
+ 
+ 
+</h:body>
+</html>

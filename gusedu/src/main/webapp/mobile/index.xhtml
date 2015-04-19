@@ -37,6 +37,12 @@
 				<pm:field>
 					<p:button value="Opciones adicionales" outcome="indexOpciones" />
 				</pm:field>
+				<pm:field>
+					<p:button value="Gestión Usuario" outcome="indexUsuario" />
+				</pm:field>
+				<pm:field rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}" >
+					<p:button value="Opciones de Administrador" outcome="gestionAdministrador" />
+				</pm:field>
 			</h:form>
 		</pm:content>
 	</pm:page>
