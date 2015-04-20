@@ -169,7 +169,7 @@
 				<p:panel header="Datos médicos">
 					<pm:field>
 						<p:outputLabel for="inputPeso" value="Peso (kg):" />
-						<p:inputText id="inputPeso" required="true"
+						<p:inputText id="inputPeso" 
 							value="#{visitaBean.historiaClinica.peso}">
 							<f:convertNumber pattern="#0.00" maxFractionDigits="2"
 								maxIntegerDigits="3"></f:convertNumber>
@@ -177,7 +177,7 @@
 					</pm:field>
 					<pm:field>
 						<p:outputLabel for="inputTalla" value="Talla (m): " />
-						<p:inputText id="inputTalla" required="true"
+						<p:inputText id="inputTalla"
 							value="#{visitaBean.historiaClinica.talla}">
 							<f:convertNumber pattern="#0.00" maxFractionDigits="2"
 								maxIntegerDigits="1"></f:convertNumber>
@@ -185,7 +185,7 @@
 					</pm:field>
 					<pm:field>
 						<p:outputLabel for="inputTemperatura" value="Temperatura (ºC): " />
-						<p:inputText id="inputTemperatura" required="true"
+						<p:inputText id="inputTemperatura"
 							value="#{visitaBean.historiaClinica.temperatura}"
 							placeholder="Rango óptimo: 36.7ºC-37.2ºC">
 							<f:convertNumber pattern="#0.0" maxFractionDigits="1"
@@ -195,14 +195,14 @@
 					<pm:field>
 						<p:outputLabel for="inputTension"
 							value="Tensión Arterial (mmHg): " />
-						<p:inputText id="inputTension" required="true"
+						<p:inputText id="inputTension"
 							value="#{visitaBean.historiaClinica.tensionArterial}"
 							placeholder="Rango óptimo: 120/80 o menos">
 						</p:inputText>
 					</pm:field>
 					<pm:field>
 						<p:outputLabel for="inputGlucosa" value="Glucosa (mg/dl): " />
-						<p:inputText id="inputGlucosa" required="true"
+						<p:inputText id="inputGlucosa"
 							value="#{visitaBean.historiaClinica.glucosa}"
 							placeholder="Rango óptimo: 70-100 en ayunas.">
 							<f:convertNumber pattern="#0.00" maxFractionDigits="2"
@@ -276,7 +276,7 @@
 					</pm:field>
 					<pm:field>
 						<p:outputLabel for="vasosAgua" value="Agua: " />
-						<p:inputText id="vasosAgua" required="true"
+						<p:inputText id="vasosAgua" 
 							value="#{visitaBean.historiaClinica.agua}"
 							placeholder="Número de veces al día que consume agua">
 							<f:convertNumber integerOnly="true"></f:convertNumber>

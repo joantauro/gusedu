@@ -56,7 +56,22 @@ public class Cliente {
     private String alergia;
     
     @Column(nullable = true, name = "CLI_MEDICAMENTOS")
-    private String medicamentos;   
+    private String medicamentos;  
+    
+    @Column(nullable = true, name = "CLI_HIJOS")
+    private String hijos;  
+    
+    @Column(nullable = true, name = "CLI_EJERCICIO")
+    private String ejercicio;  
+    
+    @Column(nullable = true, name = "CLI_OCUPACION")
+    private String ocupacion;      
+    
+    @Column(nullable = true, name = "CLI_HABITOS")
+    private String habitosSueno;     
+    
+    @Column(nullable = true, name = "CLI_ALCOHOL")
+    private String alcohol;     
     
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PER_CODIGO", nullable = true)
@@ -226,6 +241,46 @@ public class Cliente {
 	public String toString() {
 		return "Cliente [idCliente=" + idCliente + ", fechaCreacion="
 				+ fechaCreacion + ", usuarioCreacion=" + usuarioCreacion + "]";
+	}
+
+	public String getHijos() {
+		return hijos;
+	}
+
+	public void setHijos(String hijos) {
+		this.hijos = hijos;
+	}
+
+	public String getEjercicio() {
+		return ejercicio;
+	}
+
+	public void setEjercicio(String ejercicio) {
+		this.ejercicio = ejercicio;
+	}
+
+	public String getOcupacion() {
+		return ocupacion;
+	}
+
+	public void setOcupacion(String ocupacion) {
+		this.ocupacion = ocupacion;
+	}
+
+	public String getHabitosSueno() {
+		return habitosSueno;
+	}
+
+	public void setHabitosSueno(String habitosSueno) {
+		this.habitosSueno = habitosSueno;
+	}
+
+	public String getAlcohol() {
+		return alcohol;
+	}
+
+	public void setAlcohol(String alcohol) {
+		this.alcohol = alcohol;
 	}        
     
     

@@ -50,7 +50,7 @@ public class Producto {
     @ManyToOne @JoinColumn(name="UME_CODIGO", nullable=true)
     private UnidadMedida proUnidadMedida;   
     
-    @ManyToOne @JoinColumn(name="MOD_CODIGO", nullable=false)
+    @ManyToOne @JoinColumn(name="MOD_CODIGO", nullable=true)
     private Modelo proModelo;    
 	
 	@OneToMany(mappedBy="pxvProducto")

@@ -20,8 +20,11 @@ public class Persona {
     @Column(nullable = false, name = "PER_CODIGO")
     private Integer idPersona;
     
-    @Column(nullable= true, name= "PER_DNI")
+    @Column(nullable= true, name= "PER_DNI", length = 15)
     private String dni;
+    
+    @Column(nullable= true, name= "PER_FACEBOOK", length = 50)
+    private String facebook;
     
     @Column(nullable= false, name= "PER_NOMBRES", length= 100)
     private String nombres;
@@ -50,11 +53,11 @@ public class Persona {
     @Column(name="PER_NIT", nullable=true)
     private Integer nit;
     
-    @Column(name="PER_TEL_FIJO", nullable=true)
-    private Integer telefonoFijo;
+    @Column(name="PER_TEL_FIJO", nullable=true, length = 20)
+    private String telefonoFijo;
     
-    @Column(name="PER_TEL_MOVIL", nullable=true)
-    private Integer telefonoMovil;    
+    @Column(name="PER_TEL_MOVIL", nullable=true, length = 20)
+    private String telefonoMovil;    
     
     @Column(name="PER_CLI_POTENCIAL", nullable=true)
     private Boolean esClientePotencial;
@@ -205,9 +208,6 @@ public class Persona {
 		this.perLlamadas = perLlamadas;
 	}
 	
-	public Integer getTelefonoFijo() {
-		return telefonoFijo;
-	}
 
 	public String getComoSeEntero() {
 		return comoSeEntero;
@@ -217,17 +217,7 @@ public class Persona {
 		this.comoSeEntero = comoSeEntero;
 	}
 
-	public void setTelefonoFijo(Integer telefonoFijo) {
-		this.telefonoFijo = telefonoFijo;
-	}
 
-	public Integer getTelefonoMovil() {
-		return telefonoMovil;
-	}
-
-	public void setTelefonoMovil(Integer telefonoMovil) {
-		this.telefonoMovil = telefonoMovil;
-	}
 
 	public String getSignoZodiacal() {
 		return signoZodiacal;
@@ -244,6 +234,22 @@ public class Persona {
 		result = prime * result
 				+ ((idPersona == null) ? 0 : idPersona.hashCode());
 		return result;
+	}
+
+	public String getTelefonoFijo() {
+		return telefonoFijo;
+	}
+
+	public void setTelefonoFijo(String telefonoFijo) {
+		this.telefonoFijo = telefonoFijo;
+	}
+
+	public String getTelefonoMovil() {
+		return telefonoMovil;
+	}
+
+	public void setTelefonoMovil(String telefonoMovil) {
+		this.telefonoMovil = telefonoMovil;
 	}
 
 	@Override
@@ -274,6 +280,14 @@ public class Persona {
 				+ telefonoMovil + ", esClientePotencial=" + esClientePotencial
 				+ ", fechaCreacion=" + fechaCreacion + ", usuarioCreacion="
 				+ usuarioCreacion + "]";
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
 	}
 	
 }

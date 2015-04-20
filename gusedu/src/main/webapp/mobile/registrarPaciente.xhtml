@@ -24,7 +24,7 @@
 			<h:form id="formRegistroPacienteFirst">
 				<pm:field>
 					<p:outputLabel for="perDni" value="Dni: " />
-					<p:inputText value="#{personaBean.persona.dni}" required="true" id="perDni" />
+					<p:inputText value="#{personaBean.persona.dni}" id="perDni" />
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perNombre" value="Nombre: " />
@@ -70,14 +70,12 @@
 					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
 					<p:inputText type="tel" value="#{personaBean.persona.telefonoFijo}"
 						id="perTelFijo">
-						<f:convertNumber integerOnly="true"></f:convertNumber>
 					</p:inputText>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
 					<p:inputText type="tel"
 						value="#{personaBean.persona.telefonoMovil}" id="perTelMovil">
-						<f:convertNumber integerOnly="true"></f:convertNumber>
 					</p:inputText>
 				</pm:field>
 				<pm:field>
@@ -111,6 +109,12 @@
 						id="perComo">
 					</p:inputText>
 				</pm:field>
+				<pm:field>
+					<p:outputLabel for="perFacebook" value="Facebook" />
+					<p:inputText value="#{personaBean.persona.facebook}"
+						id="perFacebook">
+					</p:inputText>
+				</pm:field>				
 				<p:panelGrid columns="2">
 					<p:commandButton value="Registrar"
 						action="#{personaBean.registroPaciente}" icon="ui-icon-check" />
