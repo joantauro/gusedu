@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	>
+<ui:composition >
+
+<h:form id="formularioSA" >
+<p:growl showDetail="true" autoUpdate="true" />
+			<p:panelGrid columns="4" style="height: 30px;" >
+					<p:outputLabel for="inputSintomas" value="Sintomas: " />
+					<p:inputText   	id="inputSintomas" />
+					
+					<p:outputLabel for="inputAPP" value="APP: " />
+					<p:inputText   id="inputAPP" />
+			 
+					<p:outputLabel for="inputTratamiento" value="Tratamiento: " />
+					<p:inputText   id="inputTratamiento" />														
+			</p:panelGrid>
+</h:form>
+</ui:composition>
+</html>

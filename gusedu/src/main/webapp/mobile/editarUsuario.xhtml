@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+<!--  		
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/TemaA.min.css" />
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/jquery.mobile.icons.min.css" />	
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/jquery.mobile.structure-1.4.5.min.css" />
+-->
+<script type="text/javascript" src="../resources/css/Inputswitch.js" />
+
+	
+</h:head>
+<h:body>
+ <pm:page id="editarUsuario">
+		<pm:header title="Editar usuario">
+			<h:form   >
+				<p:button outcome="gestionUsuario" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+		</pm:header>
+		<pm:content>
+			<h:form id="formEditarUsuario">
+				<pm:field>
+					<p:outputLabel value="Usuario : " for="usuNombre"></p:outputLabel>
+					<p:inputText id="usuNombre" required="true" 
+						value="#{usuarioBean.usuario.usuario}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Contraseña : " for="usuContrasenia"></p:outputLabel>
+					<p:password id="usuContrasenia" required="true"
+						value="#{usuarioBean.usuario.password}"></p:password>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Empresa : " for="usuEmpresa"></p:outputLabel>
+					<p:inputText id="usuEmpresa" required="true"
+						value="#{usuarioBean.usuario.empresa}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Estado : " for="usuActivo" />
+					<p:inputSwitch id="usuActivo" value="#{usuarioBean.usuario.esActivo}" onLabel="Act." offLabel="Inact." >
+						<p:ajax listener="#{usuarioBean.Aumento}" update="usuMembresia,usufechaM,usuTiempo" />
+					</p:inputSwitch>
+					<label id="labelusuActivo" style="display: none;">#{usuarioBean.usuario.esActivo}</label>
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Dias Restantes : " ></p:outputLabel>
+					<p:outputLabel value="#{usuarioBean.diasRestantes}" ></p:outputLabel>
+				</pm:field>
+				<pm:field>
+				<p:outputLabel value="Tiempo : " />
+					<p:selectOneButton id="usuTiempo"  value="#{usuarioBean.tiempo}" >
+						<f:selectItem itemLabel="Día" itemValue="Dias" itemDisabled="#{usuarioBean.mesM}" />
+						<f:selectItem itemLabel="Mes" itemValue="Meses" itemDisabled="#{usuarioBean.mesM}" />
+						<p:ajax event="change"  update="usuMembresia,usufechaM,labelCantidad"
+                            listener="#{usuarioBean.Aumento}" />
+					</p:selectOneButton>
+				</pm:field>
+				
+				<pm:field>
+					<p:outputLabel id="labelCantidad" value="Cantidad de #{usuarioBean.tiempo} : " for="usuMembresia" />
+					<p:inputText id="usuMembresia" disabled="#{usuarioBean.mesM}" value="#{usuarioBean.cantM}" >
+						<p:ajax event="keyup" update="usufechaM"
+							listener="#{usuarioBean.aumentarMembresia}" />
+					</p:inputText>		
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Fecha Final : " />
+					<p:inputText id="usufechaM" value="#{usuarioBean.usuario.fechafinm}" disabled="#{usuarioBean.mesM}" >
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+					
+				</pm:field>
+				<pm:field>
+					<p:outputLabel for="selectOneMenu" value="Tipo Usuario" />
+					<p:selectOneMenu id="selectOneMenu" value="#{usuarioBean.usuario.usuTipoUsuario.idTipoUsuario}" >
+						<f:selectItem itemLabel="Selecciona uno" itemValue="" />
+						<f:selectItems value="#{usuarioBean.tipousuarios}" var="tus" 
+						itemLabel="#{tus.descripcion}" itemValue="#{tus.idTipoUsuario}" />
+					</p:selectOneMenu>
+				</pm:field>
+				<p:commandButton 
+					action="#{usuarioBean.update}" value="Editar" />
+			</h:form>
+		</pm:content>
+</pm:page>
+ 
+</h:body>
+</html>

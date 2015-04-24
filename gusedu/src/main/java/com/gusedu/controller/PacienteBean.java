@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,11 +24,12 @@ public class PacienteBean implements Serializable{
 
 	private Cliente cliente;
 	private List<Cliente> clientes;
-
+	private String opciones;
 	private String query;
-
+	
 	public PacienteBean() {
 		cliente = new Cliente();
+		opciones="S";
 	}
 
 	public Cliente getCliente() {
@@ -53,7 +55,8 @@ public class PacienteBean implements Serializable{
 				return clientes;
 			}
 		}
-		return clienteService.getClientesPacientesByUsuario(username);
+	    clientes=clienteService.getClientesPacientesByUsuario(username);
+		return clientes;
 	}
 
 	public void setClientes(List<Cliente> clientes) {
@@ -64,7 +67,25 @@ public class PacienteBean implements Serializable{
 		cliente = clienteService.getClienteById(idCliente);
 		return "datosClinicos?faces-redirect=true";
 	}
+	//---------------Esto es para la parte Web
+	public void preDatosClinicosPaciente2(Integer idCliente){
+		StaticUtil.Eleccion(opciones);
+		cliente = clienteService.getClienteById(idCliente);
+	}
 	
+	public void guardarDatosClinicos2() {
+		RequestContext context = RequestContext.getCurrentInstance();
+		if (clienteService.updateCliente(cliente)) {
+		 	StaticUtil.correctMesage("Éxito", "Se ha actualizado los datos correctamente");
+			StaticUtil.keepMessages();
+			context.execute("PF('dlgDC').hide();");
+			//return "consultarPacientes?faces-redirect=true";
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo actualizar");
+			//return null;
+		}
+	}
+	//-------------------------------------------------------
 	public String guardarDatosClinicos() {
 		if (clienteService.updateCliente(cliente)) {
 		 	StaticUtil.correctMesage("Éxito", "Se ha actualizado los datos correctamente");
@@ -114,5 +135,20 @@ public class PacienteBean implements Serializable{
 		}
 		clientes = filtrados;
 	}	
+	public void actualizar()
+	{
+		getCliente();opciones="S";
+		//clientes =clienteService.ordenar();
+		//System.out.println("Fecha : "+clientes.get(0).getCliPersona().getDni());
+
+	}
+
+	public String getOpciones() {
+		return opciones;
+	}
+
+	public void setOpciones(String opciones) {
+		this.opciones = opciones;
+	}
 
 }

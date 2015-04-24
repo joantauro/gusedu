@@ -11,8 +11,6 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 //import javax.persistence.StoredProcedureQuery;
 //import javax.persistence.ParameterMode;

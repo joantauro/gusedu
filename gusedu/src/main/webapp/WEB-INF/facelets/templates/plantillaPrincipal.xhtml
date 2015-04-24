@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="${request.contextPath}/resources/css/estilos.css"
+		rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+	<title><ui:insert name="titulo">
+
+		</ui:insert></title>
+</h:head>
+
+<h:body>
+
+	<div id="Body">
+		<div class='cFL cPosRel' id="Top">
+			<img alt='' src="../resources/images/gusedu.jpg" height="100px" />
+			<ui:insert name="top">
+			</ui:insert>
+		</div>
+
+		<div class='cFL cPosRel' id="Content">
+			<ui:include src="/WEB-INF/facelets/templates/menu.xhtml" />
+			<ui:insert name="content"></ui:insert>
+
+		</div>
+
+		<div class='cFL cPosRel' id="Footer">
+			<ui:insert name="bottom"></ui:insert>
+		</div>
+	</div>
+
+</h:body>
+
+</html>

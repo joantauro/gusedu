@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	>
+<ui:composition >
+
+<h:form id="formularioDM" >
+<p:growl showDetail="true" autoUpdate="true" />
+			<p:panelGrid columns="4" >
+					<p:outputLabel for="inputOperacion" value="Operaciones: " />
+					<p:inputText   id="inputOperacion" />
+					
+					<p:outputLabel   value="Transfusiones: " />
+			<p:selectOneRadio id="inputTransfusiones">
+				<f:selectItem itemLabel="Si" itemValue="Si" />
+				<f:selectItem itemLabel="No" itemValue="No" />
+			</p:selectOneRadio>
+
+			<p:outputLabel   value="Hab. tóxicos: " />
+					<p:selectOneRadio id="inputht">
+				<f:selectItem itemLabel="Si" itemValue="Si" />
+				<f:selectItem itemLabel="No" itemValue="No" />
+			</p:selectOneRadio>
+					<p:outputLabel for="inputhabd" value="Hab. dieteticos: " />
+					<p:inputText  id="inputhabd"  />
+					
+					<p:outputLabel for="inpuths" value="Horas de Sueño: " />
+					<p:inputText  id="inpuths"  />
+					
+					<p:outputLabel for="inputt" value="Traumatismos: " />
+					<p:inputText  id="inputt"  />
+					</p:panelGrid>
+			
+			</h:form>
+</ui:composition>
+</html>

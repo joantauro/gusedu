@@ -9,9 +9,7 @@ import java.util.TimerTask;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Persona;
@@ -50,18 +48,23 @@ public class UsuarioBean implements Serializable{
 	private String queryTU;
 	private boolean mesM;
 	private int cantM;
+	private Date fechaM;
 	private String tiempo;
+	private long diasRestantes;
 	
 	private TipoUsuario tipousuario;
 	private List<TipoUsuario> tipousuarios;
 	
 	public UsuarioBean()
 	{
-		mesM=true; cantM=0;tiempo="D";
+		mesM=true; cantM=0;tiempo="Dias";
 		usuario = new Usuario(); 
 		persona = new Persona();
 		usuario.setUsuTipoUsuario(new TipoUsuario());
 		tipousuario = new TipoUsuario();
+		if(usuario.getIdUsuario()!=null){
+			mesM=usuario.getEsActivo() ? false : true;
+		}
 	}
 	
 	public Usuario getUsuario() {
@@ -115,13 +118,18 @@ public class UsuarioBean implements Serializable{
 	
 	public String preUpdate(int idUsuario) {
 		usuario = usuarioservice.getUsuarioeById(idUsuario);
-		return "pm:editarUsuario?transition=flip";
+		fechaM=usuario.getFechafinm();
+		mesM=usuario.getEsActivo() ? false : true;
+		diasRestantes=StaticUtil.diasRestantes(fechaM);
+		//datosClinicos?faces-redirect=true
+		return "editarUsuario?faces-redirect=true";
 	}
 	
 	public String update() {
 		if (usuarioservice.updateUsuario(usuario)) {
 			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el usuario");
-			return "pm:datosUsuario?transition=flip";
+			//		return "consultarPacientes?faces-redirect=true";
+			return "gestionUsuario?faces-redirect=true";
 		} else {
 			StaticUtil.errorMessage("Error", "No se pudo actualizar el usuario");
 			return null;
@@ -135,6 +143,7 @@ public class UsuarioBean implements Serializable{
 	public void delete() {
 		
 		usuario.setEsActivo(false);
+		usuario.setFechafinm(new Date());
 		if (usuarioservice.updateUsuario(usuario)) {
 			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el usuario");
 		 
@@ -331,9 +340,26 @@ public class UsuarioBean implements Serializable{
 		}
 	}
 	
+	public void Aumento()
+	{
+		mesM=usuario.getEsActivo() ? false : true;
+		if(mesM)
+		{
+			cantM=0;
+			usuario.setFechafinm(new Date());
+		}else
+		{
+			cantM=1;
+			usuario.setFechafinm(fechaM);
+			cargarFecha();
+		}
+	}
 	public void cargarFecha()
 	{
 		usuario.setFechafinm(StaticUtil.sumarRestarDiasFecha(StaticUtil.getFechaActual(), cantM,tiempo));
+	}
+	public void aumentarMembresia(){
+		usuario.setFechafinm(StaticUtil.sumarRestarDiasFecha(fechaM, cantM,tiempo));
 	}
 
 	public void activarDemonio()
@@ -347,6 +373,7 @@ public class UsuarioBean implements Serializable{
 
 	public void PruebaSP()
 	{
+		System.out.println("Estado : "+usuario.getEsActivo());
 		/*EmailService ser = new EmailService();
 		ser.ejecutarStoredProcedure();*/
 		/*ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml"); 
@@ -414,5 +441,21 @@ public class UsuarioBean implements Serializable{
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	public Date getFechaM() {
+		return fechaM;
+	}
+
+	public void setFechaM(Date fechaM) {
+		this.fechaM = fechaM;
+	}
+
+	public long getDiasRestantes() {
+		return diasRestantes;
+	}
+
+	public void setDiasRestantes(long diasRestantes) {
+		this.diasRestantes = diasRestantes;
 	}
 }

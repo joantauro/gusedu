@@ -10,6 +10,7 @@
 <h:head>
 	<link rel="shortcut icon" type="image/x-icon"
 		href="#{request.contextPath}/resources/images/gusedu.ico" />
+		<script type="text/javascript" src="../resources/css/Inputswitch.js" />
 </h:head>
 <h:body>
 	<pm:page id="datosClinicos">
@@ -24,57 +25,60 @@
 				<pm:field>
 					<p:outputLabel for="cansancioRegular"
 						value="¿Tiene cansancio regular?"></p:outputLabel>
-					<p:inputText id="cansancioRegular"
-						value="#{pacienteBean.cliente.cansancioRegular}"></p:inputText>
+					<p:inputSwitch id="cansancioRegular" value="#{pacienteBean.cliente.cansancioRegular}" onLabel="Si" offLabel="No" />
+					<label id="labelcansancioRegular" style="display: none;">#{pacienteBean.cliente.cansancioRegular}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="resfrioRegular" value="¿Tiene resfrío regular?"></p:outputLabel>
-					<p:inputText id="resfrioRegular"
-						value="#{pacienteBean.cliente.resfrioRegular}"></p:inputText>
+					<p:inputSwitch id="resfrioRegular" value="#{pacienteBean.cliente.resfrioRegular}" onLabel="Si" offLabel="No" />
+					<label id="labelresfrioRegular" style="display: none;">#{pacienteBean.cliente.resfrioRegular}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="dolorCabezaRegular"
 						value="¿Tiene dolor de cabeza regular?"></p:outputLabel>
-					<p:inputText id="dolorCabezaRegular"
-						value="#{pacienteBean.cliente.dolorCabezaRegular}"></p:inputText>
+					<p:inputSwitch id="dolorCabezaRegular" value="#{pacienteBean.cliente.dolorCabezaRegular}" onLabel="Si" offLabel="No" />
+					<label id="labeldolorCabezaRegular" style="display: none;">#{pacienteBean.cliente.dolorCabezaRegular}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="gastricoRegular"
 						value="¿Tiene problemas gástricos?"></p:outputLabel>
-					<p:inputText id="gastricoRegular"
-						value="#{pacienteBean.cliente.gastricoRegular}"></p:inputText>
+					<p:inputSwitch id="gastricoRegular" value="#{pacienteBean.cliente.gastricoRegular}" onLabel="Si" offLabel="No" />
+					<label id="labelgastricoRegular" style="display: none;">#{pacienteBean.cliente.gastricoRegular}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="operacion"
 						value="¿Se ha realizado alguna operación?"></p:outputLabel>
-					<p:inputText id="operacion"
-						value="#{pacienteBean.cliente.operacion}"></p:inputText>
+					<p:inputSwitch id="operacion" value="#{pacienteBean.cliente.operacion}" onLabel="Si" offLabel="No" />
+					<label id="labeloperacion" style="display: none;">#{pacienteBean.cliente.operacion}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="cirugia"
 						value="¿Se ha realizado alguna cirugia estética"></p:outputLabel>
-					<p:inputText id="cirugia" value="#{pacienteBean.cliente.cirugia}"></p:inputText>
+					<p:inputSwitch id="cirugia" value="#{pacienteBean.cliente.cirugia}" onLabel="Si" offLabel="No" />
+					<label id="labelcirugia" style="display: none;">#{pacienteBean.cliente.cirugia}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="alergia" value="¿Tiene alguna alergia?"></p:outputLabel>
-					<p:inputText id="alergia" value="#{pacienteBean.cliente.alergia}"></p:inputText>
+					<p:inputText id="alergia" value="#{pacienteBean.cliente.alergia}" placeholder="Describa su alergia" ></p:inputText>
 				</pm:field>
 				<!-- Update Karina -->
 				<pm:field>
-					<p:outputLabel for="hijos" value="¿Tiene Hijos? ¿Cuántos?"></p:outputLabel>
-					<p:inputText id="hijos" value="#{pacienteBean.cliente.hijos}"></p:inputText>
+					 <p:outputLabel for="hijos" value="¿Tiene Hijos? ¿Cuántos?"></p:outputLabel>
+					 <pm:inputSlider id="hijos" value="#{pacienteBean.cliente.hijos}" minValue="0" maxValue="30" ></pm:inputSlider>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="ejercicios" value="¿Realiza ejercicios?"></p:outputLabel>
-					<p:inputText id="ejercicios" value="#{pacienteBean.cliente.ejercicio}"></p:inputText>
+					<p:inputSwitch id="ejercicios" value="#{pacienteBean.cliente.ejercicio}" onLabel="Si" offLabel="No" />
+					<label id="labelejercicios" style="display: none;">#{pacienteBean.cliente.ejercicio}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="ocupacion" value="¿Cuál es su Ocupación?"></p:outputLabel>
-					<p:inputText id="ocupacion" value="#{pacienteBean.cliente.ocupacion}"></p:inputText>
+					<p:inputText id="ocupacion" value="#{pacienteBean.cliente.ocupacion}" placeholder="Describa su ocupación"  ></p:inputText>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="alcohol" value="¿Consume alcohol?"></p:outputLabel>
-					<p:inputText id="alcohol" value="#{pacienteBean.cliente.alcohol}"></p:inputText>
+					<p:inputSwitch id="alcohol" value="#{pacienteBean.cliente.alcohol}" onLabel="Si" offLabel="No" />
+					<label id="labelalcohol" style="display: none;">#{pacienteBean.cliente.alcohol}</label>
 				</pm:field>
 				<pm:field>
 					<p:outputLabel for="habitos" value="Hábitos de sueño"></p:outputLabel>
@@ -83,8 +87,8 @@
 				<!--  -->
 				<pm:field>
 					<p:outputLabel for="medicamento" value="¿Toma algún medicamento?"></p:outputLabel>
-					<p:inputText id="medicamento"
-						value="#{pacienteBean.cliente.medicamentos}"></p:inputText>
+					<p:inputSwitch id="medicamento" value="#{pacienteBean.cliente.medicamentos}" onLabel="Si" offLabel="No" />
+					<label id="labelmedicamento" style="display: none;">#{pacienteBean.cliente.medicamentos}</label>
 				</pm:field>
 				<p:panelGrid columns="2">
 					<p:commandButton action="#{pacienteBean.guardarDatosClinicos}"

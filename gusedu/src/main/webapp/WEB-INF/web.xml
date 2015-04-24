@@ -13,7 +13,7 @@
 
 	<context-param>  
     	<param-name>primefaces.THEME</param-name>  
-    	<param-value>bootstrap</param-value>  
+    	<param-value>pepper-grinder</param-value>  
 	</context-param>  
 
   <!-- Add Support for Spring -->

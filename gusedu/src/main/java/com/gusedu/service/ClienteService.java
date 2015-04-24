@@ -22,5 +22,7 @@ public interface ClienteService {
 	
 	public Cliente getClienteByIdPersona(Integer idPersona);
 		
+	public List<Cliente> ordenar();	
 	
+	public Cliente lastClient();
 }

@@ -1,0 +1,55 @@
+body {
+    background-color:white;
+    margin:0 auto;
+    font-size:12px;
+    
+}
+/*ID*/
+#Body
+{
+    background-color:white;
+    height:1000px;
+    margin:0 auto;
+    width:1015px
+}
+#Content
+{
+    border: 1px solid blue;
+    height:700px;
+    width:1010px;
+}
+#Footer
+{
+    border:1px solid black;
+    height:100px;
+    width:1010px;
+}
+#Left
+{
+    border:1px solid green;
+    height:500px;
+    width:200px;
+}
+#Top
+{
+    border:1px solid red;
+    height:100px;
+    width:1010px
+}
+/*Claase*/
+.cFL
+{
+    float:left;
+}
+.cFR
+{
+    float:right;
+}
+.cPosRel
+{
+    position:relative;
+}
+.cPosAbs
+{
+    position:absolute;
+}

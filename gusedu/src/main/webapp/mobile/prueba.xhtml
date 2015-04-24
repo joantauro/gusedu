@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+<ui:composition >
+<script type="text/javascript">
+function get() {
+	window.parent.foo();
+}
+</script>
+
+<h:form id="formulario" >
+<p:growl showDetail="true" autoUpdate="true" />
+			<p:panelGrid columns="2"   >
+					<p:outputLabel for="perDni" value="Dni: " />
+					<p:inputText value="#{personaBean.persona.dni}" id="perDni" />
+			 
+					<p:outputLabel for="perNombre" value="Nombre: " />
+					<p:inputText  value="#{personaBean.persona.nombres}"
+						id="perNombre" />
+			 
+					<p:outputLabel for="perApePaterno" value="Apellido Paterno: " />
+					<p:inputText 
+						value="#{personaBean.persona.apellidoPaterno}" id="perApePaterno" />
+			 
+					<p:outputLabel for="perApeMaterno" value="Apellido Materno: " />
+					<p:inputText 
+						value="#{personaBean.persona.apellidoMaterno}" id="perApeMaterno" />
+				 
+			 
+					<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
+					<p:calendar 
+						value="#{personaBean.persona.fechaNacimiento}" id="perFecNac"
+						pattern="dd/MM/yyyy" />
+				 
+					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
+					<p:inputText type="tel" value="#{personaBean.persona.telefonoFijo}"
+						id="perTelFijo">
+					</p:inputText>
+			 
+			   
+					<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
+					<p:inputText type="tel"
+						value="#{personaBean.persona.telefonoMovil}" id="perTelMovil">
+					</p:inputText>
+				 
+					<p:outputLabel for="perCorreo" value="Correo: " />
+					<p:inputText value="#{personaBean.persona.correo}" id="perCorreo">
+						<f:validateRegex
+							pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
+					</p:inputText>
+			 
+					<p:outputLabel for="perSexo" value="Sexo: " />
+					<p:selectOneButton required="true" id="perSexo"
+						value="#{personaBean.persona.sexo}">
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+						<f:selectItem itemLabel="Femenino" itemValue="F" />
+					</p:selectOneButton>
+			 
+					<p:outputLabel for="perEstadoCivil" value="Estado Civil: " />
+					<p:selectOneButton id="perEstadoCivil"
+						value="#{personaBean.persona.estadoCivil}">
+						<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+						<f:selectItem itemLabel="Casado" itemValue="Casado" />
+						<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+						<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+					</p:selectOneButton>
+			 
+					<p:outputLabel for="perComo" value="¿Cómo se enteró de Gusedu?" />
+					<p:inputText value="#{personaBean.persona.comoSeEntero}"
+						id="perComo">
+					</p:inputText>
+			 
+					<p:outputLabel for="perFacebook" value="Facebook" />
+					<p:inputText value="#{personaBean.persona.facebook}"
+						id="perFacebook">
+					</p:inputText>
+							
+						
+					<p:commandButton value="Registrar"   oncomplete="javascript:get();"
+						action="#{personaBean.registroPacienteV2}" icon="ui-icon-check"   />
+					<p:commandButton value="Cancelar"    icon="ui-icon-cancel"   />
+				</p:panelGrid>
+			</h:form>
+</ui:composition>
+</html>

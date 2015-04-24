@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	>
+<ui:composition >
+<script type="text/javascript">
+function get() {
+	window.parent.foo();
+}
+</script>
+<h:form>
+<p:wizard widgetVar="wiz" flowListener="#{principalBean.onFlowProcess}" id="wizard"
+ backLabel="Atrás" nextLabel="Siguiente" >
+			<p:tab id="T_RegistroPaciente" title="1. Registro de Paciente">
+				<p:panel style="height: 300px;">
+					<p:panelGrid columns="4" style="height: 150px;">
+						<p:outputLabel for="perNombre" value="Nombre: " />
+						<p:inputText value="#{principalBean.persona.nombres}"
+							id="perNombre" />
+
+						<p:outputLabel for="perApePaterno" value="Apellido Paterno: " />
+						<p:inputText value="#{principalBean.persona.apellidoPaterno}"
+							id="perApePaterno" />
+
+						<p:outputLabel for="perApeMaterno" value="Apellido Materno: " />
+						<p:inputText value="#{principalBean.persona.apellidoMaterno}"
+							id="perApeMaterno" />
+
+						<p:outputLabel for="perEdad" value="Edad :" />
+						<p:inputText id="perEdad" />
+
+						<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
+						<p:calendar value="#{principalBean.persona.fechaNacimiento}"
+							id="perFecNac" pattern="dd/MM/yyyy" />
+						<p:outputLabel for="perDni" value="Dni: " />
+						<p:inputText value="#{principalBean.persona.dni}" id="perDni" />
+
+						<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
+						<p:inputText type="tel"
+							value="#{principalBean.persona.telefonoFijo}" required="true"
+							id="perTelFijo">
+						</p:inputText>
+
+						<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
+						<p:inputText type="tel"
+							value="#{principalBean.persona.telefonoMovil}" id="perTelMovil">
+						</p:inputText>
+					</p:panelGrid>
+				</p:panel>
+			</p:tab>
+			<p:tab id="T_HEA" title="2. HEA">
+				<p:panel style="height: 300px;">
+					<p:panelGrid columns="4" style="height: 150px;">
+						<p:outputLabel for="inputFC" value="FC: " />
+						<p:inputText id="inputFC" />
+
+						<p:outputLabel for="inputTA" value="T/A: " />
+						<p:inputText id="inputTA" />
+
+						<p:outputLabel for="inputPeso" value="Peso: " />
+						<p:inputText id="inputPeso" required="true"
+							value="#{principalBean.historiaClinica.peso}" />
+
+						<p:outputLabel for="inputTalla" value="Talla :" />
+						<p:inputText id="inputTalla" />
+
+						<p:outputLabel for="inputIMC" value="IMC :" />
+						<p:inputText id="inputIMC" />
+
+
+					</p:panelGrid>
+				</p:panel>
+			</p:tab>
+					<p:tab id="T_DatosMedicos" title="3. Datos Medicos">
+						<p:tabView style="height: 300px;">
+							<p:tab title="Sintomas y APPs">
+								<ui:include src="SintomasyAPP.xhtml" />
+							</p:tab>
+							<p:tab title="APF">
+								<ui:include src="APF.xhtml" />
+							</p:tab>
+							<p:tab title="Datos Clinicos">
+								<ui:include src="DatosMedicos.xhtml" />
+							</p:tab>
+						</p:tabView>
+						<p:commandButton value="Registrar" 
+							oncomplete="PF('wiz').loadStep('T_RegistroPaciente',false);javascript:get();"
+							update=":#{p:component('tablaPac')},:j_idt92:j_idt94:wizard"
+							action="#{principalBean.registroPacienteV2}" />
+					</p:tab>
+				</p:wizard>
+				</h:form>
+</ui:composition>
+</html>

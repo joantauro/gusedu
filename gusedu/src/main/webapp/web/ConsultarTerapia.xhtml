@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition >
+<p:dataTable id="terapias" var="ter"
+							paginatorAlwaysVisible="false"
+							value="#{principalBean.terapiasDeVisita}"
+							emptyMessage="No se han registrado terapias"
+							rowKey="#{ter.idTerapia}" paginator="true" rows="5"
+							tableStyleClass="ui-table-columntoggle">
+
+							<p:column headerText="Fec. Relizada"
+								style="vertical-align:middle;">
+								<h:outputText value="#{ter.fechaRealizada}">
+									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Tipo" style="vertical-align:middle;">
+								<h:outputText value="#{ter.terTipoTerapia.nombre}" />
+							</p:column>
+							<p:column headerText="Terapeuta" style="vertical-align:middle;">
+								<h:outputText value="#{ter.usuarioCreacion}"
+									rendered="#{ter.usuarioCreacion ne null}" />
+								<h:outputText value="No especificado"
+									rendered="#{ter.usuarioCreacion eq null}" />
+							</p:column>
+							<p:column headerText="Costo" style="vertical-align:middle;">
+								<h:outputText
+									value="#{ter.terTipoTerapia.costo} #{ter.terTipoTerapia.currencySymbol}" />
+							</p:column>
+							<p:column headerText="Opciones" style="vertical-align:middle;">
+								<p:commandButton icon="ui-icon-eye" rendered="#{ter.terTipoTerapia.idTipoTerapia eq 1 or ter.terTipoTerapia.idTipoTerapia eq 2}"
+									action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
+							</p:column>
+						</p:dataTable>
+
+</ui:composition>
+</html>

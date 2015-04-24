@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/images/gusedu.ico" />
+<script type="text/javascript">
+function foo() {
+	 document.getElementById('j_idt55:btnListar').click();
+	 PF('dlg1').hide();
+//alert ("Hello from parent!");
+}
+
+function openpopup()
+{
+	//PF('dlg1').css("width", "900px");
+	//PF('dlg1').show();
+	
+	//alert(0);
+	//alert(PF('dlg1').outerHeight());
+	//PF('dlg1')
+	  //PF('dlg1').css("top",Math.max(0,(($(window).height() - PF('dlg1').outerHeight()) / 2) + $(window).scrollTop()) + "px");
+	//PF('dlg1').css("left",Math.max(0, (($(window).width() -PF('dlg1').outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+	//PF('dlg1').show();
+	}
+
+</script>
+</h:head>
+<h:body>
+		<h:form><p:commandButton value="Nuevo Paciente" onclick="PF('dlg1').show();" type="button" />
+		<p:commandButton value="Listar" id="btnListar" action="#{pacienteBean.actualizar}"
+		 update=":#{p:component('tablaPac')}" />
+		</h:form>
+		
+		
+ 
+		<p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1" showEffect="pop"  
+		 modal="true"   >
+			<ui:include  src="prueba.xhtml"   />
+		</p:dialog>
+		
+		<p:dialog id="dialogDatosClinicos" header="Datos Clinicos" widgetVar="dlgDC" showEffect="pop"  
+		 modal="true"   >
+		 
+		</p:dialog>
+			 
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{pacienteBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaPac')}"
+							listener="#{pacienteBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+		 
+			<h:form id="formulario" >
+				<p:dataTable id="tablaPac" var="pac"
+					value="#{pacienteBean.clientes}" paginator="true" rows="10">
+					<p:column headerText="Codigo">
+						<h:outputText value="#{pac.idCliente}" />
+					</p:column>
+					<p:column headerText="DNI">
+						<h:outputText value="#{pac.cliPersona.dni}" />
+					</p:column>
+
+					<p:column headerText="Ap. Paterno">
+						<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
+					</p:column>
+
+					<p:column headerText="Ap. Materno">
+						<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
+					</p:column>
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{pac.cliPersona.nombres}" />
+					</p:column>
+					
+					<p:column headerText="Signo Zodiacal">
+						<h:outputText value="#{pac.cliPersona.signoZodiacal}"></h:outputText>
+					</p:column>
+				
+					<p:column headerText="Signo Zodiacal">
+						<h:outputText value="#{pac.cliPersona.fechaCreacion}"></h:outputText>
+					</p:column>
+					<p:column headerText="Opciones">
+					<p:selectOneMenu value="#{opcionTerapeutaBean.opcion}"  >
+						<f:selectItem itemLabel="Productos" itemValue="P"  />
+						<f:selectItem itemLabel="Terapias" itemValue="T" />
+						<f:selectItem itemLabel="Datos Clinicos" itemValue="DC" />
+						<f:selectItem itemLabel="Detalles" itemValue="De" />
+						<p:ajax event="change"  
+                            listener="#{opcionTerapeutaBean.Eleccion}" />
+					</p:selectOneMenu>
+
+					</p:column> 
+
+
+				</p:dataTable>
+			</h:form>
+</h:body>
+</html>

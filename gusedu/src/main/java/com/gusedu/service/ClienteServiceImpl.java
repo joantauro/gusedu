@@ -96,7 +96,7 @@ public class ClienteServiceImpl implements ClienteService{
 	public List<Cliente> getClientesPacientesByUsuario(String usuario) {
 		List<Cliente> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliTipoCliente.descripcion=:paciente AND c.usuarioCreacion=:usuario");
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliTipoCliente.descripcion=:paciente AND c.usuarioCreacion=:usuario order by c.cliPersona.fechaCreacion desc");
 			q.setParameter("paciente", "Paciente");
 			q.setParameter("usuario", usuario);
 			result = q.getResultList();
@@ -122,6 +122,32 @@ public class ClienteServiceImpl implements ClienteService{
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		return result;		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Cliente> ordenar() {
+		List<Cliente> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT c FROM Cliente c WHERE c.cliTipoCliente.descripcion='Paciente' AND c.usuarioCreacion='gusedu' order by c.cliPersona.fechaCreacion");
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public Cliente lastClient() {
+		Cliente result = null;
+		try {
+			Query q = em.createQuery("SELECT c FROM Cliente c order by c.cliPersona.fechaCreacion DESC LIMIT 1");
+			q.setMaxResults(1);
+			result = (Cliente)q.getSingleResult(); 
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;	
 	}
 
 }

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition >
+		<h:form id="formNuevaTerapia">
+		<p:panelGrid columns="2" style="margin: 0 auto;"  >
+				<p:outputLabel for="iTipoTerapia" value="Tipo de terapia: " />
+				<p:selectOneMenu id="iTipoTerapia"
+					value="#{principalBean.idTipoTerapia}">
+					<f:selectItem itemLabel="Seleccione un tipo" itemValue="" />
+					<f:selectItems value="#{visitaBean.tipoTerapias}" var="tte"
+						itemValue="#{tte.idTipoTerapia}" itemLabel="#{tte.nombre}" />
+				</p:selectOneMenu>
+				<p:outputLabel for="iFecProxima" value="Fecha Proxima: " />
+				<p:calendar id="iFecProxima" style="!important"
+					value="#{principalBean.terapia.fechaProxima}" />
+				<p:outputLabel for="iDescripcion" value="Descripcion:" />
+				<p:inputTextarea id="iDescripcion" placeholder="Opcional"
+					value="#{principalBean.terapia.descripcion}" />
+					<p:commandButton value="Agregar" action="#{principalBean.registrarVisitaPrincipal}"/>
+					<p:commandButton value="Cancelar" immediate="true"  action="#{principalBean.Prueba}" />
+				</p:panelGrid>
+		</h:form>
+
+</ui:composition>
+</html>

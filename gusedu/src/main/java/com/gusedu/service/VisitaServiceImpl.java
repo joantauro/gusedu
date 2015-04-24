@@ -1,6 +1,7 @@
 package com.gusedu.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -86,6 +87,36 @@ public class VisitaServiceImpl implements VisitaService{
 			q.setParameter("cliente", cliente);
 			q.setMaxResults(1);
 			result = (Visita) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public Visita buscarVisita(Cliente cliente) {
+		Visita result = null; 
+
+		Date fecha=new Date();
+		int mes=fecha.getMonth()+1;
+		int año=(fecha.getYear()+1900);
+		int dia=fecha.getDate();
+        String mesM="";
+        
+        if(mes<10)
+        {
+             mesM="0";
+        }
+        String cadena=año+"-"+ mesM+mes+"-"+dia;
+		try {
+
+			Query q = em.createQuery("SELECT v  FROM Visita v WHERE SUBSTRING(v.fechaCreacion,1,10) =:fecha AND v.visCliente=:cliente");
+			q.setParameter("fecha", cadena);
+			q.setParameter("cliente", cliente);
+
+			result = (Visita) q.getSingleResult();
+
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}

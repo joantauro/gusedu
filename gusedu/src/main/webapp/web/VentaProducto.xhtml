@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition >
+
+
+			<h:form>
+				<p:button outcome="gestionVisita" value="Volver"
+					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
+			</h:form>
+			<h:form>
+					<p:outputLabel for="searchQueryProducto" value="Buscar producto: " />
+					<p:inputText id="searchQueryProducto"
+						value="#{visitaBean.queryProducto}"
+						placeholder="Ingrese su busqueda" type="search">
+						<p:ajax event="keyup" update=":#{p:component('tablaProductos')}"
+							listener="#{visitaBean.filtrarProductos}" />
+					</p:inputText>
+			</h:form>
+			<h:form>
+				<p:dataTable id="tablaProductos" var="prod"
+					paginatorAlwaysVisible="false" value="#{visitaBean.allProductos}"
+					emptyMessage="No hay productos en stock" paginator="true" rows="5">
+
+					<p:column headerText="Producto" style="vertical-align:middle;">
+						<h:outputText value="#{prod.descripcionMedia}" />
+					</p:column>
+
+					<p:column headerText="Costo Unitario"
+						style="vertical-align:middle;">
+						<h:outputText value="#{prod.costoUnitario} #{prod.currencySymbol}" />
+					</p:column>
+
+					<p:column headerText="Existencias" style="vertical-align:middle;">
+						<h:outputText value="#{prod.existencias}" />
+					</p:column>
+
+					<p:column headerText="Opciones" style="vertical-align:middle;">
+						<p:commandButton icon="ui-icon-eye"
+							action="#{visitaBean.cargarProducto(prod.idProducto)}"
+							styleClass="ui-btn-inline" update=":detalleProducto:pnlDetalle" />
+						<p:commandButton rendered="#{prod.existencias > 0}"
+							action="#{visitaBean.preAddProductoVisita(prod.idProducto)}"
+							update=":addProducto:formNuevoProducto" icon="ui-icon-plus"
+							styleClass="ui-btn-inline"></p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+</ui:composition>
+</html>

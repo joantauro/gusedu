@@ -3,17 +3,15 @@ package com.gusedu.util;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.primefaces.context.RequestContext;
+
 import com.gusedu.model.Usuario;
-import com.gusedu.service.UsuarioService;
-import com.gusedu.service.UsuarioServiceImpl;
 
 public class StaticUtil {
 
@@ -118,7 +116,7 @@ public class StaticUtil {
 	public static Date sumarRestarDiasFecha(Date fecha, int mes,String tiempo){
 	      Calendar calendar = Calendar.getInstance();
 	      calendar.setTime(fecha); // Configuramos la fecha que se recibe
-	      if(tiempo.equals("D"))
+	      if(tiempo.equals("Dias"))
 	      {
 	    	  calendar.add(Calendar.DAY_OF_YEAR, mes);  // numero de mes a añadir, o restar en caso de días<0
 	      }else
@@ -127,4 +125,41 @@ public class StaticUtil {
 	      }
 	      return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
 	 } 
+	
+	public static long diasRestantes(Date fecha) {
+		final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
+		Date hoy = new Date();
+		hoy.setHours(0);
+		hoy.setMinutes(0);
+		hoy.setSeconds(0);
+		fecha.setHours(23);
+		fecha.setMinutes(59);
+		fecha.setSeconds(59);
+		long diferencia = ((fecha.getTime() - hoy.getTime()) / MILLSECS_PER_DAY);
+		if (diferencia <0) {
+			diferencia = 0;
+		}
+		return diferencia;
+
+	}
+	public static void Eleccion(String opcion)
+	{
+		RequestContext context = RequestContext.getCurrentInstance();
+		if(opcion.equals("DC"))//---- Abre la pantalla de datos Clinicos
+		{
+			context.execute("PF('dlgDC').show();");
+		}
+		if(opcion.equals("P"))//---- Abre la pantalla de Productos
+		{
+			//context.execute("PF('dlgDC').show();");
+		}
+		if(opcion.equals("T"))//---- Abre la pantalla de terapias
+		{
+			context.execute("PF('dlgT').show();");
+		}
+		if(opcion.equals("De"))//---- Abre la pantalla de detalles de paciente
+		{
+			//context.execute("PF('dlgDC').show();");
+		}
+	}
 }

@@ -55,9 +55,12 @@ public class Auth implements Serializable{
 			} else {
 				StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema");
 				request.getSession().setAttribute("userLogged", usuario);				
-				setUserLogged(usuario);				
-				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==2 || 
-						usuario.getUsuTipoUsuario().getIdTipoUsuario()==3){
+				setUserLogged(usuario);	
+				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==2)
+				{
+					return "/web/inicio?faces-redirect=true";
+				}
+				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==3){
 					return "/mobile/index.jsf";
 				}
 			}

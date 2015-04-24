@@ -101,7 +101,8 @@ public class VisitaBean implements Serializable{
 		this.cliente = cliente;
 	}
 
-	public List<TipoTerapia> getTipoTerapias() {		
+	public List<TipoTerapia> getTipoTerapias() {	
+		tipoTerapias = terapiaService.getTipoTerapias();
 		return tipoTerapias;
 	}
 

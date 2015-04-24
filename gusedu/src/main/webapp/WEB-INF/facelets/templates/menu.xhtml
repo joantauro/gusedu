@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+	<h:form id="menu">
+		<p:menubar>
+			<p:submenu label="Reportes" icon="ui-icon-document">
+				<p:menuitem value="Productos" url="#" />
+				<p:menuitem value="Puntos por Par" url="#" />
+			</p:submenu>
+
+			<p:submenu label="Gestión" icon="ui-icon-pencil">
+				<p:menuitem value="Puntos" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+				<p:menuitem value="Pares" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+				<p:menuitem value="Pares por Enfermedad" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+				<p:menuitem value="Pares por Sintoma" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+			</p:submenu>
+
+			<p:submenu label="Opciones Adicionales" icon="ui-icon-help">
+				<p:menuitem value="Gestionar Enfermedades" url="#" />
+				<p:menuitem value="Gestionar Sintomas" url="#" />
+			</p:submenu>
+
+			<f:facet name="options">
+				<p:inputText style="margin-right:10px" placeholder="Search" />
+				<p:commandLink  value="Cerrar Sesión" action="#{auth.logout}" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+</ui:composition>
+</html>

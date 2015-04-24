@@ -18,5 +18,6 @@ public interface VisitaService {
 	public Visita getVisitaById(Integer idVisita);
 	
 	public Visita getLastVisitaCliente(Cliente cliente);
-		
+	
+	public Visita buscarVisita(Cliente cliente);
 }

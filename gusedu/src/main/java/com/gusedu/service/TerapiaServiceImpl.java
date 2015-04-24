@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gusedu.model.Cliente;
 import com.gusedu.model.EnfermedadTerapia;
 import com.gusedu.model.Par;
 import com.gusedu.model.SintomaTerapia;
@@ -165,6 +166,21 @@ public class TerapiaServiceImpl implements TerapiaService {
 			q.setParameter("terapia", terapia);
 			q.setParameter("par", par);
 			result = (TerapiaPar) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Terapia> terapiasPorCliente(Cliente cliente) {
+		List<Terapia> result = new ArrayList<>();
+		try {
+			Query q = em
+					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita.visCliente=:cliente");
+			q.setParameter("cliente", cliente);
+			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}

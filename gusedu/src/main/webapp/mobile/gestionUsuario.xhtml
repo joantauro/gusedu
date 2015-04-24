@@ -63,11 +63,10 @@
 					</p:column>
 
 					<p:column headerText="Opciones">
-						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-info"
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{usuarioBean.preDatosUsuario(usu.idUsuario)}" />
 						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
-							update=":editarUsuario:formEditarUsuario"
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{usuarioBean.preUpdate(usu.idUsuario)}" />
 						<p:commandButton
@@ -131,17 +130,17 @@
 					 </p:inputSwitch>
 				</pm:field>
 				<pm:field>
-					<p:outputLabel value="Tiempo : " />
+				<p:outputLabel value="Tiempo : " />
 					<p:selectOneButton id="usuTiempo"  value="#{usuarioBean.tiempo}" >
-						<f:selectItem itemLabel="Día" itemValue="D" itemDisabled="#{usuarioBean.mesM}" />
-						<f:selectItem itemLabel="Mes" itemValue="M" itemDisabled="#{usuarioBean.mesM}" />
-						<p:ajax event="change"  update="usuMembresia,usufechaM"
+						<f:selectItem itemLabel="Día" itemValue="Dias" itemDisabled="#{usuarioBean.mesM}" />
+						<f:selectItem itemLabel="Mes" itemValue="Meses" itemDisabled="#{usuarioBean.mesM}" />
+						<p:ajax event="change"  update="usuMembresia,usufechaM,labelCantidad"
                             listener="#{usuarioBean.addMessage}" />
 					</p:selectOneButton>
 				</pm:field>
 				
 				<pm:field>
-					<p:outputLabel value="Cant.de Meses : " for="usuMembresia" />
+					<p:outputLabel id="labelCantidad" value="Cantidad de #{usuarioBean.tiempo} : " for="usuMembresia" />
 					<p:inputText id="usuMembresia" disabled="#{usuarioBean.mesM}" value="#{usuarioBean.cantM}" >
 						<p:ajax event="keyup" update="usufechaM"
 							listener="#{usuarioBean.cargarFecha}" />
@@ -167,40 +166,6 @@
 			</h:form>
 		</pm:content>
 	</pm:page>
- 
- <pm:page id="editarUsuario">
-		<pm:header title="Editar usuario">
-			<h:form>
-				<p:button outcome="gestionUsuario" value="Volver"
-					icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline" />
-			</h:form>
-		</pm:header>
-		<pm:content>
-			<h:form id="formEditarUsuario">
-				<pm:field>
-					<p:outputLabel value="Usuario : " for="usuNombre"></p:outputLabel>
-					<p:inputText id="usuNombre" required="true" 
-						value="#{usuarioBean.usuario.usuario}" />
-				</pm:field>
-				<pm:field>
-					<p:outputLabel value="Contraseña : " for="usuContrasenia"></p:outputLabel>
-					<p:password id="usuContrasenia" required="true"
-						value="#{usuarioBean.usuario.password}"></p:password>
-				</pm:field>
-				<pm:field>
-					<p:outputLabel value="Empresa : " for="usuEmpresa"></p:outputLabel>
-					<p:inputText id="usuEmpresa" required="true"
-						value="#{usuarioBean.usuario.empresa}" />
-				</pm:field>
-				<pm:field>
-					<p:outputLabel value="Estado : " for="usuActivo" />
-					<p:inputSwitch id="usuActivo" value="#{usuarioBean.usuario.esActivo}" onLabel="Act." offLabel="Inact." />
-				</pm:field>
-				<p:commandButton update=":datosUsuario:gestionUsuario"
-					action="#{usuarioBean.update}" value="Editar" />
-			</h:form>
-		</pm:content>
-</pm:page>
  
 </h:body>
 </html>

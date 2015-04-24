@@ -1,5 +1,6 @@
 package com.gusedu.service;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +95,7 @@ public class PersonaServiceImpl implements PersonaService {
 	@Transactional
 	public boolean registroPaciente(Persona persona, String usernameSession) {
 		boolean resultado = false;
+		persona.setFechaCreacion(new Date());
 		try {
 			if(persona.getFechaNacimiento()!=null){
 				persona.setSignoZodiacal(StaticUtil.signoZodiacal(persona.getFechaNacimiento().getMonth(), persona.getFechaNacimiento().getDate()));
@@ -180,6 +182,6 @@ public class PersonaServiceImpl implements PersonaService {
 			result = null;
 		}
 		return result;
-	}	
+	}
 
 }

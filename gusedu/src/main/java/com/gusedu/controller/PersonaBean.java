@@ -2,6 +2,7 @@ package com.gusedu.controller;
 
 import java.io.Serializable;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -53,7 +54,31 @@ public class PersonaBean implements Serializable{
 			return null;
 		}
 	}
+	//--------------Esto metodo va para web------------
+	public void registroPacienteV2(){		
+		String empresa = StaticUtil.userLogged();
 		
+		  
+		//Guarda la persona en la base de datos
+		if(personaService.registroPaciente(persona, empresa)){
+			
+			//Crea nuevamente la instancia de persona
+			persona = new Persona();
+			//Muestra mensajes de éxito
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente al paciente");
+			StaticUtil.keepMessages();
+			//Redirección
+			//return "consultarPacientesT?faces-redirect=true";			
+		}else{			
+		//	return null;
+		}
+	}
+	public void cancel()
+	{
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlg1').hide();");
+	}
+	//----------------	
 	//Metodo para cancelar el registro de la persona
 	public String cancelar(){
 		//Crea nuevamente la instancia de persona

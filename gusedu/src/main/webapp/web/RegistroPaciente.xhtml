@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	>
+<ui:composition >
+<script type="text/javascript">
+function get() {
+	window.parent.foo();
+}
+</script>
+
+<h:form id="formulario" >
+<p:growl showDetail="true" autoUpdate="true" />
+			<p:panelGrid columns="4" style="height: 150px;" >
+					<p:outputLabel for="perNombre" value="Nombre: " />
+					<p:inputText  value="#{principalBean.persona.nombres}"
+						id="perNombre" />
+			
+					<p:outputLabel for="perApePaterno" value="Apellido Paterno: " />
+					<p:inputText 
+						value="#{principalBean.persona.apellidoPaterno}" id="perApePaterno" />
+			 
+					<p:outputLabel for="perApeMaterno" value="Apellido Materno: " />
+					<p:inputText 
+						value="#{principalBean.persona.apellidoMaterno}" id="perApeMaterno" />
+					
+					<p:outputLabel for="perEdad" value="Edad :"  />
+					<p:inputText  id="perEdad" />
+						
+					<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
+					<p:calendar 
+						value="#{principalBean.persona.fechaNacimiento}" id="perFecNac"
+						pattern="dd/MM/yyyy" />
+					<p:outputLabel for="perDni" value="Dni: " />
+					<p:inputText value="#{principalBean.persona.dni}" id="perDni" />
+					
+					<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
+					<p:inputText type="tel" value="#{principalBean.persona.telefonoFijo}" 
+					required="true" id="perTelFijo">
+					</p:inputText>
+						
+					<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
+					<p:inputText type="tel" 
+						value="#{principalBean.persona.telefonoMovil}" id="perTelMovil">
+					</p:inputText>
+				</p:panelGrid>
+			</h:form>
+</ui:composition>
+</html>

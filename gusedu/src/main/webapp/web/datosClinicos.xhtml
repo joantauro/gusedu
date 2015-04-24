@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+<ui:composition >
+
+			<h:form>
+				<p:panelGrid columns="2"   >
+					<p:outputLabel for="cansancioRegular"
+						value="¿Tiene cansancio regular?"></p:outputLabel>
+					<p:inputSwitch id="cansancioRegular" value="#{principalBean.cliente.cansancioRegular}"
+					 onLabel="Si" offLabel="No"  />
+					
+					<p:outputLabel for="resfrioRegular" value="¿Tiene resfrío regular?" />
+					<p:inputSwitch id="resfrioRegular" value="#{principalBean.cliente.resfrioRegular}" 
+					onLabel="Si" offLabel="No" />
+				
+					<p:outputLabel for="dolorCabezaRegular"
+						value="¿Tiene dolor de cabeza regular?"></p:outputLabel>
+					<p:inputSwitch id="dolorCabezaRegular" value="#{principalBean.cliente.dolorCabezaRegular}" 
+					onLabel="Si" offLabel="No" />
+					
+					<p:outputLabel for="gastricoRegular"
+						value="¿Tiene problemas gástricos?"></p:outputLabel>
+					<p:inputSwitch id="gastricoRegular" value="#{principalBean.cliente.gastricoRegular}" 
+					onLabel="Si" offLabel="No" />
+					
+					<p:outputLabel for="operacion"
+						value="¿Se ha realizado alguna operación?"></p:outputLabel>
+					<p:inputSwitch id="operacion" value="#{principalBean.cliente.operacion}" 
+					onLabel="Si" offLabel="No" />
+					
+					<p:outputLabel for="cirugia"
+						value="¿Se ha realizado alguna cirugia estética"></p:outputLabel>
+					<p:inputSwitch id="cirugia" value="#{principalBean.cliente.cirugia}" 
+					onLabel="Si" offLabel="No" />
+					
+					<p:outputLabel for="alergia" value="¿Tiene alguna alergia?"></p:outputLabel>
+					<p:inputText id="alergia" value="#{principalBean.cliente.alergia}" placeholder="Describa su alergia" ></p:inputText>
+
+	
+					 <p:outputLabel for="hijos" value="¿Tiene hijos? ¿Cuántos?" />
+					 <p:spinner id="hijos" value="#{principalBean.cliente.hijos}" minValue="0" maxValue="30" />
+			
+					<p:outputLabel for="ejercicios" value="¿Realiza ejercicios?" />
+					<p:inputSwitch id="ejercicios" value="#{principalBean.cliente.ejercicio}" onLabel="Si" offLabel="No" />
+
+			
+					<p:outputLabel for="ocupacion" value="¿Cuál es su Ocupación?" />
+					<p:inputText id="ocupacion" value="#{principalBean.cliente.ocupacion}" placeholder="Describa su ocupación"  ></p:inputText>
+				
+					<p:outputLabel for="alcohol" value="¿Consume alcohol?" />
+					<p:inputSwitch id="alcohol" value="#{principalBean.cliente.alcohol}" onLabel="Si" offLabel="No" />
+
+			
+					<p:outputLabel for="habitos" value="Hábitos de sueño" />
+					<p:inputText id="habitos" value="#{principalBean.cliente.habitosSueno}" />
+				
+					<p:outputLabel for="medicamento" value="¿Toma algún medicamento?" />
+					<p:inputSwitch id="medicamento" value="#{principalBean.cliente.medicamentos}" onLabel="Si" offLabel="No" />
+				
+				
+					<p:commandButton action="#{principalBean.guardarDatosClinicos2}"
+						value="Actualizar" icon="ui-icon-check" />
+					<p:commandButton value="Cancelar" immediate="true"  
+						icon="ui-icon-delete" />
+				</p:panelGrid>
+			</h:form>
+</ui:composition>
+</html>
