@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.gusedu.model.Par;
 import com.gusedu.model.Punto;
+import com.gusedu.service.ParService;
 import com.gusedu.service.PuntoService;
 import com.gusedu.util.StaticUtil;
 
@@ -20,10 +22,16 @@ public class PuntoBean implements Serializable{
 
 	@Autowired
 	PuntoService puntoService;
+	
+	@Autowired
+	ParService parService;
 
 	private Punto punto;
+	//private Par pars;
 	private List<Punto> puntos;
-
+	private List<Par> parcito;
+	private List<Par> par;
+	
 	private String query;
 
 	int asc;
@@ -174,5 +182,34 @@ public class PuntoBean implements Serializable{
 		goiz = 1;
 		puntos = puntoService.getAllOrdenGoiz();
 	}
+	
+	
+	public List<Par> getParcito() {
+		return parcito;
+	}
 
+	public void setParcito(List<Par> parcito) {
+		this.parcito = parcito;
+	}
+	
+	public void buscar(int p1)
+	{
+		punto.setIdPunto(p1);
+		parcito=parService.paresByPunto(punto);
+		System.out.println("Lista : "+parcito.size());
+	}
+	
+	public void hola(){
+		System.out.println(parcito.size());	
+	}
+
+	
+	public List<Par> getPar() {
+		return par;
+	}
+
+	public void setPar(List<Par> par) {
+		this.par = par;
+	}
+	
 }

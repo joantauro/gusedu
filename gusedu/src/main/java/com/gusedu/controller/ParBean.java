@@ -53,8 +53,10 @@ public class ParBean implements Serializable{
 	SintomaService sintomaService;
 
 	private Par par;
-	private List<Par> pares;
-	private List<Grupo> grupos;
+	private List<Par> pares; 
+	private List<Par> parcito;
+	private List<Par> npar;
+	private List<Grupo> grupos;List<Par> result = new ArrayList<>();
 
 	private Punto punto1;
 	private Punto punto2;
@@ -495,4 +497,45 @@ public class ParBean implements Serializable{
 		pares = parService.getAllParesOrderGoiz();
 	}
 
+	
+	public void buscar(int p1)
+	{
+		Punto p = new Punto();
+		p.setIdPunto(p1);
+		parcito=parService.paresByPunto(p);
+		System.out.println("Lista : "+parcito.size());
+	}
+
+	public void insertarPar(Integer idpar)
+	{
+		
+		par= parService.parById(idpar);
+		
+		result.add(par);
+		npar=result;
+		System.out.println(npar.size());
+	}
+	public List<Par> getNpar() {
+		return npar;
+	}
+
+	public void setNpar(List<Par> npar) {
+		this.npar = npar;
+	}
+
+
+	
+	public void prueba()
+	{
+		System.out.println("si funco");
+	}
+
+	public List<Par> getParcito() {
+		return parcito;
+	}
+
+	public void setParcito(List<Par> parcito) {
+		this.parcito = parcito;
+	}
+	
 }

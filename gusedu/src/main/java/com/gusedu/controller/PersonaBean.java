@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
+import com.gusedu.model.Usuario;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
 import com.gusedu.util.StaticUtil;
@@ -64,6 +66,10 @@ public class PersonaBean implements Serializable{
 			
 			//Crea nuevamente la instancia de persona
 			persona = new Persona();
+			persona.setPerCliente(new Cliente());
+			persona.setPerUsuario(new Usuario());
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlg1').hide();");
 			//Muestra mensajes de éxito
 			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente al paciente");
 			StaticUtil.keepMessages();

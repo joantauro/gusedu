@@ -13,13 +13,17 @@ import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Cliente;
 import com.gusedu.model.HistoriaClinica;
+import com.gusedu.model.Par;
 import com.gusedu.model.Persona;
 import com.gusedu.model.Producto;
+import com.gusedu.model.Punto;
 import com.gusedu.model.Terapia;
+import com.gusedu.model.TerapiaPar;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.HistoriaClinicaService;
+import com.gusedu.service.ParService;
 import com.gusedu.service.PersonaService;
 import com.gusedu.service.TerapiaService;
 import com.gusedu.service.VisitaService;
@@ -46,6 +50,9 @@ public class PrincipalBean implements Serializable {
 	@Autowired
 	HistoriaClinicaService historiaClinicaService;
 	
+	@Autowired
+	ParService parService;
+	
 	private boolean skip;//valor del wizard
 
 	
@@ -70,11 +77,21 @@ public class PrincipalBean implements Serializable {
 	//--------Historia Clinica
 	
 	
+	
+	//----------- Par 
+	private Par par;
+	List<Par> result;
+	private List<Par> npar;
+	 private List<Par> parcito;
+	 
+	public int idPunto;
+	 
+	 
 	public PrincipalBean()
 	{
 		
 		persona = new Persona();
-		
+		par = new Par();
 				
 		visita = new Visita();
 		visita.setVisCliente(new Cliente());
@@ -83,7 +100,11 @@ public class PrincipalBean implements Serializable {
 		terapia.setTerTipoTerapia(new TipoTerapia());
 		terapia.setTerVisita(new Visita());
 		
+		tipoTerapia = new TipoTerapia();
+		
 		historiaClinica = new HistoriaClinica();
+		
+		 result = new ArrayList<>();
 	}
 	
 	public void NuevoRegistro()
@@ -98,7 +119,18 @@ public class PrincipalBean implements Serializable {
 		terapia.setTerTipoTerapia(new TipoTerapia());
 		terapia.setTerVisita(new Visita());
 		
+		tipoTerapia= new TipoTerapia();
+		
 		historiaClinica = new HistoriaClinica();
+		opciones="S";
+		npar.clear(); 
+	}
+	
+	public void CancelarTerapia()
+	{
+		NuevoRegistro();
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlgT').hide();");
 	}
 	
 	public Cliente getCliente() {
@@ -283,7 +315,9 @@ public class PrincipalBean implements Serializable {
 	
 	public void registrarVisitaPrincipal()
 	
-	{   cliente =clienteService.lastClient();
+	{   
+		RequestContext context = RequestContext.getCurrentInstance();
+		//cliente =clienteService.lastClient();
 		Visita vis =visitaService.buscarVisita(cliente);
 		if(vis==null)
 		{
@@ -292,15 +326,43 @@ public class PrincipalBean implements Serializable {
 			visita =visitaService.getLastVisitaCliente(cliente);
 			historiaClinica.setHclVisita(visita);
 			historiaClinicaService.saveHistoriaClinica(historiaClinica);
-			
 			NuevoRegistro();
-			//addTerapia();
 		}else
 		{
 			visita=vis;
+			NuevoRegistro();
 			//addTerapia();
 		}
+		context.execute("PF('dlgHEA').hide();");
 	}
+	//------------- Registra Terapia
+	public void registrarTerapias()
+	
+	{   
+		RequestContext context = RequestContext.getCurrentInstance();
+		Visita vis =visitaService.buscarVisita(cliente);
+		if(vis==null)
+		{
+			
+			registrarVisita();
+			visita =visitaService.getLastVisitaCliente(cliente);
+			historiaClinica.setHclVisita(visita);
+			historiaClinicaService.saveHistoriaClinica(historiaClinica);
+			addTerapia();
+			NuevoRegistro();
+			
+		}else
+		{
+			visita=vis;	
+			addTerapia();
+			NuevoRegistro();
+		}
+		context.execute("PF('dlgT').hide();");
+		
+	}
+	
+	
+	
 	
 	
 	// Métod para registrar la visita del cliente.
@@ -344,6 +406,21 @@ public class PrincipalBean implements Serializable {
 			visita.setCostoTotal(visita.getCostoTotal()+terapia.getTerTipoTerapia().getCosto());
 			visitaService.updateVisita(visita);
 			// Se limpian los datos guardados
+			
+			//Se añade los pares
+			TerapiaPar tp ;
+			for(int i=0;i<result.size();i++)
+			{
+				//paresSeleccionados
+			 tp = new TerapiaPar();
+				tp.setTxpTerapia(terapia);
+				tp.setTxpPar(result.get(i));
+				terapiaService.saveTerapiaPar(tp);
+				tp = new TerapiaPar();
+			}
+			
+			
+			
 			tipoTerapia = new TipoTerapia();
 			terapia = new Terapia();
 			idTipoTerapia = null;
@@ -393,4 +470,66 @@ public class PrincipalBean implements Serializable {
 		//re
 		System.out.println("ID : "+clienteService.lastClient().getIdCliente());
 	}
+
+	
+	public void insertarPar(Integer idpar)
+	{
+		
+		par= parService.parById(idpar);
+		
+		result.add(par);
+		npar=result;
+		
+		System.out.println(npar.size());
+	}
+	
+	
+	public Par getPar() {
+		return par;
+	}
+
+	public void setPar(Par par) {
+		this.par = par;
+	}
+
+	public List<Par> getNpar() {
+		return npar;
+	}
+
+	public void setNpar(List<Par> npar) {
+		this.npar = npar;
+	}
+	
+    public List<Par> getParcito() {
+        return parcito;
+    }
+
+    public void setParcito(List<Par> parcito) {
+        this.parcito = parcito;
+    }
+    
+	public void buscar(int p1)
+	{
+		Punto p = new Punto();
+		p.setIdPunto(p1);
+		idPunto=p1;
+		parcito=parService.paresByPunto(p);
+		System.out.println("Lista : "+parcito.size());
+	}
+	public void actualizarListaPar(){
+		Punto p = new Punto();
+		p.setIdPunto(idPunto);
+		parcito=parService.paresByPunto(p);
+		System.out.println("Cant. : "+getParcito().size());
+	}
+	public boolean shouldBeRendered(int idPar) {
+		for (Par par : result) {
+			if (par.getIdPar() == idPar) {
+				//Si el id del Par ya esta entre los pares seleccionados el botón no es renderizado.
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }

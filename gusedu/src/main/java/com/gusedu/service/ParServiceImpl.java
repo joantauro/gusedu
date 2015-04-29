@@ -237,5 +237,19 @@ public class ParServiceImpl implements ParService{
 		}
 		return result;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Par> paresByPunto(Punto p1) {
+		List<Par> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT p FROM Par p WHERE p.parPunto1=:p1");
+			q.setParameter("p1", p1);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;	
+	}
 	
 }

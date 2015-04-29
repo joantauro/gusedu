@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+<h:form id="formBusqueda">
+	<p:panel header="Filtros" toggleable="true">
+			<p:commandButton value="Test" actionListener="#{puntoBean.Prueba}"
+				icon="ui-icon-tag" styleClass="ui-btn-center ui-btn-inline" />
+			<p:outputLabel value="Filtrar: " for="inpQuery" />
+			<p:inputText value="#{puntoBean.query}" id="inpQuery">
+				<p:ajax event="keyup" update=":#{p:component('tablaPunto')}"
+					listener="#{puntoBean.filtrarBusqueda}">
+				</p:ajax>
+			</p:inputText>
+	
+			<p:commandButton value="Asc." update=":#{p:component('tablaPunto')}"
+				actionListener="#{puntoBean.orderAsc}" icon="ui-icon-arrow-u"
+				styleClass="ui-btn-center ui-btn-inline" />
+			<p:commandButton value="Desc." update=":#{p:component('tablaPunto')}"
+				actionListener="#{puntoBean.orderDesc}" icon="ui-icon-arrow-d"
+				styleClass="ui-btn-center ui-btn-inline" />
+			<p:commandButton value="Goiz" update=":#{p:component('tablaPunto')}"
+				actionListener="#{puntoBean.orderGoiz}" icon="ui-icon-tag"
+				styleClass="ui-btn-center ui-btn-inline" />
+		
+	</p:panel>
+	<br/>
+
+		<p:dataTable emptyMessage="No hay puntos registrados" id="tablaPunto"
+			var="pun" value="#{puntoBean.puntos}" rowKey="#{pun.idPunto}"
+			paginator="true" rows="8" tableStyleClass="ui-table-columntoggle">
+
+			<p:column headerText="Nombre">
+				<p:outputLabel value="#{pun.nombre}" />
+			</p:column>
+			<p:column headerText="Ubicación">
+				<p:outputLabel value="#{pun.ubicacionCorta}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+</ui:composition>
+</html>

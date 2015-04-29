@@ -45,5 +45,7 @@ public interface ParService {
 	
 	public List<Par> paresByTerapia(Terapia terapia);
 	
+	public List<Par> paresByPunto(Punto p1);
+	
 }
 

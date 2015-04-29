@@ -126,6 +126,7 @@ public class StaticUtil {
 	      return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
 	 } 
 	
+	@SuppressWarnings("deprecation")
 	public static long diasRestantes(Date fecha) {
 		final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 		Date hoy = new Date();
@@ -151,7 +152,7 @@ public class StaticUtil {
 		}
 		if(opcion.equals("P"))//---- Abre la pantalla de Productos
 		{
-			//context.execute("PF('dlgDC').show();");
+			context.execute("PF('dlgP').show();");
 		}
 		if(opcion.equals("T"))//---- Abre la pantalla de terapias
 		{
@@ -160,6 +161,10 @@ public class StaticUtil {
 		if(opcion.equals("De"))//---- Abre la pantalla de detalles de paciente
 		{
 			//context.execute("PF('dlgDC').show();");
+		}
+		if(opcion.equals("DM"))
+		{
+			context.execute("PF('dlgHEA').show();");
 		}
 	}
 }
