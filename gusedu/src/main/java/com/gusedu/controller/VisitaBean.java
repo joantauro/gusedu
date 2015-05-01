@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import com.gusedu.model.Cliente;
 import com.gusedu.model.HistoriaClinica;
 import com.gusedu.model.Producto;
 import com.gusedu.model.ProductoVisita;
+import com.gusedu.model.Sintoma;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
@@ -68,13 +71,15 @@ public class VisitaBean implements Serializable{
 	private Double cantidadProducto;
 	private Double costoParcial;
 
+	private List<ProductoVisita> lista;
+	
 	public VisitaBean() {
 		cliente = new Cliente();
 		visita = new Visita();
 		terapia = new Terapia();
 		tipoTerapia = new TipoTerapia();
 		historiaClinica = new HistoriaClinica();
-		query = "";
+		query = ""; lista = new ArrayList<>();
 	}
 
 	public Cliente getCliente() {
@@ -273,6 +278,8 @@ public class VisitaBean implements Serializable{
 		visitasPaciente = visitaService.getVisitasCliente(cliente);
 		return "pm:registroVisita2?transition=flip";
 	}
+	
+	
 
 	// Métod para registrar la visita del cliente.
 	public String registrarVisita() {
@@ -492,4 +499,27 @@ public class VisitaBean implements Serializable{
 		return "registrarVisita?faces-redirect=true";
 	}
 
+	public List<ProductoVisita> getLista() {
+		return lista;
+	}
+
+	public void setLista(List<ProductoVisita> lista) {
+		this.lista = lista;
+	}
+
+	public void addProducto(int idProducto){
+		producto = productoService.getProductoById(idProducto);
+		ProductoVisita toAdd = new ProductoVisita();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis ;
+		vis= ((Visita) fc.getExternalContext().getSessionMap().get("visita"));
+		toAdd.setCantidad(cantidadProducto);
+		toAdd.setCostoParcial(costoParcial);
+		toAdd.setPxvProducto(producto);
+		toAdd.setPxvVisita(vis);	
+		lista.add(toAdd);
+
+
+		System.out.println("Cantidad : "+lista.size());
+	}
 }

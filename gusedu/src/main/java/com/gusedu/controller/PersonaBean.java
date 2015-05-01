@@ -2,14 +2,16 @@ package com.gusedu.controller;
 
 import java.io.Serializable;
 
+import javax.faces.context.FacesContext;
+
+
+
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.gusedu.model.Cliente;
 import com.gusedu.model.Persona;
-import com.gusedu.model.Usuario;
 import com.gusedu.service.ClienteService;
 import com.gusedu.service.PersonaService;
 import com.gusedu.util.StaticUtil;
@@ -26,12 +28,31 @@ public class PersonaBean implements Serializable{
 	@Autowired
 	ClienteService clienteService;
 	
+	
 	private Persona persona;
 	
 	public PersonaBean(){
-		persona = new Persona();						
+		persona = new Persona();		
+	
+		
 	}
 
+	public void valida()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		
+		String query =fc.getExternalContext().getSessionMap().get("query").toString();
+		if(StaticUtil.esSoloNumero(query))
+		{
+			persona.setDni(query);
+			persona.setNombres("");
+		}else
+		{
+			persona.setNombres(query.substring(0, 1).toUpperCase()+query.substring(1).toLowerCase());
+			persona.setDni("");
+		}
+		
+	}
 	public Persona getPersona() {
 		return persona;
 	}
@@ -59,24 +80,21 @@ public class PersonaBean implements Serializable{
 	//--------------Esto metodo va para web------------
 	public void registroPacienteV2(){		
 		String empresa = StaticUtil.userLogged();
-		
-		  
+		RequestContext context = RequestContext.getCurrentInstance();
 		//Guarda la persona en la base de datos
 		if(personaService.registroPaciente(persona, empresa)){
 			
 			//Crea nuevamente la instancia de persona
 			persona = new Persona();
-			persona.setPerCliente(new Cliente());
-			persona.setPerUsuario(new Usuario());
-			RequestContext context = RequestContext.getCurrentInstance();
-			context.execute("PF('dlg1').hide();");
 			//Muestra mensajes de éxito
 			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente al paciente");
 			StaticUtil.keepMessages();
+			context.execute("PF('dlg1').hide();");
 			//Redirección
 			//return "consultarPacientesT?faces-redirect=true";			
 		}else{			
 		//	return null;
+			System.out.println("Error Fatal");
 		}
 	}
 	public void cancel()
@@ -90,6 +108,6 @@ public class PersonaBean implements Serializable{
 		//Crea nuevamente la instancia de persona
 		persona = new Persona();
 		return "index";
-	}						
+	}					
 			
 }

@@ -30,53 +30,63 @@
 			</p:panelGrid>
 		</p:fieldset>
 		<p:fieldset legend="Sintomas y Enfermedades" toggleable="true" toggleSpeed="500">
-		<p:panelGrid columns="4" >
-					<p:outputLabel for="inputSintomas" value="Sintomas: " />
-					<p:inputText   	id="inputSintomas" />
-					
-					<p:outputLabel for="inputAPP" value="APP: " />
-					<p:inputText   id="inputAPP" />
-			 
-					<p:outputLabel for="inputTratamiento" value="Tratamiento: " />
-					<p:inputText   id="inputTratamiento" />	
+			<p:panelGrid columns="6">
+				<p:outputLabel value="Agregar sintoma" for="autoSintoma" />
+				<p:autoComplete id="autoSintoma" queryDelay="100"
+					value="#{terapiaBean.sintoma}" 
+					completeMethod="#{terapiaBean.autoCompletarSintoma}" var="sin"
+					itemLabel="#{sin.descripcion}" itemValue="#{sin}"
+					converter="#{sintomaConverter}" panelStyleClass="ui-themes">
+				</p:autoComplete>
+				<p:commandButton id="btnAgregar" value="Agregar"
+					action="#{terapiaBean.addSintoma2}"
+					update=":#{p:component('tablaSin')}" />
+		
+
+				<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
+						
+							<p:autoComplete id="autoEnfermedad" queryDelay="100"
+								value="#{terapiaBean.enfermedad}" 
+								completeMethod="#{terapiaBean.autoCompletarEnfermedad}"
+								var="enf" itemLabel="#{enf.nombre}" itemValue="#{enf}"
+								converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
+							</p:autoComplete>
+				<p:commandButton id="btnAgregarEnf" value="Agregar"
+					action="#{terapiaBean.addEnfermedad2}"
+					update=":#{p:component('tablaEnf')}" />		
 			</p:panelGrid>
+			<h:panelGrid columns="2" cellpadding="10" cellspacing="10" >
+				<p:dataTable emptyMessage="No hay sintomas en la terapia"
+					id="tablaSin" var="sxt" value="#{terapiaBean.listasintoma}"
+					paginator="true" rows="3" style="width:350px;">
+					<f:facet name="header">
+        							Sintomas del Paciente
+    						</f:facet>
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{sxt.descripcion}" />
+					</p:column>
+				</p:dataTable>
+				<p:dataTable emptyMessage="No hay enfermedades en la terapia"
+					id="tablaEnf" var="enf" value="#{terapiaBean.listaenfermedad}"
+					paginator="true" rows="3" style="width:350px;">
+					<f:facet name="header">
+        							Enfermedades del Paciente
+    						</f:facet>
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{enf.nombre}" />
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
 		</p:fieldset>
 		
 		<p:fieldset legend="Antecedentes Patologicos Familiares" toggleable="true" toggleSpeed="500">
-		<p:panelGrid columns="4" style="height: 30px;" >
-					<p:outputLabel for="inputAPFM" value="Madre: " />
-					<p:inputText   id="inputAPFM" />	
-					<p:outputLabel for="inputAPFP" value="Padre: " />
-					<p:inputText   id="inputAPFP" />														
+		<p:panelGrid columns="2" style="height: 30px;" >
+					<p:outputLabel for="inputDes" value="Descripcion: "  style="width:200px"/>
+					<p:inputTextarea  id="inputDes" style="width:650px" />														
 		</p:panelGrid>
 		</p:fieldset>
 		
-		<p:fieldset legend="Otros Datos" toggleable="true" toggleSpeed="500">
-		<p:panelGrid columns="4" >
-					<p:outputLabel for="inputOperacion" value="Operaciones: " />
-					<p:inputText   id="inputOperacion" />
-					
-					<p:outputLabel   value="Transfusiones: " />
-			<p:selectOneRadio id="inputTransfusiones">
-				<f:selectItem itemLabel="Si" itemValue="Si" />
-				<f:selectItem itemLabel="No" itemValue="No" />
-			</p:selectOneRadio>
-
-			<p:outputLabel   value="Hab. tóxicos: " />
-					<p:selectOneRadio id="inputht">
-				<f:selectItem itemLabel="Si" itemValue="Si" />
-				<f:selectItem itemLabel="No" itemValue="No" />
-			</p:selectOneRadio>
-					<p:outputLabel for="inputhabd" value="Hab. dieteticos: " />
-					<p:inputText  id="inputhabd"  />
-					
-					<p:outputLabel for="inpuths" value="Horas de Sueño: " />
-					<p:inputText  id="inpuths"  />
-					
-					<p:outputLabel for="inputt" value="Traumatismos: " />
-					<p:inputText  id="inputt"  />
-					</p:panelGrid>
-		</p:fieldset>
+		
 <p:commandButton value="Registrar" action="#{principalBean.registrarVisitaPrincipal}"
 			update=":#{p:component('tablaPac')}" />
 	</h:form>

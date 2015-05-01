@@ -3,6 +3,8 @@ package com.gusedu.util;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -14,7 +16,7 @@ import org.primefaces.context.RequestContext;
 import com.gusedu.model.Usuario;
 
 public class StaticUtil {
-
+	public static final String PATTERN_NUMEROS = ".*[^0-9].*";
 	public static void correctMesage(String titulo, String mensaje) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -143,6 +145,13 @@ public class StaticUtil {
 		return diferencia;
 
 	}
+	
+    public static boolean esSoloNumero(String texto) {
+        Pattern pattern = Pattern.compile(PATTERN_NUMEROS);
+        Matcher matcher = pattern.matcher(texto);
+        return matcher.find() != true ? true : false;
+    }
+	
 	public static void Eleccion(String opcion)
 	{
 		RequestContext context = RequestContext.getCurrentInstance();

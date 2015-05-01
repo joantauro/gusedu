@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -29,7 +31,8 @@ public class PacienteBean implements Serializable{
 	
 	public PacienteBean() {
 		cliente = new Cliente();
-		opciones="S";
+		opciones="S";query="";
+		enviarQuery();
 	}
 
 	public Cliente getCliente() {
@@ -134,7 +137,14 @@ public class PacienteBean implements Serializable{
 			}
 		}
 		clientes = filtrados;
+		enviarQuery();
 	}	
+	public void enviarQuery()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.getExternalContext().getSessionMap().put("query", query);
+		System.out.println("Enviando query....");
+	}
 	public void actualizar()
 	{
 		getCliente();opciones="S";

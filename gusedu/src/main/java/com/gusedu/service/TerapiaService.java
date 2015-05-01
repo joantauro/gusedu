@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.gusedu.model.Cliente;
 import com.gusedu.model.EnfermedadTerapia;
+import com.gusedu.model.EnfermedadVisita;
 import com.gusedu.model.Par;
 import com.gusedu.model.SintomaTerapia;
+import com.gusedu.model.SintomaVisita;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TerapiaPar;
 import com.gusedu.model.TipoTerapia;
@@ -38,4 +40,8 @@ public interface TerapiaService {
 	public TerapiaPar TerapiaParByParAndTerapia(Terapia terapia, Par par);
 	
 	public List<Terapia> terapiasPorCliente(Cliente cliente);
+	
+	public boolean saveSintomaVisita(SintomaVisita sintomavista);
+	
+	public boolean saveEnfermedadVisita(EnfermedadVisita enfermedadvista);
 }

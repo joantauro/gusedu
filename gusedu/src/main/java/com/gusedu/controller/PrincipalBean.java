@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.model.Enfermedad;
+import com.gusedu.model.EnfermedadVisita;
 import com.gusedu.model.HistoriaClinica;
 import com.gusedu.model.Par;
 import com.gusedu.model.Persona;
 import com.gusedu.model.Producto;
 import com.gusedu.model.Punto;
+import com.gusedu.model.Sintoma;
+import com.gusedu.model.SintomaVisita;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TerapiaPar;
 import com.gusedu.model.TipoTerapia;
@@ -86,7 +92,8 @@ public class PrincipalBean implements Serializable {
 	 
 	public int idPunto;
 	 
-	 
+	
+	
 	public PrincipalBean()
 	{
 		
@@ -123,12 +130,17 @@ public class PrincipalBean implements Serializable {
 		
 		historiaClinica = new HistoriaClinica();
 		opciones="S";
-		npar.clear(); 
+		
+	}
+	public void Limpiarnpar()
+	{
+		npar.clear();
 	}
 	
 	public void CancelarTerapia()
 	{
 		NuevoRegistro();
+		Limpiarnpar();
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlgT').hide();");
 	}
@@ -271,6 +283,12 @@ public class PrincipalBean implements Serializable {
 		StaticUtil.Eleccion(opciones);
 		cliente = clienteService.getClienteById(idCliente);
 		terapiasDeVisita=terapiaService.terapiasPorCliente(cliente);
+		if(opciones.equals("P"))
+		{
+			visita =visitaService.getLastVisitaCliente(cliente);
+			FacesContext fc = FacesContext.getCurrentInstance();
+			fc.getExternalContext().getSessionMap().put("visita", visita);
+		}
 		System.out.println("Lista : "+terapiasDeVisita.size());
 	}
 	
@@ -303,6 +321,15 @@ public class PrincipalBean implements Serializable {
 			}
 		}
 		clientes = filtrados;
+		if(StaticUtil.esSoloNumero(query))
+		{
+			persona.setDni(query);
+			System.out.println("Es DNI :3");
+		}else
+		{
+			persona.setNombres(query);
+			System.out.println("Es nombre :3");
+		}
 	}	
 	public void actualizar()
 	{
@@ -313,10 +340,46 @@ public class PrincipalBean implements Serializable {
 	
 	//----------------------------Visita
 	
-	public void registrarVisitaPrincipal()
+	@SuppressWarnings("unchecked")
+	public void registrarSintoma()
+	{
+		List<Sintoma> s ;
+		SintomaVisita sinvis;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		s=((List<Sintoma>) fc.getExternalContext().getSessionMap().get("listaSintoma"));
+		
+		
+		for(int i=0;i<s.size();i++)
+		{
+			sinvis= new SintomaVisita();
+			sinvis.setSxvVisita(visita);
+			sinvis.setSxvSintoma(s.get(i));
+			terapiaService.saveSintomaVisita(sinvis);
+		}
+	}
 	
+	@SuppressWarnings("unchecked")
+	public void registrarEnfermedad()
+	{
+		List<Enfermedad> e ;
+		EnfermedadVisita enfvis;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		e = ((List<Enfermedad>) fc.getExternalContext().getSessionMap().get("listaEnfermedad")) ;
+		System.out.println("Listan de Enfermedades : "+e.size());
+		for(int j=0;j<e.size();j++)
+		{
+			enfvis= new EnfermedadVisita();
+			enfvis.setExvVisita(visita);
+			enfvis.setExvEnfermedad(e.get(j));
+			terapiaService.saveEnfermedadVisita(enfvis);
+		}
+		
+	}
+
+	public void registrarVisitaPrincipal()
 	{   
 		RequestContext context = RequestContext.getCurrentInstance();
+
 		//cliente =clienteService.lastClient();
 		Visita vis =visitaService.buscarVisita(cliente);
 		if(vis==null)
@@ -326,6 +389,9 @@ public class PrincipalBean implements Serializable {
 			visita =visitaService.getLastVisitaCliente(cliente);
 			historiaClinica.setHclVisita(visita);
 			historiaClinicaService.saveHistoriaClinica(historiaClinica);
+			
+			registrarSintoma();
+			registrarEnfermedad();
 			NuevoRegistro();
 		}else
 		{
@@ -350,6 +416,7 @@ public class PrincipalBean implements Serializable {
 			historiaClinicaService.saveHistoriaClinica(historiaClinica);
 			addTerapia();
 			NuevoRegistro();
+			Limpiarnpar();
 			
 		}else
 		{
@@ -532,4 +599,12 @@ public class PrincipalBean implements Serializable {
 		return true;
 	}
 	
+	public void actualizando()
+	{
+		System.out.println("Probando...");
+	}
+	/*public void prueba()
+	{System.out.println("Probando");
+		//System.out.println("¿Número? "+StaticUtil.esSoloNumero(query));
+	}*/
 }

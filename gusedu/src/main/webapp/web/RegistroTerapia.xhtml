@@ -100,10 +100,10 @@
 		</p:panelGrid>
 		<p:commandButton value="Agregar"
 				action="#{principalBean.registrarTerapias}"
-				update=":#{p:component('tablaPac')},:j_idt90:j_idt91:formNuevaTerapia:tablaParPunto" />
+				update=":#{p:component('tablaPac')}" />
 			<p:commandButton value="Cancelar" immediate="true"
 				action="#{principalBean.CancelarTerapia}"
-				update=":#{p:component('tablaPac')},:j_idt90:j_idt91:formNuevaTerapia:tablaParPunto" />
+				update=":#{p:component('tablaPac')}" />
 	</h:form>
 </ui:composition>
 </html>

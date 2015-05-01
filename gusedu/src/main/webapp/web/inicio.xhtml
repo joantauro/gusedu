@@ -19,11 +19,16 @@
 		<script type="text/javascript">
 				function foo() { 
 					//PF('dlgVP').hide();
-					document.getElementById("formNuevo:btnListar").click();
+					//document.getElementById("formNuevo:btnListar").click();
 					//document.getElementById("formNuevo:btnConf").click();
 				}
 			</script>
 
+
+		<h:form id="formPrueba"  >
+		<p:commandButton value="Prueba" 
+		  action="#{personaBean.valida}" />	
+		</h:form>
 
 		<h:form id="formNuevo">
 			<p:commandButton value="Listar" id="btnListar" style="display: none;"
@@ -33,23 +38,20 @@
 
 		<h:form id="formBusqueda">
 			<p:outputLabel value="Filtrar: " for="inpQuery" />
-			<p:inputText value="#{principalBean.query}" id="inpQuery"
+			<p:inputText value="#{pacienteBean.query}" id="inpQuery"
 				style="width : 500px;">
 				<p:ajax event="keyup" update=":#{p:component('tablaPac')}"
-					listener="#{principalBean.filtrarBusqueda}">
+					listener="#{pacienteBean.filtrarBusqueda}">
 				</p:ajax>
 			</p:inputText>
 			<p:spacer width="50px;" />
-			<p:commandButton value="Nuevo Paciente" onclick="PF('dlg1').show();"
-				type="button" />
-			<p:commandButton value="Vista Principal"
-				onclick="PF('dlgVP').show();"   update=":j_idt49:dialog"
-				action="#{principalBean.NuevoRegistro}" type="button" />
+			<p:commandButton value="Nuevo Paciente" update=":#{p:component('panelRegistro')}" action="#{personaBean.valida}"
+			 oncomplete="PF('dlg1').show();"   />
 		</h:form>
 		<br />
 		<h:form id="formulario">
 			<p:dataTable id="tablaPac" var="pac"
-				value="#{principalBean.clientes}" paginator="true" rows="10">
+				value="#{pacienteBean.clientes}" paginator="true" rows="10">
 				<p:column headerText="DNI" width="10%;">
 					<h:outputText value="#{pac.cliPersona.dni}" />
 				</p:column>
@@ -73,13 +75,11 @@
 				<p:column headerText="Opciones">
 					<p:selectOneMenu value="#{principalBean.opciones}">
 						<f:selectItem itemLabel="Seleccione" itemValue="S" />
-						<f:selectItem itemLabel="Venta de Productos" itemValue="P" />
+						<f:selectItem itemLabel="Venta de Productos" itemValue="P"  />
 						<f:selectItem itemLabel="Terapias" itemValue="T" />
 						<f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />
-						<f:selectItem itemLabel="Editar Datos Personales" itemValue="De" />
 						<f:selectItem itemLabel="Historial de Visitas" itemValue="HV" />
-						<f:selectItem itemLabel="Datos Medicos" itemValue="DM" />
-						<f:selectItem itemLabel="Datos Nutricionales" itemValue="DN" />
+						<f:selectItem itemLabel="Datos Medicos" itemValue="DM"  />
 						<p:ajax event="change"
 							update=":dialogDatosClinicos,:dialogTerapia"
 							listener="#{principalBean.preDatosClinicosPaciente2(pac.idCliente)}" />
@@ -120,13 +120,7 @@
 		</p:dialog>
 
 
-		<h:form>
-			<p:dialog id="dialogVista" header="VistaPrincipal" widgetVar="dlgVP"
-				showEffect="pop" modal="true" width="730px" height="400px">
-				<ui:include src="Wizard.xhtml" />
-			</p:dialog>
-		</h:form>
-		
+
 		<h:form>
 			<p:dialog id="dialogHEA" header="Historia" widgetVar="dlgHEA"
 				showEffect="pop" modal="true" width="850px" height="500px">

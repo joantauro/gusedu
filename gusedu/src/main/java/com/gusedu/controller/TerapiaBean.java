@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -57,12 +59,19 @@ public class TerapiaBean implements Serializable{
 
 	private int size;
 
+	private List<Sintoma> listasintoma;
+	private List<Enfermedad> listaenfermedad;
+	
+	
 	public TerapiaBean() {
 		sliderDolor = 0;
 		terapia = new Terapia();
 		enfermedad = new Enfermedad();
 		sintoma = new Sintoma();
 		paresSeleccionados = new ArrayList<Par>();
+		
+		listasintoma = new ArrayList<>();
+		listaenfermedad = new ArrayList<>();
 	}
 
 	public int getIndex() {
@@ -436,4 +445,34 @@ public class TerapiaBean implements Serializable{
 		return "detalleTerapia?faces-redirect=true";
 	}
 
+	public List<Sintoma> getListasintoma() {
+		return listasintoma;
+	}
+
+	public void setListasintoma(List<Sintoma> listasintoma) {
+		this.listasintoma = listasintoma;
+	}
+
+	public void addSintoma2()
+	{
+		listasintoma.add(sintoma);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.getExternalContext().getSessionMap().put("listaSintoma", listasintoma);
+
+	}
+
+	public void addEnfermedad2(){
+		listaenfermedad.add(enfermedad);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.getExternalContext().getSessionMap().put("listaEnfermedad", listaenfermedad);
+		
+	}
+	public List<Enfermedad> getListaenfermedad() {
+		return listaenfermedad;
+	}
+
+	public void setListaenfermedad(List<Enfermedad> listaenfermedad) {
+		this.listaenfermedad = listaenfermedad;
+	}
+	
 }

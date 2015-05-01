@@ -17,32 +17,32 @@ function get() {
 	<h:form id="formulario">
 		<p:growl showDetail="true" autoUpdate="true" />
 		<p:panelGrid columns="2" id="panelRegistro"  >
-			<p:outputLabel for="perDni" value="Dni: " />
+			<p:outputLabel for="perDni" value="DNI: " />
 			<p:inputText value="#{personaBean.persona.dni}" id="perDni" />
 
 			<p:outputLabel for="perNombre" value="Nombre: " />
 			<p:inputText value="#{personaBean.persona.nombres}" id="perNombre" />
 
-			<p:outputLabel for="perApePaterno" value="Apellido Paterno: " />
+			<p:outputLabel for="perApePaterno" value="Apellido paterno: " />
 			<p:inputText value="#{personaBean.persona.apellidoPaterno}"
 				id="perApePaterno" />
 
-			<p:outputLabel for="perApeMaterno" value="Apellido Materno: " />
+			<p:outputLabel for="perApeMaterno" value="Apellido materno: " />
 			<p:inputText value="#{personaBean.persona.apellidoMaterno}"
 				id="perApeMaterno" />
 
 
-			<p:outputLabel for="perFecNac" value="Fecha de Nacimiento: " />
+			<p:outputLabel for="perFecNac" value="Fecha de nacimiento: " />
 			<p:calendar value="#{personaBean.persona.fechaNacimiento}"
 				id="perFecNac" pattern="dd/MM/yyyy" />
 
-			<p:outputLabel for="perTelFijo" value="Telefono Fijo: " />
+			<p:outputLabel for="perTelFijo" value="Teléfono fijo: " />
 			<p:inputText type="tel" value="#{personaBean.persona.telefonoFijo}"
 				required="true" id="perTelFijo">
 			</p:inputText>
 
 
-			<p:outputLabel for="perTelMovil" value="Telefono Movil: " />
+			<p:outputLabel for="perTelMovil" value="Teléfono móvil: " />
 			<p:inputText type="tel" required="true"
 				value="#{personaBean.persona.telefonoMovil}" id="perTelMovil">
 			</p:inputText>
@@ -59,7 +59,7 @@ function get() {
 				<f:selectItem itemLabel="Femenino" itemValue="F" />
 			</p:selectOneButton>
 
-			<p:outputLabel for="perEstadoCivil" value="Estado Civil: " />
+			<p:outputLabel for="perEstadoCivil" value="Estado civil: " />
 			<p:selectOneButton id="perEstadoCivil"
 				value="#{personaBean.persona.estadoCivil}">
 				<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
@@ -69,15 +69,17 @@ function get() {
 			</p:selectOneButton>
 
 			<p:outputLabel for="perComo" value="¿Cómo se enteró de Gusedu?" />
-			<p:inputText value="#{personaBean.persona.comoSeEntero}" id="perComo">
-			</p:inputText>
+			<p:selectOneRadio id="perComo" value="#{personaBean.persona.comoSeEntero}" layout="grid" columns="2" >
+				<f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
+				<f:selectItem itemLabel="Web" itemValue="Web" />
+				<f:selectItem itemLabel="Amigos" itemValue="Amigos" />
+				<f:selectItem itemLabel="Familiares" itemValue="Familiares" />
+				<f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
+			</p:selectOneRadio>
+			
 
-			<p:outputLabel for="perFacebook" value="Facebook" />
-			<p:inputText value="#{personaBean.persona.facebook}" id="perFacebook">
-			</p:inputText>
 
-
-			<p:commandButton value="Registrar"  update=":#{p:component('tablaPac')},:j_idt49:formulario:panelRegistro"
+			<p:commandButton value="Registrar"  update=":#{p:component('tablaPac')}"
 				action="#{personaBean.registroPacienteV2}" icon="ui-icon-check" />
 			<p:commandButton value="Cancelar" icon="ui-icon-cancel"
 				action="#{personaBean.cancel}" />

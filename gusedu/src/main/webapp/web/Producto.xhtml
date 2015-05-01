@@ -9,11 +9,23 @@
 <ui:composition >
 
 <h:form id="formulariProducto" >
+<p:outputLabel for="searchQueryProducto" value="Buscar producto: " />
+					<p:inputText id="searchQueryProducto"
+						value="#{visitaBean.queryProducto}"
+						placeholder="Ingrese su busqueda" type="search">
+						<p:ajax event="keyup" update=":#{p:component('tablaProductos')}"
+							listener="#{visitaBean.filtrarProductos}" />
+					</p:inputText>
+<br/><br/>
 <p:dataTable id="tablaProductos" var="prod"
 					paginatorAlwaysVisible="false" value="#{visitaBean.allProductos}"
 					emptyMessage="No hay productos en stock" paginator="true" rows="5">
 
-					<p:column headerText="Producto" style="vertical-align:middle;">
+			<f:facet name="header">
+        		Productos
+    		</f:facet>
+
+			<p:column headerText="Producto" style="vertical-align:middle;">
 						<h:outputText value="#{prod.descripcionMedia}" />
 					</p:column>
 
@@ -24,6 +36,14 @@
 
 					<p:column headerText="Existencias" style="vertical-align:middle;">
 						<h:outputText value="#{prod.existencias}" />
+					</p:column>
+					
+					<p:column>
+						<p:inputText  value="#{visitaBean.cantidadProducto}"  ></p:inputText>
+					</p:column>
+					<p:column>
+					<p:commandButton icon="ui-icon-plus" 
+						action="#{visitaBean.addProducto(prod.idProducto)}" />
 					</p:column>
 				</p:dataTable>
 </h:form>
