@@ -21,29 +21,27 @@ function get() {
 			<p:inputText value="#{personaBean.persona.dni}" id="perDni" />
 
 			<p:outputLabel for="perNombre" value="Nombre: " />
-			<p:inputText value="#{personaBean.persona.nombres}" id="perNombre" />
+			<p:inputText value="#{personaBean.persona.nombres}" id="perNombre" required="true"/>
 
 			<p:outputLabel for="perApePaterno" value="Apellido paterno: " />
-			<p:inputText value="#{personaBean.persona.apellidoPaterno}"
+			<p:inputText value="#{personaBean.persona.apellidoPaterno}" required="true"
 				id="perApePaterno" />
 
 			<p:outputLabel for="perApeMaterno" value="Apellido materno: " />
-			<p:inputText value="#{personaBean.persona.apellidoMaterno}"
+			<p:inputText value="#{personaBean.persona.apellidoMaterno}" required="true"
 				id="perApeMaterno" />
 
-
-			<p:outputLabel for="perFecNac" value="Fecha de nacimiento: " />
-			<p:calendar value="#{personaBean.persona.fechaNacimiento}"
-				id="perFecNac" pattern="dd/MM/yyyy" />
+			<p:outputLabel for="perFecNac" value="Fecha de nacimiento: " /> 
+			<p:calendar value="#{personaBean.persona.fechaNacimiento}" required="true"  yearRange="c-100:c"
+				id="perFecNac" pattern="dd/MM/yyyy" navigator="true" />
 
 			<p:outputLabel for="perTelFijo" value="Teléfono fijo: " />
 			<p:inputText type="tel" value="#{personaBean.persona.telefonoFijo}"
-				required="true" id="perTelFijo">
+				id="perTelFijo">
 			</p:inputText>
 
-
 			<p:outputLabel for="perTelMovil" value="Teléfono móvil: " />
-			<p:inputText type="tel" required="true"
+			<p:inputText type="tel" 
 				value="#{personaBean.persona.telefonoMovil}" id="perTelMovil">
 			</p:inputText>
 
@@ -76,13 +74,11 @@ function get() {
 				<f:selectItem itemLabel="Familiares" itemValue="Familiares" />
 				<f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
 			</p:selectOneRadio>
-			
-
 
 			<p:commandButton value="Registrar"  update=":#{p:component('tablaPac')}"
 				action="#{personaBean.registroPacienteV2}" icon="ui-icon-check" />
 			<p:commandButton value="Cancelar" icon="ui-icon-cancel"
-				action="#{personaBean.cancel}" />
+				action="#{personaBean.cancel}" immediate="true" />
 		</p:panelGrid>
 	</h:form>
 </ui:composition>

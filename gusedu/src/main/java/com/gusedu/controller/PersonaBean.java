@@ -73,7 +73,7 @@ public class PersonaBean implements Serializable{
 			StaticUtil.keepMessages();
 			//Redirección
 			return "index?faces-redirect=true";			
-		}else{			
+		}else{						
 			return null;
 		}
 	}
@@ -89,18 +89,17 @@ public class PersonaBean implements Serializable{
 			//Muestra mensajes de éxito
 			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente al paciente");
 			StaticUtil.keepMessages();
-			context.execute("PF('dlg1').hide();");
-			//Redirección
-			//return "consultarPacientesT?faces-redirect=true";			
+			context.execute("PF('dlg1').hide();");			
 		}else{			
-		//	return null;
 			System.out.println("Error Fatal");
+			persona = new Persona();
 		}
 	}
 	public void cancel()
 	{
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlg1').hide();");
+		persona = new Persona();
 	}
 	//----------------	
 	//Metodo para cancelar el registro de la persona

@@ -1,35 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-<ui:composition
-	template="/WEB-INF/facelets/templates/plantillaPrincipal.xhtml">
+	
+<ui:composition template="/WEB-INF/facelets/templates/plantillaPrincipal.xhtml">
+	
 	<ui:define name="titulo">
-                Gusedu Salud
-            </ui:define>
-
+         Gusedu Salud
+    </ui:define>
 	<ui:define name="top">
-
 	</ui:define>
-
 	<ui:define name="content">
-		<script type="text/javascript">
-				function foo() { 
-					//PF('dlgVP').hide();
-					//document.getElementById("formNuevo:btnListar").click();
-					//document.getElementById("formNuevo:btnConf").click();
-				}
-			</script>
-
-
-		<h:form id="formPrueba"  >
-		<p:commandButton value="Prueba" 
-		  action="#{personaBean.valida}" />	
-		</h:form>
-
+	
 		<h:form id="formNuevo">
 			<p:commandButton value="Listar" id="btnListar" style="display: none;"
 				action="#{principalBean.actualizar}"
@@ -45,13 +31,14 @@
 				</p:ajax>
 			</p:inputText>
 			<p:spacer width="50px;" />
-			<p:commandButton value="Nuevo Paciente" update=":#{p:component('panelRegistro')}" action="#{personaBean.valida}"
-			 oncomplete="PF('dlg1').show();"   />
+			<p:commandButton value="Nuevo Paciente"
+				update=":#{p:component('panelRegistro')}"
+				action="#{personaBean.valida}" oncomplete="PF('dlg1').show();" />
 		</h:form>
 		<br />
 		<h:form id="formulario">
-			<p:dataTable id="tablaPac" var="pac"
-				value="#{pacienteBean.clientes}" paginator="true" rows="10">
+			<p:dataTable id="tablaPac" var="pac" value="#{pacienteBean.clientes}"
+				paginator="true" rows="10">
 				<p:column headerText="DNI" width="10%;">
 					<h:outputText value="#{pac.cliPersona.dni}" />
 				</p:column>
@@ -75,28 +62,27 @@
 				<p:column headerText="Opciones">
 					<p:selectOneMenu value="#{principalBean.opciones}">
 						<f:selectItem itemLabel="Seleccione" itemValue="S" />
-						<f:selectItem itemLabel="Venta de Productos" itemValue="P"  />
+						<f:selectItem itemLabel="Venta de Productos" itemValue="P" />
 						<f:selectItem itemLabel="Terapias" itemValue="T" />
-						<f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />
+						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
 						<f:selectItem itemLabel="Historial de Visitas" itemValue="HV" />
-						<f:selectItem itemLabel="Datos Medicos" itemValue="DM"  />
+						<f:selectItem itemLabel="Datos Medicos" itemValue="DM" />
 						<p:ajax event="change"
 							update=":dialogDatosClinicos,:dialogTerapia"
 							listener="#{principalBean.preDatosClinicosPaciente2(pac.idCliente)}" />
 					</p:selectOneMenu>
 				</p:column>
 
-
 			</p:dataTable>
 		</h:form>
-<h:form>
-		<p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
-			showEffect="pop" modal="true">
-		
-				<ui:include  src="prueba.xhtml"  />
-			
-		</p:dialog>
-</h:form>
+		<h:form>
+			<p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
+				showEffect="pop" modal="true">
+
+				<ui:include src="prueba.xhtml" />
+
+			</p:dialog>
+		</h:form>
 		<p:dialog id="dialogDatosClinicos" header="Datos Clinicos"
 			widgetVar="dlgDC" showEffect="pop" modal="true">
 			<h:form>
@@ -127,7 +113,7 @@
 				<ui:include src="HEA.xhtml" />
 			</p:dialog>
 		</h:form>
-		
+
 		<h:form>
 			<p:dialog id="dialogProducto" header="Productos" widgetVar="dlgP"
 				showEffect="pop" modal="true" width="850px" height="500px">

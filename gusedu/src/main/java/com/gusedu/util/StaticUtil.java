@@ -152,6 +152,11 @@ public class StaticUtil {
         return matcher.find() != true ? true : false;
     }
 	
+    public static void execute(String dialogVar){
+    	RequestContext context = RequestContext.getCurrentInstance();
+    	context.execute("PF('"+dialogVar+"').show();");
+    }
+    
 	public static void Eleccion(String opcion)
 	{
 		RequestContext context = RequestContext.getCurrentInstance();

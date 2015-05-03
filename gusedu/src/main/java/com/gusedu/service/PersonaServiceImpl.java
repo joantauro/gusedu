@@ -138,9 +138,6 @@ public class PersonaServiceImpl implements PersonaService {
 			cliente.setUsuarioCreacion(usernameSession);
 			persona.setUsuarioCreacion(usernameSession);			
 			cliente.setCliPersona(persona);						
-			
-			System.out.println(username);
-			System.out.println(password);
 
 			em.persist(cliente);
 

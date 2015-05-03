@@ -10,8 +10,9 @@
 	<h:form id="formularioHEA">
 		<p:growl showDetail="true" autoUpdate="true" />
 
-<p:fieldset legend="Historia de la Enfermedad Actual" toggleable="true" toggleSpeed="500">
-			<p:panelGrid columns="6" >
+		<p:fieldset legend="Historia de la Enfermedad Actual"
+			toggleable="true" toggleSpeed="500">
+			<p:panelGrid columns="6">
 				<p:outputLabel for="inputFC" value="FC: " />
 				<p:inputText id="inputFC" />
 
@@ -23,17 +24,19 @@
 					value="#{principalBean.historiaClinica.peso}" />
 
 				<p:outputLabel for="inputTalla" value="Talla:" />
-				<p:inputText id="inputTalla" value="#{principalBean.historiaClinica.talla}"  />
+				<p:inputText id="inputTalla"
+					value="#{principalBean.historiaClinica.talla}" />
 
 				<p:outputLabel for="inputIMC" value="IMC:" />
 				<p:inputText id="inputIMC" />
 			</p:panelGrid>
 		</p:fieldset>
-		<p:fieldset legend="Sintomas y Enfermedades" toggleable="true" toggleSpeed="500">
+		<p:fieldset legend="Sintomas y Enfermedades" toggleable="true"
+			toggleSpeed="500">
 			<p:panelGrid columns="6">
 				<p:outputLabel value="Agregar sintoma" for="autoSintoma" />
 				<p:autoComplete id="autoSintoma" queryDelay="100"
-					value="#{terapiaBean.sintoma}" 
+					value="#{terapiaBean.sintoma}"
 					completeMethod="#{terapiaBean.autoCompletarSintoma}" var="sin"
 					itemLabel="#{sin.descripcion}" itemValue="#{sin}"
 					converter="#{sintomaConverter}" panelStyleClass="ui-themes">
@@ -41,21 +44,21 @@
 				<p:commandButton id="btnAgregar" value="Agregar"
 					action="#{terapiaBean.addSintoma2}"
 					update=":#{p:component('tablaSin')}" />
-		
+
 
 				<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
-						
-							<p:autoComplete id="autoEnfermedad" queryDelay="100"
-								value="#{terapiaBean.enfermedad}" 
-								completeMethod="#{terapiaBean.autoCompletarEnfermedad}"
-								var="enf" itemLabel="#{enf.nombre}" itemValue="#{enf}"
-								converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
-							</p:autoComplete>
+
+				<p:autoComplete id="autoEnfermedad" queryDelay="100"
+					value="#{terapiaBean.enfermedad}"
+					completeMethod="#{terapiaBean.autoCompletarEnfermedad}" var="enf"
+					itemLabel="#{enf.nombre}" itemValue="#{enf}"
+					converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
+				</p:autoComplete>
 				<p:commandButton id="btnAgregarEnf" value="Agregar"
 					action="#{terapiaBean.addEnfermedad2}"
-					update=":#{p:component('tablaEnf')}" />		
+					update=":#{p:component('tablaEnf')}" />
 			</p:panelGrid>
-			<h:panelGrid columns="2" cellpadding="10" cellspacing="10" >
+			<h:panelGrid columns="2" cellpadding="10" cellspacing="10">
 				<p:dataTable emptyMessage="No hay sintomas en la terapia"
 					id="tablaSin" var="sxt" value="#{terapiaBean.listasintoma}"
 					paginator="true" rows="3" style="width:350px;">
@@ -78,16 +81,19 @@
 				</p:dataTable>
 			</h:panelGrid>
 		</p:fieldset>
-		
-		<p:fieldset legend="Antecedentes Patologicos Familiares" toggleable="true" toggleSpeed="500">
-		<p:panelGrid columns="2" style="height: 30px;" >
-					<p:outputLabel for="inputDes" value="Descripcion: "  style="width:200px"/>
-					<p:inputTextarea  id="inputDes" style="width:650px" />														
-		</p:panelGrid>
+
+		<p:fieldset legend="Antecedentes Patologicos Familiares"
+			toggleable="true" toggleSpeed="500">
+			<p:panelGrid columns="2" style="height: 30px;">
+				<p:outputLabel for="inputDes" value="Descripcion: "
+					style="width:200px" />
+				<p:inputTextarea id="inputDes" style="width:650px" />
+			</p:panelGrid>
 		</p:fieldset>
-		
-		
-<p:commandButton value="Registrar" action="#{principalBean.registrarVisitaPrincipal}"
+
+
+		<p:commandButton value="Registrar"
+			action="#{principalBean.registrarVisitaPrincipal}"
 			update=":#{p:component('tablaPac')}" />
 	</h:form>
 </ui:composition>

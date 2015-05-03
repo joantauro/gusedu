@@ -36,115 +36,102 @@ import com.gusedu.service.VisitaService;
 import com.gusedu.util.StaticUtil;
 
 @Component
-@Scope(value="session")
+@Scope(value = "session")
 public class PrincipalBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	PersonaService personaService;
-	
+
 	@Autowired
 	ClienteService clienteService;
-	
+
 	@Autowired
 	VisitaService visitaService;
-	
+
 	@Autowired
 	TerapiaService terapiaService;
-	
+
 	@Autowired
 	HistoriaClinicaService historiaClinicaService;
-	
+
 	@Autowired
 	ParService parService;
-	
-	private boolean skip;//valor del wizard
 
-	
+	private boolean skip;// valor del wizard
+
 	private Persona persona;
-	
+
 	private Cliente cliente;
 	private List<Cliente> clientes;
 	private String opciones;
 	private String query;
-	
-	
-	//--------Visita
+
+	// --------Visita
 	private Visita visita;
 	private Terapia terapia;
 	private TipoTerapia tipoTerapia;
 	private HistoriaClinica historiaClinica;
 	private Producto producto;
-	//--------Terapia
+	// --------Terapia
 	private Integer idTipoTerapia;
 	private List<Terapia> terapiasDeVisita;
-	
-	//--------Historia Clinica
-	
-	
-	
-	//----------- Par 
+	// --------Historia Clinica
+	// ----------- Par
 	private Par par;
 	List<Par> result;
 	private List<Par> npar;
-	 private List<Par> parcito;
-	 
+	private List<Par> parcito;
+
 	public int idPunto;
-	 
-	
-	
-	public PrincipalBean()
-	{
-		
+
+	public PrincipalBean() {
 		persona = new Persona();
 		par = new Par();
-				
+
 		visita = new Visita();
 		visita.setVisCliente(new Cliente());
-		
+
 		terapia = new Terapia();
 		terapia.setTerTipoTerapia(new TipoTerapia());
 		terapia.setTerVisita(new Visita());
-		
+
 		tipoTerapia = new TipoTerapia();
-		
+
 		historiaClinica = new HistoriaClinica();
-		
-		 result = new ArrayList<>();
+
+		result = new ArrayList<>();
 	}
-	
-	public void NuevoRegistro()
-	{
+
+	public void NuevoRegistro() {
 		persona = new Persona();
-		
-		
+
 		visita = new Visita();
 		visita.setVisCliente(new Cliente());
-		
+
 		terapia = new Terapia();
 		terapia.setTerTipoTerapia(new TipoTerapia());
 		terapia.setTerVisita(new Visita());
-		
-		tipoTerapia= new TipoTerapia();
-		
+
+		tipoTerapia = new TipoTerapia();
+
 		historiaClinica = new HistoriaClinica();
-		opciones="S";
-		
+		opciones = "S";
+
 	}
-	public void Limpiarnpar()
-	{
+
+	public void Limpiarnpar() {
 		npar.clear();
 	}
-	
-	public void CancelarTerapia()
-	{
+
+	public void CancelarTerapia() {
 		NuevoRegistro();
 		Limpiarnpar();
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlgT').hide();");
 	}
-	
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -152,7 +139,7 @@ public class PrincipalBean implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+
 	public List<Cliente> getClientes() {
 		String username = StaticUtil.userLogged();
 		if (query != null) {
@@ -160,7 +147,7 @@ public class PrincipalBean implements Serializable {
 				return clientes;
 			}
 		}
-	    clientes=clienteService.getClientesPacientesByUsuario(username);
+		clientes = clienteService.getClientesPacientesByUsuario(username);
 		return clientes;
 	}
 
@@ -175,7 +162,7 @@ public class PrincipalBean implements Serializable {
 	public void setQuery(String query) {
 		this.query = query;
 	}
-	
+
 	public String getOpciones() {
 		return opciones;
 	}
@@ -183,15 +170,15 @@ public class PrincipalBean implements Serializable {
 	public void setOpciones(String opciones) {
 		this.opciones = opciones;
 	}
-	
+
 	public Visita getVisita() {
 		return visita;
 	}
-	
+
 	public void setVisita(Visita visita) {
 		this.visita = visita;
 	}
-	
+
 	public Terapia getTerapia() {
 		return terapia;
 	}
@@ -223,7 +210,7 @@ public class PrincipalBean implements Serializable {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
-	
+
 	public Integer getIdTipoTerapia() {
 		return idTipoTerapia;
 	}
@@ -231,7 +218,7 @@ public class PrincipalBean implements Serializable {
 	public void setIdTipoTerapia(Integer idTipoTerapia) {
 		this.idTipoTerapia = idTipoTerapia;
 	}
-	
+
 	public Persona getPersona() {
 		return persona;
 	}
@@ -239,7 +226,7 @@ public class PrincipalBean implements Serializable {
 	public void setPersona(Persona persona) {
 		this.persona = persona;
 	}
-	
+
 	public boolean isSkip() {
 		return skip;
 	}
@@ -247,64 +234,62 @@ public class PrincipalBean implements Serializable {
 	public void setSkip(boolean skip) {
 		this.skip = skip;
 	}
-	
-    public String onFlowProcess(FlowEvent event) {
-        if(skip) {
-            skip = false;   //reset in case user goes back
-            return "confirm";
-        }
-        else {
-        	System.out.println("Siguiente : "+ event.getNewStep());
-            return event.getNewStep();
-        }
-    }
-	
-	//-------------------Registro de Datos de Persona
-	public void registroPacienteV2(){		
-		String empresa = StaticUtil.userLogged();
-		
-		  
-		//Guarda la persona en la base de datos
-		if(personaService.registroPaciente(persona, empresa)){
-			registrarVisitaPrincipal();
-			//Crea nuevamente la instancia de persona
-			
-			//NuevoRegistro();
-			//actualizar();
-		
-		}else{			
-		//	return null;
+
+	public String onFlowProcess(FlowEvent event) {
+		if (skip) {
+			skip = false; // reset in case user goes back
+			return "confirm";
+		} else {
+			System.out.println("Siguiente : " + event.getNewStep());
+			return event.getNewStep();
 		}
 	}
-	
-	
-	//----------------------------Gestion Paciente -----------------------------
-	public void preDatosClinicosPaciente2(Integer idCliente){
+
+	// -------------------Registro de Datos de Persona
+	public void registroPacienteV2() {
+		String empresa = StaticUtil.userLogged();
+
+		// Guarda la persona en la base de datos
+		if (personaService.registroPaciente(persona, empresa)) {
+			registrarVisitaPrincipal();
+			// Crea nuevamente la instancia de persona
+
+			// NuevoRegistro();
+			// actualizar();
+
+		} else {
+			// return null;
+		}
+	}
+
+	// ----------------------------Gestion Paciente
+	// -----------------------------
+	public void preDatosClinicosPaciente2(Integer idCliente) {
 		StaticUtil.Eleccion(opciones);
 		cliente = clienteService.getClienteById(idCliente);
-		terapiasDeVisita=terapiaService.terapiasPorCliente(cliente);
-		if(opciones.equals("P"))
-		{
-			visita =visitaService.getLastVisitaCliente(cliente);
+		terapiasDeVisita = terapiaService.terapiasPorCliente(cliente);
+		if (opciones.equals("P")) {
+			visita = visitaService.getLastVisitaCliente(cliente);
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.getExternalContext().getSessionMap().put("visita", visita);
 		}
-		System.out.println("Lista : "+terapiasDeVisita.size());
+		System.out.println("Lista : " + terapiasDeVisita.size());
 	}
-	
+
 	public void guardarDatosClinicos2() {
 		RequestContext context = RequestContext.getCurrentInstance();
 		if (clienteService.updateCliente(cliente)) {
-		 	StaticUtil.correctMesage("Éxito", "Se ha actualizado los datos correctamente");
+			StaticUtil.correctMesage("Éxito",
+					"Se ha actualizado los datos correctamente");
 			StaticUtil.keepMessages();
 			context.execute("PF('dlgDC').hide();");
-			//return "consultarPacientes?faces-redirect=true";
+			// return "consultarPacientes?faces-redirect=true";
 		} else {
 			StaticUtil.errorMessage("Error", "No se pudo actualizar");
-			//return null;
+			// return null;
 		}
 	}
-	
+
 	public void filtrarBusqueda() {
 		String username = StaticUtil.userLogged();
 		clientes = clienteService.getClientesPacientesByUsuario(username);
@@ -321,120 +306,108 @@ public class PrincipalBean implements Serializable {
 			}
 		}
 		clientes = filtrados;
-		if(StaticUtil.esSoloNumero(query))
-		{
+		if (StaticUtil.esSoloNumero(query)) {
 			persona.setDni(query);
 			System.out.println("Es DNI :3");
-		}else
-		{
+		} else {
 			persona.setNombres(query);
 			System.out.println("Es nombre :3");
 		}
-	}	
-	public void actualizar()
-	{
-		getCliente();opciones="S";
 	}
-	//-------------------------------------------------------------------------
-	
-	
-	//----------------------------Visita
-	
+
+	public void actualizar() {
+		getCliente();
+		opciones = "S";
+	}
+
+	// -------------------------------------------------------------------------
+
+	// ----------------------------Visita
+
 	@SuppressWarnings("unchecked")
-	public void registrarSintoma()
-	{
-		List<Sintoma> s ;
+	public void registrarSintoma() {
+		List<Sintoma> s;
 		SintomaVisita sinvis;
 		FacesContext fc = FacesContext.getCurrentInstance();
-		s=((List<Sintoma>) fc.getExternalContext().getSessionMap().get("listaSintoma"));
-		
-		
-		for(int i=0;i<s.size();i++)
-		{
-			sinvis= new SintomaVisita();
+		s = ((List<Sintoma>) fc.getExternalContext().getSessionMap()
+				.get("listaSintoma"));
+
+		for (int i = 0; i < s.size(); i++) {
+			sinvis = new SintomaVisita();
 			sinvis.setSxvVisita(visita);
 			sinvis.setSxvSintoma(s.get(i));
 			terapiaService.saveSintomaVisita(sinvis);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public void registrarEnfermedad()
-	{
-		List<Enfermedad> e ;
+	public void registrarEnfermedad() {
+		List<Enfermedad> e;
 		EnfermedadVisita enfvis;
 		FacesContext fc = FacesContext.getCurrentInstance();
-		e = ((List<Enfermedad>) fc.getExternalContext().getSessionMap().get("listaEnfermedad")) ;
-		System.out.println("Listan de Enfermedades : "+e.size());
-		for(int j=0;j<e.size();j++)
-		{
-			enfvis= new EnfermedadVisita();
+		e = ((List<Enfermedad>) fc.getExternalContext().getSessionMap()
+				.get("listaEnfermedad"));
+		System.out.println("Listan de Enfermedades : " + e.size());
+		for (int j = 0; j < e.size(); j++) {
+			enfvis = new EnfermedadVisita();
 			enfvis.setExvVisita(visita);
 			enfvis.setExvEnfermedad(e.get(j));
 			terapiaService.saveEnfermedadVisita(enfvis);
 		}
-		
+
 	}
 
-	public void registrarVisitaPrincipal()
-	{   
+	public void registrarVisitaPrincipal() {
 		RequestContext context = RequestContext.getCurrentInstance();
 
-		//cliente =clienteService.lastClient();
-		Visita vis =visitaService.buscarVisita(cliente);
-		if(vis==null)
-		{
-			
+		// cliente =clienteService.lastClient();
+		Visita vis = visitaService.buscarVisita(cliente);
+		if (vis == null) {
+
 			registrarVisita();
-			visita =visitaService.getLastVisitaCliente(cliente);
+			visita = visitaService.getLastVisitaCliente(cliente);
 			historiaClinica.setHclVisita(visita);
 			historiaClinicaService.saveHistoriaClinica(historiaClinica);
-			
+
 			registrarSintoma();
 			registrarEnfermedad();
 			NuevoRegistro();
-		}else
-		{
-			visita=vis;
+		} else {
+			visita = vis;
 			NuevoRegistro();
-			//addTerapia();
+			// addTerapia();
 		}
 		context.execute("PF('dlgHEA').hide();");
 	}
-	//------------- Registra Terapia
+
+	// ------------- Registra Terapia
 	public void registrarTerapias()
-	
-	{   
+
+	{
 		RequestContext context = RequestContext.getCurrentInstance();
-		Visita vis =visitaService.buscarVisita(cliente);
-		if(vis==null)
-		{
-			
+		Visita vis = visitaService.buscarVisita(cliente);
+		if (vis == null) {
+
 			registrarVisita();
-			visita =visitaService.getLastVisitaCliente(cliente);
+			visita = visitaService.getLastVisitaCliente(cliente);
 			historiaClinica.setHclVisita(visita);
 			historiaClinicaService.saveHistoriaClinica(historiaClinica);
 			addTerapia();
 			NuevoRegistro();
 			Limpiarnpar();
-			
-		}else
-		{
-			visita=vis;	
+
+		} else {
+			visita = vis;
 			addTerapia();
 			NuevoRegistro();
 		}
 		context.execute("PF('dlgT').hide();");
-		
+
 	}
-	
-	
-	
-	
-	
+
 	// Métod para registrar la visita del cliente.
 	public void registrarVisita() {
-		
+
 		// Asigna datos a la visita
 		visita.setEsPresencial(true);
 		visita.setPrioridad(2);
@@ -446,19 +419,19 @@ public class PrincipalBean implements Serializable {
 		// Guarda la visita en la base de datos
 		if (visitaService.saveVisita(visita)) {
 			// Carga las terapias de la visita que se abrió
-			//terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
-			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la visita");
+			// terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+			StaticUtil.correctMesage("Éxito",
+					"Se ha registrado correctamente la visita");
 			StaticUtil.keepMessages();
-			
+
 			// Redirección
-			//return "gestionVisita?faces-redirect=true";
+			// return "gestionVisita?faces-redirect=true";
 		} else {
-			//return null;
+			// return null;
 		}
 	}
-	
-	
-	//----------------------------------Terapias----------------------------
+
+	// ----------------------------------Terapias----------------------------
 	public void addTerapia() {
 		RequestContext context = RequestContext.getCurrentInstance();
 		// Se carga el tipoterapia segun la seleccion del combobox
@@ -469,56 +442,57 @@ public class PrincipalBean implements Serializable {
 		terapia.setTerVisita(visita);
 		// Se guarda la terapia en la base de datos
 		if (terapiaService.saveTerapia(terapia)) {
-			//Se añade el costo de la terapia a la visita
-			visita.setCostoTotal(visita.getCostoTotal()+terapia.getTerTipoTerapia().getCosto());
+			// Se añade el costo de la terapia a la visita
+			visita.setCostoTotal(visita.getCostoTotal()
+					+ terapia.getTerTipoTerapia().getCosto());
 			visitaService.updateVisita(visita);
 			// Se limpian los datos guardados
-			
-			//Se añade los pares
-			TerapiaPar tp ;
-			for(int i=0;i<result.size();i++)
-			{
-				//paresSeleccionados
-			 tp = new TerapiaPar();
+
+			// Se añade los pares
+			TerapiaPar tp;
+			for (int i = 0; i < result.size(); i++) {
+				// paresSeleccionados
+				tp = new TerapiaPar();
 				tp.setTxpTerapia(terapia);
 				tp.setTxpPar(result.get(i));
 				terapiaService.saveTerapiaPar(tp);
 				tp = new TerapiaPar();
 			}
-			
-			
-			
+
 			tipoTerapia = new TipoTerapia();
 			terapia = new Terapia();
 			idTipoTerapia = null;
 			tipoTerapia = new TipoTerapia();
-			StaticUtil.correctMesage("Exito", "Se agregó correctamente la terapia");
+			StaticUtil.correctMesage("Exito",
+					"Se agregó correctamente la terapia");
 			StaticUtil.keepMessages();
 			context.execute("PF('dlgT').hide();");
 			// Se cargan las terapias de la visita (añadiendo la actual)
-			//terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+			// terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
 			// Redireccion
-		
+
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al agregar");
 
 		}
 	}
 
-	//----------------------------------Historial Clinico
+	// ----------------------------------Historial Clinico
 	public void nuevaHistoria() {
 		// Se guarda la nueva historia clínica en la base de datos
 		if (historiaClinicaService.saveHistoriaClinica(historiaClinica)) {
-			StaticUtil.correctMesage("Éxito", "Se han guardado los datos médicos");
+			StaticUtil.correctMesage("Éxito",
+					"Se han guardado los datos médicos");
 			StaticUtil.keepMessages();
 			// Redirección
-			//return "pm:gestionVisita";
+			// return "pm:gestionVisita";
 		} else {
-			StaticUtil.errorMessage("Error", "Hubo un error al guardar los datos");
-			//return null;
+			StaticUtil.errorMessage("Error",
+					"Hubo un error al guardar los datos");
+			// return null;
 		}
 	}
-	
+
 	public List<Terapia> getTerapiasDeVisita() {
 		return terapiasDeVisita;
 	}
@@ -526,31 +500,28 @@ public class PrincipalBean implements Serializable {
 	public void setTerapiasDeVisita(List<Terapia> terapiasDeVisita) {
 		this.terapiasDeVisita = terapiasDeVisita;
 	}
-	
-	public void Prueba()
-	{
-		System.out.println("Lista : "+terapiaService.terapiasPorCliente(cliente).size());
-	}
-	
-	public void ADD()
-	{//System.out.println("ID : ");
-		//re
-		System.out.println("ID : "+clienteService.lastClient().getIdCliente());
+
+	public void Prueba() {
+		System.out.println("Lista : "
+				+ terapiaService.terapiasPorCliente(cliente).size());
 	}
 
-	
-	public void insertarPar(Integer idpar)
-	{
-		
-		par= parService.parById(idpar);
-		
+	public void ADD() {// System.out.println("ID : ");
+						// re
+		System.out
+				.println("ID : " + clienteService.lastClient().getIdCliente());
+	}
+
+	public void insertarPar(Integer idpar) {
+
+		par = parService.parById(idpar);
+
 		result.add(par);
-		npar=result;
-		
+		npar = result;
+
 		System.out.println(npar.size());
 	}
-	
-	
+
 	public Par getPar() {
 		return par;
 	}
@@ -566,45 +537,46 @@ public class PrincipalBean implements Serializable {
 	public void setNpar(List<Par> npar) {
 		this.npar = npar;
 	}
-	
-    public List<Par> getParcito() {
-        return parcito;
-    }
 
-    public void setParcito(List<Par> parcito) {
-        this.parcito = parcito;
-    }
-    
-	public void buscar(int p1)
-	{
+	public List<Par> getParcito() {
+		return parcito;
+	}
+
+	public void setParcito(List<Par> parcito) {
+		this.parcito = parcito;
+	}
+
+	public void buscar(int p1) {
 		Punto p = new Punto();
 		p.setIdPunto(p1);
-		idPunto=p1;
-		parcito=parService.paresByPunto(p);
-		System.out.println("Lista : "+parcito.size());
+		idPunto = p1;
+		parcito = parService.paresByPunto(p);
+		System.out.println("Lista : " + parcito.size());
 	}
-	public void actualizarListaPar(){
+
+	public void actualizarListaPar() {
 		Punto p = new Punto();
 		p.setIdPunto(idPunto);
-		parcito=parService.paresByPunto(p);
-		System.out.println("Cant. : "+getParcito().size());
+		parcito = parService.paresByPunto(p);
+		System.out.println("Cant. : " + getParcito().size());
 	}
+
 	public boolean shouldBeRendered(int idPar) {
 		for (Par par : result) {
 			if (par.getIdPar() == idPar) {
-				//Si el id del Par ya esta entre los pares seleccionados el botón no es renderizado.
+				// Si el id del Par ya esta entre los pares seleccionados el
+				// botón no es renderizado.
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	public void actualizando()
-	{
+
+	public void actualizando() {
 		System.out.println("Probando...");
 	}
-	/*public void prueba()
-	{System.out.println("Probando");
-		//System.out.println("¿Número? "+StaticUtil.esSoloNumero(query));
-	}*/
+	/*
+	 * public void prueba() {System.out.println("Probando");
+	 * //System.out.println("¿Número? "+StaticUtil.esSoloNumero(query)); }
+	 */
 }

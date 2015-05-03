@@ -14,25 +14,25 @@ body {
 }
 #Content
 {
-    border: 1px solid blue;
+    border: 1px solid gray;
     height:500px;
     width:1010px;
 }
 #Footer
 {
-    border:1px solid black;
+    border:1px solid gray;
     height:100px;
     width:1010px;
 }
 #Left
 {
-    border:1px solid green;
+    border:1px solid gray;
     height:500px;
     width:200px;
 }
 #Top
 {
-    border:1px solid red;
+    border:1px solid gray;
     height:100px;
     width:1010px
 }
