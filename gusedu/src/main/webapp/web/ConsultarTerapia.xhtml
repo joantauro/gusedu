@@ -12,7 +12,13 @@
 							emptyMessage="No se han registrado terapias"
 							rowKey="#{ter.idTerapia}" paginator="true" rows="5"
 							tableStyleClass="ui-table-columntoggle">
-
+							
+<p:ajax event="rowToggle" listener="#{terapiaBean.ListarPares(ter.idTerapia)}" 
+			 update=":#{p:component('tablaParT')}" />
+			 <p:column style="width:8px;" >
+					<p:rowToggler />
+					
+			</p:column>
 							<p:column headerText="Fec. Relizada"
 								style="vertical-align:middle;">
 								<h:outputText value="#{ter.fechaRealizada}">
@@ -36,6 +42,21 @@
 								<p:commandButton icon="ui-icon-eye" rendered="#{ter.terTipoTerapia.idTipoTerapia eq 1 or ter.terTipoTerapia.idTipoTerapia eq 2}"
 									action="#{terapiaBean.cargarTerapiaEspecifica(ter.idTerapia)}" />
 							</p:column>
+							
+		       <p:rowExpansion>
+					<p:dataTable emptyMessage="No hay pares" style="width:350px;"
+						id="tablaParT" value="#{terapiaBean.paresSeleccionados}" var="parp">
+						<f:facet name="header">
+        					Lista de Pares de la Terapia
+    					</f:facet>
+						<p:column headerText="Punto 1">
+							<p:outputLabel value="#{parp.parPunto1.nombre}" />
+						</p:column>
+						<p:column headerText="Punto 2">
+							<p:outputLabel value="#{parp.parPunto2.nombre}" />
+						</p:column>
+					</p:dataTable>
+				</p:rowExpansion>
 						</p:dataTable>
 
 </ui:composition>

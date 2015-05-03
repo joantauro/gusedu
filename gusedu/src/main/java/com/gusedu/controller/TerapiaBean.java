@@ -309,6 +309,14 @@ public class TerapiaBean implements Serializable{
 		return "gestionTerapiaDetalle?faces-redirect=true";
 	}
 
+	public void ListarPares(int idTerapia)
+	{
+		Terapia t = new Terapia();
+		t.setIdTerapia(idTerapia);
+		paresSeleccionados=terapiaService.getTerapiaParesFromTerapia(t);
+		System.out.println("Cantidad : "+paresSeleccionados.size());
+	}
+	
 	//Método para obtener la lista de pares sugeridos según las enfermedades y sintomas de la terapia.
 	public List<Par> getSugeridos() {
 		//Crea una nueva lista para guardar los pares sugeridos.
