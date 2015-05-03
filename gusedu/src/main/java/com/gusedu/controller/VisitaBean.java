@@ -7,15 +7,19 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Cliente;
+import com.gusedu.model.Enfermedad;
+import com.gusedu.model.EnfermedadVisita;
 import com.gusedu.model.HistoriaClinica;
 import com.gusedu.model.Producto;
 import com.gusedu.model.ProductoVisita;
 import com.gusedu.model.Sintoma;
+import com.gusedu.model.SintomaVisita;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TipoTerapia;
 import com.gusedu.model.Visita;
@@ -73,6 +77,11 @@ public class VisitaBean implements Serializable{
 
 	private List<ProductoVisita> lista;
 	
+	private boolean valor;
+	
+	
+	
+	
 	public VisitaBean() {
 		cliente = new Cliente();
 		visita = new Visita();
@@ -80,6 +89,7 @@ public class VisitaBean implements Serializable{
 		tipoTerapia = new TipoTerapia();
 		historiaClinica = new HistoriaClinica();
 		query = ""; lista = new ArrayList<>();
+		valor=false;
 	}
 
 	public Cliente getCliente() {
@@ -278,9 +288,72 @@ public class VisitaBean implements Serializable{
 		visitasPaciente = visitaService.getVisitasCliente(cliente);
 		return "pm:registroVisita2?transition=flip";
 	}
-	
-	
+	//-----------------------------------------------------------
+	public void cargarPaciente2(int idCliente)
+	{
+		NuevaVisita();
+		cliente = clienteService.getClienteById(idCliente);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.getExternalContext().getSessionMap().put("cliente", cliente);
+	}
+	public void registrarVisita2() {
+		// Asigna datos a la visita
+		visita.setEsPresencial(true);
+		visita.setPrioridad(2);
+		visita.setEstado(1);
+		visita.setVisCliente(cliente);
+		visita.setCostoTotal(0.0);
+		Date fechaActual = StaticUtil.getFechaActual();
+		visita.setFechaCreacion(fechaActual);
+		// Guarda la visita en la base de datos
+		if (visitaService.saveVisita(visita)) {
+			// Carga las terapias de la visita que se abrió
+			//terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la visita");
+			StaticUtil.keepMessages();
+			
+			Visita vis=visitaService.getLastVisitaCliente(cliente);
+			FacesContext fc = FacesContext.getCurrentInstance();
+			fc.getExternalContext().getSessionMap().put("visita", vis);
+			//fc.getExternalContext().getSessionMap().put("cliente", cliente);
+			clearEntities(); 
+			
 
+			// Redirección
+			//RequestContext context = RequestContext.getCurrentInstance();
+			//context.execute("PF('dlgVi').show();");
+		}
+	}
+
+	
+	public void validador()
+	{	
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Cliente cli =((Cliente) fc.getExternalContext().getSessionMap()
+				.get("cliente"));
+		Visita vis =visitaService.buscarVisita(cli);
+ 
+		if(vis==null)
+		{
+			registrarVisita2();
+			preNuevaHistoria2();
+		}else
+		{
+			StaticUtil.errorMessage("Error", "Ya se registro una visita el día de hoy");
+			StaticUtil.keepMessages();
+		}
+	}
+	
+	public void ultimavisita()
+	{
+		//FacesContext fc = FacesContext.getCurrentInstance();
+		//fc.getExternalContext().getSessionMap().get("visita");
+		visita=visitaService.getLastVisitaCliente(cliente);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.getExternalContext().getSessionMap().put("visita", visita);
+		preNuevaHistoria2();
+	}
+	//--------------------------------------------------------------------------------
 	// Métod para registrar la visita del cliente.
 	public String registrarVisita() {
 		// Asigna datos a la visita
@@ -338,6 +411,23 @@ public class VisitaBean implements Serializable{
 		// Redireccion
 		return "pm:historiaClinica";
 	}
+	
+	public void preNuevaHistoria2() {
+		// Verifica si a la visita ya se le asignó una historia clínica
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis= ((Visita) fc.getExternalContext().getSessionMap().get("visita"));
+		if (historiaClinicaService.getHistoriaByVisita(vis) == null) {
+			// Si no se le asignó, se crea una nueva
+			historiaClinica = new HistoriaClinica();
+			// Se obtiene la última visita creada del cliente en consulta
+			//visita = visitaService.getLastVisitaCliente(vis.getVisCliente());
+			// Se asigna la nueva historia clínica a la visita
+			historiaClinica.setHclVisita(vis);
+		} else {
+			// En caso ya exista una, se obtiene de la base de datos
+			historiaClinica = historiaClinicaService.getHistoriaByVisita(visita);
+		}
+	}
 
 	// Método para crear una nueva historia clínica
 	public String nuevaHistoria() {
@@ -350,6 +440,23 @@ public class VisitaBean implements Serializable{
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al guardar los datos");
 			return null;
+		}
+	}
+	public void nuevaHistoria2() {
+		// Se guarda la nueva historia clínica en la base de datos
+		if (historiaClinicaService.saveHistoriaClinica(historiaClinica)) {
+			registrarSintoma();
+			registrarEnfermedad();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlgHEA').hide();");
+			clearEntities();
+			StaticUtil.correctMesage("Éxito", "Se han guardado los datos médicos");
+			StaticUtil.keepMessages();
+			// Redirección
+			
+		} else {
+			StaticUtil.errorMessage("Error", "Hubo un error al guardar los datos");
+			
 		}
 	}
 
@@ -485,9 +592,13 @@ public class VisitaBean implements Serializable{
 	// Método para limpiar algunas entidades usadas en el bean
 	public void clearEntities() {
 		cliente = new Cliente();
-		terapia = new Terapia();
 		visita = new Visita();
-		query = "";
+		terapia = new Terapia();
+		tipoTerapia = new TipoTerapia();
+		historiaClinica = new HistoriaClinica();
+		query = ""; 
+		lista = new ArrayList<>();
+		valor=false;
 	}
 	
 	public String finalizarVisita(){
@@ -521,5 +632,63 @@ public class VisitaBean implements Serializable{
 
 
 		System.out.println("Cantidad : "+lista.size());
+	}
+
+	public boolean isValor() {
+		return valor;
+	}
+
+	public void setValor(boolean valor) {
+		this.valor = valor;
+	}
+	
+	public void NuevaVisita()
+	{
+		if(valor)
+		{
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlgVi').show();");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void registrarSintoma() {
+		List<Sintoma> s;
+		SintomaVisita sinvis;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		s = ((List<Sintoma>) fc.getExternalContext().getSessionMap()
+				.get("listaSintoma"));
+		if(s!=null)
+		{
+			for (int i = 0; i < s.size(); i++) {
+				sinvis = new SintomaVisita();
+				sinvis.setSxvVisita(visita);
+				sinvis.setSxvSintoma(s.get(i));
+				terapiaService.saveSintomaVisita(sinvis);
+			}
+		}
+		 
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public void registrarEnfermedad() {
+		List<Enfermedad> e;
+		EnfermedadVisita enfvis;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		e = ((List<Enfermedad>) fc.getExternalContext().getSessionMap()
+				.get("listaEnfermedad"));
+		//System.out.println("Listan de Enfermedades : " + e.size());
+		if(e!=null)
+		{
+			for (int j = 0; j < e.size(); j++) {
+				enfvis = new EnfermedadVisita();
+				enfvis.setExvVisita(visita);
+				enfvis.setExvEnfermedad(e.get(j));
+				terapiaService.saveEnfermedadVisita(enfvis);
+			}
+		}
+		
+
 	}
 }

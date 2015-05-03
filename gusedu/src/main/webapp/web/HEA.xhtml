@@ -21,11 +21,11 @@
 
 				<p:outputLabel for="inputPeso" value="Peso: " />
 				<p:inputText id="inputPeso"
-					value="#{principalBean.historiaClinica.peso}" />
+					value="#{visitaBean.historiaClinica.peso}" />
 
 				<p:outputLabel for="inputTalla" value="Talla:" />
 				<p:inputText id="inputTalla"
-					value="#{principalBean.historiaClinica.talla}" />
+					value="#{visitaBean.historiaClinica.talla}" />
 
 				<p:outputLabel for="inputIMC" value="IMC:" />
 				<p:inputText id="inputIMC" />
@@ -93,7 +93,7 @@
 
 
 		<p:commandButton value="Registrar"
-			action="#{principalBean.registrarVisitaPrincipal}"
+			action="#{visitaBean.nuevaHistoria2}"
 			update=":#{p:component('tablaPac')}" />
 	</h:form>
 </ui:composition>

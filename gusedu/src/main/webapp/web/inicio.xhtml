@@ -39,6 +39,11 @@
 		<h:form id="formulario">
 			<p:dataTable id="tablaPac" var="pac" value="#{pacienteBean.clientes}"
 				paginator="true" rows="10">
+				<p:column width="5%">
+					<p:selectBooleanCheckbox value="#{visitaBean.valor}">
+						<p:ajax  listener="#{visitaBean.cargarPaciente2(pac.idCliente)}" />
+					</p:selectBooleanCheckbox>
+				</p:column>
 				<p:column headerText="DNI" width="10%;">
 					<h:outputText value="#{pac.cliPersona.dni}" />
 				</p:column>
@@ -60,21 +65,38 @@
 				</p:column>
 
 				<p:column headerText="Opciones">
-					<p:selectOneMenu value="#{principalBean.opciones}">
+					<p:selectOneMenu id="selectoption" value="#{principalBean.opciones}">
 						<f:selectItem itemLabel="Seleccione" itemValue="S" />
-						<f:selectItem itemLabel="Venta de Productos" itemValue="P" />
-						<f:selectItem itemLabel="Terapias" itemValue="T" />
-						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
-						<f:selectItem itemLabel="Historial de Visitas" itemValue="HV" />
 						<f:selectItem itemLabel="Datos Medicos" itemValue="DM" />
+						<f:selectItem itemLabel="Terapias" itemValue="T" />
+						<f:selectItem itemLabel="Venta de Productos" itemValue="P" />
+						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
+						<f:selectItem itemLabel="Historial de Visitas" itemValue="HV" />				
 						<p:ajax event="change"
-							update=":dialogDatosClinicos,:dialogTerapia"
+							update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA"
 							listener="#{principalBean.preDatosClinicosPaciente2(pac.idCliente)}" />
 					</p:selectOneMenu>
 				</p:column>
 
 			</p:dataTable>
 		</h:form>
+
+		<h:form>
+			<p:dialog id="dialogVisita" header="Visitas" widgetVar="dlgVi"
+				showEffect="pop" modal="true">
+				<p:outputLabel value="Elija una opción para gestionar visitas" />
+				<br/>
+				<p:panelGrid>
+					<p:commandButton value="Registrar nueva visita"
+					 action="#{visitaBean.validador}" oncomplete="PF('dlgVi').hide();" />
+					<p:commandButton value="Usar última visita registrada" 
+					action="#{visitaBean.ultimavisita}"
+					onclick="PF('dlgVi').hide();" />
+				</p:panelGrid>
+				</p:dialog>
+		</h:form>
+
+
 		<h:form>
 			<p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
 				showEffect="pop" modal="true">
@@ -107,12 +129,15 @@
 
 
 
-		<h:form>
+		
 			<p:dialog id="dialogHEA" header="Historia" widgetVar="dlgHEA"
 				showEffect="pop" modal="true" width="850px" height="500px">
+				<h:form>
 				<ui:include src="HEA.xhtml" />
+				</h:form>
+				
 			</p:dialog>
-		</h:form>
+		
 
 		<h:form>
 			<p:dialog id="dialogProducto" header="Productos" widgetVar="dlgP"

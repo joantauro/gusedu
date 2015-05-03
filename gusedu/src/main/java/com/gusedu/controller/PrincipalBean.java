@@ -2,7 +2,6 @@ package com.gusedu.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -18,7 +17,6 @@ import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadVisita;
 import com.gusedu.model.HistoriaClinica;
 import com.gusedu.model.Par;
-import com.gusedu.model.Persona;
 import com.gusedu.model.Producto;
 import com.gusedu.model.Punto;
 import com.gusedu.model.Sintoma;
@@ -61,7 +59,7 @@ public class PrincipalBean implements Serializable {
 
 	private boolean skip;// valor del wizard
 
-	private Persona persona;
+	//private Persona persona;
 
 	private Cliente cliente;
 	private List<Cliente> clientes;
@@ -87,7 +85,7 @@ public class PrincipalBean implements Serializable {
 	public int idPunto;
 
 	public PrincipalBean() {
-		persona = new Persona();
+		 
 		par = new Par();
 
 		visita = new Visita();
@@ -105,7 +103,7 @@ public class PrincipalBean implements Serializable {
 	}
 
 	public void NuevoRegistro() {
-		persona = new Persona();
+		 
 
 		visita = new Visita();
 		visita.setVisCliente(new Cliente());
@@ -219,14 +217,6 @@ public class PrincipalBean implements Serializable {
 		this.idTipoTerapia = idTipoTerapia;
 	}
 
-	public Persona getPersona() {
-		return persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
-
 	public boolean isSkip() {
 		return skip;
 	}
@@ -242,23 +232,6 @@ public class PrincipalBean implements Serializable {
 		} else {
 			System.out.println("Siguiente : " + event.getNewStep());
 			return event.getNewStep();
-		}
-	}
-
-	// -------------------Registro de Datos de Persona
-	public void registroPacienteV2() {
-		String empresa = StaticUtil.userLogged();
-
-		// Guarda la persona en la base de datos
-		if (personaService.registroPaciente(persona, empresa)) {
-			registrarVisitaPrincipal();
-			// Crea nuevamente la instancia de persona
-
-			// NuevoRegistro();
-			// actualizar();
-
-		} else {
-			// return null;
 		}
 	}
 
@@ -306,13 +279,6 @@ public class PrincipalBean implements Serializable {
 			}
 		}
 		clientes = filtrados;
-		if (StaticUtil.esSoloNumero(query)) {
-			persona.setDni(query);
-			System.out.println("Es DNI :3");
-		} else {
-			persona.setNombres(query);
-			System.out.println("Es nombre :3");
-		}
 	}
 
 	public void actualizar() {
@@ -364,7 +330,7 @@ public class PrincipalBean implements Serializable {
 		Visita vis = visitaService.buscarVisita(cliente);
 		if (vis == null) {
 
-			registrarVisita();
+			//registrarVisita();
 			visita = visitaService.getLastVisitaCliente(cliente);
 			historiaClinica.setHclVisita(visita);
 			historiaClinicaService.saveHistoriaClinica(historiaClinica);
@@ -388,7 +354,7 @@ public class PrincipalBean implements Serializable {
 		Visita vis = visitaService.buscarVisita(cliente);
 		if (vis == null) {
 
-			registrarVisita();
+		//	registrarVisita();
 			visita = visitaService.getLastVisitaCliente(cliente);
 			historiaClinica.setHclVisita(visita);
 			historiaClinicaService.saveHistoriaClinica(historiaClinica);
@@ -406,7 +372,7 @@ public class PrincipalBean implements Serializable {
 	}
 
 	// Métod para registrar la visita del cliente.
-	public void registrarVisita() {
+	/*public void registrarVisita() {
 
 		// Asigna datos a la visita
 		visita.setEsPresencial(true);
@@ -429,7 +395,7 @@ public class PrincipalBean implements Serializable {
 		} else {
 			// return null;
 		}
-	}
+	}*/
 
 	// ----------------------------------Terapias----------------------------
 	public void addTerapia() {
