@@ -180,5 +180,8 @@ public class StaticUtil {
 		{
 			context.execute("PF('dlgHEA').show();");
 		}
+		if(opcion.equals("HV")){
+			context.execute("PF('dlgHV').show();");
+		}
 	}
 }

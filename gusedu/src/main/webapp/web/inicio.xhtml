@@ -73,7 +73,7 @@
 						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
 						<f:selectItem itemLabel="Historial de Visitas" itemValue="HV" />				
 						<p:ajax event="change"
-							update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA"
+							update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA,:dialogHistorialVisitas"
 							listener="#{principalBean.preDatosClinicosPaciente2(pac.idCliente)}" />
 					</p:selectOneMenu>
 				</p:column>
@@ -111,6 +111,14 @@
 			widgetVar="dlgDC" showEffect="pop" modal="true">
 			<h:form>
 				<ui:include src="datosClinicos.xhtml" />
+
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog id="dialogHistorialVisitas" header="Historial de Visitas"
+			widgetVar="dlgHV" showEffect="pop" modal="true">
+			<h:form>
+				<ui:include src="historialVisitas.xhtml" />
 
 			</h:form>
 		</p:dialog>

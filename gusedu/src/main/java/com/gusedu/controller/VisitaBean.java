@@ -143,7 +143,7 @@ public class VisitaBean implements Serializable{
 		this.idTipoTerapia = idTipoTerapia;
 	}
 
-	public List<Visita> getVisitasPaciente() {
+	public List<Visita> getVisitasPaciente() {		
 		return visitasPaciente;
 	}
 
@@ -304,7 +304,8 @@ public class VisitaBean implements Serializable{
 		NuevaVisita();
 		cliente = clienteService.getClienteById(idCliente);
 		FacesContext fc = FacesContext.getCurrentInstance();
-		fc.getExternalContext().getSessionMap().put("cliente", cliente);
+		visitasPaciente = visitaService.getVisitasCliente(cliente);
+		fc.getExternalContext().getSessionMap().put("cliente", cliente);		
 	}
 	public void registrarVisita2() {
 		// Asigna datos a la visita
