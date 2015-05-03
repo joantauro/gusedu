@@ -79,10 +79,12 @@ public class VisitaBean implements Serializable{
 	
 	private boolean valor;
 	
+	private Integer mostrarFormProducto;
 	
 	
 	
 	public VisitaBean() {
+		mostrarFormProducto = -1;
 		cliente = new Cliente();
 		visita = new Visita();
 		terapia = new Terapia();
@@ -90,6 +92,14 @@ public class VisitaBean implements Serializable{
 		historiaClinica = new HistoriaClinica();
 		query = ""; lista = new ArrayList<>();
 		valor=false;
+	}
+
+	public Integer getMostrarFormProducto() {
+		return mostrarFormProducto;
+	}
+
+	public void setMostrarFormProducto(Integer mostrarFormProducto) {
+		this.mostrarFormProducto = mostrarFormProducto;
 	}
 
 	public Cliente getCliente() {
@@ -507,6 +517,24 @@ public class VisitaBean implements Serializable{
 			System.out.print("Error, no se ha insertado un número");
 		}
 	}
+	
+	public void preAddProductoWeb(Integer idProducto){
+		producto = productoService.getProductoById(idProducto);
+		mostrarFormProducto = 1;
+	}
+	
+	public void calculaCostoParcialWeb(Integer idProducto) {
+		producto = productoService.getProductoById(idProducto);
+		try {
+			if (cantidadProducto > 0) {
+				costoParcial = cantidadProducto * (producto.getCostoUnitario());
+			} else {
+				costoParcial = 0.0;
+			}
+		} catch (NumberFormatException ex) {
+			System.out.print("Error, no se ha insertado un número");
+		}
+	}
 
 	// Método para agregar el ProductoVisita
 	public String addProductoToVisita() {
@@ -527,7 +555,7 @@ public class VisitaBean implements Serializable{
 			visita.setCostoTotal(visita.getCostoTotal()+toAdd.getCostoParcial());
 			visitaService.updateVisita(visita);
 			//Limpiar los datos ingresados
-			costoParcial = 0.0; cantidadProducto = 0.0;
+			costoParcial = 0.0; cantidadProducto = 0.0;			
 		} else {
 			return null;
 		}
@@ -535,6 +563,33 @@ public class VisitaBean implements Serializable{
 		return "gestionVisita";
 	}
 
+	public void addProductoToVisitaWeb() {
+		if(cantidadProducto<=0){
+			return;
+		}
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis = ((Visita) fc.getExternalContext().getSessionMap().get("visita"));
+		ProductoVisita toAdd = new ProductoVisita();
+		toAdd.setCantidad(cantidadProducto);
+		toAdd.setCostoParcial(costoParcial);
+		toAdd.setPxvProducto(producto);
+		toAdd.setPxvVisita(vis);		
+		if (productoService.saveProductoVisita(toAdd)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el producto");
+			//Actualizar el stock de existencias de producto
+			producto.setExistencias(producto.getExistencias()-cantidadProducto);
+			productoService.updateProducto(producto);
+			//Actualizar el costo total de la visita
+			vis.setCostoTotal(vis.getCostoTotal()+toAdd.getCostoParcial());
+			visitaService.updateVisita(vis);
+			//Limpiar los datos ingresados
+			costoParcial = 0.0; cantidadProducto = 0.0;
+			mostrarFormProducto = -1;
+		} else {
+			System.out.println("ERROR, DEBUGEAR.");
+		}				
+	}
+	
 	// Método que filtra los productos según nombre
 	public void filtrarProductos() {
 		// Obtener todos los productos
@@ -629,9 +684,12 @@ public class VisitaBean implements Serializable{
 		toAdd.setPxvProducto(producto);
 		toAdd.setPxvVisita(vis);	
 		lista.add(toAdd);
-
-
-		System.out.println("Cantidad : "+lista.size());
+		if(productoService.saveProductoVisita(toAdd)){
+			producto.setExistencias(producto.getExistencias()-toAdd.getCantidad());
+			productoService.updateProducto(producto);
+			vis.setCostoTotal(vis.getCostoTotal()+ (producto.getCostoUnitario()*toAdd.getCantidad()));
+			visitaService.updateVisita(vis);
+		}
 	}
 
 	public boolean isValor() {
