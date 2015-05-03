@@ -15,14 +15,14 @@
 	<ui:define name="top">
 	</ui:define>
 	<ui:define name="content">
-	
+		<div style="width: 98%; margin: auto auto auto auto;">
 		<h:form id="formNuevo">
 			<p:commandButton value="Listar" id="btnListar" style="display: none;"
 				action="#{principalBean.actualizar}"
 				update=":#{p:component('tablaPac')}" />
 		</h:form>
 
-		<h:form id="formBusqueda">
+		<h:form id="formBusqueda" style="text-align: center;">
 			<p:outputLabel value="Filtrar: " for="inpQuery" />
 			<p:inputText value="#{pacienteBean.query}" id="inpQuery"
 				style="width : 500px;">
@@ -41,7 +41,7 @@
 				paginator="true" rows="10">
 				<p:column width="5%">
 					<p:selectBooleanCheckbox value="#{visitaBean.valor}">
-						<p:ajax  listener="#{visitaBean.cargarPaciente2(pac.idCliente)}" />
+						<p:ajax listener="#{visitaBean.cargarPaciente2(pac.idCliente)}" />
 					</p:selectBooleanCheckbox>
 				</p:column>
 				<p:column headerText="DNI" width="10%;">
@@ -83,8 +83,10 @@
 
 		<h:form>
 			<p:dialog id="dialogVisita" header="Visitas" widgetVar="dlgVi"
-				showEffect="pop" modal="true">
+				showEffect="pop" modal="true" resizable="false">
+				<div style="text-align: center;">
 				<p:outputLabel value="Elija una opción para gestionar visitas" />
+				</div>
 				<br/>
 				<p:panelGrid>
 					<p:commandButton value="Registrar nueva visita"
@@ -145,7 +147,7 @@
 				<ui:include src="Producto.xhtml" />
 			</p:dialog>
 		</h:form>
-
+	</div>
 	</ui:define>
 
 	<ui:define name="bottom">

@@ -34,29 +34,30 @@
 		<p:fieldset legend="Sintomas y Enfermedades" toggleable="true"
 			toggleSpeed="500">
 			<p:panelGrid columns="6">
-				<p:outputLabel value="Agregar sintoma" for="autoSintoma" />
-				<p:autoComplete id="autoSintoma" queryDelay="100"
-					value="#{terapiaBean.sintoma}"
-					completeMethod="#{terapiaBean.autoCompletarSintoma}" var="sin"
-					itemLabel="#{sin.descripcion}" itemValue="#{sin}"
-					converter="#{sintomaConverter}" panelStyleClass="ui-themes">
-				</p:autoComplete>
-				<p:commandButton id="btnAgregar" value="Agregar"
-					action="#{terapiaBean.addSintoma2}"
-					update=":#{p:component('tablaSin')}" />
-
-
-				<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
-
-				<p:autoComplete id="autoEnfermedad" queryDelay="100"
-					value="#{terapiaBean.enfermedad}"
-					completeMethod="#{terapiaBean.autoCompletarEnfermedad}" var="enf"
-					itemLabel="#{enf.nombre}" itemValue="#{enf}"
-					converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
-				</p:autoComplete>
-				<p:commandButton id="btnAgregarEnf" value="Agregar"
-					action="#{terapiaBean.addEnfermedad2}"
-					update=":#{p:component('tablaEnf')}" />
+				<h:form>
+					<p:outputLabel value="Agregar sintoma" for="autoSintoma" />
+					<p:autoComplete id="autoSintoma" queryDelay="100"
+						value="#{terapiaBean.sintoma}" required="true"
+						completeMethod="#{terapiaBean.autoCompletarSintoma}" var="sin"
+						itemLabel="#{sin.descripcion}" itemValue="#{sin}"
+						converter="#{sintomaConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+					<p:commandButton id="btnAgregar" value="Agregar" process="@form"
+						action="#{terapiaBean.addSintoma2}"
+						update=":#{p:component('tablaSin')}, :#{p:component('autoSintoma')}" />
+				</h:form>
+				<h:form>
+					<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
+					<p:autoComplete id="autoEnfermedad" queryDelay="100"
+						value="#{terapiaBean.enfermedad}" required="true"
+						completeMethod="#{terapiaBean.autoCompletarEnfermedad}" var="enf"
+						itemLabel="#{enf.nombre}" itemValue="#{enf}"
+						converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+					<p:commandButton id="btnAgregarEnf" value="Agregar" process="@form"
+						action="#{terapiaBean.addEnfermedad2}"
+						update=":#{p:component('tablaEnf')}, :#{p:component('autoEnfermedad')}" />
+				</h:form>
 			</p:panelGrid>
 			<h:panelGrid columns="2" cellpadding="10" cellspacing="10">
 				<p:dataTable emptyMessage="No hay sintomas en la terapia"

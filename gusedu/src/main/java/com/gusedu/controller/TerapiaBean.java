@@ -455,17 +455,30 @@ public class TerapiaBean implements Serializable{
 
 	public void addSintoma2()
 	{
+		for(Sintoma s : listasintoma){
+			if(s.getIdSintoma() == sintoma.getIdSintoma()){
+				StaticUtil.errorMessage("Error", "El sintoma ya ha sido agregado");
+				return;
+			}
+		}
 		listasintoma.add(sintoma);
 		FacesContext fc = FacesContext.getCurrentInstance();
 		fc.getExternalContext().getSessionMap().put("listaSintoma", listasintoma);
+		sintoma = new Sintoma();
 
 	}
 
 	public void addEnfermedad2(){
+		for(Enfermedad e : listaenfermedad){
+			if(e.getIdEnfermedad() == enfermedad.getIdEnfermedad()){
+				StaticUtil.errorMessage("Error", "La enfermedad ya ha sido agregada");
+				return;
+			}
+		}
 		listaenfermedad.add(enfermedad);
 		FacesContext fc = FacesContext.getCurrentInstance();
 		fc.getExternalContext().getSessionMap().put("listaEnfermedad", listaenfermedad);
-		
+		enfermedad = new Enfermedad();		
 	}
 	public List<Enfermedad> getListaenfermedad() {
 		return listaenfermedad;

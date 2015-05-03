@@ -361,11 +361,12 @@ public class PrincipalBean implements Serializable {
 			addTerapia();
 			NuevoRegistro();
 			Limpiarnpar();
-
+			terapia = new Terapia();
 		} else {
 			visita = vis;
 			addTerapia();
 			NuevoRegistro();
+			terapia = new Terapia();			
 		}
 		context.execute("PF('dlgT').hide();");
 
