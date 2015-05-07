@@ -73,7 +73,7 @@ public class TerapiaServiceImpl implements TerapiaService {
 		List<Terapia> result = new ArrayList<>();
 		try {
 			Query q = em
-					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita=:visita");
+					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita=:visita order by t.fechaRealizada desc");
 			q.setParameter("visita", visita);
 			result = q.getResultList();
 		} catch (NoResultException e) {
@@ -180,7 +180,7 @@ public class TerapiaServiceImpl implements TerapiaService {
 		List<Terapia> result = new ArrayList<>();
 		try {
 			Query q = em
-					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita.visCliente=:cliente");
+					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita.visCliente=:cliente order by t.fechaRealizada desc");
 			q.setParameter("cliente", cliente);
 			result = q.getResultList();
 		} catch (NoResultException e) {
@@ -213,6 +213,72 @@ public class TerapiaServiceImpl implements TerapiaService {
 			resultado = false;
 		}
 		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SintomaVisita> getAllSintomaxVisita(Visita vis) {
+		List<SintomaVisita> result = new ArrayList<>();
+		try {
+			Query q = em
+					.createQuery("SELECT t FROM SintomaVisita t WHERE t.sxvVisita=:visita");
+			q.setParameter("visita", vis);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR de getAllSintomaxVisita: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<EnfermedadVisita> getAllEnfermedadxVisita(Visita vis) {
+		List<EnfermedadVisita> result = new ArrayList<>();
+		try {
+			Query q = em
+					.createQuery("SELECT t FROM EnfermedadVisita t WHERE t.exvVisita=:visita");
+			q.setParameter("visita", vis);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TerapiaPar> getAllTerapiaParbyTerapia(Terapia terapia) {
+		List<TerapiaPar> result = new ArrayList<>();
+		try {
+			Query q = em
+					.createQuery("SELECT t FROM TerapiaPar t WHERE t.txpTerapia=:terapia");
+			q.setParameter("terapia", terapia);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TerapiaPar> getAllTerapiaParbyVisita(Visita visita) {
+		List<TerapiaPar> result = new ArrayList<>();
+		try {
+			Terapia terapia= new Terapia();
+			terapia.setIdTerapia(0);
+			if(terapiasPorVisita(visita).size()!=0)
+			{
+				terapia=terapiasPorVisita(visita).get(0);
+			}
+			Query q = em
+					.createQuery("SELECT t FROM TerapiaPar t WHERE t.txpTerapia=:terapia ORDER BY t.txpTerapia.fechaRealizada DESC LIMIT 1");
+			q.setParameter("terapia", terapia);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
 	}
 
 }

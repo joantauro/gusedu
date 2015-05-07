@@ -8,7 +8,7 @@
 <ui:composition >
 <p:dataTable id="terapias" var="ter"
 							paginatorAlwaysVisible="false"
-							value="#{principalBean.terapiasDeVisita}"
+							value="#{visitaBean.terapiasDeVisita}"
 							emptyMessage="No se han registrado terapias"
 							rowKey="#{ter.idTerapia}" paginator="true" rows="5"
 							tableStyleClass="ui-table-columntoggle">
@@ -22,7 +22,7 @@
 							<p:column headerText="Fec. Relizada"
 								style="vertical-align:middle;">
 								<h:outputText value="#{ter.fechaRealizada}">
-									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"></f:convertDateTime>
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Tipo" style="vertical-align:middle;">

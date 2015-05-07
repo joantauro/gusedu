@@ -43,5 +43,13 @@ public interface TerapiaService {
 	
 	public boolean saveSintomaVisita(SintomaVisita sintomavista);
 	
+	public List<SintomaVisita> getAllSintomaxVisita(Visita vis);
+	
 	public boolean saveEnfermedadVisita(EnfermedadVisita enfermedadvista);
+	
+	public List<EnfermedadVisita> getAllEnfermedadxVisita(Visita vis);
+	
+	public List<TerapiaPar> getAllTerapiaParbyTerapia(Terapia terapia);
+	
+	public List<TerapiaPar> getAllTerapiaParbyVisita(Visita visita);
 }

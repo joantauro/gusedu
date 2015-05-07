@@ -28,7 +28,7 @@ public class VisitaServiceImpl implements VisitaService{
 			em.persist(visita);
 			resultado = true;
 		} catch (Exception e) {
-			System.out.println("ERROR: " + e.getMessage());
+			System.out.println("ERROR de saveVisita: " + e.getMessage());
 			resultado = false;
 		}
 		return resultado;
@@ -119,7 +119,27 @@ public class VisitaServiceImpl implements VisitaService{
 			result = (Visita) q.getSingleResult();
 
 		} catch (NoResultException e) {
-			System.out.println("ERROR: " + e.getMessage());
+			System.out.println("ERROR de buscaVisita: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Visita getLastVisitaCliente2(Cliente cliente) {
+		List<Visita> resultlist = new ArrayList<>();
+		Visita result = null;
+		try {
+			Query q = em.createQuery("SELECT v FROM Visita v WHERE v.visCliente=:cliente ORDER BY v.fechaCreacion DESC");
+			q.setParameter("cliente", cliente);
+			q.setMaxResults(2);
+			resultlist = q.getResultList();
+			if(resultlist.size()>1)
+			{
+				result=resultlist.get(1);
+			}
+		} catch (NoResultException e) {
+			System.out.println("ERROR de VisitaService: " + e.getMessage());
 		}
 		return result;
 	}

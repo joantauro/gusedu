@@ -54,6 +54,9 @@ public class Visita {
 	@OneToMany(mappedBy="pxvVisita")
 	private Collection<ProductoVisita> visProductoVisitas;
 	
+	@OneToMany(mappedBy="sxvVisita")
+	private Collection<SintomaVisita> visSintomaVisita;
+	
 	public Integer getIdVisita() {
 		return idVisita;
 	}
@@ -174,6 +177,14 @@ public class Visita {
 				+ esPresencial + ", estado=" + estado + ", prioridad="
 				+ prioridad + ", fechaCreacion=" + fechaCreacion
 				+ ", usuarioCreacion=" + usuarioCreacion + "]";
+	}
+
+	public Collection<SintomaVisita> getVisSintomaVisita() {
+		return visSintomaVisita;
+	}
+
+	public void setVisSintomaVisita(Collection<SintomaVisita> visSintomaVisita) {
+		this.visSintomaVisita = visSintomaVisita;
 	}
 
 	

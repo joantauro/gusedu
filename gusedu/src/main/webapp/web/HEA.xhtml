@@ -14,21 +14,29 @@
 			toggleable="true" toggleSpeed="500">
 			<p:panelGrid columns="6">
 				<p:outputLabel for="inputFC" value="FC: " />
-				<p:inputText id="inputFC" />
+				<p:inputText id="inputFC" value="#{visitaBean.historiaClinica.temperatura}" />
 
 				<p:outputLabel for="inputTA" value="T/A: " />
-				<p:inputText id="inputTA" />
+				<p:inputText id="inputTA" value="#{visitaBean.historiaClinica.tensionArterial}" />
 
 				<p:outputLabel for="inputPeso" value="Peso: " />
 				<p:inputText id="inputPeso"
-					value="#{visitaBean.historiaClinica.peso}" />
+					value="#{visitaBean.historiaClinica.peso}" >
+					<p:ajax event="keyup" update=":#{p:component('inputIMC')},:#{p:component('inputDescripcion')}" listener="#{visitaBean.calcularIMC}"  />
+					</p:inputText>
 
 				<p:outputLabel for="inputTalla" value="Talla:" />
 				<p:inputText id="inputTalla"
-					value="#{visitaBean.historiaClinica.talla}" />
+					value="#{visitaBean.historiaClinica.talla}" >
+					<p:ajax event="keyup" update=":#{p:component('inputIMC')},:#{p:component('inputDescripcion')}" listener="#{visitaBean.calcularIMC}" />
+				</p:inputText>
+					
 
 				<p:outputLabel for="inputIMC" value="IMC:" />
-				<p:inputText id="inputIMC" />
+				<p:outputLabel id="inputIMC" value="#{visitaBean.historiaClinica.imc}"  >
+					<f:convertNumber pattern="#,###,##0.00"/>
+				</p:outputLabel>
+				<p:outputLabel id="inputDescripcion" value="#{visitaBean.descripcionIMC}" ></p:outputLabel>
 			</p:panelGrid>
 		</p:fieldset>
 		<p:fieldset legend="Sintomas y Enfermedades" toggleable="true"
@@ -37,13 +45,13 @@
 				<h:form>
 					<p:outputLabel value="Agregar sintoma" for="autoSintoma" />
 					<p:autoComplete id="autoSintoma" queryDelay="100"
-						value="#{terapiaBean.sintoma}" required="true"
+						value="#{terapiaBean.sintoma}"  
 						completeMethod="#{terapiaBean.autoCompletarSintoma}" var="sin"
 						itemLabel="#{sin.descripcion}" itemValue="#{sin}"
 						converter="#{sintomaConverter}" panelStyleClass="ui-themes">
 					</p:autoComplete>
 					<p:commandButton id="btnAgregar" value="Agregar" process="@form"
-						action="#{terapiaBean.addSintoma2}"
+						action="#{terapiaBean.addSintoma3}"
 						update=":#{p:component('tablaSin')}, :#{p:component('autoSintoma')}" />
 				</h:form>
 				<h:form>
@@ -55,29 +63,29 @@
 						converter="#{enfermedadConverter}" panelStyleClass="ui-themes">
 					</p:autoComplete>
 					<p:commandButton id="btnAgregarEnf" value="Agregar" process="@form"
-						action="#{terapiaBean.addEnfermedad2}"
+						action="#{terapiaBean.addEnfermedad3}"
 						update=":#{p:component('tablaEnf')}, :#{p:component('autoEnfermedad')}" />
 				</h:form>
 			</p:panelGrid>
 			<h:panelGrid columns="2" cellpadding="10" cellspacing="10">
 				<p:dataTable emptyMessage="No hay sintomas en la terapia"
-					id="tablaSin" var="sxt" value="#{terapiaBean.listasintoma}"
+					id="tablaSin" var="sxt" value="#{terapiaBean.listasintomaxvisita}"
 					paginator="true" rows="3" style="width:350px;">
 					<f:facet name="header">
         							Sintomas del Paciente
     						</f:facet>
 					<p:column headerText="Nombre">
-						<p:outputLabel value="#{sxt.descripcion}" />
+						<p:outputLabel value="#{sxt.sxvSintoma.descripcion}" />
 					</p:column>
 				</p:dataTable>
 				<p:dataTable emptyMessage="No hay enfermedades en la terapia"
-					id="tablaEnf" var="enf" value="#{terapiaBean.listaenfermedad}"
+					id="tablaEnf" var="enf" value="#{terapiaBean.listaenfermedadvisita}"
 					paginator="true" rows="3" style="width:350px;">
 					<f:facet name="header">
         							Enfermedades del Paciente
     						</f:facet>
 					<p:column headerText="Nombre">
-						<p:outputLabel value="#{enf.nombre}" />
+						<p:outputLabel value="#{enf.exvEnfermedad.nombre}" />
 					</p:column>
 				</p:dataTable>
 			</h:panelGrid>
@@ -88,7 +96,7 @@
 			<p:panelGrid columns="2" style="height: 30px;">
 				<p:outputLabel for="inputDes" value="Descripcion: "
 					style="width:200px" />
-				<p:inputTextarea id="inputDes" style="width:650px" />
+				<p:inputTextarea id="inputDes" value="#{visitaBean.historiaClinica.datosAdicionales}" style="width:650px" />
 			</p:panelGrid>
 		</p:fieldset>
 

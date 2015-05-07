@@ -20,4 +20,6 @@ public interface VisitaService {
 	public Visita getLastVisitaCliente(Cliente cliente);
 	
 	public Visita buscarVisita(Cliente cliente);
+	
+	public Visita getLastVisitaCliente2(Cliente cliente);
 }

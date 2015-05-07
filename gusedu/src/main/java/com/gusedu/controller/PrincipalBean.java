@@ -351,13 +351,15 @@ public class PrincipalBean implements Serializable {
 
 	{
 		RequestContext context = RequestContext.getCurrentInstance();
-		Visita vis = visitaService.buscarVisita(cliente);
+		FacesContext fc = FacesContext.getCurrentInstance(); 
+		Visita vis = ((Visita) fc.getExternalContext().getSessionMap().get("visita"));;
 		if (vis == null) {
 
 		//	registrarVisita();
+			
 			visita = visitaService.getLastVisitaCliente(cliente);
-			historiaClinica.setHclVisita(visita);
-			historiaClinicaService.saveHistoriaClinica(historiaClinica);
+			//historiaClinica.setHclVisita(visita);
+			//historiaClinicaService.saveHistoriaClinica(historiaClinica);
 			addTerapia();
 			NuevoRegistro();
 			Limpiarnpar();
@@ -404,6 +406,8 @@ public class PrincipalBean implements Serializable {
 		// Se carga el tipoterapia segun la seleccion del combobox
 		tipoTerapia = terapiaService.tteById(idTipoTerapia);
 		// Se le añade el TipoTerapia a la Terapia y la fecha actal
+		String usuarioCreacion = StaticUtil.userLogged();
+		terapia.setUsuarioCreacion(usuarioCreacion);
 		terapia.setTerTipoTerapia(tipoTerapia);
 		terapia.setFechaRealizada(StaticUtil.getFechaActual());
 		terapia.setTerVisita(visita);
@@ -542,6 +546,34 @@ public class PrincipalBean implements Serializable {
 	public void actualizando() {
 		System.out.println("Probando...");
 	}
+	
+	/*public void probandoBean()
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		Object objeto =context.getExternalContext().getSessionMap().get("visitaBean"); 
+		VisitaBean objetoBean =null;
+		if (objeto != null)
+		{
+		     objetoBean = (VisitaBean) objeto; 
+		     //objetoBean.Prueba();
+		     //System.out.println(objetoBean.Prueba());
+		}else
+		{
+			System.out.println("Es nulo");
+		}//terapiasDeVisita = terapiaService.terapiasPorCliente(cliente);
+		
+	}
+	public void probando()
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		Object objterapia =context.getExternalContext().getSessionMap().get("terapiaBean");
+		TerapiaBean terapiabean =null;
+		if(objterapia!=null)
+		{
+			terapiabean= (TerapiaBean) objterapia;
+		}
+		//terapiabean.
+	}*/
 	/*
 	 * public void prueba() {System.out.println("Probando");
 	 * //System.out.println("¿Número? "+StaticUtil.esSoloNumero(query)); }

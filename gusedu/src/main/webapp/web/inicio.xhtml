@@ -38,21 +38,20 @@
 		<br />
 		<h:form id="formulario">
 			<p:dataTable id="tablaPac" var="pac" value="#{pacienteBean.clientes}"
-				paginator="true" rows="10">
-				<p:column width="5%">
-					<p:selectBooleanCheckbox value="#{visitaBean.valor}">
-						<p:ajax listener="#{visitaBean.cargarPaciente2(pac.idCliente)}" />
-					</p:selectBooleanCheckbox>
-				</p:column>
+				paginator="true" rows="10" rowKey="#{pac.idCliente}" 
+				selection="#{pacienteBean.cliente}" >
+ 
+				<p:column selectionMode="single" width="5%" /> 
+				<p:ajax event="rowSelectRadio" listener="#{visitaBean.carga(pacienteBean.cliente)}" />
 				<p:column headerText="DNI" width="10%;">
 					<h:outputText value="#{pac.cliPersona.dni}" />
 				</p:column>
 
-				<p:column headerText="Ap. Paterno">
+				<p:column headerText="Ap. paterno">
 					<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
 				</p:column>
 
-				<p:column headerText="Ap. Materno">
+				<p:column headerText="Ap. materno">
 					<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
 				</p:column>
 
@@ -60,25 +59,29 @@
 					<h:outputText value="#{pac.cliPersona.nombres}" />
 				</p:column>
 
-				<p:column headerText="Telefono movil" width="10%;">
+				<p:column headerText="Teléfono móvil" width="10%;">
 					<h:outputText value="#{pac.cliPersona.telefonoMovil}"></h:outputText>
 				</p:column>
 
 				<p:column headerText="Opciones">
-					<p:selectOneMenu id="selectoption" value="#{principalBean.opciones}">
+					<p:selectOneMenu id="selectoption" value="#{visitaBean.opciones}">
 						<f:selectItem itemLabel="Seleccione" itemValue="S" />
-						<f:selectItem itemLabel="Datos Medicos" itemValue="DM" />
+						<f:selectItem itemLabel="Datos médicos" itemValue="DM" />
 						<f:selectItem itemLabel="Terapias" itemValue="T" />
-						<f:selectItem itemLabel="Venta de Productos" itemValue="P" />
+						<f:selectItem itemLabel="Venta de productos" itemValue="P" />
 						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
-						<f:selectItem itemLabel="Historial de Visitas" itemValue="HV" />				
-						<p:ajax event="change"
+						<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />				
+						<p:ajax event="change" 
 							update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA,:dialogHistorialVisitas"
-							listener="#{principalBean.preDatosClinicosPaciente2(pac.idCliente)}" />
+							listener="#{visitaBean.AbrirPopup}" />
 					</p:selectOneMenu>
 				</p:column>
-
-			</p:dataTable>
+					<f:facet name="footer">
+						<p:commandButton value="Crear Visita" 
+						action="#{visitaBean.nuevovalidador(pacienteBean.cliente)}"
+						 image="ui-icon ui-icon-search" />
+					</f:facet>
+				</p:dataTable>
 		</h:form>
 
 		<h:form>
@@ -108,15 +111,18 @@
 			</p:dialog>
 		</h:form>
 		<p:dialog id="dialogDatosClinicos" header="Datos Clinicos"
-			widgetVar="dlgDC" showEffect="pop" modal="true">
+			widgetVar="dlgDC" showEffect="pop" modal="true" width="800px" height="550px" >
+			<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+			
 			<h:form>
 				<ui:include src="datosClinicos.xhtml" />
 
 			</h:form>
 		</p:dialog>
 		
-		<p:dialog id="dialogHistorialVisitas" header="Historial de Visitas"
-			widgetVar="dlgHV" showEffect="pop" modal="true">
+		<p:dialog id="dialogHistorialVisitas" header="Historial de Visitas" 
+			widgetVar="dlgHV" showEffect="pop" modal="true" width="800px" height="550px" >
+			<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
 			<h:form>
 				<ui:include src="historialVisitas.xhtml" />
 
@@ -125,6 +131,8 @@
 
 		<p:dialog id="dialogTerapia" header="Terapias" widgetVar="dlgT"
 			showEffect="pop" modal="true" width="800px" height="550px">
+			<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+			
 			<h:form>
 				<p:tabView>
 					<p:tab title="Registro de Terapias">
@@ -142,6 +150,8 @@
 		
 			<p:dialog id="dialogHEA" header="Historia" widgetVar="dlgHEA"
 				showEffect="pop" modal="true" width="850px" height="500px">
+				<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+			
 				<h:form>
 				<ui:include src="HEA.xhtml" />
 				</h:form>
@@ -152,6 +162,8 @@
 		<h:form>
 			<p:dialog id="dialogProducto" header="Productos" widgetVar="dlgP"
 				showEffect="pop" modal="true" width="850px" height="500px">
+				<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+			
 				<ui:include src="Producto.xhtml" />
 			</p:dialog>
 		</h:form>

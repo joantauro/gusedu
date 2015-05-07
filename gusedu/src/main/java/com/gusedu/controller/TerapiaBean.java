@@ -6,17 +6,22 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadTerapia;
+import com.gusedu.model.EnfermedadVisita;
 import com.gusedu.model.Par;
 import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaTerapia;
+import com.gusedu.model.SintomaVisita;
 import com.gusedu.model.Terapia;
 import com.gusedu.model.TerapiaPar;
+import com.gusedu.model.TipoTerapia;
+import com.gusedu.model.Visita;
 import com.gusedu.service.EnfermedadService;
 import com.gusedu.service.ParService;
 import com.gusedu.service.SintomaService;
@@ -59,9 +64,13 @@ public class TerapiaBean implements Serializable{
 
 	private int size;
 
-	private List<Sintoma> listasintoma;
-	private List<Enfermedad> listaenfermedad;
+	private Integer idTipoTerapia;
+	//private List<Sintoma> listasintoma;
+	//private List<Enfermedad> listaenfermedad;
+	private List<SintomaVisita> listasintomaxvisita;
+	private List<EnfermedadVisita> listaenfermedadvisita;
 	
+	private List<TerapiaPar> listarTerapiaPar;
 	
 	public TerapiaBean() {
 		sliderDolor = 0;
@@ -70,10 +79,25 @@ public class TerapiaBean implements Serializable{
 		sintoma = new Sintoma();
 		paresSeleccionados = new ArrayList<Par>();
 		
-		listasintoma = new ArrayList<>();
-		listaenfermedad = new ArrayList<>();
+		//listasintoma = new ArrayList<>();
+		//listaenfermedad = new ArrayList<>();
 	}
 
+	public void clear()
+	{
+		terapia = new Terapia();
+		enfermedad = new Enfermedad();
+		sintoma = new Sintoma();
+		//idTipoTerapia=0;
+		//listarTerapiaPar.clear();
+	}
+	
+	public void aceptar()
+	{
+		clear();idTipoTerapia=0;
+		listarTerapiaPar.clear();
+	}
+	
 	public int getIndex() {
 		return index;
 	}
@@ -155,7 +179,6 @@ public class TerapiaBean implements Serializable{
 	public void setAllPares(List<Par> allPares) {
 		this.allPares = allPares;
 	}
-
 	public int getSize() {
 		size = paresSeleccionados.size();
 		return size;
@@ -453,7 +476,7 @@ public class TerapiaBean implements Serializable{
 		return "detalleTerapia?faces-redirect=true";
 	}
 
-	public List<Sintoma> getListasintoma() {
+	/*public List<Sintoma> getListasintoma() {
 		return listasintoma;
 	}
 
@@ -474,9 +497,52 @@ public class TerapiaBean implements Serializable{
 		fc.getExternalContext().getSessionMap().put("listaSintoma", listasintoma);
 		sintoma = new Sintoma();
 
+	}*/
+	public void addSintoma3()
+	{
+		if(sintoma==null)
+		{
+			StaticUtil.errorMessage("Error", "El campo sintoma esta vacio");
+			return;
+		}
+		for(SintomaVisita s : listasintomaxvisita)
+		{
+			if(s.getSxvSintoma().getIdSintoma() ==sintoma.getIdSintoma())
+			{
+				StaticUtil.errorMessage("Error", "El sintoma ya ha sido agregado");
+				sintoma = new Sintoma();
+				return;
+			}
+		}
+		
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis =(Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		SintomaVisita sinvis = new SintomaVisita();
+		sinvis.setSxvSintoma(sintoma);
+		sinvis.setSxvVisita(vis);
+		terapiaService.saveSintomaVisita(sinvis);
+		sintoma = new Sintoma();
+		listasintomaxvisita= terapiaService.getAllSintomaxVisita(vis);
 	}
-
-	public void addEnfermedad2(){
+	public void listarsintomas(){
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis =(Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		/*if(listasintomaxvisita!=null)
+		{
+			listasintomaxvisita.clear();
+		}*/
+		listasintomaxvisita= terapiaService.getAllSintomaxVisita(vis);
+	}
+	
+	public void listarenfermedades()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis =(Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		listaenfermedadvisita= terapiaService.getAllEnfermedadxVisita(vis);
+	}
+	
+	
+	/*public void addEnfermedad2(){
 		for(Enfermedad e : listaenfermedad){
 			if(e.getIdEnfermedad() == enfermedad.getIdEnfermedad()){
 				StaticUtil.errorMessage("Error", "La enfermedad ya ha sido agregada");
@@ -488,12 +554,223 @@ public class TerapiaBean implements Serializable{
 		fc.getExternalContext().getSessionMap().put("listaEnfermedad", listaenfermedad);
 		enfermedad = new Enfermedad();		
 	}
-	public List<Enfermedad> getListaenfermedad() {
+	*/
+	public void addPar2(Integer idpar)
+	{
+		if(ParExistente(idpar)==false)
+		{
+			FacesContext fc = FacesContext.getCurrentInstance();
+			Terapia terapia =(Terapia) fc.getExternalContext().getSessionMap().get("terapia");
+			Par par = new Par();
+			par=parService.parById(idpar);
+			TerapiaPar tp = new TerapiaPar();
+			tp.setTxpPar(par);
+			tp.setTxpTerapia(terapia);
+			terapiaService.saveTerapiaPar(tp);
+			listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+			//terapiaService.getAllTerapiaParbyTerapia(terapia);
+		}else
+		{
+			
+		}
+	}
+	
+	public void addPar(Integer idpar)
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Terapia terapia =(Terapia) fc.getExternalContext().getSessionMap().get("terapia");
+		Par par = new Par();
+		par=parService.parById(idpar);
+		TerapiaPar tp = new TerapiaPar();
+		tp.setTxpPar(par);
+		tp.setTxpTerapia(terapia);
+		terapiaService.saveTerapiaPar(tp);
+		listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+		//terapiaService.getAllTerapiaParbyTerapia(terapia);
+		/*if(ParExistente(idpar)==false)
+		{
+			FacesContext fc = FacesContext.getCurrentInstance();
+			Terapia terapia =(Terapia) fc.getExternalContext().getSessionMap().get("terapia");
+			Par par = new Par();
+			par=parService.parById(idpar);
+			TerapiaPar tp = new TerapiaPar();
+			tp.setTxpPar(par);
+			tp.setTxpTerapia(terapia);
+			terapiaService.saveTerapiaPar(tp);
+			listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+			//terapiaService.getAllTerapiaParbyTerapia(terapia);
+		}else
+		{
+			
+		}*/
+	}
+	
+	public boolean ParExistente(int idpar)
+	{
+	 
+		boolean valor=false;
+		for(TerapiaPar s : listarTerapiaPar)
+		{
+			
+			if(s.getTxpPar().getIdPar() == idpar)
+			{
+				StaticUtil.errorMessage("Error", "El par ya ha sido agregado");
+				return true;
+			}
+		}
+		return valor;
+	}
+	
+	public void addEnfermedad3()
+	{
+		if(enfermedad==null)
+		{
+			StaticUtil.errorMessage("Error", "El campo enfermedad esta vacio");
+			return;
+		}
+		/*for(EnfermedadVisita s : listaenfermedadvisita)
+		{
+			if(s.getExvEnfermedad().getIdEnfermedad() ==enfermedad.getIdEnfermedad())
+			{
+				StaticUtil.errorMessage("Error", "La Enfermedad ya ha sido agregado");
+				enfermedad = new Enfermedad();
+				return;
+			}
+		}*/
+		
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis =(Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		EnfermedadVisita enfvis= new EnfermedadVisita();
+		enfvis = new EnfermedadVisita();
+		enfvis.setExvVisita(vis);
+		enfvis.setExvEnfermedad(enfermedad);
+		terapiaService.saveEnfermedadVisita(enfvis);
+		enfermedad = new Enfermedad();
+		listaenfermedadvisita= terapiaService.getAllEnfermedadxVisita(vis);
+	}
+	
+	
+	/*public List<Enfermedad> getListaenfermedad() {
 		return listaenfermedad;
 	}
 
 	public void setListaenfermedad(List<Enfermedad> listaenfermedad) {
 		this.listaenfermedad = listaenfermedad;
+	}*/
+
+	
+	
+	public void confirmaTerapia()
+	{
+		clear();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita visita = (Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		List<Terapia> e=terapiaService.terapiasPorVisita(visita);
+		if(e.size()>0)
+		{
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('confirm').show();");
+		}else
+		{
+			//System.out.println("Registro de Terapia");
+			addTerapia();
+		}
+	}
+	
+	public void usarTerapia()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita visita = (Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		terapia = terapiaService.terapiasPorVisita(visita).get(0);
+		listarTerapiaPar=terapiaService.getAllTerapiaParbyTerapia(terapia);
+		fc.getExternalContext().getSessionMap().put("terapia", terapia);
+		System.out.println(terapia.getIdTerapia());
+	}
+	
+	public void addTerapia() {
+		//RequestContext context = RequestContext.getCurrentInstance();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita visita = (Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		VisitaBean objetoTBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+		// Se carga el tipoterapia segun la seleccion del combobox
+		TipoTerapia tipoTerapia = new TipoTerapia();
+		tipoTerapia=terapiaService.tteById(idTipoTerapia);
+		// Se le añade el TipoTerapia a la Terapia y la fecha actal
+		String usuarioCreacion = StaticUtil.userLogged();
+		terapia.setUsuarioCreacion(usuarioCreacion);
+		terapia.setTerTipoTerapia(tipoTerapia);
+		terapia.setFechaRealizada(StaticUtil.getFechaActual());
+		terapia.setTerVisita(visita);
+		
+		List<TerapiaPar> lista = null;
+		// Se guarda la terapia en la base de datos
+		if (terapiaService.saveTerapia(terapia)) {
+			// Se añade el costo de la terapia a la visita
+			visita.setCostoTotal(visita.getCostoTotal()
+					+ terapia.getTerTipoTerapia().getCosto());
+			objetoTBean.updateVisita(visita);
+			
+			terapia=terapiaService.terapiasPorVisita(visita).get(0);
+			fc.getExternalContext().getSessionMap().put("terapia", terapia);
+			Visita v= (Visita) fc.getExternalContext().getSessionMap().get("penultimavisita");
+			
+			lista=terapiaService.getAllTerapiaParbyVisita(v);
+			System.out.println("Lista de Pares: "+lista.size());
+			for(int j=0;j<lista.size();j++)
+			{
+				addPar(lista.get(j).getTxpPar().getIdPar());
+			}
+			listarTerapiaPar=terapiaService.getAllTerapiaParbyTerapia(terapia);				
+			
+			// Se limpian los datos guardados
+			terapia  = new Terapia();
+			idTipoTerapia=0;
+			// Se añade los pares
+			StaticUtil.correctMesage("Exito",
+					"Se agregó correctamente la terapia");
+			StaticUtil.keepMessages();
+			//context.execute("PF('dlgT').hide();");
+			// Se cargan las terapias de la visita (añadiendo la actual)
+			// terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+			// Redireccion
+			
+		} else {
+			StaticUtil.errorMessage("Error", "Hubo un error al agregar");
+
+		}
+	}
+	
+	
+	public List<SintomaVisita> getListasintomaxvisita() {
+		return listasintomaxvisita;
+	}
+
+	public void setListasintomaxvisita(List<SintomaVisita> listasintomaxvisita) {
+		this.listasintomaxvisita = listasintomaxvisita;
+	}
+
+	public List<EnfermedadVisita> getListaenfermedadvisita() {
+		return listaenfermedadvisita;
+	}
+
+	public void setListaenfermedadvisita(List<EnfermedadVisita> listaenfermedadvisita) {
+		this.listaenfermedadvisita = listaenfermedadvisita;
+	}
+	
+	public Integer getIdTipoTerapia() {
+		return idTipoTerapia;
+	}
+
+	public void setIdTipoTerapia(Integer idTipoTerapia) {
+		this.idTipoTerapia = idTipoTerapia;
+	}
+
+	public List<TerapiaPar> getListarTerapiaPar() {
+		return listarTerapiaPar;
+	}
+
+	public void setListarTerapiaPar(List<TerapiaPar> listarTerapiaPar) {
+		this.listarTerapiaPar = listarTerapiaPar;
 	}
 	
 }

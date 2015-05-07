@@ -8,14 +8,14 @@ body {
 #Body
 {
     background-color:white;
-    height:700px;
+    height:900px;
     margin:0 auto;
     width:1015px
 }
 #Content
 {
     border: 1px solid gray;
-    height:500px;
+    height:700px;
     width:1010px;
 }
 #Footer

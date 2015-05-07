@@ -61,7 +61,7 @@ public class VisitaBean implements Serializable{
 	private List<Producto> allProductos;
 	
 	
-	private Cliente cliente;
+	private Cliente cliente;private Integer idcli;
 	private String query;
 	private Integer idTipoTerapia;
 	private String queryProducto;
@@ -81,7 +81,8 @@ public class VisitaBean implements Serializable{
 	
 	private Integer mostrarFormProducto;
 	
-	
+	private String descripcionIMC;
+	private String opciones;
 	
 	public VisitaBean() {
 		mostrarFormProducto = -1;
@@ -91,7 +92,7 @@ public class VisitaBean implements Serializable{
 		tipoTerapia = new TipoTerapia();
 		historiaClinica = new HistoriaClinica();
 		query = ""; lista = new ArrayList<>();
-		valor=false;
+		valor=false;descripcionIMC="";opciones="S";
 	}
 
 	public Integer getMostrarFormProducto() {
@@ -326,6 +327,7 @@ public class VisitaBean implements Serializable{
 			Visita vis=visitaService.getLastVisitaCliente(cliente);
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.getExternalContext().getSessionMap().put("visita", vis);
+			fc.getExternalContext().getSessionMap().put("ultimavisita", vis);
 			//fc.getExternalContext().getSessionMap().put("cliente", cliente);
 			clearEntities(); 
 			
@@ -335,13 +337,106 @@ public class VisitaBean implements Serializable{
 			//context.execute("PF('dlgVi').show();");
 		}
 	}
-
+	public void updateVisita(Visita visita)
+	{
+		visitaService.updateVisita(visita);
+	}
+	
+	public void carga(Cliente cli)
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		cliente = cli;
+		fc.getExternalContext().getSessionMap().put("cliente", cliente);
+		Visita vis =visitaService.buscarVisita(cliente);
+		Visita ultimavisita=new Visita();
+		if(vis==null){
+			/*Visita vs= new Visita();
+			vs.setIdVisita(0);
+			ultimavisita=vs;*/
+			System.out.println("No hay visitas el dia de hoy :/");
+		}else
+		{
+			ultimavisita=visitaService.getLastVisitaCliente(cliente);
+			System.out.println("Ultima Visita :"+ultimavisita.getIdVisita());
+		}
+		fc.getExternalContext().getSessionMap().put("ultimavisita", ultimavisita);
+	}
+	
+	public void nuevovalidador(Cliente client)
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		clearEntities();
+		cliente = client;
+		//visitasPaciente = visitaService.getVisitasCliente(cliente);
+		fc.getExternalContext().getSessionMap().put("cliente", cliente);	
+		Visita vis =visitaService.buscarVisita(cliente);
+		 
+		if(vis==null)
+		{
+			registrarVisita2();
+			//preNuevaHistoria2();
+		}else
+		{
+			StaticUtil.errorMessage("Error", "Ya se registro una visita el día de hoy");
+			StaticUtil.keepMessages();
+		}
+	}
+	public void probando()
+	{
+		opciones="S";
+	}
+	public void AbrirPopup()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis = (Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		if(vis==null)
+		{
+			StaticUtil.errorMessage("Error", "¿Por favor Seleccione un Paciente");
+		}else
+		{
+			if(vis.getIdVisita()==null)
+			{
+				StaticUtil.EleccionUnica();
+			}else
+			{
+				visita=vis;
+				System.out.println("ID Visita : "+vis.getIdVisita());
+				preNuevaHistoria2();
+				StaticUtil.Eleccion(opciones);
+				Prueba();
+			}
+		}
+		/*if(vis.getIdVisita()==null)
+		{
+			StaticUtil.EleccionUnica();
+		}else
+		{
+			visita=vis;
+			System.out.println("ID Visita : "+vis.getIdVisita());
+			preNuevaHistoria2();
+			StaticUtil.Eleccion(opciones);
+			Prueba();
+		}*/
+		//StaticUtil.Eleccion(opciones);
+	}
+	
+	public void Prueba()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis1=visitaService.getLastVisitaCliente2(cliente);
+		if(vis1==null)
+		{
+			Visita vs= new Visita();
+			vs.setIdVisita(0);
+			vis1=vs;
+		}
+		fc.getExternalContext().getSessionMap().put("penultimavisita", vis1);
+	}
 	
 	public void validador()
 	{	
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Cliente cli =((Cliente) fc.getExternalContext().getSessionMap()
-				.get("cliente"));
+		Cliente cli =((Cliente) fc.getExternalContext().getSessionMap().get("cliente"));
 		Visita vis =visitaService.buscarVisita(cli);
  
 		if(vis==null)
@@ -354,6 +449,58 @@ public class VisitaBean implements Serializable{
 			StaticUtil.keepMessages();
 		}
 	}
+	
+	 
+
+	public void validadorUnico(Integer idCliente)
+	{
+		idcli=idCliente;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		//fc.getExternalContext().getSessionMap().put("idCliente", idCliente);
+		
+		StaticUtil.Eleccion(opciones);
+		clearEntities();
+		cliente = clienteService.getClienteById(idCliente);
+		Visita vis =visitaService.buscarVisita(cliente);		
+		Visita ultimavisita = new Visita();
+		ultimavisita=visitaService.getLastVisitaCliente(cliente);	
+		
+		if(ultimavisita==null)
+		{
+			Visita vs= new Visita();
+			vs.setIdVisita(0);
+			ultimavisita=vs;
+		}
+		
+		fc.getExternalContext().getSessionMap().put("ultimavisita", ultimavisita);
+		if(vis==null)
+		{
+			registrarVisita2();
+			visita=((Visita) fc.getExternalContext().getSessionMap().get("visita"));
+			preNuevaHistoria2();		
+		}else{
+			visita= vis;
+			//terapiasDeVisita = terapiaService.terapiasPorCliente(cliente);
+			//visitasPaciente = visitaService.getVisitasCliente(cliente);
+			fc.getExternalContext().getSessionMap().put("visita", visita);
+			TerapiaBean objetoTBean =(TerapiaBean) fc.getExternalContext().getSessionMap().get("terapiaBean");
+			objetoTBean.listarsintomas();
+			objetoTBean.listarenfermedades();
+			preNuevaHistoria2();//Aca hay errores , ojo revisar
+		}
+		
+	}
+	
+	public void ListarTerapias()
+	{
+		
+		terapiasDeVisita = terapiaService.terapiasPorCliente(cliente);
+	}
+	public void ListarVisitas()
+	{
+		visitasPaciente = visitaService.getVisitasCliente(cliente);
+	}
+	
 	
 	public void ultimavisita()
 	{
@@ -426,7 +573,7 @@ public class VisitaBean implements Serializable{
 	public void preNuevaHistoria2() {
 		// Verifica si a la visita ya se le asignó una historia clínica
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Visita vis= ((Visita) fc.getExternalContext().getSessionMap().get("visita"));
+		Visita vis= ((Visita) fc.getExternalContext().getSessionMap().get("ultimavisita"));
 		if (historiaClinicaService.getHistoriaByVisita(vis) == null) {
 			// Si no se le asignó, se crea una nueva
 			historiaClinica = new HistoriaClinica();
@@ -463,6 +610,7 @@ public class VisitaBean implements Serializable{
 			clearEntities();
 			StaticUtil.correctMesage("Éxito", "Se han guardado los datos médicos");
 			StaticUtil.keepMessages();
+			
 			// Redirección
 			
 		} else {
@@ -493,7 +641,7 @@ public class VisitaBean implements Serializable{
 		producto = new Producto();
 		return "pm:nuevoProducto";
 	}
-
+	
 	// Método para cargar el detalle de un producto
 	public String cargarProducto(int idProducto) {
 		producto = productoService.getProductoById(idProducto);
@@ -569,7 +717,7 @@ public class VisitaBean implements Serializable{
 			return;
 		}
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Visita vis = ((Visita) fc.getExternalContext().getSessionMap().get("visita"));
+		Visita vis = ((Visita) fc.getExternalContext().getSessionMap().get("ultimavisita"));
 		ProductoVisita toAdd = new ProductoVisita();
 		toAdd.setCantidad(cantidadProducto);
 		toAdd.setCostoParcial(costoParcial);
@@ -647,14 +795,15 @@ public class VisitaBean implements Serializable{
 
 	// Método para limpiar algunas entidades usadas en el bean
 	public void clearEntities() {
-		cliente = new Cliente();
+		//cliente = new Cliente();
 		visita = new Visita();
 		terapia = new Terapia();
 		tipoTerapia = new TipoTerapia();
 		historiaClinica = new HistoriaClinica();
 		query = ""; 
 		lista = new ArrayList<>();
-		valor=false;
+		valor=false;descripcionIMC="";
+		opciones="S";
 	}
 	
 	public String finalizarVisita(){
@@ -730,6 +879,22 @@ public class VisitaBean implements Serializable{
 		
 	}
 
+	
+	public void calcularIMC(){
+		
+		double peso=0.0;
+		double talla=0.0;
+		if(historiaClinica.getPeso()!= null && historiaClinica.getTalla()!=null)
+		{
+			peso =historiaClinica.getPeso();
+			talla =Math.pow(historiaClinica.getTalla()/100, 2);
+			double imc= peso/talla;
+			
+			descripcionIMC=StaticUtil.calculoIMC(imc);
+			historiaClinica.setImc(imc);
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void registrarEnfermedad() {
 		List<Enfermedad> e;
@@ -749,5 +914,29 @@ public class VisitaBean implements Serializable{
 		}
 		
 
+	}
+
+	public String getDescripcionIMC() {
+		return descripcionIMC;
+	}
+
+	public void setDescripcionIMC(String descripcionIMC) {
+		this.descripcionIMC = descripcionIMC;
+	}
+
+	public String getOpciones() {
+		return opciones;
+	}
+
+	public void setOpciones(String opciones) {
+		this.opciones = opciones;
+	}
+
+	public Integer getIdcli() {
+		return idcli;
+	}
+
+	public void setIdcli(Integer idcli) {
+		this.idcli = idcli;
 	}
 }

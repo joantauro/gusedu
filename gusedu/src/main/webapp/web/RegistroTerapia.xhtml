@@ -10,13 +10,26 @@
 		<p:panelGrid columns="2" style="margin: 0 auto;">
 			<p:outputLabel for="iTipoTerapia" value="Tipo de terapia: " />
 			<p:selectOneMenu id="iTipoTerapia"
-				value="#{principalBean.idTipoTerapia}"  required="true" >
-				<f:selectItem itemLabel="Seleccione un tipo" itemValue="" />
+				value="#{terapiaBean.idTipoTerapia}"  required="true" >
+				<f:selectItem itemLabel="Seleccione un tipo" itemValue="0" />
 				<f:selectItems value="#{visitaBean.tipoTerapias}" var="tte"
 					itemValue="#{tte.idTipoTerapia}" itemLabel="#{tte.nombre}" />
+				 <p:ajax listener="#{terapiaBean.confirmaTerapia}"   update=":#{p:component('panelTerapia')}"  />
 			</p:selectOneMenu>
 		</p:panelGrid>
-		
+		<p:dialog widgetVar="confirm" header="Confirmación"  >
+		<p:outputLabel value="Ya registro una terapia el día de hoy," />
+		<br></br>
+		<p:outputLabel value="¿Desea realizar otra terapia?" />
+		<br></br>
+		<p:outputLabel value="__________________________________" />
+		<br></br>
+		<p:commandButton value="Registrar Nueva Terapia" action="#{terapiaBean.addTerapia}"
+		 update=":#{p:component('panelTerapia')}"
+		 onclick="PF('confirm').hide();" />
+		<p:commandButton value="Usar útlima terapia" update=":#{p:component('panelTerapia')}" action="#{terapiaBean.usarTerapia}" onclick="PF('confirm').hide();" />
+		</p:dialog>
+	 
 		<p:panel header="Filtros" toggleable="true">
 			<p:outputLabel value="Filtrar: " for="inpQuery" />
 			<p:inputText value="#{puntoBean.query}" id="inpQuery">
@@ -44,7 +57,7 @@
 			var="pun" value="#{puntoBean.puntos}" rowKey="#{pun.idPunto}" style="width:350px;"
 			paginatorPosition="top"
 			paginator="true" rows="8" tableStyleClass="ui-table-columntoggle"> 
-			 <p:ajax event="rowToggle" listener="#{principalBean.buscar(pun.idPunto)}" 
+			 <p:ajax event="rowToggle" listener="#{puntoBean.buscar(pun.idPunto)}" 
 			 update=":#{p:component('tablaPar')}" />
 			<f:facet name="header">
         		Lista de Puntos
@@ -59,7 +72,7 @@
 			
 			<p:rowExpansion>
 					<p:dataTable emptyMessage="No hay pares" style="width:350px;"
-						id="tablaPar" value="#{principalBean.parcito}" var="parp">
+						id="tablaPar" value="#{puntoBean.parcito}" var="parp">
 						<f:facet name="header">
         					Lista de Pares del Punto Seleccionado
     					</f:facet>
@@ -70,9 +83,9 @@
 							<p:outputLabel value="#{parp.parPunto2.nombre}" />
 						</p:column>
 						<p:column headerText="#">
-							<p:commandButton id="btnAdd" icon="ui-icon-plus" rendered="#{principalBean.shouldBeRendered(parp.idPar)}"
+							<p:commandButton id="btnAdd" icon="ui-icon-plus"  
 								update=":#{p:component('tablaParPunto')}"
-								action="#{principalBean.insertarPar(parp.idPar)}" />
+								action="#{terapiaBean.addPar2(parp.idPar)}" />
 						</p:column>
 					</p:dataTable>
 				</p:rowExpansion>
@@ -82,27 +95,25 @@
 
 
 			<p:dataTable emptyMessage="No hay puntos registrados en el Paciente"
-				style="width:350px;" id="tablaParPunto" value="#{principalBean.npar}"
+				style="width:350px;" id="tablaParPunto" value="#{terapiaBean.listarTerapiaPar}"
 				var="parpu"  scrollable="true"
 			scrollHeight="230"  >
 				<f:facet name="header">
         		Lista de pares hacia el paciente
     		</f:facet>
 				<p:column headerText="Punto 1" >
-					<p:outputLabel value="#{parpu.parPunto1.nombre}" />
+					<p:outputLabel value="#{parpu.txpPar.parPunto1.nombre}" />
 				</p:column>
 				<p:column headerText="Punto 2">
-					<p:outputLabel value="#{parpu.parPunto2.nombre}" />
+					<p:outputLabel value="#{parpu.txpPar.parPunto2.nombre}" />
 				</p:column>
-
 			</p:dataTable>
-			
 		</p:panelGrid>
-		<p:commandButton value="Agregar"
-				action="#{principalBean.registrarTerapias}"
-				update=":#{p:component('tablaPac')}" />
+		<p:commandButton value="Agregar" action="#{terapiaBean.aceptar}"
+				 oncomplete="PF('dlgT').hide();"
+				update=":#{p:component('tablaPac')},:#{p:component('panelTerapia')}" />
 			<p:commandButton value="Cancelar" immediate="true"
-				action="#{principalBean.CancelarTerapia}"
+				oncomplete="PF('dlgT').hide();" action="#{terapiaBean.aceptar}"
 				update=":#{p:component('tablaPac')}" />
 	</h:form>
 </ui:composition>

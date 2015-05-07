@@ -203,6 +203,7 @@ public class PuntoBean implements Serializable{
 		System.out.println(parcito.size());	
 	}
 
+
 	
 	public List<Par> getPar() {
 		return par;
