@@ -38,7 +38,7 @@
 		<br />
 		<h:form id="formulario">
 			<p:dataTable id="tablaPac" var="pac" value="#{pacienteBean.clientes}"
-				paginator="true" rows="10" rowKey="#{pac.idCliente}" 
+				paginator="true" rows="10" rowKey="#{pac.idCliente}"  emptyMessage="No hay pacientes por el momento"
 				selection="#{pacienteBean.cliente}" >
  
 				<p:column selectionMode="single" width="5%" /> 
@@ -130,7 +130,7 @@
 		</p:dialog>
 
 		<p:dialog id="dialogTerapia" header="Terapias" widgetVar="dlgT"
-			showEffect="pop" modal="true" width="800px" height="550px">
+			showEffect="pop" modal="true" width="1000px" height="550px">
 			<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
 			
 			<h:form>

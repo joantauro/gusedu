@@ -54,7 +54,7 @@
 		<p:panelGrid columns="2" id="panelTerapia"  >
 		<p:dataTable emptyMessage="No hay puntos registrados" id="tablaPunto"  scrollable="true"
 			scrollHeight="210"
-			var="pun" value="#{puntoBean.puntos}" rowKey="#{pun.idPunto}" style="width:350px;"
+			var="pun" value="#{puntoBean.puntos}" rowKey="#{pun.idPunto}" style="width:500px;"
 			paginatorPosition="top"
 			paginator="true" rows="8" tableStyleClass="ui-table-columntoggle"> 
 			 <p:ajax event="rowToggle" listener="#{puntoBean.buscar(pun.idPunto)}" 
@@ -71,18 +71,21 @@
 			</p:column>
 			
 			<p:rowExpansion>
-					<p:dataTable emptyMessage="No hay pares" style="width:350px;"
+					<p:dataTable emptyMessage="No hay pares" style="width:480px;"
 						id="tablaPar" value="#{puntoBean.parcito}" var="parp">
 						<f:facet name="header">
         					Lista de Pares del Punto Seleccionado
     					</f:facet>
-						<p:column headerText="Punto 1">
+						<p:column headerText="Punto 1" width="18%">
 							<p:outputLabel value="#{parp.parPunto1.nombre}" />
 						</p:column>
-						<p:column headerText="Punto 2">
+						<p:column headerText="Punto 2" width="18%" >
 							<p:outputLabel value="#{parp.parPunto2.nombre}" />
 						</p:column>
-						<p:column headerText="#">
+						<p:column headerText="Descripcion" >
+							<p:outputLabel value="#{parp.descripcion}"  />
+						</p:column>
+						<p:column headerText="#" width="10%">
 							<p:commandButton id="btnAdd" icon="ui-icon-plus"  
 								update=":#{p:component('tablaParPunto')}"
 								action="#{terapiaBean.addPar2(parp.idPar)}" />

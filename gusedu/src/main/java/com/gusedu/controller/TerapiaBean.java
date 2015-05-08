@@ -78,7 +78,7 @@ public class TerapiaBean implements Serializable{
 		enfermedad = new Enfermedad();
 		sintoma = new Sintoma();
 		paresSeleccionados = new ArrayList<Par>();
-		
+		listarTerapiaPar = new ArrayList<>();
 		//listasintoma = new ArrayList<>();
 		//listaenfermedad = new ArrayList<>();
 	}
@@ -561,6 +561,12 @@ public class TerapiaBean implements Serializable{
 		{
 			FacesContext fc = FacesContext.getCurrentInstance();
 			Terapia terapia =(Terapia) fc.getExternalContext().getSessionMap().get("terapia");
+			if(terapia==null)
+			{
+				StaticUtil.errorMessage("Error", "Seleccione un tipo de Terapia");
+				StaticUtil.keepMessages();
+				 return;
+			}
 			Par par = new Par();
 			par=parService.parById(idpar);
 			TerapiaPar tp = new TerapiaPar();

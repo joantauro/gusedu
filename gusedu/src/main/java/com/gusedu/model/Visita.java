@@ -35,8 +35,8 @@ public class Visita {
 	@Column(nullable = true, name = "VIS_FEC_CREACION")
 	private Date fechaCreacion;
 
-	@Column(nullable = true, name = "VIS_USU_CREACION")
-	private Date usuarioCreacion;
+	@Column(nullable = true, name = "VIS_USU_CREACION", length=100)
+	private String usuarioCreacion;
 	
 	@Column(nullable = true, name = "VIS_COSTO_TOTAL")
 	private Double costoTotal;
@@ -97,11 +97,11 @@ public class Visita {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getUsuarioCreacion() {
+	public String getUsuarioCreacion() {
 		return usuarioCreacion;
 	}
 
-	public void setUsuarioCreacion(Date usuarioCreacion) {
+	public void setUsuarioCreacion(String usuarioCreacion) {
 		this.usuarioCreacion = usuarioCreacion;
 	}
 

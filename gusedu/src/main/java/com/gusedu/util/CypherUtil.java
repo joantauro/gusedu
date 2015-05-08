@@ -28,7 +28,7 @@ public class CypherUtil {
 		}
 		return encryptedString;
 	}
-	
+	/*
 	public static String decrypt(String encryptedString){
 		String plainString = "";
 		MessageDigest digest;
@@ -45,5 +45,5 @@ public class CypherUtil {
 			e.printStackTrace();
 		}
 		return encryptedString;
-	}
+	}*/
 }

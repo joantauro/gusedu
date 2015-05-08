@@ -96,7 +96,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Usuario> getAllFinMembresia(int n) {
 		List<Usuario> result = new ArrayList<>();
@@ -115,6 +114,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public void updateUsuarioFinMembresia() {
+		@SuppressWarnings("unused")
 		List<Usuario> lista = getAllFinMembresia(2);
 		Usuario usuario = new Usuario();
 		usuario = getAllFinMembresia(2).get(0);

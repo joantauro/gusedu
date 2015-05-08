@@ -314,6 +314,8 @@ public class VisitaBean implements Serializable{
 		visita.setPrioridad(2);
 		visita.setEstado(1);
 		visita.setVisCliente(cliente);
+		String usuarioCreacion = StaticUtil.userLogged();
+		visita.setUsuarioCreacion(usuarioCreacion);
 		visita.setCostoTotal(0.0);
 		Date fechaActual = StaticUtil.getFechaActual();
 		visita.setFechaCreacion(fechaActual);
@@ -373,6 +375,12 @@ public class VisitaBean implements Serializable{
 		 
 		if(vis==null)
 		{
+			if(cliente==null)
+			{
+				StaticUtil.errorMessage("Error", "Seleccione un paciente");
+				StaticUtil.keepMessages();
+				 return;
+			}
 			registrarVisita2();
 			//preNuevaHistoria2();
 		}else
@@ -391,7 +399,7 @@ public class VisitaBean implements Serializable{
 		Visita vis = (Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
 		if(vis==null)
 		{
-			StaticUtil.errorMessage("Error", "¿Por favor Seleccione un Paciente");
+			StaticUtil.errorMessage("Error", "Por favor seleccione un paciente");
 		}else
 		{
 			if(vis.getIdVisita()==null)
