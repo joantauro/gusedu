@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 <ui:composition>
 
 	<h:form id="formularioHEA">
@@ -13,21 +14,32 @@
 		<p:fieldset legend="Historia de la Enfermedad Actual"
 			toggleable="true" toggleSpeed="500">
 			<p:panelGrid columns="6">
-				<p:outputLabel for="inputFC" value="FC: " />
-				<p:inputText id="inputFC" value="#{visitaBean.historiaClinica.temperatura}" />
+				<p:outputLabel for="inputFC" value="Frecuencia cardiaca: " />
 
-				<p:outputLabel for="inputTA" value="T/A: " />
-				<p:inputText id="inputTA" value="#{visitaBean.historiaClinica.tensionArterial}" />
+				<p:inputText id="inputFC" maxlength="5" style="width:150px;"
+				placeholder="Rango óptimo: 100/50 "
+				 value="#{visitaBean.historiaClinica.temperatura}" >
+				 <pe:keyFilter mask="num" />  
+				 </p:inputText>
+
+				<p:outputLabel for="inputTA" value="Tensión Arterial: " />
+				<p:inputText id="inputTA" maxlength="5" style="width:150px;"
+				placeholder="Rango óptimo: 120/80"
+				 value="#{visitaBean.historiaClinica.tensionArterial}" >
+				 <pe:keyFilter mask="num" />  
+				 </p:inputText>
 
 				<p:outputLabel for="inputPeso" value="Peso: " />
-				<p:inputText id="inputPeso"
+				<p:inputText id="inputPeso" style="width:50px;"
 					value="#{visitaBean.historiaClinica.peso}" >
+					<pe:keyFilter mask="num" />  
 					<p:ajax event="keyup" update=":#{p:component('inputIMC')},:#{p:component('inputDescripcion')}" listener="#{visitaBean.calcularIMC}"  />
 					</p:inputText>
 
 				<p:outputLabel for="inputTalla" value="Talla:" />
 				<p:inputText id="inputTalla"
 					value="#{visitaBean.historiaClinica.talla}" >
+					<pe:keyFilter mask="num" />  
 					<p:ajax event="keyup" update=":#{p:component('inputIMC')},:#{p:component('inputDescripcion')}" listener="#{visitaBean.calcularIMC}" />
 				</p:inputText>
 					

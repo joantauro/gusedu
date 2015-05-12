@@ -107,7 +107,10 @@ public class VisitaServiceImpl implements VisitaService{
         if(mes<10)
         {
              mesM="0";
-             diaD="0";
+        }
+        if(dia<10)
+        {
+        	diaD="0";
         }
         String cadena=año+"-"+ mesM+mes+"-"+diaD+dia;
 		try {

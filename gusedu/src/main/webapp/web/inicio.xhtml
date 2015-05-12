@@ -5,7 +5,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 	
 <ui:composition template="/WEB-INF/facelets/templates/plantillaPrincipal.xhtml">
 	
@@ -22,7 +23,7 @@
 				update=":#{p:component('tablaPac')}" />
 		</h:form>
 
-		<h:form id="formBusqueda" style="text-align: center;">
+		<h:form id="formBusquedaP" style="text-align: center;">
 			<p:outputLabel value="Filtrar: " for="inpQuery" />
 			<p:inputText value="#{pacienteBean.query}" id="inpQuery"
 				style="width : 500px;">
@@ -36,53 +37,58 @@
 				action="#{personaBean.valida}" oncomplete="PF('dlg1').show();" />
 		</h:form>
 		<br />
-		<h:form id="formulario">
-			<p:dataTable id="tablaPac" var="pac" value="#{pacienteBean.clientes}"
-				paginator="true" rows="10" rowKey="#{pac.idCliente}"  emptyMessage="No hay pacientes por el momento"
-				selection="#{pacienteBean.cliente}" >
- 
-				<p:column selectionMode="single" width="5%" /> 
-				<p:ajax event="rowSelectRadio" listener="#{visitaBean.carga(pacienteBean.cliente)}" />
-				<p:column headerText="DNI" width="10%;">
-					<h:outputText value="#{pac.cliPersona.dni}" />
-				</p:column>
+			<h:form id="formulario">
+				<p:dataTable id="tablaPac" var="pac"
+					value="#{pacienteBean.clientes}" paginator="true" rows="10"
+					rowKey="#{pac.idCliente}"
+					emptyMessage="No hay pacientes por el momento"
+					selection="#{pacienteBean.cliente}">
 
-				<p:column headerText="Ap. paterno">
-					<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
-				</p:column>
+					<p:column selectionMode="single" width="5%" />
+					<p:ajax event="rowSelectRadio"
+						listener="#{visitaBean.carga(pacienteBean.cliente)}" />
+					<p:column headerText="DNI" width="10%;">
+						<h:outputText value="#{pac.cliPersona.dni}" />
+					</p:column>
 
-				<p:column headerText="Ap. materno">
-					<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
-				</p:column>
+					<p:column headerText="Ap. paterno">
+						<h:outputText value="#{pac.cliPersona.apellidoPaterno}" />
+					</p:column>
 
-				<p:column headerText="Nombre">
-					<h:outputText value="#{pac.cliPersona.nombres}" />
-				</p:column>
+					<p:column headerText="Ap. materno">
+						<h:outputText value="#{pac.cliPersona.apellidoMaterno}" />
+					</p:column>
 
-				<p:column headerText="Teléfono móvil" width="10%;">
-					<h:outputText value="#{pac.cliPersona.telefonoMovil}"></h:outputText>
-				</p:column>
+					<p:column headerText="Nombre">
+						<h:outputText value="#{pac.cliPersona.nombres}" />
+					</p:column>
 
-				<p:column headerText="Opciones">
-					<p:selectOneMenu id="selectoption" value="#{visitaBean.opciones}">
-						<f:selectItem itemLabel="Seleccione" itemValue="S" />
-						<f:selectItem itemLabel="Datos médicos" itemValue="DM" />
-						<f:selectItem itemLabel="Terapias" itemValue="T" />
-						<f:selectItem itemLabel="Venta de productos" itemValue="P" />
-						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
-						<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />				
-						<p:ajax event="change" 
-							update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA,:dialogHistorialVisitas"
-							listener="#{visitaBean.AbrirPopup}" />
-					</p:selectOneMenu>
-				</p:column>
-					<f:facet name="footer">
-						<p:commandButton value="Crear Visita" 
-						action="#{visitaBean.nuevovalidador(pacienteBean.cliente)}"
-						 image="ui-icon ui-icon-search" />
-					</f:facet>
+					<p:column headerText="Teléfono móvil" width="10%;">
+						<h:outputText value="#{pac.cliPersona.telefonoMovil}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:selectOneMenu id="selectoption" value="#{visitaBean.opciones}">
+							<f:selectItem itemLabel="Seleccione" itemValue="S" />
+							<f:selectItem itemLabel="Datos médicos" itemValue="DM" />
+							<f:selectItem itemLabel="Terapias" itemValue="T" />
+							<f:selectItem itemLabel="Venta de productos" itemValue="P" />
+							<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
+							<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
+							<p:ajax event="change"
+								update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA,:dialogHistorialVisitas"
+								listener="#{visitaBean.AbrirPopup}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:inputText></p:inputText>
 				</p:dataTable>
-		</h:form>
+			</h:form>
+
+			<h:form >
+						<p:commandButton value="Crear Visita" 
+						action="#{pacienteBean.validador2}"
+						 image="ui-icon ui-icon-search" />
+						 </h:form>
 
 		<h:form>
 			<p:dialog id="dialogVisita" header="Visitas" widgetVar="dlgVi"
@@ -167,6 +173,20 @@
 				<ui:include src="Producto.xhtml" />
 			</p:dialog>
 		</h:form>
+		
+			<p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"
+					  showEffect="pop" modal="true" width="850px" height="500px" >
+					  <h:form>
+					  <ui:include src="gestionPunto.xhtml" />
+					  </h:form>
+			</p:dialog>
+			
+			<p:dialog id="dialogEditarDatos" header="Editar Datos  de Paciente" widgetVar="dlgEDP"
+					  showEffect="pop" modal="true" width="850px" height="500px" >
+					  <h:form>
+					  <ui:include src="editarDatosPersonales.xhtml" />
+					  </h:form>
+			</p:dialog>
 	</div>
 	</ui:define>
 

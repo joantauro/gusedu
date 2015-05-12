@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 <ui:composition>
 
 	<h:form id="formulariProducto">
@@ -57,6 +58,7 @@
 
 			<p:outputLabel for="inpCantidad" value="Cantidad: "></p:outputLabel>
 			<p:inputText id="inpCantidad" value="#{visitaBean.cantidadProducto}">
+				<pe:keyFilter mask="num" />  
 				<f:validateDoubleRange minimum="0.0"
 					maximum="#{visitaBean.producto.existencias}"></f:validateDoubleRange>
 				<p:ajax event="keyup" update="outCostoParcial"

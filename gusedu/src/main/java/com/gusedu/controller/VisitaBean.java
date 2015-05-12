@@ -355,11 +355,11 @@ public class VisitaBean implements Serializable{
 			/*Visita vs= new Visita();
 			vs.setIdVisita(0);
 			ultimavisita=vs;*/
-			System.out.println("No hay visitas el dia de hoy :/");
+			//System.out.println("No hay visitas el dia de hoy :/");
 		}else
 		{
 			ultimavisita=visitaService.getLastVisitaCliente(cliente);
-			System.out.println("Ultima Visita :"+ultimavisita.getIdVisita());
+			//System.out.println("Ultima Visita :"+ultimavisita.getIdVisita());
 		}
 		fc.getExternalContext().getSessionMap().put("ultimavisita", ultimavisita);
 	}
@@ -368,6 +368,12 @@ public class VisitaBean implements Serializable{
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
 		clearEntities();
+		if(client==null)
+		{
+			StaticUtil.errorMessage("Error", "Seleccione un paciente");
+			StaticUtil.keepMessages();
+			 return;
+		}
 		cliente = client;
 		//visitasPaciente = visitaService.getVisitasCliente(cliente);
 		fc.getExternalContext().getSessionMap().put("cliente", cliente);	
@@ -375,12 +381,6 @@ public class VisitaBean implements Serializable{
 		 
 		if(vis==null)
 		{
-			if(cliente==null)
-			{
-				StaticUtil.errorMessage("Error", "Seleccione un paciente");
-				StaticUtil.keepMessages();
-				 return;
-			}
 			registrarVisita2();
 			//preNuevaHistoria2();
 		}else
@@ -408,7 +408,7 @@ public class VisitaBean implements Serializable{
 			}else
 			{
 				visita=vis;
-				System.out.println("ID Visita : "+vis.getIdVisita());
+				//System.out.println("ID Visita : "+vis.getIdVisita());
 				preNuevaHistoria2();
 				StaticUtil.Eleccion(opciones);
 				Prueba();
@@ -743,7 +743,7 @@ public class VisitaBean implements Serializable{
 			costoParcial = 0.0; cantidadProducto = 0.0;
 			mostrarFormProducto = -1;
 		} else {
-			System.out.println("ERROR, DEBUGEAR.");
+			//System.out.println("ERROR, DEBUGEAR.");
 		}				
 	}
 	
@@ -894,8 +894,15 @@ public class VisitaBean implements Serializable{
 		double talla=0.0;
 		if(historiaClinica.getPeso()!= null && historiaClinica.getTalla()!=null)
 		{
+			if(historiaClinica.getTalla()<2.50)
+			{
+				talla =Math.pow(historiaClinica.getTalla(), 2);
+			}else
+			{
+				talla =Math.pow(historiaClinica.getTalla()/100, 2);
+			}
+			
 			peso =historiaClinica.getPeso();
-			talla =Math.pow(historiaClinica.getTalla()/100, 2);
 			double imc= peso/talla;
 			
 			descripcionIMC=StaticUtil.calculoIMC(imc);

@@ -136,6 +136,22 @@ public class PuntoBean implements Serializable{
 		}
 	}
 
+	public void añadirPunto2()
+	{
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "El nombre del punto ya existe");
+		}
+		if (puntoService.savePunto(punto)) {
+			punto = new Punto();
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el punto");
+			StaticUtil.keepMessages();		
+			//RequestContext context = RequestContext.getCurrentInstance();
+			//context.execute("PF('AddP').toggle();");
+		} else {
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
+		}
+	}
+	
 	public String nuevoPunto() {
 		punto = new Punto();
 		return "pm:nuevoPunto?transition=flip";

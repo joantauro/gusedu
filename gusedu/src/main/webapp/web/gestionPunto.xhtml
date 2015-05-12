@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	>
+<ui:composition >
+<h:form id="formBusqueda">
+<p:panel header="Filtros" toggleable="true">
+		 
+					
+						<p:outputLabel value="Filtrar: " for="inpQuery" />
+						<p:inputText value="#{puntoBean.query}" id="inpQuery">
+							<p:ajax event="keyup" update=":#{p:component('tablaPunto1')}"
+								listener="#{puntoBean.filtrarBusqueda}">
+							</p:ajax>
+						</p:inputText>
+	 
+				 
+						<p:commandButton value="Asc."
+							update=":#{p:component('tablaPunto1')}"
+							actionListener="#{puntoBean.orderAsc}" icon="ui-icon-arrow-u"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Desc."
+							update=":#{p:component('tablaPunto1')}"
+							actionListener="#{puntoBean.orderDesc}" icon="ui-icon-arrow-d"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Goiz"
+							update=":#{p:component('tablaPunto1')}"
+							actionListener="#{puntoBean.orderGoiz}" icon="ui-icon-tag"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+ 
+			 
+			</p:panel>
+		 
+				<p:dataTable emptyMessage="No hay puntos registrados"
+					id="tablaPunto1" var="pun" value="#{puntoBean.puntos}"
+					rowKey="#{pun.idPunto}" paginator="true" rows="8"
+					tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{pun.nombre}" />
+					</p:column>
+					<p:column headerText="Ubicación">
+						<p:outputLabel value="#{pun.ubicacionCorta}" />
+					</p:column>
+				</p:dataTable>
+				<br/>
+				  <p:fieldset legend="Agregar Punto" collapsed="true"  widgetVar="AddP"
+				  toggleable="true" toggleSpeed="500" id="AddPunto"  >
+					<p:panelGrid columns="2">
+
+					<p:outputLabel for="puntoNombre" value="Nombre: " />
+					<p:inputText id="puntoNombre" required="true"
+						value="#{puntoBean.punto.nombre}" />
+
+					<p:outputLabel for="puntoOrdGoiz" value="Orden Goiz: " />
+					<p:inputText id="puntoOrdGoiz" required="true"
+						value="#{puntoBean.punto.ordenGoiz}" />
+
+					<p:outputLabel for="puntoUbicacionCorta" value="Ubicación corta: " />
+					<p:selectOneMenu id="puntoUbicacionCorta" required="true"
+						value="#{puntoBean.punto.ubicacionCorta}">
+						<f:selectItem itemLabel="Cabeza" itemValue="Cabeza" />
+						<f:selectItem itemLabel="Cuello" itemValue="Cuello" />
+						<f:selectItem itemLabel="Torso" itemValue="Torso" />
+						<f:selectItem itemLabel="Espalda" itemValue="Espalda" />
+						<f:selectItem itemLabel="Área Pélvica" itemValue="Área Pélvica" />
+						<f:selectItem itemLabel="Brazo" itemValue="Brazo" />
+						<f:selectItem itemLabel="Pierna" itemValue="Pierna" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="puntoUbicacionMedia" value="Ubicación media: " />
+					<p:inputText id="puntoUbicacionMedia"
+						value="#{puntoBean.punto.ubicacionMedia}" />
+				 
+					<p:commandButton icon="ui-icon-check"
+						action="#{puntoBean.añadirPunto2}" oncomplete="PF('AddP').toggle();" update=":#{p:component('AddPunto')}"
+						value="Añadir"></p:commandButton>
+					<p:commandButton icon="ui-icon-delete"
+					  ajax="false" oncomplete=""	value="Cancelar"></p:commandButton>
+		 
+				</p:panelGrid>
+    			</p:fieldset>
+			</h:form>
+</ui:composition>
+</html>

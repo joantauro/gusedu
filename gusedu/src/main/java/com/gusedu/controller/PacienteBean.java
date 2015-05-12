@@ -116,6 +116,37 @@ public class PacienteBean implements Serializable{
 		}
 	}
 
+	public void validador2()
+	{
+		if(cliente.getCliPersona()==null)
+		{
+			StaticUtil.errorMessage("Error", "Seleccione un paciente");
+		}else
+		{
+			//StaticUtil.correctMesage("Exito", "Bien ahi");
+			System.out.println("Exito");
+			FacesContext fc = FacesContext.getCurrentInstance();
+			VisitaBean objeto =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+			objeto.nuevovalidador(cliente);
+		}
+		//StaticUtil.correctMesage("Exito", "Bien ahi");
+	}
+	
+	public void validador()
+	{
+		if(cliente==null)
+		{
+			StaticUtil.errorMessage("Error", "Seleccione un paciente");
+			//StaticUtil.keepMessages();
+		    return;
+		}else
+		{
+			FacesContext fc = FacesContext.getCurrentInstance();
+			VisitaBean objeto =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+			objeto.nuevovalidador(cliente);
+		}
+	}
+	
 	public String cancelar() {
 		cliente = new Cliente();
 		return "consultarPacientes?faces-redirect=true";
