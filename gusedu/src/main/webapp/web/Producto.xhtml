@@ -45,8 +45,9 @@
 					update=":#{p:component('pnlProd')}" />
 			</p:column>
 		</p:dataTable>
- 
-		<p:panelGrid id="pnlProd" columns="2">
+ 		<br/>
+ 		<p:panelGrid columns="2" >
+ 				<p:panelGrid id="pnlProd" columns="2">
 		
 			<p:outputLabel for="outNombre" value="Producto: "></p:outputLabel>
 			<h:outputText id="outNombre"
@@ -68,10 +69,33 @@
 			<p:outputLabel for="outCostoParcial" value="Costo Total: "></p:outputLabel>
 			<h:outputText id="outCostoParcial"
 				value="#{visitaBean.costoParcial} #{visitaBean.producto.currencySymbol}" />
-		</p:panelGrid>		
 			<p:commandButton icon="ui-icon-plus"
-				value="Agregar Producto" update=":#{p:component('tablaProductos')}"
+				value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('productos')}"
 				actionListener="#{visitaBean.addProductoToVisitaWeb}" />
+		</p:panelGrid>
+ 		
+ 			
+							<p:dataTable id="productos" var="pro" style="width:400px;"
+							paginatorAlwaysVisible="false"
+							value="#{visitaBean.productosDeVisita}"
+							emptyMessage="No se han añadido productos" paginator="true"
+							rows="5">
+							<f:facet name="header">
+        							Productos del Paciente
+    						</f:facet>
+							<p:column headerText="Nombre" style="vertical-align:middle;">
+								<h:outputText value="#{pro.pxvProducto.descripcionMedia}" />
+							</p:column>
+							<p:column headerText="Cantidad" style="vertical-align:middle;">
+								<h:outputText value="#{pro.cantidad}" />
+							</p:column>
+							<p:column headerText="Costo parcial"
+								style="vertical-align:middle;">
+								<h:outputText
+									value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
+							</p:column>
+						</p:dataTable>
+						</p:panelGrid>	
 		
 	</h:form>
 </ui:composition>

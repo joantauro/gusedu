@@ -81,6 +81,8 @@ public class PersonaBean implements Serializable{
 	public void registroPacienteV2(){		
 		String empresa = StaticUtil.userLogged();
 		RequestContext context = RequestContext.getCurrentInstance();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		PacienteBean objetoBean =(PacienteBean) fc.getExternalContext().getSessionMap().get("pacienteBean");
 		//Guarda la persona en la base de datos
 		if(personaService.registroPaciente(persona, empresa)){
 			
@@ -89,6 +91,7 @@ public class PersonaBean implements Serializable{
 			//Muestra mensajes de éxito
 			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente al paciente");
 			StaticUtil.keepMessages();
+			objetoBean.listado();
 			context.execute("PF('dlg1').hide();");			
 		}else{			
 			System.out.println("Error Fatal");

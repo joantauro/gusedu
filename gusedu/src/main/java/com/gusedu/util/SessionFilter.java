@@ -28,7 +28,7 @@ public class SessionFilter implements javax.servlet.Filter {
 		System.out.println("urlSolicitada: " + urlSolicitada);
 		Usuario user = (Usuario) httpRequest.getSession().getAttribute("userLogged");
 		if (user == null) {
-			if (urlSolicitada.contains("mobile")) {
+			if (urlSolicitada.contains("mobile") || urlSolicitada.contains("web")) {
 				httpResponse.sendRedirect("/gusedu/home.jsf");
 				return;
 			} else {

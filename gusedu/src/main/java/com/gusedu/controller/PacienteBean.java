@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -35,6 +36,11 @@ public class PacienteBean implements Serializable{
 		enviarQuery();
 	}
 
+	@PostConstruct
+	 public void init() {
+		listado();
+	}
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -52,16 +58,21 @@ public class PacienteBean implements Serializable{
 	}
 
 	public List<Cliente> getClientes() {
-		String username = StaticUtil.userLogged();
+		/*String username = StaticUtil.userLogged();
 		if (query != null) {
 			if (!query.isEmpty()) {
 				return clientes;
 			}
 		}
-	    clientes=clienteService.getClientesPacientesByUsuario(username);
+	    clientes=clienteService.getClientesPacientesByUsuario(username);*/System.out.println("Carga");
 		return clientes;
 	}
 
+	public void listado(){
+		String username = StaticUtil.userLogged();
+	    clientes=clienteService.getClientesPacientesByUsuario(username);
+	}
+	
 	public void setClientes(List<Cliente> clientes) {
 		this.clientes = clientes;
 	}
@@ -121,6 +132,7 @@ public class PacienteBean implements Serializable{
 		if(cliente.getCliPersona()==null)
 		{
 			StaticUtil.errorMessage("Error", "Seleccione un paciente");
+			StaticUtil.keepMessages();
 		}else
 		{
 			//StaticUtil.correctMesage("Exito", "Bien ahi");
@@ -137,7 +149,7 @@ public class PacienteBean implements Serializable{
 		if(cliente==null)
 		{
 			StaticUtil.errorMessage("Error", "Seleccione un paciente");
-			//StaticUtil.keepMessages();
+			StaticUtil.keepMessages();
 		    return;
 		}else
 		{

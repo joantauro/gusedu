@@ -183,6 +183,7 @@ public class StaticUtil {
 		if(opcion.equals("P"))//---- Abre la pantalla de Productos
 		{
 			RequestContext context = RequestContext.getCurrentInstance();
+			objetoBean.listar();
 			context.execute("PF('dlgP').show();");
 		}
 		if(opcion.equals("T"))//---- Abre la pantalla de terapias

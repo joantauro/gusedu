@@ -393,6 +393,7 @@ public class VisitaBean implements Serializable{
 	{
 		opciones="S";
 	}
+	
 	public void AbrirPopup()
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -400,6 +401,7 @@ public class VisitaBean implements Serializable{
 		if(vis==null)
 		{
 			StaticUtil.errorMessage("Error", "Por favor seleccione un paciente");
+			StaticUtil.keepMessages();
 		}else
 		{
 			if(vis.getIdVisita()==null)
@@ -560,6 +562,11 @@ public class VisitaBean implements Serializable{
 		return "detalleVisita?faces-redirect=true";
 	}
 
+	public void listar()
+	{
+		productosDeVisita = productoService.getAllProductosByVisita(visita);
+	}
+	
 	// Método previo a la creación o modificación de una historia clínica
 	public String preNuevaHistoria() {
 		// Verifica si a la visita ya se le asignó una historia clínica
@@ -733,6 +740,7 @@ public class VisitaBean implements Serializable{
 		toAdd.setPxvVisita(vis);		
 		if (productoService.saveProductoVisita(toAdd)) {
 			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el producto");
+			listar();
 			//Actualizar el stock de existencias de producto
 			producto.setExistencias(producto.getExistencias()-cantidadProducto);
 			productoService.updateProducto(producto);

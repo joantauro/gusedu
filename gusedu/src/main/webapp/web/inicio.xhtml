@@ -16,10 +16,15 @@
 	<ui:define name="top">
 	</ui:define>
 	<ui:define name="content">
+<!--  	<script type="text/javascript">
+function foo() {
+	   document.getElementById('formNuevo:btnListar').click();
+}
+</script> -->
 		<div style="width: 98%; margin: auto auto auto auto;">
 		<h:form id="formNuevo">
 			<p:commandButton value="Listar" id="btnListar" style="display: none;"
-				action="#{principalBean.actualizar}"
+				action="#{pacienteBean.listado}"
 				update=":#{p:component('tablaPac')}" />
 		</h:form>
 
@@ -32,7 +37,7 @@
 				</p:ajax>
 			</p:inputText>
 			<p:spacer width="50px;" />
-			<p:commandButton value="Nuevo Paciente"
+			<p:commandButton value="Nuevo Paciente" id="btnNuevo"
 				update=":#{p:component('panelRegistro')}"
 				action="#{personaBean.valida}" oncomplete="PF('dlg1').show();" />
 		</h:form>
@@ -44,7 +49,7 @@
 					emptyMessage="No hay pacientes por el momento"
 					selection="#{pacienteBean.cliente}">
 
-					<p:column selectionMode="single" width="5%" />
+					<p:column selectionMode="single" width="5%" id="rad" />
 					<p:ajax event="rowSelectRadio"
 						listener="#{visitaBean.carga(pacienteBean.cliente)}" />
 					<p:column headerText="DNI" width="10%;">
@@ -76,20 +81,17 @@
 							<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
 							<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
 							<p:ajax event="change"
-								update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA,:dialogHistorialVisitas"
+								update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA,:dialogHistorialVisitas,:dialogProducto"
 								listener="#{visitaBean.AbrirPopup}" />
 						</p:selectOneMenu>
 					</p:column>
-					<p:inputText></p:inputText>
+					<f:facet name="footer">
+					<p:commandButton value="Crear Visita" 
+						action="#{pacienteBean.validador}"
+						 image="ui-icon ui-icon-search" />
+             		</f:facet>
 				</p:dataTable>
 			</h:form>
-
-			<h:form >
-						<p:commandButton value="Crear Visita" 
-						action="#{pacienteBean.validador2}"
-						 image="ui-icon ui-icon-search" />
-						 </h:form>
-
 		<h:form>
 			<p:dialog id="dialogVisita" header="Visitas" widgetVar="dlgVi"
 				showEffect="pop" modal="true" resizable="false">
@@ -165,14 +167,15 @@
 			</p:dialog>
 		
 
-		<h:form>
+	
 			<p:dialog id="dialogProducto" header="Productos" widgetVar="dlgP"
-				showEffect="pop" modal="true" width="850px" height="500px">
+				showEffect="pop" modal="true" width="850px" height="550px">
 				<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-			
+			<h:form>
 				<ui:include src="Producto.xhtml" />
+				</h:form>
 			</p:dialog>
-		</h:form>
+	
 		
 			<p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"
 					  showEffect="pop" modal="true" width="850px" height="500px" >
