@@ -49,10 +49,10 @@ function foo() {
 					emptyMessage="No hay pacientes por el momento"
 					selection="#{pacienteBean.cliente}">
 
-					<p:column selectionMode="single" width="5%" id="rad" />
+					<p:column selectionMode="single" width="13px;" id="rad" />
 					<p:ajax event="rowSelectRadio"
 						listener="#{visitaBean.carga(pacienteBean.cliente)}" />
-					<p:column headerText="DNI" width="10%;">
+					<p:column headerText="DNI" width="60px;">
 						<h:outputText value="#{pac.cliPersona.dni}" />
 					</p:column>
 
@@ -68,7 +68,14 @@ function foo() {
 						<h:outputText value="#{pac.cliPersona.nombres}" />
 					</p:column>
 
-					<p:column headerText="Teléfono móvil" width="10%;">
+					<p:column headerText="Edad" width="25px;" >
+						<h:outputText value="#{pac.cliPersona.edad}" />
+					</p:column>
+					
+					<p:column headerText="Teléfono fijo" width="60px;" >
+							<h:outputText value="#{pac.cliPersona.telefonoFijo}"></h:outputText>
+					</p:column>
+					<p:column headerText="Teléfono móvil" width="70px;">
 						<h:outputText value="#{pac.cliPersona.telefonoMovil}"></h:outputText>
 					</p:column>
 

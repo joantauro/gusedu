@@ -402,6 +402,7 @@ public class VisitaBean implements Serializable{
 		{
 			StaticUtil.errorMessage("Error", "Por favor seleccione un paciente");
 			StaticUtil.keepMessages();
+			return;
 		}else
 		{
 			if(vis.getIdVisita()==null)

@@ -71,6 +71,9 @@ public class Persona {
     @Column(name="PER_USU_CREACION", nullable=true, length=100)
     private String usuarioCreacion;
     
+    @Column(nullable = false, name = "PER_EDAD")
+    private Integer edad;
+    
 	@OneToOne(mappedBy="usuPersona")
 	private Usuario perUsuario;	
 
@@ -288,6 +291,14 @@ public class Persona {
 
 	public void setFacebook(String facebook) {
 		this.facebook = facebook;
+	}
+
+	public Integer getEdad() {
+		return edad;
+	}
+
+	public void setEdad(Integer edad) {
+		this.edad = edad;
 	}
 	
 }

@@ -17,7 +17,6 @@
 				<p:outputLabel for="inputFC" value="Frecuencia cardiaca: " />
 
 				<p:inputText id="inputFC" maxlength="5" style="width:150px;"
-				placeholder="Rango óptimo: 100/50 "
 				 value="#{visitaBean.historiaClinica.temperatura}" >
 				 <pe:keyFilter mask="num" />  
 				 </p:inputText>
@@ -26,7 +25,7 @@
 				<p:inputText id="inputTA" maxlength="5" style="width:150px;"
 				placeholder="Rango óptimo: 120/80"
 				 value="#{visitaBean.historiaClinica.tensionArterial}" >
-				 <pe:keyFilter mask="num" />  
+				<pe:keyFilter regEx="/[0-9_\.\-/]/i" />  
 				 </p:inputText>
 
 				<p:outputLabel for="inputPeso" value="Peso: " />

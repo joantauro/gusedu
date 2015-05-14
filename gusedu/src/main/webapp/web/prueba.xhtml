@@ -42,6 +42,11 @@ function get() {
 				<pe:keyFilter regEx="/[a-z_]/i"/>  
 			</p:inputText>
 
+			<p:outputLabel for="perEdad" value="Edad : " />
+			<p:inputText value="#{personaBean.persona.edad}" id="perEdad" >
+				<pe:keyFilter mask="num" />  
+			</p:inputText>
+			
 			<p:outputLabel for="perFecNac" value="Fecha de nacimiento: " /> 
 			<p:calendar value="#{personaBean.persona.fechaNacimiento}" required="true" yearRange="c-100:c"
 				id="perFecNac" pattern="dd/MM/yyyy" navigator="true" />
