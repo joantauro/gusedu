@@ -145,14 +145,17 @@ function foo() {
 		</p:dialog>
 
 		<p:dialog id="dialogTerapia" header="Terapias" widgetVar="dlgT"
-			showEffect="pop" modal="true" width="1000px" height="550px">
+			showEffect="pop" modal="true" width="1230px" height="550px">
 			<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
 			
 			<h:form>
 				<p:tabView>
-					<p:tab title="Registro de Terapias">
-						<ui:include src="RegistroTerapia.xhtml" />
+					<p:tab title="Registro Pares de Terapia">
+						<ui:include src="RegistroPares.xhtml" />
 					</p:tab>
+					<!--  <p:tab title="Registro de Terapias">
+						<ui:include src="RegistroTerapia.xhtml" />
+					</p:tab> -->
 					<p:tab title="Historial de Terapias">
 						<ui:include src="ConsultarTerapia.xhtml" />
 					</p:tab>

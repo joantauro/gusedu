@@ -581,6 +581,15 @@ public class TerapiaBean implements Serializable{
 		}
 	}
 	
+	public void listado()
+	{
+		if(terapia.getTerTipoTerapia()!=null)
+		{
+			listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+		}
+		//listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+	}
+	
 	public void addPar(Integer idpar)
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -617,7 +626,7 @@ public class TerapiaBean implements Serializable{
 		boolean valor=false;
 		for(TerapiaPar s : listarTerapiaPar)
 		{
-			
+			System.out.println(s.getTxpPar().getIdPar() +"-"+ idpar);
 			if(s.getTxpPar().getIdPar() == idpar)
 			{
 				StaticUtil.errorMessage("Error", "El par ya ha sido agregado");

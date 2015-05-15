@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	>
+<ui:composition template="/WEB-INF/facelets/templates/plantillaPrincipal.xhtml">
+	
+	<ui:define name="titulo">
+         Gusedu Salud
+    </ui:define>
+	<ui:define name="top">
+	</ui:define>
+	<ui:define name="content">
+	<h:form id="formularioPuntos" >
+	
+ 	<p:dataTable emptyMessage="No hay puntos registrados" id="ttablaPuntos"  scrollable="true"
+			scrollHeight="500"
+			var="pun" value="#{puntoBean.lista}"    
+			paginatorPosition="top"
+			paginator="true" rows="50" tableStyleClass="ui-table-columntoggle"> 
+			<f:facet name="header">
+        		Lista de Puntos
+    		</f:facet>
+
+			<p:column headerText="Nombre">
+				<p:commandButton icon="ui-icon-plus" 
+				oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto1.idPunto)}"
+				 update=":#{p:component('tablaPar')}" />
+				<p:outputLabel value="#{pun.punto1.nombre}" />
+			</p:column>
+			<p:column headerText="Nombre">
+			<p:commandButton icon="ui-icon-plus" 
+				oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto2.idPunto)}"
+				 update=":#{p:component('tablaPar')}" />
+				<p:outputLabel value="#{pun.punto2.nombre}" />
+			</p:column>
+			<p:column headerText="Nombre">
+			<p:commandButton icon="ui-icon-plus" 
+				oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto3.idPunto)}"
+				 update=":#{p:component('tablaPar')}" />
+				<p:outputLabel value="#{pun.punto3.nombre}" />
+			</p:column>
+			<p:column headerText="Nombre">
+			<p:commandButton icon="ui-icon-plus" 
+				oncomplete="PF('dlgPtos').show();" action="#{puntoBean.buscar(pun.punto4.idPunto)}"
+				 update=":#{p:component('tablaPar')}" />
+				<p:outputLabel value="#{pun.punto4.nombre}" />
+			</p:column>
+			</p:dataTable>
+			
+			<p:dialog id="dialogPtos" header="Editar Datos  de Paciente" widgetVar="dlgPtos"
+					  showEffect="pop" modal="true"  >
+				<p:dataTable emptyMessage="No hay pares" style="width:220px;"
+						id="tablaPar" value="#{puntoBean.parcito}" var="parp">
+						<f:facet name="header">
+        					Lista de Pares del Punto Seleccionado
+    					</f:facet>
+						<p:column headerText="Punto"  >
+							<p:outputLabel value="#{parp.parPunto2.nombre}" />
+						</p:column>
+						<p:column headerText="#" width="25px;">
+							<p:commandButton id="btnAdd" icon="ui-icon-plus"  
+								action="#{terapiaBean.addPar2(parp.idPar)}" />
+						</p:column>
+					</p:dataTable>
+			</p:dialog>
+</h:form>
+	</ui:define>
+</ui:composition>
+</html>
