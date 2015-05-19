@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
 
+import com.gusedu.controller.PacienteBean;
 import com.gusedu.controller.TerapiaBean;
 import com.gusedu.controller.VisitaBean;
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Usuario;
 
 public class StaticUtil {
@@ -159,11 +161,21 @@ public class StaticUtil {
     	context.execute("PF('"+dialogVar+"').show();");
     }
     
-    public static void EleccionUnica()
+    public static void EleccionUnica(String opcion)
     {
     	FacesContext fc = FacesContext.getCurrentInstance();
     	VisitaBean objetoBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+    	
+    	
+    	if(opcion.equals("DP"))
+    	{
+    		RequestContext context = RequestContext.getCurrentInstance();
+        	context.execute("PF('dlgDP').show();");
+        	return;
+    	}
+    	
 		objetoBean.ListarVisitas();
+		
     	RequestContext context = RequestContext.getCurrentInstance();
     	context.execute("PF('dlgHV').show();");
     }
@@ -175,6 +187,16 @@ public class StaticUtil {
 		//Object objeto =fc.getExternalContext().getSessionMap().get("visitaBean"); 
 		VisitaBean objetoBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
 		TerapiaBean objetoTBean =(TerapiaBean) fc.getExternalContext().getSessionMap().get("terapiaBean");
+		PacienteBean objetoPBean =(PacienteBean) fc.getExternalContext().getSessionMap().get("pacienteBean");
+		
+    	if(opcion.equals("DP"))
+    	{
+    		Cliente cli = (Cliente) fc.getExternalContext().getSessionMap().get("cliente");
+    		objetoPBean.preEditarPaciente(cli);
+    		RequestContext context = RequestContext.getCurrentInstance();
+        	context.execute("PF('dlgDP').show();");
+        	return;
+    	}
 		if(opcion.equals("DC"))//---- Abre la pantalla de datos Clinicos
 		{
 			RequestContext context = RequestContext.getCurrentInstance();
@@ -189,7 +211,8 @@ public class StaticUtil {
 		if(opcion.equals("T"))//---- Abre la pantalla de terapias
 		{
 			RequestContext context = RequestContext.getCurrentInstance();
-			objetoBean.ListarTerapias();
+			//objetoBean.ListarTerapias();
+			objetoTBean.llenamatriz();
 			objetoBean.Prueba();
 			context.execute("PF('dlgT').show();");
 		}
@@ -201,6 +224,7 @@ public class StaticUtil {
 		{
 			RequestContext context = RequestContext.getCurrentInstance();
 			objetoTBean.listarsintomas();
+			objetoTBean.listarenfermedades();
 			context.execute("PF('dlgHEA').show();");
 		}
 		if(opcion.equals("HV")){

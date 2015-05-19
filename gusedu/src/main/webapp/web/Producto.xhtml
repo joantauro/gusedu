@@ -46,7 +46,7 @@
 			</p:column>
 		</p:dataTable>
  		<br/>
- 		<p:panelGrid columns="2" >
+ 	
  				<p:panelGrid id="pnlProd" columns="2">
 		
 			<p:outputLabel for="outNombre" value="Producto: "></p:outputLabel>
@@ -70,11 +70,11 @@
 			<h:outputText id="outCostoParcial"
 				value="#{visitaBean.costoParcial} #{visitaBean.producto.currencySymbol}" />
 			<p:commandButton icon="ui-icon-plus"
-				value="Agregar Producto" update=":#{p:component('tablaProductos')},:#{p:component('productos')}"
+				value="Agregar Producto" update=":#{p:component('tablaProductos')}"
 				actionListener="#{visitaBean.addProductoToVisitaWeb}" />
 		</p:panelGrid>
  		
- 			
+ 			<!--  
 							<p:dataTable id="productos" var="pro" style="width:400px;"
 							paginatorAlwaysVisible="false"
 							value="#{visitaBean.productosDeVisita}"
@@ -95,7 +95,7 @@
 									value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
 							</p:column>
 						</p:dataTable>
-						</p:panelGrid>	
+				-->		
 		
 	</h:form>
 </ui:composition>

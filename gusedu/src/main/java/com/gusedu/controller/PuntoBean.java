@@ -39,6 +39,7 @@ public class PuntoBean implements Serializable{
 	int goiz;
 
 	private List<classPunto> lista;
+	private List<classPar> listapar;
 	
 	public PuntoBean() {
 		punto = new Punto();
@@ -252,8 +253,26 @@ public class PuntoBean implements Serializable{
 		return lista;
 	}
 
-	public void setLista(List<classPunto> lista) {
-		this.lista = lista;
+	public List<classPar> getListapar() {
+		listapar = new ArrayList<>();
+		List<Par> pares = new ArrayList<>();
+		pares=parService.getAllPares();
+		System.out.println(pares.size());
+		for(int j=0;j<68;j++)
+		{
+			if(j>=65)
+			{
+				pares.add(new Par());
+				//System.out.print( "SOS");
+			}
+			//System.out.println(j+"-"+(j+68)+"-"+(j+136)+"-"+(j+204));
+			listapar.add(new classPar(pares.get(j), pares.get(j+68), pares.get(136+j), pares.get(j+204)));
+		}
+		return listapar;
+	}
+
+	public void setListapar(List<classPar> listapar) {
+		this.listapar = listapar;
 	}
 	
 }

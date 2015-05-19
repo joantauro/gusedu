@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition >
+    <h:form id="formularioHistoria"  >
+    <br/>
+		  <p:dataTable var="rowName" value="#{terapiaBean.rowNames}" rowIndexVar="rowIdx">
+            <p:column headerText="" styleClass="ui-widget-header" width="250px;"  >
+        <h:outputText value="#{rowName}"/>
+    </p:column>
+
+    <p:columns var="columnName" value="#{terapiaBean.colNames}" headerText="#{columnName}"
+               columnIndexVar="colIdx">
+        <ui:repeat value="#{terapiaBean.data3D[rowIdx][colIdx]}" var="data">
+       
+                <h:outputText value="#{data}"/>
+ 
+        </ui:repeat>
+    </p:columns>
+</p:dataTable>
+    </h:form>
+</ui:composition>
+</html>

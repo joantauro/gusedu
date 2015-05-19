@@ -10,7 +10,7 @@
 		<p:menubar>
 			<p:submenu label="Reportes" icon="ui-icon-document">
 				<p:menuitem value="Productos"  url="Puntos.xhtml" />
-				<p:menuitem value="Puntos por Par" url="#" />
+				<p:menuitem value="Puntos por Par" onclick="PF('dlgHT').show();" />
 			</p:submenu>
 
 			<p:submenu label="Gestión" icon="ui-icon-pencil">
@@ -22,7 +22,7 @@
 
 			<p:submenu label="Opciones Adicionales" icon="ui-icon-help">
 				<p:menuitem value="Gestionar Enfermedades" url="#" />
-				<p:menuitem value="Gestionar Sintomas" url="#" />
+				<p:menuitem value="Gestionar Sintomas" url="inicio2.xhtml" />
 			</p:submenu>
 
 			<f:facet name="options">

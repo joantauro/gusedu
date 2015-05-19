@@ -309,6 +309,8 @@ public class VisitaBean implements Serializable{
 		fc.getExternalContext().getSessionMap().put("cliente", cliente);		
 	}
 	public void registrarVisita2() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		cliente =((Cliente) fc.getExternalContext().getSessionMap().get("cliente"));
 		// Asigna datos a la visita
 		visita.setEsPresencial(true);
 		visita.setPrioridad(2);
@@ -327,12 +329,12 @@ public class VisitaBean implements Serializable{
 			StaticUtil.keepMessages();
 			
 			Visita vis=visitaService.getLastVisitaCliente(cliente);
-			FacesContext fc = FacesContext.getCurrentInstance();
+
 			fc.getExternalContext().getSessionMap().put("visita", vis);
 			fc.getExternalContext().getSessionMap().put("ultimavisita", vis);
 			//fc.getExternalContext().getSessionMap().put("cliente", cliente);
 			clearEntities(); 
-			
+			RequestContext.getCurrentInstance().update("formulario");
 
 			// Redirección
 			//RequestContext context = RequestContext.getCurrentInstance();
@@ -407,7 +409,8 @@ public class VisitaBean implements Serializable{
 		{
 			if(vis.getIdVisita()==null)
 			{
-				StaticUtil.EleccionUnica();
+				StaticUtil.EleccionUnica(opciones);
+				
 			}else
 			{
 				visita=vis;
@@ -434,7 +437,8 @@ public class VisitaBean implements Serializable{
 	public void Prueba()
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Visita vis1=visitaService.getLastVisitaCliente2(cliente);
+		Cliente cli =((Cliente) fc.getExternalContext().getSessionMap().get("cliente"));
+		Visita vis1=visitaService.getLastVisitaCliente2(cli);
 		if(vis1==null)
 		{
 			Visita vs= new Visita();
@@ -461,7 +465,92 @@ public class VisitaBean implements Serializable{
 		}
 	}
 	
-	 
+	public boolean rendered(Cliente client)
+	{
+		boolean result=true;
+		Visita vis = visitaService.buscarVisita(client);
+		if(vis!=null)
+		{
+			result=false;
+		}
+		return result;
+	}
+	public boolean renderedV(Cliente client)
+	{
+		boolean result=false;
+		Visita vis = visitaService.buscarVisita(client);
+		if(vis!=null)
+		{
+			result=true;
+		}
+		return result;
+	}
+	
+	 public void lastvisita(Cliente client)
+	 {
+		    FacesContext fc = FacesContext.getCurrentInstance();
+		    VisitaBean objetoBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+		    TerapiaBean objetoTBean =(TerapiaBean) fc.getExternalContext().getSessionMap().get("terapiaBean");
+		    Visita vis = visitaService.buscarVisita(client);
+		    if(vis==null)
+		    {
+		    	System.out.println("No hay visita, gg");
+		    	if(opciones.equals("CV"))
+		    	{
+		    		registrarVisita2();
+		    	}
+		    }else
+		    {
+		    	if(opciones.equals("DM"))
+				{
+							
+							Visita ultimavisita = new Visita();
+						 
+								ultimavisita = vis;
+								visita=ultimavisita;
+								fc.getExternalContext().getSessionMap()
+								.put("ultimavisita", ultimavisita);
+								preNuevaHistoria2();
+								
+								objetoTBean.listarsintomas();
+								objetoTBean.listarenfermedades();
+								
+								RequestContext.getCurrentInstance().update("frame2");
+							//	RequestContext.getCurrentInstance().execute("PF('dlgHEA').show();");
+						
+				}
+				if(opciones.equals("T"))
+				{
+					//Visita vis = visitaService.buscarVisita(client);
+					Visita ultimavisita = new Visita();
+				 
+						ultimavisita = vis;
+						visita=ultimavisita;
+						fc.getExternalContext().getSessionMap()
+						.put("ultimavisita", ultimavisita);
+						preNuevaHistoria2();
+						
+						objetoTBean.llenamatriz();
+						objetoBean.Prueba();
+						
+						RequestContext.getCurrentInstance().update("frame3");
+				 
+				}
+				/*if(opciones.equals("P"))
+				{
+					//objetoBean.listar();
+					//RequestContext.getCurrentInstance().update("frame3");
+				}*/
+		    }
+			if(opciones.equals("HV"))
+			{
+				objetoBean.ListarVisitas();
+				RequestContext.getCurrentInstance().update("frame4");
+			}
+			
+			
+			
+	 }
 
 	public void validadorUnico(Integer idCliente)
 	{
@@ -509,7 +598,10 @@ public class VisitaBean implements Serializable{
 	}
 	public void ListarVisitas()
 	{
-		visitasPaciente = visitaService.getVisitasCliente(cliente);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Cliente client =((Cliente) fc.getExternalContext().getSessionMap().get("cliente"));
+		visitasPaciente = visitaService.getVisitasCliente(client);
+		System.out.println(visitasPaciente.size());
 	}
 	
 	
@@ -590,6 +682,7 @@ public class VisitaBean implements Serializable{
 		// Verifica si a la visita ya se le asignó una historia clínica
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Visita vis= ((Visita) fc.getExternalContext().getSessionMap().get("ultimavisita"));
+		System.out.println(vis);
 		if (historiaClinicaService.getHistoriaByVisita(vis) == null) {
 			// Si no se le asignó, se crea una nueva
 			historiaClinica = new HistoriaClinica();
@@ -600,6 +693,7 @@ public class VisitaBean implements Serializable{
 		} else {
 			// En caso ya exista una, se obtiene de la base de datos
 			historiaClinica = historiaClinicaService.getHistoriaByVisita(visita);
+			System.out.println(historiaClinica.getIdHistoriaClinica());
 		}
 	}
 

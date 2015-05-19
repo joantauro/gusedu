@@ -52,4 +52,14 @@ public interface TerapiaService {
 	public List<TerapiaPar> getAllTerapiaParbyTerapia(Terapia terapia);
 	
 	public List<TerapiaPar> getAllTerapiaParbyVisita(Visita visita);
+	
+	public String getAllParbyAllTerapia(Terapia terapia,Par par);
+	
+	public List<Terapia> getAllTerapiabyCliente(Cliente cli);
+	
+	public Terapia lastTerapia(Cliente cli);
+	
+	public boolean updateTerapiaPar(TerapiaPar terapiapar);
+
+	public List<TerapiaPar> getAllParbyCliente(Cliente cliente);
 }

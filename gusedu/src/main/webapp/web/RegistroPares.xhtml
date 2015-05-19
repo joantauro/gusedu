@@ -97,6 +97,11 @@
 				<p:column headerText="Punto 2">
 					<p:outputLabel value="#{parpu.txpPar.parPunto2.nombre}" />
 				</p:column>
+				<p:column>
+					<p:inputSwitch value="#{parpu.txpActivo}" offLabel="No" onLabel="Si" >
+						<p:ajax listener="#{terapiaBean.Update(parpu)}"  />
+					</p:inputSwitch>
+				</p:column>
 			</p:dataTable>
 					  
 					  </p:dialog>

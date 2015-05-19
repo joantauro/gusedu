@@ -344,6 +344,11 @@ public class ParBean implements Serializable{
 		sintomasPar = parService.getSintomas(parSeleccionado);
 		return "pm:detallePar?transition=flip";
 	}
+	
+	public void cargarPar2(int id)
+	{
+		parSeleccionado = parService.parById(id);
+	}
 
 	public String toDetalle() {
 		return "pm:detallePar";

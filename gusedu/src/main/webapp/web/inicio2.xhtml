@@ -16,6 +16,30 @@
 	<ui:define name="top">
 	</ui:define>
 	<ui:define name="content">
+	<script type="text/javascript">
+		function changeEvent(element) {
+			
+		    var val = $(element).find('option:selected').text();
+		    if(val === 'Datos médicos') {
+		       PF('dlgHEA').show();
+		    }
+		    if(val === 'Terapias') {
+			       PF('dlgT').show();
+			}
+		    if(val === 'Venta de productos') {
+			       PF('dlgP').show();
+			}
+		    if(val === 'Historial de visitas') {
+			       PF('dlgHV').show();
+			}
+			if(val === 'Datos Personales') {
+				  
+				   
+			       PF('dlgDP').show(); document.getElementById('formNuevo:btnAct').click();
+			}
+		}
+		</script>
+	
 <!--  	<script type="text/javascript">
 function foo() {
 	   document.getElementById('formNuevo:btnListar').click();
@@ -26,6 +50,7 @@ function foo() {
 			<p:commandButton value="Listar" id="btnListar" style="display: none;"
 				action="#{pacienteBean.listado}"
 				update=":#{p:component('tablaPac')}" />
+			<p:commandButton value="Actualizar" id="btnAct" style="display: none;"   ></p:commandButton>
 		</h:form>
 
 		<h:form id="formBusquedaP" style="text-align: center;">
@@ -46,12 +71,8 @@ function foo() {
 				<p:dataTable id="tablaPac" var="pac"
 					value="#{pacienteBean.clientes}" paginator="true" rows="10"
 					rowKey="#{pac.idCliente}"
-					emptyMessage="No hay pacientes por el momento"
-					selection="#{pacienteBean.cliente}">
-
-					<p:column selectionMode="single" width="13px;" id="rad" />
-					<p:ajax event="rowSelectRadio"
-						listener="#{visitaBean.carga(pacienteBean.cliente)}" />
+					emptyMessage="No hay pacientes por el momento" >
+					
 					<p:column headerText="DNI" width="60px;">
 						<h:outputText value="#{pac.cliPersona.dni}" />
 					</p:column>
@@ -79,25 +100,21 @@ function foo() {
 						<h:outputText value="#{pac.cliPersona.telefonoMovil}"></h:outputText>
 					</p:column>
 
-					<p:column headerText="Opciones">
-						<p:selectOneMenu id="selectoption" value="#{visitaBean.opciones}">
-							<f:selectItem itemLabel="Seleccione" itemValue="S" />
-							<f:selectItem itemLabel="Datos médicos" itemValue="DM" />
-							<f:selectItem itemLabel="Terapias" itemValue="T" />
-							<f:selectItem itemLabel="Venta de productos" itemValue="P" />
-							<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
-							<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
-							<f:selectItem itemLabel="Datos Personales" itemValue="DP" />
-							<p:ajax event="change"
-								update=":dialogDatosClinicos,:dialogTerapia,:dialogHEA,:dialogHistorialVisitas,:dialogProducto,:dialogDP"
-								listener="#{visitaBean.AbrirPopup}" />
-						</p:selectOneMenu>
+					
+					<p:column headerText="Opcion 2">
+									<p:selectOneMenu id="sselectoption" value="#{visitaBean.opciones}" onchange="changeEvent(this)" >
+						<f:selectItem itemLabel="Seleccione" itemValue="S" />
+						<f:selectItem itemLabel="Crear Visita" itemValue="CV" itemDisabled="#{visitaBean.renderedV(pac)}" />
+						<f:selectItem itemLabel="Datos médicos" itemValue="DM" itemDisabled="#{visitaBean.rendered(pac)}" />
+						<f:selectItem itemLabel="Terapias" itemValue="T" itemDisabled="#{visitaBean.rendered(pac)}" />
+						<f:selectItem itemLabel="Venta de productos" itemValue="P" itemDisabled="#{visitaBean.rendered(pac)}" />
+						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
+						<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
+						<f:selectItem itemLabel="Datos Personales" itemValue="DP" />
+						<p:ajax event="change" update=":#{p:component('frame')}"
+							listener="#{pacienteBean.prueba(pac)}" />
+					</p:selectOneMenu>
 					</p:column>
-					<f:facet name="footer">
-					<p:commandButton value="Crear Visita" 
-						action="#{pacienteBean.validador}"
-						 image="ui-icon ui-icon-search" />
-             		</f:facet>
 				</p:dataTable>
 			</h:form>
 		<h:form>
@@ -139,7 +156,7 @@ function foo() {
 		<p:dialog id="dialogHistorialVisitas" header="Historial de Visitas" 
 			widgetVar="dlgHV" showEffect="pop" modal="true" width="800px" height="550px" >
 			<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-			<h:form>
+			<h:form id="frame4"  >
 				<ui:include src="historialVisitas.xhtml" />
 
 			</h:form>
@@ -149,7 +166,7 @@ function foo() {
 			showEffect="pop" modal="true" width="1230px" height="550px">
 			<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
 			
-			<h:form>
+			<h:form id="frame3">
 				<p:tabView>
 					<p:tab title="Registro Pares de Terapia">
 						<ui:include src="RegistroPares.xhtml" />
@@ -177,8 +194,8 @@ function foo() {
 
 <p:dialog id="dialogDP" widgetVar="dlgDP" showEffect="pop" modal="true"   >
 <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-	<h:form>
-		<ui:include src="editarDatosPersonales.xhtml" />
+	<h:form id="frame" >
+		<ui:include  src="editarDatosPersonales.xhtml"  />
 	</h:form>
 </p:dialog>
 		
@@ -186,7 +203,7 @@ function foo() {
 				showEffect="pop" modal="true" width="850px" height="500px">
 				<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
 			
-				<h:form>
+				<h:form id="frame2" >
 				<ui:include src="HEA.xhtml" />
 				</h:form>
 				
@@ -197,7 +214,7 @@ function foo() {
 			<p:dialog id="dialogProducto" header="Productos" widgetVar="dlgP"
 				showEffect="pop" modal="true" width="850px" height="550px">
 				<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-			<h:form>
+			<h:form >
 				<ui:include src="Producto.xhtml" />
 				</h:form>
 			</p:dialog>

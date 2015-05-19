@@ -41,6 +41,16 @@ public class PacienteBean implements Serializable{
 		listado();
 	}
 	
+	public void prueba(Cliente cli)
+	{
+		cliente=cli;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.getExternalContext().getSessionMap().put("cliente", cliente);
+		//RequestContext.getCurrentInstance().update("frame");
+		
+		VisitaBean objetoBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+		objetoBean.lastvisita(cliente);
+	}
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -83,7 +93,7 @@ public class PacienteBean implements Serializable{
 	}
 	//---------------Esto es para la parte Web
 	public void preDatosClinicosPaciente2(Integer idCliente){
-		StaticUtil.Eleccion(opciones);
+		//StaticUtil.Eleccion(opciones);
 		cliente = clienteService.getClienteById(idCliente);
 	}
 	
@@ -116,6 +126,12 @@ public class PacienteBean implements Serializable{
 		return "editarCliente?faces-redirect=true";
 	}		
 
+	public void preEditarPaciente(Cliente cli)
+	{
+		cliente=cli;
+		System.out.println("Nombre : "+cliente.getCliPersona().getNombres());
+	}
+	
 	public String editar() {
 		if (clienteService.updateCliente(cliente)) {
 		 	StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente");
@@ -124,6 +140,22 @@ public class PacienteBean implements Serializable{
 		} else {
 			StaticUtil.errorMessage("Error", "No se pudo actualizar");
 			return null;
+		}
+	}
+	
+	public void editar2()
+	{
+		if (clienteService.updateCliente(cliente)) {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			VisitaBean objetoBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+			objetoBean.probando();
+		 	StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente");
+			StaticUtil.keepMessages();
+			cliente= new Cliente();
+		
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo actualizar");
+	
 		}
 	}
 

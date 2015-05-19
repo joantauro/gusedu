@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition >
+ 			<h:form>
+ 			
+ 			<p:dataTable emptyMessage="No hay puntos registrados" id="ttablaPuntos2"  scrollable="true"
+			scrollHeight="500"
+			var="part" value="#{puntoBean.listapar}"    
+			paginatorPosition="top" rows="68" tableStyleClass="ui-table-columntoggle"> 
+			<f:facet name="header">
+        		Lista de Pares Biomagneticos
+    		</f:facet>
+    		<p:column  >
+    			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par1.idPar)}"
+    				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    			<h:outputLabel value="#{part.par1.parPunto1.nombre}-#{part.par1.parPunto2.nombre}" />
+					
+    		</p:column>
+    		<p:column  >
+    			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par2.idPar)}"
+    				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    			<h:outputLabel value="#{part.par2.parPunto1.nombre}-#{part.par2.parPunto2.nombre}" />
+    		</p:column>
+    		<p:column  >
+    			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par3.idPar)}"
+    				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    			<h:outputLabel value="#{part.par3.parPunto1.nombre}-#{part.par3.parPunto2.nombre}" />
+    		</p:column>
+    		<p:column  >
+    		<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par4.idPar)}"
+    				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    			<h:outputLabel value="#{part.par4.parPunto1.nombre}-#{part.par4.parPunto2.nombre}" />
+    		</p:column>
+    		</p:dataTable>
+ 			
+				<p:dialog id="dialogBM" header="Pares" widgetVar="dlgBM"
+					  showEffect="pop"  >
+					  	<h:panelGrid columns="2">
+							<h:outputLabel value="Punto 1: " />
+							<h:outputLabel
+								value="#{parBean.parSeleccionado.parPunto1.nombre}" />
+
+							<h:outputLabel value="Punto 2: " />
+							<h:outputLabel
+								value="#{parBean.parSeleccionado.parPunto2.nombre}" />
+
+							<h:outputLabel value="Patógeno: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.patogeno}" />
+
+							<h:outputLabel value="Descripción: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.descripcion}" />
+
+							<h:outputLabel value="Grupo: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.parGrupo.nombre}" />
+
+						</h:panelGrid>
+						<h:outputText value="&lt;br/&gt;" escape="false" />
+						<h:outputText value="&lt;br/&gt;" escape="false" />
+						<!-- 426 x 137 -->
+						<p:outputPanel style="text-align:center;">
+							<p:graphicImage library="uploads"
+								rendered="#{parBean.parSeleccionado.url ne null}"
+								name="#{parBean.parSeleccionado.url}"></p:graphicImage>
+						</p:outputPanel>
+			</p:dialog>
+				
+			</h:form>
+</ui:composition>
+</html>

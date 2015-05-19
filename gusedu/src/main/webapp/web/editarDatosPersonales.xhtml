@@ -5,7 +5,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:pm="http://primefaces.org/mobile"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     
 <ui:composition >
 
@@ -13,48 +14,53 @@
 		<p:growl showDetail="true" autoUpdate="true" />
 		<p:panelGrid columns="2" id="panelRegistroEdit"  >
 			<p:outputLabel for="EperDni" value="DNI: " />
-			<p:inputText value="#{personaBean.persona.dni}" id="EperDni" />
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.dni}" id="EperDni" />
 
 			<p:outputLabel for="EperNombre" value="Nombre: " />
-			<p:inputText value="#{personaBean.persona.nombres}" id="EperNombre" required="true"/>
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.nombres}" id="EperNombre" required="true"/>
 
 			<p:outputLabel for="EperApePaterno" value="Apellido paterno: " />
-			<p:inputText value="#{personaBean.persona.apellidoPaterno}" required="true"
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.apellidoPaterno}" required="true"
 				id="EperApePaterno" />
+				
+			<p:outputLabel for="EperEdad" value="Edad : " />
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.edad}" id="EperEdad" >
+				<pe:keyFilter mask="num" />  
+			</p:inputText>
 
 			<p:outputLabel for="EperApeMaterno" value="Apellido materno: " />
-			<p:inputText value="#{personaBean.persona.apellidoMaterno}" required="true"
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.apellidoMaterno}" required="true"
 				id="EperApeMaterno" />
 
 			<p:outputLabel for="EperFecNac" value="Fecha de nacimiento: " /> 
-			<p:calendar value="#{personaBean.persona.fechaNacimiento}" required="true" yearRange="c-100:c"
+			<p:calendar value="#{pacienteBean.cliente.cliPersona.fechaNacimiento}" required="true" yearRange="c-100:c"
 				id="EperFecNac" pattern="dd/MM/yyyy" navigator="true" />
 
 			<p:outputLabel for="EperTelFijo" value="Teléfono fijo: " />
-			<p:inputText type="tel" value="#{personaBean.persona.telefonoFijo}"
+			<p:inputText type="tel" value="#{pacienteBean.cliente.cliPersona.telefonoFijo}"
 				id="EperTelFijo">
 			</p:inputText>
 
 			<p:outputLabel for="EperTelMovil" value="Teléfono móvil: " />
 			<p:inputText type="tel" 
-				value="#{personaBean.persona.telefonoMovil}" id="EperTelMovil">
+				value="#{pacienteBean.cliente.cliPersona.telefonoMovil}" id="EperTelMovil">
 			</p:inputText>
 
 			<p:outputLabel for="EperCorreo" value="Correo: " />
-			<p:inputText value="#{personaBean.persona.correo}" id="EperCorreo">
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.correo}" id="EperCorreo">
 				<f:validateRegex
 					pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
 			</p:inputText>
 
 			<p:outputLabel for="EperSexo" value="Sexo: " />
-			<p:selectOneButton id="EperSexo" value="#{personaBean.persona.sexo}">
+			<p:selectOneButton id="EperSexo" value="#{pacienteBean.cliente.cliPersona.sexo}">
 				<f:selectItem itemLabel="Masculino" itemValue="M" />
 				<f:selectItem itemLabel="Femenino" itemValue="F" />
 			</p:selectOneButton>
 
 			<p:outputLabel for="EperEstadoCivil" value="Estado civil: " />
 			<p:selectOneButton id="EperEstadoCivil"
-				value="#{personaBean.persona.estadoCivil}">
+				value="#{pacienteBean.cliente.cliPersona.estadoCivil}">
 				<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
 				<f:selectItem itemLabel="Casado" itemValue="Casado" />
 				<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
@@ -62,7 +68,7 @@
 			</p:selectOneButton>
 
 			<p:outputLabel for="EperComo" value="¿Cómo se enteró de Gusedu?" />
-			<p:selectOneRadio id="EperComo" value="#{personaBean.persona.comoSeEntero}" layout="grid" columns="2" >
+			<p:selectOneRadio id="EperComo" value="#{pacienteBean.cliente.cliPersona.comoSeEntero}" layout="grid" columns="2" >
 				<f:selectItem itemLabel="Medios de comunicacion" itemValue="Medios de comunicacion" />
 				<f:selectItem itemLabel="Web" itemValue="Web" />
 				<f:selectItem itemLabel="Amigos" itemValue="Amigos" />
@@ -71,9 +77,9 @@
 			</p:selectOneRadio>
 
 			<p:commandButton value="Registrar"  update=":#{p:component('tablaPac')}"
-				action="#{personaBean.registroPacienteV2}" icon="ui-icon-check" />
+				action="#{pacienteBean.editar2}" icon="ui-icon-check" oncomplete="PF('dlgDP').hide()" />
 			<p:commandButton value="Cancelar" icon="ui-icon-cancel"
-				action="#{personaBean.cancel}" immediate="true" />
+				action="#{pacienteBean.cancelar}" immediate="true" />
 		</p:panelGrid>
 	</h:form>
 </ui:composition>

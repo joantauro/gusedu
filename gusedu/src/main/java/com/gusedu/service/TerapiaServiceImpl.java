@@ -281,4 +281,90 @@ public class TerapiaServiceImpl implements TerapiaService {
 		return result;
 	}
 
+	@Transactional
+	public String getAllParbyAllTerapia(Terapia terapia, Par par) {
+		String resul="";
+		
+		try
+		{
+			Query q = em.createQuery("select t from TerapiaPar  t where t.txpPar=:par and t.txpTerapia=:terapia");
+			q.setParameter("par", par);
+			q.setParameter("terapia", terapia);
+			TerapiaPar terap=  (TerapiaPar) q.getSingleResult();
+			if(terap!=null)
+			{
+				if(terap.getTxpActivo())
+				{
+					resul="Si";
+				}else
+				{
+					resul="No";
+				}
+			}
+		}
+		catch(NoResultException e)
+		{
+			System.out.println("ERROR: " + e.getMessage());
+		}
+        return resul;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Terapia> getAllTerapiabyCliente(Cliente cli) {
+		List<Terapia> result = new ArrayList<>();
+		try {
+			Query q = em
+					.createQuery("SELECT t FROM Terapia t WHERE t.terVisita.visCliente=:cliente order by t.fechaRealizada asc");
+			q.setParameter("cliente", cli);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public Terapia lastTerapia(Cliente cliente) {
+		Terapia result = null;
+		try {
+			Query q = em.createQuery("SELECT  t FROM Terapia t WHERE t.terVisita.visCliente=:cliente ORDER BY t.fechaRealizada DESC");
+			q.setParameter("cliente", cliente);
+			q.setMaxResults(1);
+			result = (Terapia) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR de VisitaService: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@Transactional(noRollbackFor = Exception.class)
+	public boolean updateTerapiaPar(TerapiaPar terapiapar) {
+		boolean resultado = false;
+		try {
+			em.persist(terapiapar);
+			resultado = true;
+		} catch (Exception e) {
+			System.out.println("ERROR: " + e.getMessage());
+			resultado = false;
+		}
+		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TerapiaPar> getAllParbyCliente(Cliente cliente) {
+		List<TerapiaPar> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("SELECT t FROM TerapiaPar t WHERE t.txpTerapia.terVisita.visCliente=:cliente");
+			q.setParameter("cliente", cliente);
+		 
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR : " + e.getMessage());
+		}
+		return result;
+	}
+
 }

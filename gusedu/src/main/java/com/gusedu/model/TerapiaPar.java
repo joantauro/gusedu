@@ -22,6 +22,9 @@ public class TerapiaPar {
     
     @ManyToOne @JoinColumn(name="PAR_CODIGO", nullable=false)
     private Par txpPar;
+    
+    @Column(nullable = true, name = "TXP_ACTIVO")
+    private Boolean txpActivo;
 
 	public Integer getIdTerapiaPar() {
 		return idTerapiaPar;
@@ -45,6 +48,14 @@ public class TerapiaPar {
 
 	public void setTxpPar(Par txpPar) {
 		this.txpPar = txpPar;
+	}
+
+	public Boolean getTxpActivo() {
+		return txpActivo;
+	}
+
+	public void setTxpActivo(Boolean txpActivo) {
+		this.txpActivo = txpActivo;
 	}
 	
 }

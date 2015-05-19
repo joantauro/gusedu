@@ -3,6 +3,8 @@ package com.gusedu.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 import javax.faces.context.FacesContext;
 
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.gusedu.model.Cliente;
 import com.gusedu.model.Enfermedad;
 import com.gusedu.model.EnfermedadTerapia;
 import com.gusedu.model.EnfermedadVisita;
@@ -25,6 +28,7 @@ import com.gusedu.model.Visita;
 import com.gusedu.service.EnfermedadService;
 import com.gusedu.service.ParService;
 import com.gusedu.service.SintomaService;
+import com.gusedu.service.TerapiaParService;
 import com.gusedu.service.TerapiaService;
 import com.gusedu.util.StaticUtil;
 
@@ -36,6 +40,9 @@ public class TerapiaBean implements Serializable{
 
 	@Autowired
 	TerapiaService terapiaService;
+	
+	@Autowired
+	TerapiaParService terapiaparService;
 
 	@Autowired
 	EnfermedadService enfermedadService;
@@ -72,6 +79,14 @@ public class TerapiaBean implements Serializable{
 	
 	private List<TerapiaPar> listarTerapiaPar;
 	
+	/**  Matriz de las terapias **/
+	   private List<String> rowNames = new ArrayList<String>();
+	   private List<String> colNames = new ArrayList<String>();
+	   private ArrayList<ArrayList<ArrayList<String>>> data3D = new ArrayList<ArrayList<ArrayList<String>>>();
+	   
+	   private List<Terapia> listaterapia;
+	   private List<TerapiaPar> listaterapiapar;
+	
 	public TerapiaBean() {
 		sliderDolor = 0;
 		terapia = new Terapia();
@@ -82,7 +97,61 @@ public class TerapiaBean implements Serializable{
 		//listasintoma = new ArrayList<>();
 		//listaenfermedad = new ArrayList<>();
 	}
-
+	
+	
+	public void llenamatriz()
+	{
+		data3D = new ArrayList<ArrayList<ArrayList<String>>>();
+		rowNames = new ArrayList<String>();
+		colNames = new ArrayList<String>();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Cliente  cli= (Cliente) fc.getExternalContext().getSessionMap().get("cliente");
+		 //Cliente  cli= new Cliente();
+		 //cli.setIdCliente(120);
+		 listaterapia=terapiaService.getAllTerapiabyCliente(cli);
+		 Terapia terapia = terapiaService.lastTerapia(cli);
+		 //terapia.setIdTerapia(87);
+	      listaterapiapar=terapiaService.getAllTerapiaParbyTerapia(terapia);
+	      List<TerapiaPar> all = new ArrayList<>();
+	      all=terapiaService.getAllParbyCliente(cli);
+	        for(int j=0;j<listaterapiapar.size();j++)
+	        {
+	            rowNames.add(listaterapiapar.get(j).getTxpPar().getParPunto1().getNombre()+"-"+listaterapiapar.get(j).getTxpPar().getParPunto2().getNombre());
+	        }
+	        System.out.println(listaterapia.size());
+	        for(int i=0;i<listaterapia.size();i++)
+	        {
+	            colNames.add(listaterapia.get(i).getFechaRealizada() +""); 
+	        }
+	        
+	        for (int i = 0; i < rowNames.size(); i++) {
+	            data3D.add(new ArrayList<ArrayList<String>>());
+	            for (int j = 0; j < colNames.size(); j++) {
+	                data3D.get(i).add(new ArrayList<String>());
+	            }
+	        }
+	        
+	        for(int i=0;i<listaterapiapar.size();i++)
+	        {
+	            for(int j=0;j<listaterapia.size();j++)
+	            {
+	            	for(int a=0;a<all.size();a++)
+	                {
+	            	if(Objects.equals(listaterapia.get(j).getIdTerapia(), all.get(a).getTxpTerapia().getIdTerapia()))
+                    {
+                        if(Objects.equals(listaterapiapar.get(i).getTxpPar().getIdPar(), all.get(a).getTxpPar().getIdPar()))
+                        {
+                             // System.out.println("[" + i + "][" + j + "] = " + listaterapiapar2.get(a).getTxpCodigo());
+                              data3D.get(i).get(j).add(all.get(a).getTxpActivo() + "");
+                        }
+                    }
+	            	}
+	            	 //data3D.get(i).get(j).add(terapiaService.getAllParbyAllTerapia(listaterapia.get(j), listaterapiapar.get(i).getTxpPar()));
+	            }
+	        }
+	}
+ 
+	
 	public void clear()
 	{
 		terapia = new Terapia();
@@ -555,6 +624,19 @@ public class TerapiaBean implements Serializable{
 		enfermedad = new Enfermedad();		
 	}
 	*/
+	
+	public void Update(TerapiaPar tp)
+	{
+		terapiaparService.updateTerapia(tp);
+		/*if(terapiaService.updateTerapiaPar(tp))
+			{
+				System.out.println("Actualizo");
+			}else
+			{
+				System.out.println("No actualizo");
+			}*/
+	}
+	
 	public void addPar2(Integer idpar)
 	{
 		if(ParExistente(idpar)==false)
@@ -572,6 +654,7 @@ public class TerapiaBean implements Serializable{
 			TerapiaPar tp = new TerapiaPar();
 			tp.setTxpPar(par);
 			tp.setTxpTerapia(terapia);
+			tp.setTxpActivo(true);
 			terapiaService.saveTerapiaPar(tp);
 			listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
 			//terapiaService.getAllTerapiaParbyTerapia(terapia);
@@ -590,7 +673,7 @@ public class TerapiaBean implements Serializable{
 		//listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
 	}
 	
-	public void addPar(Integer idpar)
+	public void addPar(Integer idpar,boolean estado)
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Terapia terapia =(Terapia) fc.getExternalContext().getSessionMap().get("terapia");
@@ -599,6 +682,7 @@ public class TerapiaBean implements Serializable{
 		TerapiaPar tp = new TerapiaPar();
 		tp.setTxpPar(par);
 		tp.setTxpTerapia(terapia);
+		tp.setTxpActivo(estado);
 		terapiaService.saveTerapiaPar(tp);
 		listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
 		//terapiaService.getAllTerapiaParbyTerapia(terapia);
@@ -643,7 +727,7 @@ public class TerapiaBean implements Serializable{
 			StaticUtil.errorMessage("Error", "El campo enfermedad esta vacio");
 			return;
 		}
-		/*for(EnfermedadVisita s : listaenfermedadvisita)
+		for(EnfermedadVisita s : listaenfermedadvisita)
 		{
 			if(s.getExvEnfermedad().getIdEnfermedad() ==enfermedad.getIdEnfermedad())
 			{
@@ -651,7 +735,7 @@ public class TerapiaBean implements Serializable{
 				enfermedad = new Enfermedad();
 				return;
 			}
-		}*/
+		}
 		
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Visita vis =(Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
@@ -733,7 +817,7 @@ public class TerapiaBean implements Serializable{
 			System.out.println("Lista de Pares: "+lista.size());
 			for(int j=0;j<lista.size();j++)
 			{
-				addPar(lista.get(j).getTxpPar().getIdPar());
+				addPar(lista.get(j).getTxpPar().getIdPar(),lista.get(j).getTxpActivo());
 			}
 			listarTerapiaPar=terapiaService.getAllTerapiaParbyTerapia(terapia);				
 			
@@ -787,5 +871,42 @@ public class TerapiaBean implements Serializable{
 	public void setListarTerapiaPar(List<TerapiaPar> listarTerapiaPar) {
 		this.listarTerapiaPar = listarTerapiaPar;
 	}
+	
+	
+	/** **/
+	 public List<TerapiaPar> getListaterapiapar() {
+	        return listaterapiapar;
+	    }
+
+	    public List<Terapia> getListaterapia() {
+	        return listaterapia;
+	    }
+	    
+
+
+	    public List<String> getRowNames() {
+	        return rowNames;
+	    }
+
+	    public void setRowNames(List<String> rowNames) {
+	        this.rowNames = rowNames;
+	    }
+
+	    public List<String> getColNames() {
+	        return colNames;
+	    }
+
+	    public void setColNames(List<String> colNames) {
+	        this.colNames = colNames;
+	    }
+
+	    public ArrayList<ArrayList<ArrayList<String>>> getData3D() {
+	        return data3D;
+	    }
+
+	    public void setData3D(ArrayList<ArrayList<ArrayList<String>>> data3D) {
+	        this.data3D = data3D;
+	    }
+
 	
 }
