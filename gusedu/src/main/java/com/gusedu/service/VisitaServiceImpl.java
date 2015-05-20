@@ -65,7 +65,7 @@ public class VisitaServiceImpl implements VisitaService{
 	public List<Visita> getVisitasCliente(Cliente cliente) {
 		List<Visita> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT v FROM Visita v WHERE v.visCliente=:cliente");
+			Query q = em.createQuery("SELECT v FROM Visita v WHERE v.visCliente=:cliente order by v.fechaCreacion desc");
 			q.setParameter("cliente", cliente);
 			result = q.getResultList();
 		} catch (NoResultException e) {

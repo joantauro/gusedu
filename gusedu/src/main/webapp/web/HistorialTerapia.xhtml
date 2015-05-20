@@ -8,8 +8,8 @@
 <ui:composition >
     <h:form id="formularioHistoria"  >
     <br/>
-		  <p:dataTable var="rowName" value="#{terapiaBean.rowNames}" rowIndexVar="rowIdx">
-            <p:column headerText="" styleClass="ui-widget-header" width="250px;"  >
+		  <p:dataTable var="rowName" value="#{terapiaBean.rowNames}" rowIndexVar="rowIdx" emptyMessage="No hay pares" >
+            <p:column headerText="" styleClass="ui-widget-header" width="250px;" >
         <h:outputText value="#{rowName}"/>
     </p:column>
 

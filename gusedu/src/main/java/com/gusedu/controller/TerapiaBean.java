@@ -1,6 +1,7 @@
 package com.gusedu.controller;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -105,31 +106,36 @@ public class TerapiaBean implements Serializable{
 		rowNames = new ArrayList<String>();
 		colNames = new ArrayList<String>();
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Cliente  cli= (Cliente) fc.getExternalContext().getSessionMap().get("cliente");
-		 //Cliente  cli= new Cliente();
-		 //cli.setIdCliente(120);
-		 listaterapia=terapiaService.getAllTerapiabyCliente(cli);
-		 Terapia terapia = terapiaService.lastTerapia(cli);
-		 //terapia.setIdTerapia(87);
-	      listaterapiapar=terapiaService.getAllTerapiaParbyTerapia(terapia);
-	      List<TerapiaPar> all = new ArrayList<>();
-	      all=terapiaService.getAllParbyCliente(cli);
-	        for(int j=0;j<listaterapiapar.size();j++)
-	        {
-	            rowNames.add(listaterapiapar.get(j).getTxpPar().getParPunto1().getNombre()+"-"+listaterapiapar.get(j).getTxpPar().getParPunto2().getNombre());
-	        }
-	        System.out.println(listaterapia.size());
-	        for(int i=0;i<listaterapia.size();i++)
-	        {
-	            colNames.add(listaterapia.get(i).getFechaRealizada() +""); 
-	        }
-	        
-	        for (int i = 0; i < rowNames.size(); i++) {
-	            data3D.add(new ArrayList<ArrayList<String>>());
-	            for (int j = 0; j < colNames.size(); j++) {
-	                data3D.get(i).add(new ArrayList<String>());
-	            }
-	        }
+		Cliente cli = (Cliente) fc.getExternalContext().getSessionMap()
+				.get("cliente");
+		// Cliente cli= new Cliente();
+		// cli.setIdCliente(120);
+		listaterapia = terapiaService.getAllTerapiabyCliente(cli);//----Consulta bd 
+		Terapia terapia = terapiaService.lastTerapia(cli);        //----Consulta bd
+		// terapia.setIdTerapia(87);
+		listaterapiapar = terapiaService.getAllTerapiaParbyTerapia(terapia);//Consulta bd
+		List<TerapiaPar> all = new ArrayList<>();
+		all = terapiaService.getAllParbyCliente(cli);                       //Consulta bd
+		for (int j = 0; j < listaterapiapar.size(); j++) {
+			rowNames.add(listaterapiapar.get(j).getTxpPar().getParPunto1()
+					.getNombre()
+					+ "-"
+					+ listaterapiapar.get(j).getTxpPar().getParPunto2()
+							.getNombre());
+		}
+		System.out.println(listaterapia.size());
+		for (int i = 0; i < listaterapia.size(); i++) {
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			colNames.add(format.format(listaterapia.get(i).getFechaRealizada())
+					+ "");
+		}
+
+		for (int i = 0; i < rowNames.size(); i++) {
+			data3D.add(new ArrayList<ArrayList<String>>());
+			for (int j = 0; j < colNames.size(); j++) {
+				data3D.get(i).add(new ArrayList<String>());
+			}
+		}
 	        
 	        for(int i=0;i<listaterapiapar.size();i++)
 	        {
@@ -142,7 +148,14 @@ public class TerapiaBean implements Serializable{
                         if(Objects.equals(listaterapiapar.get(i).getTxpPar().getIdPar(), all.get(a).getTxpPar().getIdPar()))
                         {
                              // System.out.println("[" + i + "][" + j + "] = " + listaterapiapar2.get(a).getTxpCodigo());
-                              data3D.get(i).get(j).add(all.get(a).getTxpActivo() + "");
+                            if(all.get(a).getTxpActivo())
+                            {
+                            	data3D.get(i).get(j).add("Si");
+                            }else
+                            {
+                            	data3D.get(i).get(j).add("No");
+                            }
+                        	//data3D.get(i).get(j).add(all.get(a).getTxpActivo() + "");
                         }
                     }
 	            	}
@@ -165,6 +178,10 @@ public class TerapiaBean implements Serializable{
 	{
 		clear();idTipoTerapia=0;
 		listarTerapiaPar.clear();
+		FacesContext fc = FacesContext.getCurrentInstance();
+ 
+		VisitaBean objetoTBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
+		objetoTBean.probando();
 	}
 	
 	public int getIndex() {
@@ -650,13 +667,18 @@ public class TerapiaBean implements Serializable{
 				 return;
 			}
 			Par par = new Par();
-			par=parService.parById(idpar);
+			par.setIdPar(idpar);
 			TerapiaPar tp = new TerapiaPar();
 			tp.setTxpPar(par);
 			tp.setTxpTerapia(terapia);
 			tp.setTxpActivo(true);
 			terapiaService.saveTerapiaPar(tp);
-			listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+			StaticUtil.correctMesage("Exito",
+					"Se agregó el par");
+			StaticUtil.keepMessages();
+			//listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+			
+			
 			//terapiaService.getAllTerapiaParbyTerapia(terapia);
 		}else
 		{
@@ -666,25 +688,49 @@ public class TerapiaBean implements Serializable{
 	
 	public void listado()
 	{
-		if(terapia.getTerTipoTerapia()!=null)
+		//if(terapia.getTerTipoTerapia()!=null)
+		//{
+	
+		//}
+		
+		clear();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita visita = (Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		List<Terapia> e=terapiaService.terapiasPorVisita(visita);//ACCESO A DATA
+		if(e.size()>0)
 		{
-			listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+			terapia = terapiaService.terapiasPorVisita(visita).get(0);
+			listarTerapiaPar=terapiaService.getAllTerapiaParbyTerapia(terapia);
 		}
 		//listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+	}
+	
+	public void addPar3(TerapiaPar terp)
+	{
+		Par par = new Par();
+		par.setIdPar(terp.getTxpPar().getIdPar());//--------Acceso a bd
+		TerapiaPar tp = new TerapiaPar();
+		tp.setTxpPar(par);
+		tp.setTxpTerapia(terapia);
+		tp.setTxpActivo(terp.getTxpActivo());
+		terapiaService.saveTerapiaPar(tp);
 	}
 	
 	public void addPar(Integer idpar,boolean estado)
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Terapia terapia =(Terapia) fc.getExternalContext().getSessionMap().get("terapia");
+		Terapia terapi =(Terapia) fc.getExternalContext().getSessionMap().get("terapia");
 		Par par = new Par();
-		par=parService.parById(idpar);
+		par.setIdPar(idpar);//--------Acceso a bd
 		TerapiaPar tp = new TerapiaPar();
 		tp.setTxpPar(par);
-		tp.setTxpTerapia(terapia);
+		tp.setTxpTerapia(terapi);
 		tp.setTxpActivo(estado);
-		terapiaService.saveTerapiaPar(tp);
-		listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+		terapiaService.saveTerapiaPar(tp); //-----------Acceso a bd     
+		StaticUtil.correctMesage("Exito",
+				"Se agregó el par");
+		StaticUtil.keepMessages();
+		//listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
 		//terapiaService.getAllTerapiaParbyTerapia(terapia);
 		/*if(ParExistente(idpar)==false)
 		{
@@ -764,7 +810,7 @@ public class TerapiaBean implements Serializable{
 		clear();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Visita visita = (Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
-		List<Terapia> e=terapiaService.terapiasPorVisita(visita);
+		List<Terapia> e=terapiaService.terapiasPorVisita(visita);//ACCESO A DATA
 		if(e.size()>0)
 		{
 			RequestContext context = RequestContext.getCurrentInstance();
@@ -804,6 +850,9 @@ public class TerapiaBean implements Serializable{
 		List<TerapiaPar> lista = null;
 		// Se guarda la terapia en la base de datos
 		if (terapiaService.saveTerapia(terapia)) {
+			StaticUtil.correctMesage("Exito",
+					"Se agregó correctamente la terapia");
+			StaticUtil.keepMessages();
 			// Se añade el costo de la terapia a la visita
 			visita.setCostoTotal(visita.getCostoTotal()
 					+ terapia.getTerTipoTerapia().getCosto());
@@ -817,17 +866,16 @@ public class TerapiaBean implements Serializable{
 			System.out.println("Lista de Pares: "+lista.size());
 			for(int j=0;j<lista.size();j++)
 			{
-				addPar(lista.get(j).getTxpPar().getIdPar(),lista.get(j).getTxpActivo());
+				addPar3(lista.get(j));
 			}
-			listarTerapiaPar=terapiaService.getAllTerapiaParbyTerapia(terapia);				
+			//listarTerapiaPar=terapiaService.getAllTerapiaParbyTerapia(terapia);		
+			
 			
 			// Se limpian los datos guardados
 			terapia  = new Terapia();
 			idTipoTerapia=0;
 			// Se añade los pares
-			StaticUtil.correctMesage("Exito",
-					"Se agregó correctamente la terapia");
-			StaticUtil.keepMessages();
+			
 			//context.execute("PF('dlgT').hide();");
 			// Se cargan las terapias de la visita (añadiendo la actual)
 			// terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
@@ -910,3 +958,4 @@ public class TerapiaBean implements Serializable{
 
 	
 }
+

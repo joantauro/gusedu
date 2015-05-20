@@ -14,23 +14,31 @@
 		<p:growl showDetail="true" autoUpdate="true" />
 		<p:panelGrid columns="2" id="panelRegistroEdit"  >
 			<p:outputLabel for="EperDni" value="DNI: " />
-			<p:inputText value="#{pacienteBean.cliente.cliPersona.dni}" id="EperDni" />
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.dni}" id="EperDni" >
+				<pe:keyFilter mask="num" />  
+			</p:inputText>
 
 			<p:outputLabel for="EperNombre" value="Nombre: " />
-			<p:inputText value="#{pacienteBean.cliente.cliPersona.nombres}" id="EperNombre" required="true"/>
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.nombres}" id="EperNombre" required="true">
+				<pe:keyFilter regEx="/[a-z_ ]/i" />  
+			</p:inputText>
 
 			<p:outputLabel for="EperApePaterno" value="Apellido paterno: " />
 			<p:inputText value="#{pacienteBean.cliente.cliPersona.apellidoPaterno}" required="true"
-				id="EperApePaterno" />
-				
-			<p:outputLabel for="EperEdad" value="Edad : " />
-			<p:inputText value="#{pacienteBean.cliente.cliPersona.edad}" id="EperEdad" >
-				<pe:keyFilter mask="num" />  
+				id="EperApePaterno" >
+				<pe:keyFilter regEx="/[a-z_ ]/i" />  
 			</p:inputText>
 
 			<p:outputLabel for="EperApeMaterno" value="Apellido materno: " />
 			<p:inputText value="#{pacienteBean.cliente.cliPersona.apellidoMaterno}" required="true"
-				id="EperApeMaterno" />
+				id="EperApeMaterno" >
+				<pe:keyFilter regEx="/[a-z_ ]/i" />  
+				</p:inputText>
+				
+		    <p:outputLabel for="EperEdad" value="Edad : " />
+			<p:inputText value="#{pacienteBean.cliente.cliPersona.edad}" id="EperEdad" >
+				<pe:keyFilter mask="num" />  
+			</p:inputText>
 
 			<p:outputLabel for="EperFecNac" value="Fecha de nacimiento: " /> 
 			<p:calendar value="#{pacienteBean.cliente.cliPersona.fechaNacimiento}" required="true" yearRange="c-100:c"
@@ -39,11 +47,13 @@
 			<p:outputLabel for="EperTelFijo" value="Teléfono fijo: " />
 			<p:inputText type="tel" value="#{pacienteBean.cliente.cliPersona.telefonoFijo}"
 				id="EperTelFijo">
+				<pe:keyFilter mask="num" /> 
 			</p:inputText>
 
 			<p:outputLabel for="EperTelMovil" value="Teléfono móvil: " />
 			<p:inputText type="tel" 
 				value="#{pacienteBean.cliente.cliPersona.telefonoMovil}" id="EperTelMovil">
+				<pe:keyFilter mask="num" /> 
 			</p:inputText>
 
 			<p:outputLabel for="EperCorreo" value="Correo: " />

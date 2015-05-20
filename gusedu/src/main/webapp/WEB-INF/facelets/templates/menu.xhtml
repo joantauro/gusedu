@@ -9,13 +9,13 @@
 	<h:form id="menu">
 		<p:menubar>
 			<p:submenu label="Reportes" icon="ui-icon-document">
-				<p:menuitem value="Productos"  url="Puntos.xhtml" />
-				<p:menuitem value="Puntos por Par" onclick="PF('dlgHT').show();" />
+				<p:menuitem value="Productos"  url="" />
+				<p:menuitem value="Puntos por Par" url="#" />
 			</p:submenu>
 
 			<p:submenu label="Gestión" icon="ui-icon-pencil">
 				<p:menuitem value="Puntos" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-				<p:menuitem value="Pares" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+				<p:menuitem value="Pares" onclick="PF('dlgHT').show();" icon="ui-icon-arrowreturnthick-1-e" />
 				<p:menuitem value="Pares por Enfermedad" url="#" icon="ui-icon-arrowreturnthick-1-e" />
 				<p:menuitem value="Pares por Sintoma" url="#" icon="ui-icon-arrowreturnthick-1-e" />
 			</p:submenu>

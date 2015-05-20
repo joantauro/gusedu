@@ -14,7 +14,7 @@
 				<f:selectItem itemLabel="Seleccione un tipo" itemValue="0" />
 				<f:selectItems value="#{visitaBean.tipoTerapias}" var="tte"
 					itemValue="#{tte.idTipoTerapia}" itemLabel="#{tte.nombre}" />
-				 <p:ajax listener="#{terapiaBean.confirmaTerapia}"    />
+				 <p:ajax event="change" listener="#{terapiaBean.confirmaTerapia}"  update=":#{p:component('tablaParPunto')}"  />
 			</p:selectOneMenu>
 		</p:panelGrid>
 		<p:commandButton value="Ver Pares del Paciente" 
@@ -107,8 +107,8 @@
 					  </p:dialog>
 			
 			
-		
-		<p:commandButton value="Agregar" action="#{terapiaBean.aceptar}"
+		<br/><br/>
+		<p:commandButton value="Aceptar" action="#{terapiaBean.aceptar}"
 				 oncomplete="PF('dlgT').hide();"
 				update=":#{p:component('tablaPac')}" />
 			<p:commandButton value="Cancelar" immediate="true"

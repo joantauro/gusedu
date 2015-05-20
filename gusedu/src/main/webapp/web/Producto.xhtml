@@ -16,6 +16,7 @@
 			<p:ajax event="keyup" update=":#{p:component('tablaProductos')}"
 				listener="#{visitaBean.filtrarProductos}" />
 		</p:inputText>
+	
 		<br />
 		<br />
 		<p:dataTable id="tablaProductos" var="prod"
@@ -72,10 +73,11 @@
 			<p:commandButton icon="ui-icon-plus"
 				value="Agregar Producto" update=":#{p:component('tablaProductos')}"
 				actionListener="#{visitaBean.addProductoToVisitaWeb}" />
+			<p:commandButton icon="ui-icon-search" action="#{visitaBean.listar}"
+			update=":#{p:component('productos')}" oncomplete="PF('dlgTP').show();" />
 		</p:panelGrid>
- 		
- 			<!--  
-							<p:dataTable id="productos" var="pro" style="width:400px;"
+ 		<p:dialog  widgetVar="dlgTP" >
+ 			<p:dataTable id="productos" var="pro" style="width:400px;"
 							paginatorAlwaysVisible="false"
 							value="#{visitaBean.productosDeVisita}"
 							emptyMessage="No se han añadido productos" paginator="true"
@@ -95,7 +97,11 @@
 									value="#{pro.costoParcial} #{pro.pxvProducto.currencySymbol}" />
 							</p:column>
 						</p:dataTable>
-				-->		
+ 		
+ 		</p:dialog>
+ 		
+						
+					
 		
 	</h:form>
 </ui:composition>

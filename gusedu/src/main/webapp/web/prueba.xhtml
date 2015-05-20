@@ -27,19 +27,19 @@ function get() {
 
 			<p:outputLabel for="perNombre" value="Nombre: " />
 			<p:inputText value="#{personaBean.persona.nombres}" id="perNombre" required="true" >
-				<pe:keyFilter regEx="/[a-z_]/i" />  
+				<pe:keyFilter regEx="/[a-z_ ]/i" />  
 			</p:inputText>
 
 			<p:outputLabel for="perApePaterno" value="Apellido paterno: " />
 			<p:inputText value="#{personaBean.persona.apellidoPaterno}" required="true"
 				id="perApePaterno" >
-				<pe:keyFilter regEx="/[a-z_]/i"/>  
+				<pe:keyFilter regEx="/[a-z_ ]/i"/>  
 			</p:inputText>
 
 			<p:outputLabel for="perApeMaterno" value="Apellido materno: " />
 			<p:inputText value="#{personaBean.persona.apellidoMaterno}" required="true"
 				id="perApeMaterno" >
-				<pe:keyFilter regEx="/[a-z_]/i"/>  
+				<pe:keyFilter regEx="/[a-z_ ]/i"/>  
 			</p:inputText>
 
 			<p:outputLabel for="perEdad" value="Edad : " />

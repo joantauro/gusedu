@@ -58,7 +58,7 @@ public class Auth implements Serializable{
 				setUserLogged(usuario);	
 				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==2)
 				{
-					return "/web/inicio?faces-redirect=true";
+					return "/web/inicio2?faces-redirect=true";
 				}
 				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==3){
 					return "/mobile/index.jsf";

@@ -492,6 +492,7 @@ public class VisitaBean implements Serializable{
 		    VisitaBean objetoBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
 		    TerapiaBean objetoTBean =(TerapiaBean) fc.getExternalContext().getSessionMap().get("terapiaBean");
 		    Visita vis = visitaService.buscarVisita(client);
+		    visita = new Visita();
 		    if(vis==null)
 		    {
 		    	System.out.println("No hay visita, gg");
@@ -530,7 +531,7 @@ public class VisitaBean implements Serializable{
 						.put("ultimavisita", ultimavisita);
 						preNuevaHistoria2();
 						
-						objetoTBean.llenamatriz();
+						//objetoTBean.llenamatriz();
 						objetoBean.Prueba();
 						
 						RequestContext.getCurrentInstance().update("frame3");
@@ -542,10 +543,33 @@ public class VisitaBean implements Serializable{
 					//RequestContext.getCurrentInstance().update("frame3");
 				}*/
 		    }
+		    if(opciones.equals("HT"))
+			{
+				objetoTBean.llenamatriz();
+				RequestContext context = RequestContext.getCurrentInstance();
+				context.execute("PF('dlgHTe').show();");
+				RequestContext.getCurrentInstance().update("frame5");
+			}
 			if(opciones.equals("HV"))
 			{
 				objetoBean.ListarVisitas();
+				RequestContext context = RequestContext.getCurrentInstance();
+				context.execute("PF('dlgHV').show();");
 				RequestContext.getCurrentInstance().update("frame4");
+			}
+			if(opciones.equals("DP"))
+			{
+				RequestContext context = RequestContext.getCurrentInstance();
+				context.execute("PF('dlgDP').show();");
+			}
+			if(opciones.equals("P"))
+			{
+				Visita ultimavisita = new Visita();
+				 
+				ultimavisita = vis;
+				visita=ultimavisita;
+				fc.getExternalContext().getSessionMap()
+				.put("ultimavisita", ultimavisita);
 			}
 			
 			
@@ -657,7 +681,10 @@ public class VisitaBean implements Serializable{
 
 	public void listar()
 	{
-		productosDeVisita = productoService.getAllProductosByVisita(visita);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita vis = ((Visita) fc.getExternalContext().getSessionMap().get("ultimavisita"));
+		productosDeVisita = productoService.getAllProductosByVisita(vis);
+		System.out.println("Productos de Visita : "+productosDeVisita.size());
 	}
 	
 	// Método previo a la creación o modificación de una historia clínica
@@ -835,7 +862,7 @@ public class VisitaBean implements Serializable{
 		toAdd.setPxvVisita(vis);		
 		if (productoService.saveProductoVisita(toAdd)) {
 			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el producto");
-			listar();
+			//listar();
 			//Actualizar el stock de existencias de producto
 			producto.setExistencias(producto.getExistencias()-cantidadProducto);
 			productoService.updateProducto(producto);

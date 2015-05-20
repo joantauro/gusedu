@@ -10,7 +10,7 @@
 		<p:dataTable id="visitas" var="vis"
 			value="#{visitaBean.visitasPaciente}"
 			emptyMessage="No se han registrado visitas" rowKey="#{vis.idCliente}"
-			paginator="true" rows="5" tableStyleClass="ui-table-columntoggle">
+			paginator="true" rows="25" tableStyleClass="ui-table-columntoggle">
 
 			<p:column headerText="Fecha: ">
 				<h:outputText value="#{vis.fechaCreacion}">
