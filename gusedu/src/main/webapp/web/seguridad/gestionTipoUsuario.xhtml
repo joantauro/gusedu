@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+<ui:composition template="/WEB-INF/facelets/templates/plantillaPrincipal.xhtml">
+	
+	<ui:define name="titulo">
+         Gusedu Salud
+    </ui:define>
+	<ui:define name="top">
+	</ui:define>
+	<ui:define name="content">
+<p:growl showDetail="true" autoUpdate="true" />
+			 <h:form>
+				<p:commandButton action="#{usuarioBean.preAddTU2}"
+				     update=":#{p:component('formAgregarTipoUsuario')}"
+					value="Agregar Tipo Usuario" onclick="PF('dlgAddTipoUsuario').show();" ></p:commandButton>
+			</h:form>
+		 
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{usuarioBean.queryTU}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaUsuario')}"
+							listener="#{usuarioBean.filtrarBusquedaTU}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+			 
+			
+			<h:form id="gestionTipoUsuario">
+	
+				<p:dataTable emptyMessage="No hay usuarios Disponibles" rowIndexVar="valor" style="width:350px;"
+					id="tablaUsuario" var="usu" value="#{usuarioBean.tipousuarios}"
+					rowKey="#{usu.idTipoUsuario}" paginator="true" rows="5"
+					tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="N°" width="15px;" >
+						<p:outputLabel value="#{valor+1}" />
+					</p:column>
+					<p:column headerText="Descripcion" width="150px;">
+						<p:outputLabel value="#{usu.descripcion}" />
+					</p:column>
+					<p:column headerText="Opciones" width="50px;" >
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							 
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							action="#{usuarioBean.preDeleteTU(usu.idTipoUsuario)}" 
+							 update=":#{p:component('formEditTipoUsuario')}"
+							 oncomplete="PF('dlgEditTipoUsuario').show();" />
+						<p:commandButton
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							styleClass="ui-btn-inline" icon="ui-icon-delete"
+							actionListener="#{usuarioBean.preDeleteTU(usu.idTipoUsuario)}"
+							oncomplete="PF('dlgEliminarTipoUsuario').show();" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			
+			<p:dialog header="Agregar Tipo de Usuario" widgetVar="dlgAddTipoUsuario" 
+			showEffect="pop"  modal="true" >
+				<h:form id="formAgregarTipoUsuario">
+					<p:panelGrid columns="2">
+					<p:outputLabel value="Descripcion : " for="tusuNombre"></p:outputLabel>
+					<p:inputText id="tusuNombre"  required="true"
+						value="#{usuarioBean.tipousuario.descripcion}" />
+						</p:panelGrid>
+				<p:commandButton 
+					action="#{usuarioBean.AddTU2}"
+					update=":#{p:component('tablaUsuario')}"
+					 oncomplete="PF('dlgAddTipoUsuario').hide();"
+					value="Agregar" />
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog header="Editar Tipo de Usuario" widgetVar="dlgEditTipoUsuario" 
+			showEffect="pop"  modal="true" >
+				<h:form id="formEditTipoUsuario">
+					<p:panelGrid columns="2">
+					<p:outputLabel value="Descripcion : " for="tusuNombre"></p:outputLabel>
+					<p:inputText id="tusuNombre"  required="true"
+						value="#{usuarioBean.tipousuario.descripcion}" />
+						</p:panelGrid>
+				<p:commandButton update=":#{p:component('tablaUsuario')}"
+				    oncomplete="PF('dlgEditTipoUsuario').hide();"
+					action="#{usuarioBean.updateTU2}" value="Guardar" />
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog header="¿Eliminar? " widgetVar="dlgEliminarTipoUsuario"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+				
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check" 
+						actionListener="#{usuarioBean.deleteTU}" update=":#{p:component('tablaUsuario')}"
+						oncomplete="PF('dlgEliminarTipoUsuario').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" actionListener="#{usuarioBean.cancelar}"
+						oncomplete="PF('dlgEliminarTipoUsuario').hide();" />
+				</h:form>
+			</p:dialog>
+	 
+		
+	</ui:define>
+
+	<ui:define name="bottom">
+
+	</ui:define>
+ 
+ 
+</ui:composition>
+</html>

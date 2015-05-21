@@ -13,7 +13,7 @@
 				<p:menuitem value="Puntos por Par" url="#" />
 			</p:submenu>
 
-			<p:submenu label="Gestión" icon="ui-icon-pencil">
+			<p:submenu label="Gestión" icon="ui-icon-pencil" >
 				<p:menuitem value="Puntos" url="#" icon="ui-icon-arrowreturnthick-1-w" />
 				<p:menuitem value="Pares" onclick="PF('dlgHT').show();" icon="ui-icon-arrowreturnthick-1-e" />
 				<p:menuitem value="Pares por Enfermedad" url="#" icon="ui-icon-arrowreturnthick-1-e" />
@@ -23,6 +23,11 @@
 			<p:submenu label="Opciones Adicionales" icon="ui-icon-help">
 				<p:menuitem value="Gestionar Enfermedades" url="#" />
 				<p:menuitem value="Gestionar Sintomas" url="inicio2.xhtml" />
+			</p:submenu>
+			
+			<p:submenu label="Opciones de administrador" icon="ui-icon-pencil" rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}" >
+				<p:menuitem value="Gestionar usuarios" url="/web/seguridad/gestionUsuario.jsf" />
+				<p:menuitem value="Gestionar Tipo de usuarios" url="/web/seguridad/gestionTipoUsuario.xhtml" />
 			</p:submenu>
 
 			<f:facet name="options">

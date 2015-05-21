@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+<ui:composition template="/WEB-INF/facelets/templates/plantillaPrincipal.xhtml">
+	
+	<ui:define name="titulo">
+         Gusedu Salud
+    </ui:define>
+	<ui:define name="top">
+	</ui:define>
+	<ui:define name="content">
+<p:growl showDetail="true" autoUpdate="true" />
+			<h:form>
+				<p:commandButton action="#{usuarioBean.preAdd2}"
+					value="Agregar Usuario" oncomplete="PF('dlgAddUsuario').show();" update=":#{p:component('formAgregarUsuario')}"
+					 ></p:commandButton>
+			</h:form>
+		
+				<h:form id="formBusqueda">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{usuarioBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaUsuario')}"
+							listener="#{usuarioBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+		
+			<h:form id="gestionUsuario">
+				<p:dataTable emptyMessage="No hay usuarios Disponibles"   
+					id="tablaUsuario" var="usu" value="#{usuarioBean.usuarios}" rowIndexVar="valor"
+					rowKey="#{usu.idUsuario}" paginator="true" rows="20"
+					tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="#" width="15px;" >
+						<p:outputLabel value="#{valor+1}" />
+					</p:column>
+					<p:column headerText="Estado">
+						<p:outputLabel value="Activo" rendered="#{usu.esActivo eq true}" />
+						<p:outputLabel value="Inactivo" rendered="#{usu.esActivo ne true}" />
+					</p:column>
+					<p:column headerText="Usuario">
+						<p:outputLabel value="#{usu.usuario}" />
+					</p:column>
+					<p:column headerText="Empresa">
+						<p:outputLabel value="#{usu.empresa}" />
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-info"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							action="#{usuarioBean.preDatosUsuario2(usu.idUsuario)}" 
+							update=":#{p:component('DatosUsuario')}"
+							oncomplete="PF('dlg1').show();" />
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							action="#{usuarioBean.preUpdate2(usu.idUsuario)}" update=":#{p:component('formEditarUsuario')}"
+							oncomplete="PF('dlgEditUsuario').show();"/>
+						<p:commandButton
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							styleClass="ui-btn-inline" icon="ui-icon-delete"
+							actionListener="#{usuarioBean.preDelete(usu.idUsuario)}"
+							oncomplete="PF('dlgEliminarUsuario').show();" />
+					</p:column>
+				</p:dataTable>
+
+			</h:form>
+			
+			
+				<p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
+				showEffect="pop" modal="true">
+			<h:form id="DatosUsuario">
+				<p:panelGrid columns="2" id="panelRegistro">
+					<p:outputLabel for="perDni" value="DNI: " />
+					<p:inputText value="#{usuarioBean.persona.dni}" id="perDni">
+						<pe:keyFilter mask="num" />
+					</p:inputText>
+
+					<p:outputLabel for="perNombre" value="Nombre: " />
+					<p:inputText value="#{usuarioBean.persona.nombres}" id="perNombre"
+						required="true">
+						<pe:keyFilter regEx="/[a-z_ ]/i" />
+					</p:inputText>
+
+					<p:outputLabel for="perApePaterno" value="Apellido paterno: " />
+					<p:inputText value="#{usuarioBean.persona.apellidoPaterno}"
+						required="true" id="perApePaterno">
+						<pe:keyFilter regEx="/[a-z_ ]/i" />
+					</p:inputText>
+
+					<p:outputLabel for="perApeMaterno" value="Apellido materno: " />
+					<p:inputText value="#{usuarioBean.persona.apellidoMaterno}"
+						required="true" id="perApeMaterno">
+						<pe:keyFilter regEx="/[a-z_ ]/i" />
+					</p:inputText>
+
+					<p:outputLabel for="perEdad" value="Edad : " />
+					<p:inputText value="#{usuarioBean.persona.edad}" id="perEdad">
+						<pe:keyFilter mask="num" />
+					</p:inputText>
+
+					<p:outputLabel for="perFecNac" value="Fecha de nacimiento: " />
+					<p:calendar value="#{usuarioBean.persona.fechaNacimiento}"
+						required="true" yearRange="c-100:c" id="perFecNac"
+						pattern="dd/MM/yyyy" navigator="true" />
+
+					<p:outputLabel for="perTelFijo" value="Teléfono fijo: " />
+					<p:inputText type="tel" value="#{usuarioBean.persona.telefonoFijo}"
+						id="perTelFijo">
+						<pe:keyFilter mask="num" />
+					</p:inputText>
+
+					<p:outputLabel for="perTelMovil" value="Teléfono móvil: " />
+					<p:inputText type="tel"
+						value="#{usuarioBean.persona.telefonoMovil}" id="perTelMovil">
+						<pe:keyFilter mask="num" />
+					</p:inputText>
+
+					<p:outputLabel for="perCorreo" value="Correo: " />
+					<p:inputText value="#{usuarioBean.persona.correo}" id="perCorreo">
+						<f:validateRegex
+							pattern="^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$" />
+					</p:inputText>
+
+					<p:outputLabel for="perSexo" value="Sexo: " />
+					<p:selectOneButton id="perSexo" value="#{usuarioBean.persona.sexo}">
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+						<f:selectItem itemLabel="Femenino" itemValue="F" />
+					</p:selectOneButton>
+
+					<p:outputLabel for="perEstadoCivil" value="Estado civil: " />
+					<p:selectOneButton id="perEstadoCivil"
+						value="#{usuarioBean.persona.estadoCivil}">
+						<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+						<f:selectItem itemLabel="Casado" itemValue="Casado" />
+						<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+						<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+					</p:selectOneButton>
+
+					<p:outputLabel for="perComo" value="¿Cómo se enteró de Gusedu?" />
+					<p:selectOneRadio id="perComo"
+						value="#{usuarioBean.persona.comoSeEntero}" layout="grid"
+						columns="2">
+						<f:selectItem itemLabel="Medios de comunicacion"
+							itemValue="Medios de comunicacion" />
+						<f:selectItem itemLabel="Web" itemValue="Web" />
+						<f:selectItem itemLabel="Amigos" itemValue="Amigos" />
+						<f:selectItem itemLabel="Familiares" itemValue="Familiares" />
+						<f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
+					</p:selectOneRadio>
+
+					<p:commandButton value="Registrar"
+						action="#{usuarioBean.DatosUsuario}" icon="ui-icon-check" />
+					<p:commandButton value="Cancelar" immediate="true"
+						action="#{personaBean.cancelar}" ajax="false"
+						icon="ui-icon-delete" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+			
+			<p:dialog header="¿Eliminar? " widgetVar="dlgEliminarUsuario"
+				showEffect="pop" closable="false" modal="true">
+				<h:form>
+				
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check"  
+						actionListener="#{usuarioBean.delete}" update=":#{p:component('tablaUsuario')}"
+						oncomplete="PF('dlgEliminarUsuario').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" actionListener="#{usuarioBean.cancelar}"
+						oncomplete="PF('dlgEliminarUsuario').hide();" />
+				</h:form>
+			</p:dialog>
+	
+			<p:dialog header="Agregar Usuario" widgetVar="dlgAddUsuario" showEffect="pop" closable="false"
+			   modal="true" >
+				<h:form id="formAgregarUsuario">
+			 
+					<p:panelGrid columns="2" >
+					<p:outputLabel value="Usuario : " for="usuNombre"></p:outputLabel>
+					<p:inputText id="usuNombre" required="true" 
+						value="#{usuarioBean.usuario.usuario}" />
+				 
+					<p:outputLabel value="Contraseña : " for="usuContrasenia"></p:outputLabel>
+					<p:password id="usuContrasenia" required="true"
+						value="#{usuarioBean.usuario.password}"></p:password>
+			 
+					<p:outputLabel value="Empresa : " for="usuEmpresa"></p:outputLabel>
+					<p:inputText id="usuEmpresa" required="true"
+						value="#{usuarioBean.usuario.empresa}" />
+			 
+					<p:outputLabel value="Estado : " for="usuActivo" />
+					<p:inputSwitch id="usuActivo" value="#{usuarioBean.usuario.esActivo}" 
+					onLabel="Act." offLabel="Inact."  >
+					 <p:ajax listener="#{usuarioBean.addMessage}" update="usuMembresia,usufechaM,usuTiempo" />
+					 </p:inputSwitch>
+			 
+				<p:outputLabel value="Tiempo : " />
+					<p:selectOneButton id="usuTiempo"  value="#{usuarioBean.tiempo}" >
+						<f:selectItem itemLabel="Día" itemValue="Dias" itemDisabled="#{usuarioBean.mesM}" />
+						<f:selectItem itemLabel="Mes" itemValue="Meses" itemDisabled="#{usuarioBean.mesM}" />
+						<p:ajax event="change"  update="usuMembresia,usufechaM,labelCantidad"
+                            listener="#{usuarioBean.addMessage}" />
+					</p:selectOneButton>
+			 
+					<p:outputLabel id="labelCantidad" value="Cantidad de #{usuarioBean.tiempo} : " for="usuMembresia" />
+					<p:inputText id="usuMembresia" disabled="#{usuarioBean.mesM}" value="#{usuarioBean.cantM}" >
+						<p:ajax event="keyup" update="usufechaM"
+							listener="#{usuarioBean.cargarFecha}" />
+					</p:inputText>		
+			 
+					<p:outputLabel value="Fecha Final : " />
+					<p:inputText id="usufechaM" value="#{usuarioBean.usuario.fechafinm}" disabled="#{usuarioBean.mesM}" >
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+					
+				 
+					<p:outputLabel for="selectOneMenu" value="Tipo Usuario" />
+					<p:selectOneMenu id="selectOneMenu" value="#{usuarioBean.usuario.usuTipoUsuario.idTipoUsuario}" required="true" >
+						<f:selectItem itemLabel="Selecciona uno" itemValue="" />
+						<f:selectItems value="#{usuarioBean.tipousuarios}" var="tus" 
+						itemLabel="#{tus.descripcion}" itemValue="#{tus.idTipoUsuario}" />
+					</p:selectOneMenu>
+					<p:commandButton action="#{usuarioBean.add2}" value="Agregar" 
+					 update=":#{p:component('tablaUsuario')},:#{p:component('formAgregarUsuario')}" />
+					</p:panelGrid>
+				 
+			</h:form>
+			</p:dialog>
+			
+			<p:dialog header="Editar Usuario" widgetVar="dlgEditUsuario" showEffect="pop" >
+			
+				<h:form id="formEditarUsuario">
+				 <p:panelGrid columns="2" >
+					<p:outputLabel value="Usuario : " for="usuNombre"></p:outputLabel>
+					<p:inputText id="usuNombre" required="true" 
+						value="#{usuarioBean.usuario.usuario}" />
+			 
+					<p:outputLabel value="Empresa : " for="usuEmpresa"></p:outputLabel>
+					<p:inputText id="usuEmpresa" required="true"
+						value="#{usuarioBean.usuario.empresa}" />
+				 
+					<p:outputLabel value="Estado : " for="usuActivo" />
+					<p:inputSwitch id="usuActivo" value="#{usuarioBean.usuario.esActivo}" onLabel="Act." offLabel="Inact." >
+						<p:ajax listener="#{usuarioBean.Aumento}" update="usuMembresia,usufechaM,usuTiempo" />
+					</p:inputSwitch>
+			 
+					<p:outputLabel value="Dias Restantes : " />
+					<p:outputLabel value="#{usuarioBean.diasRestantes}" ></p:outputLabel>
+				 
+				<p:outputLabel value="Tiempo : " />
+					<p:selectOneButton id="usuTiempo"  value="#{usuarioBean.tiempo}" >
+						<f:selectItem itemLabel="Día" itemValue="Dias" itemDisabled="#{usuarioBean.mesM}" />
+						<f:selectItem itemLabel="Mes" itemValue="Meses" itemDisabled="#{usuarioBean.mesM}" />
+						<p:ajax event="change"  update="usuMembresia,usufechaM,labelCantidad"
+                            listener="#{usuarioBean.Aumento}" />
+					</p:selectOneButton>
+			 
+					<p:outputLabel id="labelCantidad" value="Cantidad de #{usuarioBean.tiempo} : " for="usuMembresia" />
+					<p:inputText id="usuMembresia" disabled="#{usuarioBean.mesM}" value="#{usuarioBean.cantM}" >
+						<p:ajax event="keyup" update="usufechaM"
+							listener="#{usuarioBean.aumentarMembresia}" />
+					</p:inputText>		
+			 
+					<p:outputLabel value="Fecha Final : " />
+					<p:inputText id="usufechaM" value="#{usuarioBean.usuario.fechafinm}" disabled="#{usuarioBean.mesM}" >
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+					
+				 
+					<p:outputLabel for="selectOneMenu" value="Tipo Usuario" />
+					<p:selectOneMenu id="selectOneMenu" value="#{usuarioBean.usuario.usuTipoUsuario.idTipoUsuario}" required="true" >
+						<f:selectItem itemLabel="Selecciona uno" itemValue="" />
+						<f:selectItems value="#{usuarioBean.tipousuarios}" var="tus" 
+						itemLabel="#{tus.descripcion}" itemValue="#{tus.idTipoUsuario}" />
+					</p:selectOneMenu>
+		 
+				<p:commandButton 
+					action="#{usuarioBean.update2}" value="Guardar" 
+					update=":#{p:component('tablaUsuario')}" oncomplete="PF('dlgEditUsuario').hide();" />
+					</p:panelGrid>
+			</h:form>
+			</p:dialog>
+		
+	</ui:define>
+
+	<ui:define name="bottom">
+
+	</ui:define>
+ 
+ 
+</ui:composition>
+</html>

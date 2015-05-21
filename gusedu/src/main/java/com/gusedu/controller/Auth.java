@@ -56,13 +56,13 @@ public class Auth implements Serializable{
 				StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema");
 				request.getSession().setAttribute("userLogged", usuario);				
 				setUserLogged(usuario);	
-				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==2)
+				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==2 || usuario.getUsuTipoUsuario().getIdTipoUsuario()==3)
 				{
 					return "/web/inicio2?faces-redirect=true";
 				}
-				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==3){
+				/*if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==3){
 					return "/mobile/index.jsf";
-				}
+				}*/
 			}
 
 		} catch (Exception e) {

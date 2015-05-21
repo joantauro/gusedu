@@ -28,7 +28,7 @@ public class SessionFilter implements javax.servlet.Filter {
 		System.out.println("urlSolicitada: " + urlSolicitada);
 		Usuario user = (Usuario) httpRequest.getSession().getAttribute("userLogged");
 		if (user == null) {
-			if (urlSolicitada.contains("mobile") || urlSolicitada.contains("web")) {
+			if (urlSolicitada.contains("mobile") || urlSolicitada.contains("web") || urlSolicitada.contains("seguridad")) {
 				httpResponse.sendRedirect("/gusedu/home.jsf");
 				return;
 			} else {
@@ -36,7 +36,18 @@ public class SessionFilter implements javax.servlet.Filter {
 				return;
 			}
 		} else {
-			chain.doFilter(request, response);
+			if(urlSolicitada.contains("seguridad") )
+			{
+				if(user.getUsuTipoUsuario().getIdTipoUsuario()!=3)
+				{
+					httpResponse.sendRedirect("/gusedu/web/inicio2.jsf");
+					return;
+				}
+				
+			}
+				chain.doFilter(request, response);
+				return;
+			
 		}
 	}
 

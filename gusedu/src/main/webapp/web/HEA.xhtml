@@ -81,20 +81,14 @@
 				<p:dataTable emptyMessage="No hay sintomas en la terapia"
 					id="tablaSin" var="sxt" value="#{terapiaBean.listasintomaxvisita}"
 					paginator="true" rows="3" style="width:350px;">
-					<f:facet name="header">
-        							Sintomas del Paciente
-    						</f:facet>
-					<p:column headerText="Nombre">
+					<p:column >
 						<p:outputLabel value="#{sxt.sxvSintoma.descripcion}" />
 					</p:column>
 				</p:dataTable>
 				<p:dataTable emptyMessage="No hay enfermedades en la terapia"
 					id="tablaEnf" var="enf" value="#{terapiaBean.listaenfermedadvisita}"
 					paginator="true" rows="3" style="width:350px;">
-					<f:facet name="header">
-        							Enfermedades del Paciente
-    						</f:facet>
-					<p:column headerText="Nombre">
+					<p:column >
 						<p:outputLabel value="#{enf.exvEnfermedad.nombre}" />
 					</p:column>
 				</p:dataTable>

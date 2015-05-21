@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -99,7 +100,27 @@ public class UsuarioBean implements Serializable{
 		usuario.setUsuTipoUsuario(new TipoUsuario());
 		return "pm:agregarUsuario?transition=flip";
 	}
-	
+	//-----------Parte Web
+	public void preAdd2() {
+		usuario = new Usuario();
+		usuario.setUsuTipoUsuario(new TipoUsuario());
+	}
+	public void add2() {
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "Este codigo de usuario ya esta registrado");
+			return;
+		}
+		if (usuarioservice.saveUsuario(usuario)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el usuario");
+			usuario = new Usuario();
+			usuario.setUsuTipoUsuario(new TipoUsuario());
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('dlgAddUsuario').hide();");
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo registrar el usuario");
+ 
+		}
+	}
 	public String add() {
 		if (esRepetido()) {
 			StaticUtil.errorMessage("Error", "Este codigo de usuario ya esta registrado");
@@ -125,6 +146,15 @@ public class UsuarioBean implements Serializable{
 		return "editarUsuario?faces-redirect=true";
 	}
 	
+	public void preUpdate2(int idUsuario) {
+		usuario = usuarioservice.getUsuarioeById(idUsuario);
+		fechaM=usuario.getFechafinm();
+		mesM=usuario.getEsActivo() ? false : true;
+		diasRestantes=StaticUtil.diasRestantes(fechaM);
+		//datosClinicos?faces-redirect=true
+		//return "editarUsuario?faces-redirect=true";
+	}
+	
 	public String update() {
 		if (usuarioservice.updateUsuario(usuario)) {
 			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el usuario");
@@ -136,6 +166,16 @@ public class UsuarioBean implements Serializable{
 		}
 	}
 	
+	public void update2() {
+		if (usuarioservice.updateUsuario(usuario)) {
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el usuario");
+			//		return "consultarPacientes?faces-redirect=true";
+			//return "gestionUsuario?faces-redirect=true";
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo actualizar el usuario");
+			//return null;
+		}
+	}
 	public void preDelete(int idUsuario) {
 		usuario = usuarioservice.getUsuarioeById(idUsuario);
 	}
@@ -145,13 +185,14 @@ public class UsuarioBean implements Serializable{
 		usuario.setEsActivo(false);
 		usuario.setFechafinm(new Date());
 		if (usuarioservice.updateUsuario(usuario)) {
-			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el usuario");
+			StaticUtil.correctMesage("Éxito", "Se ha dado debaja al usuario");
 		 
 		} else {
 			StaticUtil.errorMessage("Error", "No se pudo actualizar el usuario");
  
 		}
 		usuario = new Usuario();
+		usuario.setUsuTipoUsuario(new TipoUsuario());
 	}
 	
 	public void cancelar() {
@@ -194,6 +235,10 @@ public class UsuarioBean implements Serializable{
 		tipousuario = new TipoUsuario();
 		return "pm:agregarTipoUsuario?transition=flip";
 	}
+	public void preAddTU2() {
+		tipousuario = new TipoUsuario();
+		//return "pm:agregarTipoUsuario?transition=flip";
+	}
 	public String AddTU() {
 		if (esRepetidoTU()) {
 			StaticUtil.errorMessage("Error", "El nombre está duplicado");
@@ -211,7 +256,23 @@ public class UsuarioBean implements Serializable{
 			return null;
 		}
 	}
-	
+	public void AddTU2() {
+		if (esRepetidoTU()) {
+			StaticUtil.errorMessage("Error", "El nombre está duplicado");
+			return;
+			//return null;
+		}
+		
+		if (tipousuarioservice.saveTipoUsuario(tipousuario)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el tipo de Usuario");
+			tipousuario = new TipoUsuario();
+			//return "pm:datosTipoUsuario?transition=flip";
+		} else {
+			System.out.println("Fail");
+			StaticUtil.errorMessage("Error", "No se pudo registrar el tipo de usuario");
+			//return null;
+		}
+	}
 	public String preUpdateTU(int idTipoUsuario) {
 		tipousuario = tipousuarioservice.getUsuarioeById(idTipoUsuario);
 		return "pm:editarTipoUsuario?transition=flip";
@@ -227,6 +288,16 @@ public class UsuarioBean implements Serializable{
 		}
 	}
 	
+	public void updateTU2() {
+		if (tipousuarioservice.updateTipoUsuario(tipousuario)) {
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el tipo usuario");
+			//return "pm:datosTipoUsuario?transition=flip";
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo actualizar el tipo de usuario");
+			//return null;
+		}
+	}
+	
 	public String preDatosUsuario(int idTipoUsuario){
 		usuario = usuarioservice.getUsuarioeById(idTipoUsuario);
 		if(usuario.getUsuPersona()!=null)
@@ -234,6 +305,13 @@ public class UsuarioBean implements Serializable{
 			persona=personaservice.getPersonaById(usuario.getUsuPersona().getIdPersona());
 		}
 		return "registrarUsuPersona?faces-redirect=true";
+	}
+	public void preDatosUsuario2(int idTipoUsuario){
+		usuario = usuarioservice.getUsuarioeById(idTipoUsuario);
+		if(usuario.getUsuPersona()!=null)
+		{
+			persona=personaservice.getPersonaById(usuario.getUsuPersona().getIdPersona());
+		} 
 	}
 	
 	public String DatosUsuario()
@@ -264,6 +342,39 @@ public class UsuarioBean implements Serializable{
 			} else {
 				StaticUtil.errorMessage("Error", "No se pudo registrar los datos del usuario");
 				return null;
+			}
+		}
+
+	}
+	
+	public void DatosUsuario2()
+	{
+		if(persona.getIdPersona()==null)
+		{
+			if (personaservice.savePersona(persona)) {
+				StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente los datos del usuario");
+				usuario.setUsuPersona(persona);
+				usuarioservice.updateUsuario(usuario);
+				
+				persona = new Persona();
+				usuario = new Usuario();
+				usuario.setUsuTipoUsuario(new TipoUsuario());
+				//return "gestionUsuario?faces-redirect=true";
+			} else {
+				StaticUtil.errorMessage("Error", "No se pudo registrar los datos del usuario");
+				//return null;
+			}
+		}else
+		{
+			if (personaservice.updatePersona(persona)) {
+				StaticUtil.correctMesage("Éxito", "Se ha modificado correctamente los datos del usuario");
+				persona = new Persona();
+				usuario = new Usuario();
+				usuario.setUsuTipoUsuario(new TipoUsuario());
+				//return "gestionUsuario?faces-redirect=true";
+			} else {
+				StaticUtil.errorMessage("Error", "No se pudo registrar los datos del usuario");
+				//return null;
 			}
 		}
 

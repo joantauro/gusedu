@@ -87,6 +87,7 @@ public class TerapiaBean implements Serializable{
 	   
 	   private List<Terapia> listaterapia;
 	   private List<TerapiaPar> listaterapiapar;
+	   private List<Par> listapares;
 	
 	public TerapiaBean() {
 		sliderDolor = 0;
@@ -108,21 +109,49 @@ public class TerapiaBean implements Serializable{
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Cliente cli = (Cliente) fc.getExternalContext().getSessionMap()
 				.get("cliente");
-		// Cliente cli= new Cliente();
-		// cli.setIdCliente(120);
-		listaterapia = terapiaService.getAllTerapiabyCliente(cli);//----Consulta bd 
+	
+	/*	listaterapia = terapiaService.getAllTerapiabyCliente(cli);//----Consulta bd 
 		Terapia terapia = terapiaService.lastTerapia(cli);        //----Consulta bd
 		// terapia.setIdTerapia(87);
 		listaterapiapar = terapiaService.getAllTerapiaParbyTerapia(terapia);//Consulta bd
 		List<TerapiaPar> all = new ArrayList<>();
 		all = terapiaService.getAllParbyCliente(cli);                       //Consulta bd
-		for (int j = 0; j < listaterapiapar.size(); j++) {
+		*/
+		listaterapia = new ArrayList<>();
+		listapares = new ArrayList<>();
+		
+		List<TerapiaPar> all = new ArrayList<>();
+		all = terapiaService.getAllParbyCliente(cli); 
+		
+		 for(int i=0;i<all.size();i++)
+	      {
+	          if(!listaterapia.contains(all.get(i).getTxpTerapia()))
+	          {
+	              listaterapia.add(all.get(i).getTxpTerapia());
+	          }
+	      }
+	     for(int j=0;j<all.size();j++)
+	      {
+	          if(!listapares.contains(all.get(j).getTxpPar()))
+	          {
+	              listapares.add(all.get(j).getTxpPar());
+	          }
+	      }
+		
+	     for (int j = 0; j < listapares.size(); j++) {
+				rowNames.add(listapares.get(j).getParPunto1()
+						.getNombre()
+						+ "-"
+						+ listapares.get(j).getParPunto2()
+								.getNombre());
+			}
+	/*	for (int j = 0; j < listaterapiapar.size(); j++) {
 			rowNames.add(listaterapiapar.get(j).getTxpPar().getParPunto1()
 					.getNombre()
 					+ "-"
 					+ listaterapiapar.get(j).getTxpPar().getParPunto2()
 							.getNombre());
-		}
+		}*/
 		System.out.println(listaterapia.size());
 		for (int i = 0; i < listaterapia.size(); i++) {
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -137,7 +166,8 @@ public class TerapiaBean implements Serializable{
 			}
 		}
 	        
-	        for(int i=0;i<listaterapiapar.size();i++)
+	       // for(int i=0;i<listaterapiapar.size();i++)
+		for(int i=0;i<listapares.size();i++)
 	        {
 	            for(int j=0;j<listaterapia.size();j++)
 	            {
@@ -145,9 +175,9 @@ public class TerapiaBean implements Serializable{
 	                {
 	            	if(Objects.equals(listaterapia.get(j).getIdTerapia(), all.get(a).getTxpTerapia().getIdTerapia()))
                     {
-                        if(Objects.equals(listaterapiapar.get(i).getTxpPar().getIdPar(), all.get(a).getTxpPar().getIdPar()))
-                        {
-                             // System.out.println("[" + i + "][" + j + "] = " + listaterapiapar2.get(a).getTxpCodigo());
+                       // if(Objects.equals(listaterapiapar.get(i).getTxpPar().getIdPar(), all.get(a).getTxpPar().getIdPar()))
+	            		if(Objects.equals(listapares.get(i).getIdPar(), all.get(a).getTxpPar().getIdPar()))
+	            		{
                             if(all.get(a).getTxpActivo())
                             {
                             	data3D.get(i).get(j).add("Si");
@@ -955,6 +985,16 @@ public class TerapiaBean implements Serializable{
 	    public void setData3D(ArrayList<ArrayList<ArrayList<String>>> data3D) {
 	        this.data3D = data3D;
 	    }
+
+
+		public List<Par> getListapares() {
+			return listapares;
+		}
+
+
+		public void setListapares(List<Par> listapares) {
+			this.listapares = listapares;
+		}
 
 	
 }
