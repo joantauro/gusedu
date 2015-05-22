@@ -8,8 +8,12 @@
 <ui:composition>
 	<h:form id="menu">
 		<p:menubar>
+			<p:menuitem value="Inicio" url="/web/Principal.jsf" ></p:menuitem>
+			<p:submenu label="Consultas" icon="ui-icon-document">
+				<p:menuitem value="Historial de visitas"  url="HistorialVisita.jsf" />
+			</p:submenu>
 			<p:submenu label="Reportes" icon="ui-icon-document">
-				<p:menuitem value="Productos"  url="" />
+				<p:menuitem value="Productos"  url="#" />
 				<p:menuitem value="Puntos por Par" url="#" />
 			</p:submenu>
 

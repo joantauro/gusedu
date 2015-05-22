@@ -29,13 +29,18 @@
 		    if(val === 'Venta de productos') {
 			       PF('dlgP').show();
 			}
+		    if(val === 'Confirma visita')
+		    {
+		    	PF('dlgCVi').show();
+		    	//document.getElementById('formNuevo:btnAct').click();
+		    }
 		   /** if(val === 'Historial de visitas') {
 			       PF('dlgHV').show();
 			}**///Historial Terapias
 		/**	if(val === 'Datos Personales') {
 				  
 				   
-			       PF('dlgDP').show(); document.getElementById('formNuevo:btnAct').click();
+			       PF('dlgDP').show(); 
 			} **/
 		}
 		</script>
@@ -46,15 +51,36 @@ function foo() {
 }
 </script> -->
 		<div style="width: 98%; margin: auto auto auto auto;">
-		
-		<h:form id="formNuevo">
-			<p:commandButton value="Listar" id="btnListar" style="display: none;"
-				action="#{pacienteBean.listado}"
-				update=":#{p:component('tablaPac')}" />
-			<p:commandButton value="Actualizar" id="btnAct" style="display: none;"   ></p:commandButton>
-		</h:form>
 
-		<h:form id="formBusquedaP" style="text-align: center;">
+			<h:form id="formNuevo">
+				<p:commandButton value="Listar" id="btnListar"
+					style="display: none;" action="#{pacienteBean.listado}"
+					update=":#{p:component('tablaPac')}" />
+				<p:commandButton value="Actualizar" id="btnAct"
+					style="display: none;">
+					<p:confirm header="Confirmacion"
+						message="Desea crear visita para hoy ?" icon="ui-icon-alert" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade"
+					hideEffect="explode">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"  onclick="PF('dlgCVi').show();" />
+				</p:confirmDialog>
+				<p:dialog id="dialogConfVisita" header="Crear visitas" widgetVar="dlgCVi"
+					showEffect="pop" modal="true" resizable="false">
+					<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Fecha : "></p:outputLabel>
+						<p:calendar id="datetime" value="#{visitaBean.fechaactual}" pattern="dd/MM/yyyy HH:mm" />
+						<p:commandButton value="Crear visita" action="#{visitaBean.registrarVisita3}" oncomplete="PF('dlgCVi').hide();" />
+					</p:panelGrid>
+
+				</p:dialog>
+			</h:form>
+
+			<h:form id="formBusquedaP" style="text-align: center;">
 			<p:outputLabel value="Filtrar: " for="inpQuery" />
 			<p:inputText value="#{pacienteBean.query}" id="inpQuery"
 				style="width : 500px;">
@@ -113,6 +139,7 @@ function foo() {
 						<f:selectItem itemLabel="Historial de terapias" itemValue="HT"   />
 						<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
 						<f:selectItem itemLabel="Datos Personales" itemValue="DP" />
+				<!--		<f:selectItem itemLabel="Confirma visita" itemValue="CVi" /> -->
 						<p:ajax event="change" update=":#{p:component('frame')}"
 							listener="#{pacienteBean.prueba(pac)}" />
 					</p:selectOneMenu>
@@ -140,9 +167,7 @@ function foo() {
 		<h:form>
 			<p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
 				showEffect="pop" modal="true">
-
 				<ui:include src="prueba.xhtml" />
-
 			</p:dialog>
 		</h:form>
 		<p:dialog id="dialogDatosClinicos" header="Datos Clinicos"

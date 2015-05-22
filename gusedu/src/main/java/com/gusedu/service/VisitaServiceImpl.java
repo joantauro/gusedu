@@ -147,4 +147,34 @@ public class VisitaServiceImpl implements VisitaService{
 		return result;
 	}
 
+	@Override
+	public double costodeVisita(Date fec_inicial, Date fec_final) {
+		double result=0;
+		try {
+			String sql="select sum(costoTotal) from Visita v where :fec_inicial <= v.fechaCreacion and v.fechaCreacion<=:fec_final ";
+			Query q = em.createQuery(sql);
+			q.setParameter("fec_inicial",fec_inicial);
+			q.setParameter("fec_final", fec_final);
+			 result=(double) q.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("ERROR de VisitaService: " + e.getMessage());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Visita> getVisitabyFechas(Date fec_inicial, Date fec_final) {
+		List<Visita> result = new ArrayList<>();
+		try {
+			Query q = em.createQuery("select v from Visita v where :fec_inicial <= v.fechaCreacion and v.fechaCreacion<=:fec_final order by v.fechaCreacion desc");
+			q.setParameter("fec_inicial",fec_inicial);
+			q.setParameter("fec_final", fec_final);
+			result = q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;
+	}
+
 }

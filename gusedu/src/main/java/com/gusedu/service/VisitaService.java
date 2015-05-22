@@ -1,5 +1,6 @@
 package com.gusedu.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gusedu.model.Cliente;
@@ -22,4 +23,8 @@ public interface VisitaService {
 	public Visita buscarVisita(Cliente cliente);
 	
 	public Visita getLastVisitaCliente2(Cliente cliente);
+	
+	public double costodeVisita(Date fec_inicial,Date fec_final);
+	
+	public List<Visita> getVisitabyFechas(Date fec_inicial,Date fec_final);
 }

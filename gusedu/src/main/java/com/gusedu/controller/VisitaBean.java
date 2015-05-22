@@ -84,7 +84,10 @@ public class VisitaBean implements Serializable{
 	private String descripcionIMC;
 	private String opciones;
 	
+	private Date fechaactual;
+	
 	public VisitaBean() {
+		
 		mostrarFormProducto = -1;
 		cliente = new Cliente();
 		visita = new Visita();
@@ -93,8 +96,10 @@ public class VisitaBean implements Serializable{
 		historiaClinica = new HistoriaClinica();
 		query = ""; lista = new ArrayList<>();
 		valor=false;descripcionIMC="";opciones="S";
+		fechaactual = new Date();
 	}
 
+	
 	public Integer getMostrarFormProducto() {
 		return mostrarFormProducto;
 	}
@@ -341,6 +346,44 @@ public class VisitaBean implements Serializable{
 			//context.execute("PF('dlgVi').show();");
 		}
 	}
+	
+	public void registrarVisita3() {
+		
+
+		
+		
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Visita visit = (Visita) fc.getExternalContext().getSessionMap().get("vis");
+		
+		if(visit==null)
+		{
+			cliente =((Cliente) fc.getExternalContext().getSessionMap().get("cliente"));
+			// Asigna datos a la visita
+			visita.setEsPresencial(true);
+			visita.setPrioridad(2);
+			visita.setEstado(1);
+			visita.setVisCliente(cliente);
+			String usuarioCreacion = StaticUtil.userLogged();
+			visita.setUsuarioCreacion(usuarioCreacion);
+			visita.setCostoTotal(0.0);
+			 
+			visita.setFechaCreacion(fechaactual);
+			// Guarda la visita en la base de datos
+			if (visitaService.saveVisita(visita)) {
+				// Carga las terapias de la visita que se abrió
+				//terapiasDeVisita = terapiaService.terapiasPorVisita(visita);
+				StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la visita");
+				StaticUtil.keepMessages();
+				clearEntities(); 
+				RequestContext.getCurrentInstance().update("formulario");
+			}
+		}else
+		{
+			StaticUtil.errorMessage("Error", "Ya se registro una visita el día de hoy");
+			StaticUtil.keepMessages();
+		}
+		
+	}
 	public void updateVisita(Visita visita)
 	{
 		visitaService.updateVisita(visita);
@@ -492,6 +535,8 @@ public class VisitaBean implements Serializable{
 		    VisitaBean objetoBean =(VisitaBean) fc.getExternalContext().getSessionMap().get("visitaBean");
 		    TerapiaBean objetoTBean =(TerapiaBean) fc.getExternalContext().getSessionMap().get("terapiaBean");
 		    Visita vis = visitaService.buscarVisita(client);
+		    fc.getExternalContext().getSessionMap()
+			.put("vis", vis);
 		    visita = new Visita();
 		    if(vis==null)
 		    {
@@ -1083,5 +1128,15 @@ public class VisitaBean implements Serializable{
 
 	public void setIdcli(Integer idcli) {
 		this.idcli = idcli;
+	}
+
+
+	public Date getFechaactual() {
+		return fechaactual;
+	}
+
+
+	public void setFechaactual(Date fechaactual) {
+		this.fechaactual = fechaactual;
 	}
 }
