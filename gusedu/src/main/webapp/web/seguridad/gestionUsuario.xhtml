@@ -11,16 +11,17 @@
 	<ui:define name="titulo">
          Gusedu Salud
     </ui:define>
-	<ui:define name="top">
+		<ui:define name="top">
 	</ui:define>
 	<ui:define name="content">
 <p:growl showDetail="true" autoUpdate="true" />
+<br/>
 			<h:form>
 				<p:commandButton action="#{usuarioBean.preAdd2}"
 					value="Agregar Usuario" oncomplete="PF('dlgAddUsuario').show();" update=":#{p:component('formAgregarUsuario')}"
 					 ></p:commandButton>
 			</h:form>
-		
+	<br/>	
 				<h:form id="formBusqueda">
 					<p:outputLabel value="Filtrar: " for="inpQuery" />
 					<p:inputText value="#{usuarioBean.query}" id="inpQuery">
@@ -29,7 +30,7 @@
 						</p:ajax>
 					</p:inputText>
 				</h:form>
-		
+	<br/>	
 			<h:form id="gestionUsuario">
 				<p:dataTable emptyMessage="No hay usuarios Disponibles"   
 					id="tablaUsuario" var="usu" value="#{usuarioBean.usuarios}" rowIndexVar="valor"
@@ -55,14 +56,14 @@
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{usuarioBean.preDatosUsuario2(usu.idUsuario)}" 
 							update=":#{p:component('DatosUsuario')}"
-							oncomplete="PF('dlg1').show();" />
-						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+							oncomplete="PF('dlgU').show();" />
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-copy"
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{usuarioBean.preUpdate2(usu.idUsuario)}" update=":#{p:component('formEditarUsuario')}"
 							oncomplete="PF('dlgEditUsuario').show();"/>
 						<p:commandButton
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
-							styleClass="ui-btn-inline" icon="ui-icon-delete"
+							styleClass="ui-btn-inline" icon="ui-icon-close"
 							actionListener="#{usuarioBean.preDelete(usu.idUsuario)}"
 							oncomplete="PF('dlgEliminarUsuario').show();" />
 					</p:column>
@@ -71,7 +72,7 @@
 			</h:form>
 			
 			
-				<p:dialog id="dialog" header="Nuevo Paciente" widgetVar="dlg1"
+				<p:dialog id="dialog" header="Datos de Usuario" widgetVar="dlgU"
 				showEffect="pop" modal="true">
 			<h:form id="DatosUsuario">
 				<p:panelGrid columns="2" id="panelRegistro">
@@ -154,7 +155,7 @@
 					</p:selectOneRadio>
 
 					<p:commandButton value="Registrar"
-						action="#{usuarioBean.DatosUsuario}" icon="ui-icon-check" />
+						action="#{usuarioBean.DatosUsuario2}" icon="ui-icon-check" oncomplete="PF('dlgU').hide();" />
 					<p:commandButton value="Cancelar" immediate="true"
 						action="#{personaBean.cancelar}" ajax="false"
 						icon="ui-icon-delete" />
@@ -177,7 +178,7 @@
 				</h:form>
 			</p:dialog>
 	
-			<p:dialog header="Agregar Usuario" widgetVar="dlgAddUsuario" showEffect="pop" closable="false"
+			<p:dialog header="Agregar Usuario" widgetVar="dlgAddUsuario" showEffect="pop"  
 			   modal="true" >
 				<h:form id="formAgregarUsuario">
 			 
@@ -228,6 +229,9 @@
 					</p:selectOneMenu>
 					<p:commandButton action="#{usuarioBean.add2}" value="Agregar" 
 					 update=":#{p:component('tablaUsuario')},:#{p:component('formAgregarUsuario')}" />
+					 <p:commandButton value="Cancelar" oncomplete="PF('dlgAddUsuario').hide();"
+					 action="#{usuarioBean.cancelar}"
+					  /> 
 					</p:panelGrid>
 				 
 			</h:form>
@@ -283,6 +287,9 @@
 				<p:commandButton 
 					action="#{usuarioBean.update2}" value="Guardar" 
 					update=":#{p:component('tablaUsuario')}" oncomplete="PF('dlgEditUsuario').hide();" />
+										 <p:commandButton value="Cancelar" oncomplete="PF('dlgEditUsuario').hide();"
+					 action="#{usuarioBean.cancelar}"
+					  /> 
 					</p:panelGrid>
 			</h:form>
 			</p:dialog>

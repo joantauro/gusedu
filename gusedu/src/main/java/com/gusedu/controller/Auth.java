@@ -53,12 +53,20 @@ public class Auth implements Serializable{
 				StaticUtil.errorMessage("Los datos ingresados no son correctos", "");
 				return null;
 			} else {
-				StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema");
+				if(usuario.getUsuPersona()==null)
+				{
+					StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema");
+					StaticUtil.keepMessages();
+				}else
+				{
+					StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema "+usuario.getUsuPersona().getNombres()+" "+usuario.getUsuPersona().getApellidoPaterno()+" "+usuario.getUsuPersona().getApellidoMaterno());
+					StaticUtil.keepMessages();
+				}
 				request.getSession().setAttribute("userLogged", usuario);				
 				setUserLogged(usuario);	
 				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==2 || usuario.getUsuTipoUsuario().getIdTipoUsuario()==3)
 				{
-					return "/web/inicio2?faces-redirect=true";
+					return "/web/Principal?faces-redirect=true";
 				}
 				/*if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==3){
 					return "/mobile/index.jsf";

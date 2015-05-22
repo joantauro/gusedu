@@ -40,7 +40,7 @@ public class SessionFilter implements javax.servlet.Filter {
 			{
 				if(user.getUsuTipoUsuario().getIdTipoUsuario()!=3)
 				{
-					httpResponse.sendRedirect("/gusedu/web/inicio2.jsf");
+					httpResponse.sendRedirect("/gusedu/web/Principal.jsf");
 					return;
 				}
 				
