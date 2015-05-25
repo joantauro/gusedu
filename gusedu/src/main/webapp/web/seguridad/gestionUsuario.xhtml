@@ -14,7 +14,7 @@
 		<ui:define name="top">
 	</ui:define>
 	<ui:define name="content">
-<p:growl showDetail="true" autoUpdate="true" />
+
 <br/>
 			<h:form>
 				<p:commandButton action="#{usuarioBean.preAdd2}"
@@ -70,10 +70,10 @@
 				</p:dataTable>
 
 			</h:form>
-			
-			
-				<p:dialog id="dialog" header="Datos de Usuario" widgetVar="dlgU"
-				showEffect="pop" modal="true">
+
+
+		<p:dialog id="dialog" header="Datos de Usuario" widgetVar="dlgU"
+			showEffect="pop" modal="true">
 			<h:form id="DatosUsuario">
 				<p:panelGrid columns="2" id="panelRegistro">
 					<p:outputLabel for="perDni" value="DNI: " />
@@ -154,16 +154,16 @@
 						<f:selectItem itemLabel="Publicidad" itemValue="Publicidad" />
 					</p:selectOneRadio>
 
-					<p:commandButton value="Registrar"
-						action="#{usuarioBean.DatosUsuario2}" icon="ui-icon-check" oncomplete="PF('dlgU').hide();" />
-					<p:commandButton value="Cancelar" immediate="true"
-						action="#{personaBean.cancelar}" ajax="false"
-						icon="ui-icon-delete" />
+					<p:commandButton value="Registrar"  
+						action="#{usuarioBean.DatosUsuario2}" icon="ui-icon-check"
+						oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlgU').hide();" />
+					<p:commandButton value="Cancelar" action="#{usuarioBean.cancelar}"
+						oncomplete="PF('dlgU').hide();"  process="@this" icon="ui-icon-delete" />
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
-			
-			<p:dialog header="¿Eliminar? " widgetVar="dlgEliminarUsuario"
+
+		<p:dialog header="¿Eliminar? " widgetVar="dlgEliminarUsuario"
 				showEffect="pop" closable="false" modal="true">
 				<h:form>
 				
@@ -178,7 +178,7 @@
 				</h:form>
 			</p:dialog>
 	
-			<p:dialog header="Agregar Usuario" widgetVar="dlgAddUsuario" showEffect="pop"  
+			<p:dialog header="Agregar Usuario" widgetVar="dlgAddUsuario" showEffect="pop"   
 			   modal="true" >
 				<h:form id="formAgregarUsuario">
 			 
@@ -229,7 +229,7 @@
 					</p:selectOneMenu>
 					<p:commandButton action="#{usuarioBean.add2}" value="Agregar" 
 					 update=":#{p:component('tablaUsuario')},:#{p:component('formAgregarUsuario')}" />
-					 <p:commandButton value="Cancelar" oncomplete="PF('dlgAddUsuario').hide();"
+					 <p:commandButton value="Cancelar" oncomplete="PF('dlgAddUsuario').hide();" process="@this"
 					 action="#{usuarioBean.cancelar}"
 					  /> 
 					</p:panelGrid>
@@ -237,7 +237,7 @@
 			</h:form>
 			</p:dialog>
 			
-			<p:dialog header="Editar Usuario" widgetVar="dlgEditUsuario" showEffect="pop" >
+			<p:dialog header="Editar Usuario" widgetVar="dlgEditUsuario" showEffect="pop"  modal="true" >
 			
 				<h:form id="formEditarUsuario">
 				 <p:panelGrid columns="2" >
@@ -287,9 +287,9 @@
 				<p:commandButton 
 					action="#{usuarioBean.update2}" value="Guardar" 
 					update=":#{p:component('tablaUsuario')}" oncomplete="PF('dlgEditUsuario').hide();" />
-										 <p:commandButton value="Cancelar" oncomplete="PF('dlgEditUsuario').hide();"
-					 action="#{usuarioBean.cancelar}"
-					  /> 
+										 <p:commandButton value="Cancelar" 
+										  action="#{usuarioBean.cancelar}"  process="@this"
+										   oncomplete="PF('dlgEditUsuario').hide();"  /> 
 					</p:panelGrid>
 			</h:form>
 			</p:dialog>

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.annotation.PostConstruct;
+
 
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,17 @@ public class UsuarioBean implements Serializable{
 		}
 	}
 	
+	@PostConstruct
+	public void listarusuarios()
+	{
+		/*if (query != null) {
+			if (!query.isEmpty()) {
+				return usuarios;
+			}
+		}*/
+		usuarios=usuarioservice.getAll();
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -75,12 +88,7 @@ public class UsuarioBean implements Serializable{
 		this.usuario = usuario;
 	}
 	public List<Usuario> getUsuarios() {
-		if (query != null) {
-			if (!query.isEmpty()) {
-				return usuarios;
-			}
-		}
-		return usuarioservice.getAll();
+		return usuarios;
 	}
 	
 	public void setUsuarios(List<Usuario> usuarios) {
@@ -112,6 +120,7 @@ public class UsuarioBean implements Serializable{
 		}
 		if (usuarioservice.saveUsuario(usuario)) {
 			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el usuario");
+			listarusuarios();
 			usuario = new Usuario();
 			usuario.setUsuTipoUsuario(new TipoUsuario());
 			RequestContext context = RequestContext.getCurrentInstance();
@@ -196,6 +205,7 @@ public class UsuarioBean implements Serializable{
 	}
 	
 	public void cancelar() {
+		persona = new Persona();
 		usuario = new Usuario();
 		usuario.setUsuTipoUsuario(new TipoUsuario());
 		
@@ -206,7 +216,10 @@ public class UsuarioBean implements Serializable{
 		usuarios = usuarioservice.getAll();
 		List<Usuario> filtrados = new ArrayList<>();
 		for (Usuario u : usuarios) {
-			if (u.getEmpresa().toLowerCase().contains(query.toLowerCase())) {
+			if (u.getEmpresa().toLowerCase().contains(query.toLowerCase()) || 
+		        u.getUsuario().toLowerCase().contains(query.toLowerCase()) ||
+		        u.getUsuPersona().getNombres().contains(query.toLowerCase()) ||
+		        u.getUsuPersona().getApellidoPaterno().contains(query.toLowerCase())) {
 				filtrados.add(u);
 			}
 		}
@@ -308,6 +321,7 @@ public class UsuarioBean implements Serializable{
 	}
 	public void preDatosUsuario2(int idTipoUsuario){
 		usuario = usuarioservice.getUsuarioeById(idTipoUsuario);
+		persona = new Persona();
 		if(usuario.getUsuPersona()!=null)
 		{
 			persona=personaservice.getPersonaById(usuario.getUsuPersona().getIdPersona());

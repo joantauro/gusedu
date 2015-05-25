@@ -10,7 +10,7 @@
 		<p:menubar>
 			<p:menuitem value="Inicio" url="/web/Principal.jsf" ></p:menuitem>
 			<p:submenu label="Consultas" icon="ui-icon-document">
-				<p:menuitem value="Historial de visitas"  url="HistorialVisita.jsf" />
+				<p:menuitem value="Historial de visitas"  url="/web/HistorialVisita.jsf" />
 			</p:submenu>
 			<p:submenu label="Reportes" icon="ui-icon-document">
 				<p:menuitem value="Productos"  url="#" />
@@ -34,11 +34,16 @@
 				<p:menuitem value="Gestionar Tipo de usuarios" url="/web/seguridad/gestionTipoUsuario.xhtml" />
 			</p:submenu>
 
+			<p:submenu label="Cuenta" >
+				<p:menuitem value="Cambiar Contraseña" oncomplete="PF('dlgpass').show();" update=":#{p:component('formpass')}" ></p:menuitem>
+			</p:submenu>
 			<f:facet name="options">
 				<!--  <p:inputText style="margin-right:10px" placeholder="Search" />-->
 				<p:commandLink  value="Cerrar Sesión" action="#{auth.logout}" />
 			</f:facet>
 		</p:menubar>
+		
+		
 	</h:form>
 </ui:composition>
 </html>

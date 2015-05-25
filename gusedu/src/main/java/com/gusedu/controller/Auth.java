@@ -5,12 +5,14 @@ import java.io.Serializable;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gusedu.model.Usuario;
 import com.gusedu.service.AuthService;
+import com.gusedu.service.UsuarioService;
 import com.gusedu.util.StaticUtil;
 
 @Component
@@ -22,11 +24,40 @@ public class Auth implements Serializable{
 	@Autowired
 	AuthService authService;
 
+	@Autowired
+	UsuarioService usuarioService;
+	
 	private String username;
 	private String password;
 	
 	private Usuario userLogged;
+	private String passactual;
+	private String passnueva;
+	private String passrepeat;
 
+	public void cambio()
+	{
+		
+		if(!passactual.equals(userLogged.getPassword()))
+		{
+			StaticUtil.errorMessage("Error", "Por favor ingrese su contraseña actual");
+			return;
+		}
+		if(!passnueva.equals(passrepeat))
+		{
+			StaticUtil.errorMessage("Error", "Las password ingresadas no coinciden");
+			return;
+		}
+		userLogged.setPassword(passnueva);
+		usuarioService.updateUsuario(userLogged);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dlgpass').hide();");
+		StaticUtil.correctMesage("Éxito", "Se ha cambiado la contraseña");
+		passnueva="";
+		passactual="";
+		passrepeat="";
+	}
+	
 	public String login() {
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		try {
@@ -113,6 +144,30 @@ public class Auth implements Serializable{
 
 	public void setUserLogged(Usuario userLogged) {
 		this.userLogged = userLogged;
+	}
+
+	public String getPassactual() {
+		return passactual;
+	}
+
+	public void setPassactual(String passactual) {
+		this.passactual = passactual;
+	}
+
+	public String getPassnueva() {
+		return passnueva;
+	}
+
+	public void setPassnueva(String passnueva) {
+		this.passnueva = passnueva;
+	}
+
+	public String getPassrepeat() {
+		return passrepeat;
+	}
+
+	public void setPassrepeat(String passrepeat) {
+		this.passrepeat = passrepeat;
 	}
 
 	

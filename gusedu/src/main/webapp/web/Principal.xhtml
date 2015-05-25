@@ -51,7 +51,6 @@ function foo() {
 }
 </script> -->
 		<div style="width: 98%; margin: auto auto auto auto;">
-
 			<h:form id="formNuevo">
 				<p:commandButton value="Listar" id="btnListar"
 					style="display: none;" action="#{pacienteBean.listado}"
@@ -257,9 +256,26 @@ function foo() {
 					  <ui:include src="editarDatosPersonales.xhtml" />
 					  </h:form>
 			</p:dialog>
-			
-	
-	</div>
+
+			<p:dialog id="dialogPass" header="Cambiar Contraseña"
+				widgetVar="dlgpass" showEffect="pop" modal="true">
+				<h:form  id="formpass" >
+					<p:panelGrid columns="2" id="panel"  >
+						<p:outputLabel for="idca"  value="Contraseña Actual">
+						</p:outputLabel>
+						<p:password id="idca" value="#{auth.passactual}" required="true" ></p:password>
+						<p:outputLabel  for="nc" value="Nueva Contraseña">
+						</p:outputLabel>
+						<p:password id="nc" value="#{auth.passnueva}" required="true" ></p:password>
+						<p:outputLabel for="rnc" value="Repita la nueva Contraseña">
+						</p:outputLabel>
+						<p:password id="rnc" value="#{auth.passrepeat}" required="true" ></p:password>
+
+						<p:commandButton value="Cambiar" action="#{auth.cambio}"  ></p:commandButton>
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
 	</ui:define>
 
 	<ui:define name="bottom">

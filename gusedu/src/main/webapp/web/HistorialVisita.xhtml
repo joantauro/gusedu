@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+<ui:composition template="/WEB-INF/facelets/templates/plantillaPrincipal.xhtml">
+	
+	<ui:define name="titulo">
+         Gusedu Salud
+    </ui:define>
+	<ui:define name="top">
+	</ui:define>
+	<ui:define name="content">
+		<div style="width: 98%; margin: auto auto auto auto;">
+		<br/>
+		<h:form id="formularioHV">
+		<p:panelGrid columns="6" >
+		<p:outputLabel value="Fecha inicial : " ></p:outputLabel>
+		<p:calendar id="event" value="#{historialVisitaBean.fechainicial}"
+		 maxdate="#{historialVisitaBean.fechafinal}" navigator="true"  yearRange="c-100:c" >
+            <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac,event2"  />
+        </p:calendar>
+        <p:outputLabel value="Fecha final : " ></p:outputLabel>
+        <p:calendar id="event2" value="#{historialVisitaBean.fechafinal}" 
+        navigator="true"  yearRange="c-100:c"
+        maxdate="#{historialVisitaBean.fechaactual}" mindate="#{historialVisitaBean.fechainicial}" >
+            <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac,event" />
+        </p:calendar>
+         <p:spacer  width="330" height="10" />
+         <p:commandButton id="btnhoy"  value="Hoy" action="#{historialVisitaBean.today}" update="event,event2,tablaPac" ></p:commandButton>
+        </p:panelGrid>
+        		 
+		<br/>
+			<p:dataTable id="tablaPac" var="vis"
+					value="#{historialVisitaBean.visitas}" paginator="true" rows="15" 
+					emptyMessage="No hay pacientes por el momento" >
+					 <f:facet name="header">
+ 
+       Historial general de visitas
+    </f:facet>
+					<p:column headerText="DNI">
+						<h:outputText value="#{vis.idVisita}" />
+					</p:column>
+					<p:column  headerText="Paciente"  >
+						<h:outputText value="#{vis.visCliente.cliPersona.nombres} #{vis.visCliente.cliPersona.apellidoPaterno} #{vis.visCliente.cliPersona.apellidoMaterno}"></h:outputText>
+					</p:column>
+					<p:column headerText="Fecha" >
+						<h:outputText value="#{vis.fechaCreacion}" />
+					</p:column>
+					<p:column headerText="Usuario" >
+						<h:outputText value="#{vis.usuarioCreacion}" />
+					</p:column>
+					<p:column headerText="Costo" >
+						<h:outputText value="#{vis.costoTotal}" />
+					</p:column>
+					<f:facet name="footer">
+						<p:outputLabel
+							value="Costo Total de Visitas : #{historialVisitaBean.costo}"
+							style="margin-right: -80%;" />
+					</f:facet>
+				</p:dataTable>
+
+				
+				
+			</h:form>
+		<p:blockUI id="block" block=":#{p:component('tablaPac')}" trigger=":#{p:component('tablaPac')}">
+					<p:graphicImage url="../resources/images/loading2.gif"    />
+		</p:blockUI>
+		</div>
+	</ui:define>
+
+	<ui:define name="bottom">
+
+	</ui:define>
+
+</ui:composition>
+</html>
