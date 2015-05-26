@@ -178,6 +178,7 @@ public class UsuarioBean implements Serializable{
 	public void update2() {
 		if (usuarioservice.updateUsuario(usuario)) {
 			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el usuario");
+			listarusuarios();
 			//		return "consultarPacientes?faces-redirect=true";
 			//return "gestionUsuario?faces-redirect=true";
 		} else {

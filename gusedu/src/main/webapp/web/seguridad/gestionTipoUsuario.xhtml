@@ -15,12 +15,13 @@
 	</ui:define>
 	<ui:define name="content">
 <p:growl showDetail="true" autoUpdate="true" />
+<br/>
 			 <h:form>
 				<p:commandButton action="#{usuarioBean.preAddTU2}"
 				     update=":#{p:component('formAgregarTipoUsuario')}"
 					value="Agregar Tipo Usuario" onclick="PF('dlgAddTipoUsuario').show();" ></p:commandButton>
 			</h:form>
-		 
+<br/>		 
 				<h:form id="formBusqueda">
 					<p:outputLabel value="Filtrar: " for="inpQuery" />
 					<p:inputText value="#{usuarioBean.queryTU}" id="inpQuery">
@@ -29,7 +30,7 @@
 						</p:ajax>
 					</p:inputText>
 				</h:form>
-			 
+	<br/>		 
 			
 			<h:form id="gestionTipoUsuario">
 	
