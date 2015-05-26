@@ -35,7 +35,7 @@
 			</p:submenu>
 
 			<p:submenu label="Cuenta" >
-				<p:menuitem value="Cambiar Contraseña" oncomplete="PF('dlgpass').show();" update=":#{p:component('formpass')}" ></p:menuitem>
+				<p:menuitem value="Cambiar Contraseña" oncomplete="PF('dlgpass').show();"  ></p:menuitem>
 			</p:submenu>
 			<f:facet name="options">
 				<!--  <p:inputText style="margin-right:10px" placeholder="Search" />-->
@@ -45,5 +45,23 @@
 		
 		
 	</h:form>
+	<p:dialog id="dialogPass" header="Cambiar Contraseña"
+				widgetVar="dlgpass" showEffect="pop" modal="true">
+				<h:form  id="formpass" >
+					<p:panelGrid columns="2" id="panel"  >
+						<p:outputLabel for="idca"  value="Contraseña Actual">
+						</p:outputLabel>
+						<p:password id="idca" value="#{auth.passactual}" required="true" ></p:password>
+						<p:outputLabel  for="nc" value="Nueva Contraseña">
+						</p:outputLabel>
+						<p:password id="nc" value="#{auth.passnueva}" required="true" ></p:password>
+						<p:outputLabel for="rnc" value="Repita la nueva Contraseña">
+						</p:outputLabel>
+						<p:password id="rnc" value="#{auth.passrepeat}" required="true" ></p:password>
+
+						<p:commandButton value="Cambiar" action="#{auth.cambio}"  ></p:commandButton>
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
 </ui:composition>
 </html>

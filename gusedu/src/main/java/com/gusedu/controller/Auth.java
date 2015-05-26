@@ -53,6 +53,13 @@ public class Auth implements Serializable{
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlgpass').hide();");
 		StaticUtil.correctMesage("Éxito", "Se ha cambiado la contraseña");
+		cleaner();
+		context.update("formpass");
+		
+	}
+	
+	public void cleaner()
+	{
 		passnueva="";
 		passactual="";
 		passrepeat="";
