@@ -57,7 +57,8 @@ public class HistorialVisitaBean implements Serializable{
 	@PostConstruct
 	public void init()
 	{
-		visitas = visitaService.getVisitabyFechas(fechainicial, fechafinal);
+		String username = StaticUtil.userLogged();
+		visitas = visitaService.getVisitabyFechas(username,fechainicial, fechafinal);
 		costo=0;
 		for(int i=0;i<visitas.size();i++)
 		{
@@ -76,7 +77,8 @@ public class HistorialVisitaBean implements Serializable{
 		fechafinal.setHours(23);
 		fechafinal.setMinutes(59);
 		fechafinal.setSeconds(59);
-	visitas = visitaService.getVisitabyFechas(fechainicial, fechafinal);
+		String username = StaticUtil.userLogged();
+	visitas = visitaService.getVisitabyFechas(username,fechainicial, fechafinal);
 		costo=0;
 		for(int i=0;i<visitas.size();i++)
 		{

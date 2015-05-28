@@ -21,13 +21,13 @@
 		<h:form id="formularioHV">
 		<p:panelGrid columns="6" >
 		<p:outputLabel value="Fecha inicial : " ></p:outputLabel>
-		<p:calendar id="event" value="#{historialVisitaBean.fechainicial}"
+		<p:calendar id="event" value="#{historialVisitaBean.fechainicial}" pattern="dd/MM/yyyy"
 		 maxdate="#{historialVisitaBean.fechafinal}" navigator="true"  yearRange="c-100:c" >
             <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac,event2"  />
         </p:calendar>
         <p:outputLabel value="Fecha final : " ></p:outputLabel>
         <p:calendar id="event2" value="#{historialVisitaBean.fechafinal}" 
-        navigator="true"  yearRange="c-100:c"
+        navigator="true"  yearRange="c-100:c" pattern="dd/MM/yyyy"
         maxdate="#{historialVisitaBean.fechaactual}" mindate="#{historialVisitaBean.fechainicial}" >
             <p:ajax event="dateSelect" listener="#{historialVisitaBean.actualizar}" update="tablaPac,event" />
         </p:calendar>

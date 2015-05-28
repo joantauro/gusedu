@@ -46,7 +46,7 @@
 						<p:outputLabel value="#{usu.descripcion}" />
 					</p:column>
 					<p:column headerText="Opciones" width="50px;" >
-						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-edit"
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-pencil"
 							 
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{usuarioBean.preDeleteTU(usu.idTipoUsuario)}" 
@@ -54,7 +54,7 @@
 							 oncomplete="PF('dlgEditTipoUsuario').show();" />
 						<p:commandButton
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
-							styleClass="ui-btn-inline" icon="ui-icon-delete"
+							styleClass="ui-btn-inline" icon="ui-icon-close"
 							actionListener="#{usuarioBean.preDeleteTU(usu.idTipoUsuario)}"
 							oncomplete="PF('dlgEliminarTipoUsuario').show();" />
 					</p:column>

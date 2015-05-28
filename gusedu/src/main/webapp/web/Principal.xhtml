@@ -97,7 +97,7 @@ function foo() {
 				<p:dataTable id="tablaPac" var="pac"
 					value="#{pacienteBean.clientes}" paginator="true" rows="10"
 					rowKey="#{pac.idCliente}"
-					emptyMessage="No hay pacientes por el momento" >
+					emptyMessage="No hay historial de visitas por el momento" >
 					
 					<p:column headerText="DNI" width="60px;">
 						<h:outputText value="#{pac.cliPersona.dni}" />
@@ -127,7 +127,7 @@ function foo() {
 					</p:column>
 
 					
-					<p:column headerText="Opcion 2">
+					<p:column headerText="Opciones"> 
 									<p:selectOneMenu id="sselectoption" value="#{visitaBean.opciones}" onchange="changeEvent(this)" >
 						<f:selectItem itemLabel="Seleccione" itemValue="S" />
 						<f:selectItem itemLabel="Crear visita" itemValue="CV" itemDisabled="#{visitaBean.renderedV(pac)}" />
@@ -197,7 +197,7 @@ function foo() {
 		</p:dialog>
 
 		<p:dialog id="dialogTerapia" header="Terapias" widgetVar="dlgT"
-			showEffect="pop" modal="true" width="1230px" height="550px">
+			showEffect="pop" modal="true" >
 			<p:ajax event="close" update=":#{p:component('tablaPac')},:#{p:component('tablaParPunto')}" listener="#{terapiaBean.aceptar}"  />
 			
 			<h:form id="frame3">
@@ -207,11 +207,6 @@ function foo() {
 		</p:dialog>
 
 
-<p:dialog id="dialogHT" widgetVar="dlgHT" showEffect="pop" modal="true" width="1230px" height="550px" >
-	<h:form>
-		<ui:include src="BMPar.xhtml" />
-	</h:form>
-</p:dialog>
 
 <p:dialog id="dialogDP" widgetVar="dlgDP" showEffect="pop" modal="true"   >
 <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />

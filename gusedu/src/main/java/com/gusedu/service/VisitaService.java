@@ -26,5 +26,5 @@ public interface VisitaService {
 	
 	public double costodeVisita(Date fec_inicial,Date fec_final);
 	
-	public List<Visita> getVisitabyFechas(Date fec_inicial,Date fec_final);
+	public List<Visita> getVisitabyFechas(String username,Date fec_inicial,Date fec_final);
 }

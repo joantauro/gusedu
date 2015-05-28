@@ -52,7 +52,7 @@
 					</p:column>
 
 					<p:column headerText="Opciones">
-						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-info"
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-pencil"
 							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
 							action="#{usuarioBean.preDatosUsuario2(usu.idUsuario)}" 
 							update=":#{p:component('DatosUsuario')}"

@@ -164,12 +164,13 @@ public class VisitaServiceImpl implements VisitaService{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Visita> getVisitabyFechas(Date fec_inicial, Date fec_final) {
+	public List<Visita> getVisitabyFechas(String username,Date fec_inicial, Date fec_final) {
 		List<Visita> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("select v from Visita v where :fec_inicial <= v.fechaCreacion and v.fechaCreacion<=:fec_final order by v.fechaCreacion desc");
+			Query q = em.createQuery("select v from Visita v where usuarioCreacion=:usuario and :fec_inicial <= v.fechaCreacion and v.fechaCreacion<=:fec_final order by v.fechaCreacion desc");
 			q.setParameter("fec_inicial",fec_inicial);
 			q.setParameter("fec_final", fec_final);
+			q.setParameter("usuario", username);
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());
