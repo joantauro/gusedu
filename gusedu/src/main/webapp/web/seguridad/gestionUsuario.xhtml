@@ -77,30 +77,30 @@
 			<h:form id="DatosUsuario">
 				<p:panelGrid columns="2" id="panelRegistro">
 					<p:outputLabel for="perDni" value="DNI: " />
-					<p:inputText value="#{usuarioBean.persona.dni}" id="perDni">
+					<p:inputText value="#{usuarioBean.persona.dni}" id="perDni" maxlength="11"  >
 						<pe:keyFilter mask="num" />
 					</p:inputText>
 
 					<p:outputLabel for="perNombre" value="Nombre: " />
 					<p:inputText value="#{usuarioBean.persona.nombres}" id="perNombre"
 						required="true">
-						<pe:keyFilter regEx="/[a-z_ ]/i" />
+						<pe:keyFilter regEx="/[a-z_ ñ]/i" />
 					</p:inputText>
 
 					<p:outputLabel for="perApePaterno" value="Apellido paterno: " />
 					<p:inputText value="#{usuarioBean.persona.apellidoPaterno}"
 						required="true" id="perApePaterno">
-						<pe:keyFilter regEx="/[a-z_ ]/i" />
+						<pe:keyFilter regEx="/[a-z_ ñ]/i" />
 					</p:inputText>
 
 					<p:outputLabel for="perApeMaterno" value="Apellido materno: " />
 					<p:inputText value="#{usuarioBean.persona.apellidoMaterno}"
 						required="true" id="perApeMaterno">
-						<pe:keyFilter regEx="/[a-z_ ]/i" />
+						<pe:keyFilter regEx="/[a-z_ ñ]/i" />
 					</p:inputText>
 
 					<p:outputLabel for="perEdad" value="Edad : " />
-					<p:inputText value="#{usuarioBean.persona.edad}" id="perEdad">
+					<p:inputText value="#{usuarioBean.persona.edad}" id="perEdad" maxlength="3"  >
 						<pe:keyFilter mask="num" />
 					</p:inputText>
 
@@ -111,13 +111,13 @@
 
 					<p:outputLabel for="perTelFijo" value="Teléfono fijo: " />
 					<p:inputText type="tel" value="#{usuarioBean.persona.telefonoFijo}"
-						id="perTelFijo">
+						id="perTelFijo" maxlength="12" >
 						<pe:keyFilter mask="num" />
 					</p:inputText>
 
 					<p:outputLabel for="perTelMovil" value="Teléfono móvil: " />
 					<p:inputText type="tel"
-						value="#{usuarioBean.persona.telefonoMovil}" id="perTelMovil">
+						value="#{usuarioBean.persona.telefonoMovil}" id="perTelMovil" maxlength="12" >
 						<pe:keyFilter mask="num" />
 					</p:inputText>
 

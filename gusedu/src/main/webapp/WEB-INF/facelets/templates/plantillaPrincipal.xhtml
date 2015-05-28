@@ -23,6 +23,9 @@
 	<div id="Body">
 		<div class='cFL cPosRel' id="Top">
 			<img alt='' src="${request.contextPath}/resources/images/gusedu.jpg" height="100px" />
+		<!-- 	<p:spacer width="350" height="10" rendered="#{auth.userLogged.usuPersona eq null}" /><h:outputLabel value="Bienvenido al Sistema" rendered="#{auth.userLogged.usuPersona eq null}" style="float: right; margin-top: 80px; margin-right: 5px;" /> -->
+			<p:spacer width="350" height="10"  />
+			<p:outputLabel value="Bienvenido al Sistema #{auth.userLogged.usuPersona.nombres} #{auth.userLogged.usuPersona.apellidoPaterno} #{auth.userLogged.usuPersona.apellidoMaterno}"   style="float: right; margin-top: 80px; margin-right: 5px;" />
 			<ui:insert name="top">
 			</ui:insert>
 		</div>

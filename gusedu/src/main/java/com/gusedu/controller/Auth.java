@@ -94,12 +94,13 @@ public class Auth implements Serializable{
 				if(usuario.getUsuPersona()==null)
 				{
 					StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema");
-					StaticUtil.keepMessages();
+					//StaticUtil.keepMessages();
 				}else
 				{
 					StaticUtil.correctMesage("Éxito ", "Bienvenido al sistema "+usuario.getUsuPersona().getNombres()+" "+usuario.getUsuPersona().getApellidoPaterno()+" "+usuario.getUsuPersona().getApellidoMaterno());
-					StaticUtil.keepMessages();
+					//StaticUtil.keepMessages();
 				}
+				
 				request.getSession().setAttribute("userLogged", usuario);				
 				setUserLogged(usuario);	
 				if(usuario.getUsuTipoUsuario().getIdTipoUsuario()==2 || usuario.getUsuTipoUsuario().getIdTipoUsuario()==3)

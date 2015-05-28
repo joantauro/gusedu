@@ -50,7 +50,9 @@
 						<h:outputText value="#{vis.visCliente.cliPersona.nombres} #{vis.visCliente.cliPersona.apellidoPaterno} #{vis.visCliente.cliPersona.apellidoMaterno}"></h:outputText>
 					</p:column>
 					<p:column headerText="Fecha" >
-						<h:outputText value="#{vis.fechaCreacion}" />
+						<h:outputText value="#{vis.fechaCreacion}" >
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
 					</p:column>
 					<p:column headerText="Usuario" >
 						<h:outputText value="#{vis.usuarioCreacion}" />
