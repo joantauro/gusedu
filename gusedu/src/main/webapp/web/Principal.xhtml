@@ -131,9 +131,9 @@ function foo() {
 									<p:selectOneMenu id="sselectoption" value="#{visitaBean.opciones}" onchange="changeEvent(this)" >
 						<f:selectItem itemLabel="Seleccione" itemValue="S" />
 						<f:selectItem itemLabel="Crear visita" itemValue="CV" itemDisabled="#{visitaBean.renderedV(pac)}" />
-						<f:selectItem itemLabel="Datos médicos" itemValue="DM" itemDisabled="#{visitaBean.rendered(pac)}" />
-						<f:selectItem itemLabel="Registro de terapia" itemValue="T" itemDisabled="#{visitaBean.rendered(pac)}" />
-						<f:selectItem itemLabel="Venta de productos" itemValue="P" itemDisabled="#{visitaBean.rendered(pac)}" />
+						<f:selectItem itemLabel="Datos médicos" itemValue="DM" itemDisabled="#{visitaBean.prueba2(false)}" />
+						<f:selectItem itemLabel="Registro de terapia" itemValue="T" itemDisabled="#{visitaBean.prueba2(false)}" />
+						<f:selectItem itemLabel="Venta de productos" itemValue="P" itemDisabled="#{visitaBean.prueba2(false)}" />
 						<!-- <f:selectItem itemLabel="Editar Datos Clinicos" itemValue="DC" />-->
 						<f:selectItem itemLabel="Historial de terapias" itemValue="HT"   />
 						<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />

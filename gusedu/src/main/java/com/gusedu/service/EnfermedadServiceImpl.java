@@ -1,5 +1,6 @@
 package com.gusedu.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,12 @@ import com.gusedu.model.Sintoma;
 import com.gusedu.model.SintomaPar;
 
 @Service
-public class EnfermedadServiceImpl implements EnfermedadService {
+public class EnfermedadServiceImpl implements EnfermedadService ,Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@PersistenceContext
 	EntityManager em;
 

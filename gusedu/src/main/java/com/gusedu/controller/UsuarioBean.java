@@ -217,11 +217,20 @@ public class UsuarioBean implements Serializable{
 		usuarios = usuarioservice.getAll();
 		List<Usuario> filtrados = new ArrayList<>();
 		for (Usuario u : usuarios) {
-			if (u.getEmpresa().toLowerCase().contains(query.toLowerCase()) || 
-		        u.getUsuario().toLowerCase().contains(query.toLowerCase()) ||
-		        u.getUsuPersona().getNombres().contains(query.toLowerCase()) ||
-		        u.getUsuPersona().getApellidoPaterno().contains(query.toLowerCase())) {
-				filtrados.add(u);
+			if(u.getUsuPersona()==null)
+			{
+				if (u.getEmpresa().toLowerCase().contains(query.toLowerCase()) || 
+				        u.getUsuario().toLowerCase().contains(query.toLowerCase()) ) {
+						filtrados.add(u);
+					}
+			}else
+			{
+				if (u.getEmpresa().toLowerCase().contains(query.toLowerCase()) || 
+				        u.getUsuario().toLowerCase().contains(query.toLowerCase()) ||
+				        u.getUsuPersona().getNombres().contains(query.toLowerCase()) ||
+				        u.getUsuPersona().getApellidoPaterno().contains(query.toLowerCase())) {
+						filtrados.add(u);
+					}
 			}
 		}
 		usuarios = filtrados;

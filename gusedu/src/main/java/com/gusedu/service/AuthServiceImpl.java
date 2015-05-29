@@ -1,5 +1,7 @@
 package com.gusedu.service;
 
+import java.io.Serializable;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -11,8 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gusedu.model.Usuario;
 
 @Service
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService , Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@PersistenceContext
 	EntityManager em;
 	

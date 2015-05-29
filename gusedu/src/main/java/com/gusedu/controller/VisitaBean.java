@@ -86,6 +86,9 @@ public class VisitaBean implements Serializable{
 	
 	private Date fechaactual;
 	
+	private boolean rv;
+	private boolean r;
+	
 	public VisitaBean() {
 		
 		mostrarFormProducto = -1;
@@ -525,9 +528,19 @@ public class VisitaBean implements Serializable{
 		if(vis!=null)
 		{
 			result=true;
+			r=false;
+		}else
+		{
+			r=true;
 		}
 		return result;
 	}
+	
+	 public boolean prueba2(boolean f)
+	 {
+		 
+		 return r;
+	 }
 	
 	 public void lastvisita(Cliente client)
 	 {
@@ -1138,5 +1151,25 @@ public class VisitaBean implements Serializable{
 
 	public void setFechaactual(Date fechaactual) {
 		this.fechaactual = fechaactual;
+	}
+
+
+	public boolean isRv() {
+		return rv;
+	}
+
+
+	public void setRv(boolean rv) {
+		this.rv = rv;
+	}
+
+
+	public boolean isR() {
+		return r;
+	}
+
+
+	public void setR(boolean r) {
+		this.r = r;
 	}
 }
