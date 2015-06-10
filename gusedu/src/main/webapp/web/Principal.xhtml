@@ -34,6 +34,10 @@
 		    	PF('dlgCVi').show();
 		    	//document.getElementById('formNuevo:btnAct').click();
 		    }
+		   /* if(val == 'Caja')
+		    	{
+		    	PF('dlgpago').show();
+		    	}*/
 		   /** if(val === 'Historial de visitas') {
 			       PF('dlgHV').show();
 			}**///Historial Terapias
@@ -138,6 +142,7 @@ function foo() {
 						<f:selectItem itemLabel="Historial de terapias" itemValue="HT"   />
 						<f:selectItem itemLabel="Historial de visitas" itemValue="HV" />
 						<f:selectItem itemLabel="Datos Personales" itemValue="DP" />
+						<f:selectItem itemLabel="Caja" itemValue="DCaja" itemDisabled="#{visitaBean.prueba2(false)}"  /> 
 				<!--		<f:selectItem itemLabel="Confirma visita" itemValue="CVi" /> -->
 						<p:ajax event="change" update=":#{p:component('frame')}"
 							listener="#{pacienteBean.prueba(pac)}" />
@@ -187,6 +192,24 @@ function foo() {
 
 			</h:form>
 		</p:dialog>
+
+		<p:dialog id="dialogCaja" header="Pago" widgetVar="dlgpago" showEffect="pop" modal="true" 
+		 	 >
+		<h:form id="formCaja">
+		<p:panelGrid  columns="2" >
+			<p:outputLabel  value="Costo final : "    />
+			<p:inputText value="#{visitaBean.visita.costoTotal}"   >
+			<pe:keyFilter regEx="/[0-9_ .]/i" />  
+			</p:inputText>
+			
+			<p:outputLabel value="Descripcion :" />
+			<p:inputTextarea value="#{visitaBean.visita.descripcion}" style="width:300px;height:100px;" />
+			
+			<p:commandButton value="Guardar" action="#{visitaBean.actualizarPrecio}" oncomplete="PF('dlgpago').hide();"  />
+		</p:panelGrid>
+		</h:form>
+		</p:dialog>
+
 
 		<p:dialog  id="dialoghistorialTerapia" header="Historia" widgetVar="dlgHTe" 
 		        showEffect="pop" modal="true" width="1230px" height="550px">

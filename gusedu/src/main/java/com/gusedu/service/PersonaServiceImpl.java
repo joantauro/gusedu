@@ -91,15 +91,14 @@ public class PersonaServiceImpl implements PersonaService {
 		return em.find(Persona.class, id);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Transactional
 	public boolean registroPaciente(Persona persona, String usernameSession) {
 		boolean resultado = false;
 		persona.setFechaCreacion(new Date());
 		try {
-			if(persona.getFechaNacimiento()!=null){
+			/*if(persona.getFechaNacimiento()!=null){
 				persona.setSignoZodiacal(StaticUtil.signoZodiacal(persona.getFechaNacimiento().getMonth(), persona.getFechaNacimiento().getDate()));
-			}
+			}*/
 	
 			em.persist(persona);
 
@@ -108,11 +107,11 @@ public class PersonaServiceImpl implements PersonaService {
 			Usuario usuario = new Usuario();
 			String username = persona.getNombres().trim().substring(0, 1);
 			username += persona.getApellidoPaterno().trim().replaceAll(" ", "");
-			username += persona.getApellidoMaterno().trim().substring(0, 1);
+			//username += persona.getApellidoMaterno().trim().substring(0, 1);
 			username = username.toLowerCase();
-			int mes = persona.getFechaNacimiento().getMonth() + 1;
-			int dia = persona.getFechaNacimiento().getDate();
-			String mesPassword;
+			//int mes = persona.getFechaNacimiento().getMonth() + 1;
+			//int dia = persona.getFechaNacimiento().getDate();
+			/*String mesPassword;
 			String diaPassword;
 			if (mes < 10) {
 				mesPassword = "0" + mes;
@@ -124,12 +123,12 @@ public class PersonaServiceImpl implements PersonaService {
 				diaPassword = "0" + dia;
 			} else {
 				diaPassword = dia + "";
-			}
-			String password = diaPassword + mesPassword
-					+ (persona.getFechaNacimiento().getYear() + 1900);
+			}*/
+			/*String password = diaPassword + mesPassword
+					+ (persona.getFechaNacimiento().getYear() + 1900);*/
 
 			usuario.setUsuario(username);
-			usuario.setPassword(password);
+			usuario.setPassword("1234");
 			TipoUsuario tipoUsuario = new TipoUsuario();
 			tipoUsuario.setIdTipoUsuario(1);
 			usuario.setUsuTipoUsuario(tipoUsuario);
@@ -143,7 +142,7 @@ public class PersonaServiceImpl implements PersonaService {
 
 			resultado = true;
 		} catch (Exception e) {
-			System.out.println("ERROR: " + e.getMessage());
+			System.out.println("ERROR de save persona: " + e.getMessage());
 			resultado = false;
 		}
 		return resultado;

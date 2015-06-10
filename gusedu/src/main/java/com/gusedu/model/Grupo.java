@@ -1,5 +1,6 @@
 package com.gusedu.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -13,9 +14,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="GRUPO")
-public class Grupo {
+public class Grupo implements Serializable{
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "GRU_CODIGO")
     private Integer idGrupo;
     

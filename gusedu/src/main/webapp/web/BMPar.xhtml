@@ -18,22 +18,26 @@
     		<p:column  >
     			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par1.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    			<h:outputLabel value="#{part.par1.idPar} - " />
     			<h:outputLabel value="#{part.par1.parPunto1.nombre}-#{part.par1.parPunto2.nombre}" />
 					
     		</p:column>
     		<p:column  >
     			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par2.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    				 <h:outputLabel value="#{part.par2.idPar} - " />
     			<h:outputLabel value="#{part.par2.parPunto1.nombre}-#{part.par2.parPunto2.nombre}" />
     		</p:column>
     		<p:column  >
     			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par3.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    				 <h:outputLabel value="#{part.par3.idPar} - " />
     			<h:outputLabel value="#{part.par3.parPunto1.nombre}-#{part.par3.parPunto2.nombre}" />
     		</p:column>
     		<p:column  >
     		<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par4.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
+    				 <h:outputLabel value="#{part.par4.idPar} - " />
     			<h:outputLabel value="#{part.par4.parPunto1.nombre}-#{part.par4.parPunto2.nombre}" />
     		</p:column>
     		</p:dataTable>

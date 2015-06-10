@@ -78,6 +78,25 @@ public class SintomaBean implements Serializable{
 		}
 	}
 
+	public void prueba(){
+		System.out.println("Prueba : Exito :3");
+	}
+	
+	public void add2(String descripcion)
+	{
+		sintoma = new Sintoma();
+		sintoma.setIdSintoma(10);
+		sintoma.setDescripcion(descripcion);
+		System.out.println("Descripcion Sintoma : "+sintoma.getDescripcion());
+		if (sintomaService.saveSintoma(sintoma)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el síntoma");
+			 
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo registrar el síntoma");
+			 
+		}
+	}
+	
 	public String preUpdate(int id) {
 		sintoma = sintomaService.getById(id);
 		return "pm:editarSintoma?transition=flip";

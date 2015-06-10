@@ -104,4 +104,20 @@ public class SintomaServiceImpl implements SintomaService{
 		return resultado;
 	}
 
+	@Transactional
+	public Sintoma lastSintoma() {
+		Sintoma result = null;
+		try {
+			Query q = em
+					.createQuery("SELECT s FROM Sintoma s order by idSintoma desc");
+			q.setMaxResults(1);
+			
+			result = (Sintoma) q.getSingleResult();
+			System.out.println("S : "+result.getIdSintoma());
+		} catch (NoResultException e) {
+			System.out.println("ERROR: " + e.getMessage());
+		}
+		return result;	
+	}
+
 }

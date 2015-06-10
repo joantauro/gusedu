@@ -37,7 +37,7 @@ function get() {
 			</p:inputText>
 
 			<p:outputLabel for="perApeMaterno" value="Apellido materno: " />
-			<p:inputText value="#{personaBean.persona.apellidoMaterno}" required="true"
+			<p:inputText value="#{personaBean.persona.apellidoMaterno}" 
 				id="perApeMaterno" >
 				<pe:keyFilter regEx="/[a-z_ ñ]/i"/>  
 			</p:inputText>
@@ -48,7 +48,7 @@ function get() {
 			</p:inputText>
 			
 			<p:outputLabel for="perFecNac" value="Fecha de nacimiento: " /> 
-			<p:calendar value="#{personaBean.persona.fechaNacimiento}" required="true" yearRange="c-100:c"
+			<p:calendar value="#{personaBean.persona.fechaNacimiento}" yearRange="c-100:c"
 				id="perFecNac" pattern="dd/MM/yyyy" navigator="true" />
 
 			<p:outputLabel for="perTelFijo" value="Teléfono fijo: " />

@@ -34,6 +34,9 @@ public class Visita {
 
 	@Column(nullable = true, name = "VIS_FEC_CREACION")
 	private Date fechaCreacion;
+	
+	@Column(nullable = true, name = "VIS_DESCRIPCION", length=500)
+	private String descripcion;
 
 	@Column(nullable = true, name = "VIS_USU_CREACION", length=100)
 	private String usuarioCreacion;
@@ -185,6 +188,14 @@ public class Visita {
 
 	public void setVisSintomaVisita(Collection<SintomaVisita> visSintomaVisita) {
 		this.visSintomaVisita = visSintomaVisita;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	

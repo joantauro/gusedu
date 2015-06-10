@@ -67,7 +67,7 @@
 				<h:form>
 					<p:outputLabel value="Agregar enfermedad" for="autoEnfermedad"></p:outputLabel>
 					<p:autoComplete id="autoEnfermedad" queryDelay="100"
-						value="#{terapiaBean.enfermedad}" required="true"
+						value="#{terapiaBean.enfermedad}"  
 						completeMethod="#{terapiaBean.autoCompletarEnfermedad}" var="enf"
 						itemLabel="#{enf.nombre}" itemValue="#{enf}"
 						converter="#{enfermedadConverter}" panelStyleClass="ui-themes">

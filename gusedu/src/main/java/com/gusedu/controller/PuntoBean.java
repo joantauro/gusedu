@@ -181,6 +181,22 @@ public class PuntoBean implements Serializable{
 		puntos = filtrados;
 	}
 
+	public void filtrarBusquedaPunto()
+	{
+		List<classPunto> filtrados = new ArrayList<>();
+		for(classPunto cp : lista)
+		{
+			if(cp.getPunto1().getNombre().toLowerCase().contains(query.toLowerCase()))
+			{
+				filtrados.add(cp);
+				System.out.println("Punto : "+ cp);
+			}
+		}
+		lista = filtrados;
+		System.out.println("Lista  : "+ lista.size());
+	}
+
+	
 	public void orderAsc() {
 		asc = 1;
 		desc = 0;

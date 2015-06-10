@@ -23,4 +23,6 @@ public interface SintomaService {
 	
 	public boolean saveSintomaTerapia(SintomaTerapia sintomaTerapia);
 	
+	public Sintoma lastSintoma();
+	
 }

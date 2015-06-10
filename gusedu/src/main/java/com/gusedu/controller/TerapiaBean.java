@@ -71,6 +71,8 @@ public class TerapiaBean implements Serializable{
 	private int sliderDolor;
 
 	private int size;
+	private String queryS;
+	private String queryE;
 
 	private Integer idTipoTerapia;
 	//private List<Sintoma> listasintoma;
@@ -393,6 +395,11 @@ public class TerapiaBean implements Serializable{
 				enfFiltrados.add(enfermedad);
 			}
 		}
+		if(enfFiltrados.size()==0)
+		{
+			queryE = query;
+			System.out.println("Enfermedad : "+queryE); 
+		}
 		return enfFiltrados;
 	}
 	
@@ -404,9 +411,19 @@ public class TerapiaBean implements Serializable{
 		for (int i = 0; i < allSintomas.size(); i++) {
 			Sintoma sintoma = allSintomas.get(i);
 			if (sintoma.getDescripcion().toLowerCase().startsWith(query)) {
-				sinFiltrados.add(sintoma);
+				sinFiltrados.add(sintoma);//queryS="";
 			}
 		}
+		
+		if(sinFiltrados.size()==0)
+		{
+			queryS = query;
+			System.out.println("Sintoma : "+queryS); 
+		} /*else
+		{
+			queryS="";
+		}*/
+		
 		return sinFiltrados;
 	}
 
@@ -614,12 +631,55 @@ public class TerapiaBean implements Serializable{
 		sintoma = new Sintoma();
 
 	}*/
+	
+	public void addSintomaNuevo()
+	{
+		if(sintoma.getDescripcion().isEmpty())
+		{
+			sintoma.setDescripcion(queryS);
+			sintomaService.saveSintoma(sintoma);
+		}
+		
+	}
+	
 	public void addSintoma3()
 	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		//if(sintoma.getDescripcion().isEmpty())
+		//{
+		/*    sintoma = new Sintoma();
+			sintoma.setDescripcion(queryS);
+			sintomaService.saveSintoma(sintoma);*/
+		//}
+  
+		
+		/*	SintomaBean sin1 = new SintomaBean();
+			sin1.add2("Hola :3");
+	 */
+		/*if(queryS!="")
+		{
+			    sintoma = new Sintoma();
+				sintoma.setDescripcion(queryS);
+				sintomaService.saveSintoma(sintoma);
+				//queryS="";
+		}*/
 		if(sintoma==null)
 		{
-			StaticUtil.errorMessage("Error", "El campo sintoma esta vacio");
-			return;
+			if(queryS!="")
+			{
+			 	sintoma = new Sintoma();
+				sintoma.setDescripcion(queryS);
+				sintomaService.saveSintoma(sintoma);
+			
+				//sintoma = new Sintoma();
+				//sintoma = sintomaService.lastSintoma();
+				//System.out.println("Sintoma Desc : "+sintoma.getDescripcion() +" ID : "+sintoma.getIdSintoma());
+			}else
+			{
+				StaticUtil.errorMessage("Error", "El campo sintoma esta vacio");
+				return;
+			}
+			
 		}
 		for(SintomaVisita s : listasintomaxvisita)
 		{
@@ -631,8 +691,9 @@ public class TerapiaBean implements Serializable{
 			}
 		}
 		
-		FacesContext fc = FacesContext.getCurrentInstance();
+	 
 		Visita vis =(Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
+		System.out.println("Visita : "+vis.getIdVisita() +" Sintoma : "+sintoma.getIdSintoma());
 		SintomaVisita sinvis = new SintomaVisita();
 		sinvis.setSxvSintoma(sintoma);
 		sinvis.setSxvVisita(vis);
@@ -800,18 +861,53 @@ public class TerapiaBean implements Serializable{
 	{
 		if(enfermedad==null)
 		{
-			StaticUtil.errorMessage("Error", "El campo enfermedad esta vacio");
-			return;
+			if(queryE!="")
+			{
+			 	enfermedad= new Enfermedad(); 
+			 	enfermedad.setNombre(queryE);
+				enfermedadService.saveEnfermedad(enfermedad);
+			
+			
+				//sintoma = new Sintoma();
+				//sintoma = sintomaService.lastSintoma();
+				//System.out.println("Sintoma Desc : "+sintoma.getDescripcion() +" ID : "+sintoma.getIdSintoma());
+			}else
+			{
+				StaticUtil.errorMessage("Error", "El campo enfermedad esta vacio");
+				return;
+			}
+			
 		}
 		for(EnfermedadVisita s : listaenfermedadvisita)
 		{
+		/*	System.out.println("Enfermedad de la lista : "+s.getExvEnfermedad().getIdEnfermedad()+
+							   "Mi enfermedad : "+enfermedad.getIdEnfermedad());
 			if(s.getExvEnfermedad().getIdEnfermedad() ==enfermedad.getIdEnfermedad())
 			{
-				StaticUtil.errorMessage("Error", "La Enfermedad ya ha sido agregado");
+				System.out.println("Entro aqui :) ");
+				StaticUtil.errorMessage("Error", "La Enfermedad ya ha sido agregada");
+				enfermedad = new Enfermedad();
+				return;
+			}*/
+			if(s.getExvEnfermedad().getNombre().equals(enfermedad.getNombre()))
+			{
+				System.out.println("Entro aqui :3");
+				StaticUtil.errorMessage("Error", "La Enfermedad ya ha sido agregada");
 				enfermedad = new Enfermedad();
 				return;
 			}
 		}
+		
+		for(SintomaVisita s : listasintomaxvisita)
+		{
+			if(s.getSxvSintoma().getIdSintoma() ==sintoma.getIdSintoma())
+			{
+				StaticUtil.errorMessage("Error", "El sintoma ya ha sido agregado");
+				sintoma = new Sintoma();
+				return;
+			}
+		}
+		
 		
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Visita vis =(Visita) fc.getExternalContext().getSessionMap().get("ultimavisita");
@@ -822,6 +918,7 @@ public class TerapiaBean implements Serializable{
 		terapiaService.saveEnfermedadVisita(enfvis);
 		enfermedad = new Enfermedad();
 		listaenfermedadvisita= terapiaService.getAllEnfermedadxVisita(vis);
+		
 	}
 	
 	
@@ -994,6 +1091,26 @@ public class TerapiaBean implements Serializable{
 
 		public void setListapares(List<Par> listapares) {
 			this.listapares = listapares;
+		}
+
+
+		public String getQueryS() {
+			return queryS;
+		}
+
+
+		public void setQueryS(String queryS) {
+			this.queryS = queryS;
+		}
+
+
+		public String getQueryE() {
+			return queryE;
+		}
+
+
+		public void setQueryE(String queryE) {
+			this.queryE = queryE;
 		}
 
 	

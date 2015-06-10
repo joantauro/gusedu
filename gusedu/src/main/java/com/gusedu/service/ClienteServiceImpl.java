@@ -101,7 +101,7 @@ public class ClienteServiceImpl implements ClienteService{
 			q.setParameter("usuario", usuario);
 			result = q.getResultList();
 		} catch (NoResultException e) {
-			System.out.println("ERROR: " + e.getMessage());
+			System.out.println("ERROR de getClientesPacientesByUsuario: " + e.getMessage());
 		}
 		return result;
 	}

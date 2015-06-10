@@ -89,8 +89,10 @@ public class VisitaBean implements Serializable{
 	private boolean rv;
 	private boolean r;
 	
+	private double costototal;
+	
 	public VisitaBean() {
-		
+		costototal=0.0;
 		mostrarFormProducto = -1;
 		cliente = new Cliente();
 		visita = new Visita();
@@ -629,7 +631,19 @@ public class VisitaBean implements Serializable{
 				fc.getExternalContext().getSessionMap()
 				.put("ultimavisita", ultimavisita);
 			}
-			
+			if(opciones.equals("DCaja"))
+			{
+				Visita ultimavisita = new Visita();
+				 
+				ultimavisita = vis;
+				visita=ultimavisita;
+				fc.getExternalContext().getSessionMap()
+				.put("ultimavisita", ultimavisita);
+				RequestContext.getCurrentInstance().update("formCaja");
+				RequestContext context = RequestContext.getCurrentInstance();
+				context.execute("PF('dlgpago').show();");
+				
+			}
 			
 			
 	 }
@@ -1172,4 +1186,25 @@ public class VisitaBean implements Serializable{
 	public void setR(boolean r) {
 		this.r = r;
 	}
+	
+
+	public void actualizarPrecio()
+	{
+		//System.out.println("Costo : "+costototal);
+		//visita.setCostoTotal(costototal);
+		visitaService.updateVisita(visita);
+		StaticUtil.correctMesage("Éxito", "Se ha actualizado detalle de visita");
+	}
+
+
+	public double getCostototal() {
+		return costototal;
+	}
+
+
+	public void setCostototal(double costototal) {
+		this.costototal = costototal;
+	}
+	
+	
 }
