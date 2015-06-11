@@ -135,7 +135,7 @@ public class PuntoServiceImpl implements PuntoService{
 	public List<Punto> getAllPuntosRastreables() {
 		List<Punto> result = new ArrayList<>();
 		try {
-			Query q = em.createQuery("SELECT p FROM Punto p WHERE (p.ordenGoiz>0)");
+			Query q = em.createQuery("SELECT p FROM Punto p WHERE (p.ordenGoiz>0) ");
 			result = q.getResultList();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: " + e.getMessage());

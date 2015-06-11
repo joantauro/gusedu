@@ -59,7 +59,7 @@
 				value="#{visitaBean.producto.costoUnitario} #{visitaBean.producto.currencySymbol}" />
 
 			<p:outputLabel for="inpCantidad" value="Cantidad: "></p:outputLabel>
-			<p:inputText id="inpCantidad" value="#{visitaBean.cantidadProducto}">
+			<p:inputText id="inpCantidad" value="#{visitaBean.cantidadProducto}" disabled="#{visitaBean.prod}"  >
 				<pe:keyFilter mask="num" />  
 				<f:validateDoubleRange minimum="0.0"
 					maximum="#{visitaBean.producto.existencias}"></f:validateDoubleRange>

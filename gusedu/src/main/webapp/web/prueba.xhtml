@@ -43,12 +43,13 @@ function get() {
 			</p:inputText>
 
 			<p:outputLabel for="perEdad" value="Edad : " />
-			<p:inputText value="#{personaBean.persona.edad}" id="perEdad" maxlength="3" >
-				<pe:keyFilter mask="num" />  
+			<p:inputText value="#{personaBean.persona.edad}" id="perEdad" maxlength="3"   validatorMessage="Solo se aceptan numeros positivos" >
+				<pe:keyFilter mask="num" /> 
+				<f:validateDoubleRange minimum="0" maximum="250" />
 			</p:inputText>
 			
 			<p:outputLabel for="perFecNac" value="Fecha de nacimiento: " /> 
-			<p:calendar value="#{personaBean.persona.fechaNacimiento}" yearRange="c-100:c"
+			<p:calendar value="#{personaBean.persona.fechaNacimiento}" yearRange="c-100:c" maxdate="new Date();"
 				id="perFecNac" pattern="dd/MM/yyyy" navigator="true" />
 
 			<p:outputLabel for="perTelFijo" value="Teléfono fijo: " />

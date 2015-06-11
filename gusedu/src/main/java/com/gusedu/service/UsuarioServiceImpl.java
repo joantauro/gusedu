@@ -1,5 +1,6 @@
 package com.gusedu.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +17,12 @@ import com.gusedu.model.TipoUsuario;
 import com.gusedu.model.Usuario;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl implements UsuarioService,Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@PersistenceContext
 	EntityManager em;
 

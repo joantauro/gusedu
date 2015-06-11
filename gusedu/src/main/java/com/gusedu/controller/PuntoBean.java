@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -41,11 +44,53 @@ public class PuntoBean implements Serializable{
 	private List<classPunto> lista;
 	private List<classPar> listapar;
 	
+	private int filaPunto;
+	private int filaPar;
+	
 	public PuntoBean() {
 		punto = new Punto();
 		puntos = new ArrayList<>();
+		filaPar=0;
 	}
 
+	@PostConstruct
+	public void post()
+	{
+		listapar = new ArrayList<>();
+		List<Par> pares = new ArrayList<>();
+		pares=parService.getAllParesOrderGoiz();
+		System.out.println(pares.size());
+		//int leng=Math.round(pares.size()/4);
+		
+		double p = pares.size();
+		int leng = pares.size()/4;
+		double t=p/4;
+		if(leng<t)
+		{
+			leng=leng+1;
+		}
+		filaPar=leng;
+		int f =(leng*4)-((int)p);
+		/*
+		double n= pares.size();
+		double total=n/4;
+		int leng= (int) Math.round(total);
+		System.out.println("Pares : "+pares.size()+" Division : "+total);
+		System.out.println("lista de pares : "+leng);
+		*/
+		for(int j=0;j<leng;j++)//68
+		{
+			if(j>=(leng-f))//65
+			{
+				pares.add(new Par());
+				//System.out.print( "SOS");
+			}
+			System.out.println(j+"-"+(j+(leng*1))+"-"+(j+(leng*2))+"-"+(j+(leng*3)));
+			listapar.add(new classPar(pares.get(j), pares.get(j+(leng*1)), pares.get((leng*2)+j), pares.get(j+(leng*3))));
+		}
+		listarpuntos();
+	}
+	
 	public Punto getPunto() {
 		return punto;
 	}
@@ -232,6 +277,8 @@ public class PuntoBean implements Serializable{
 		punto.setIdPunto(p1);
 		parcito=parService.paresByPunto(punto);
 		System.out.println("Lista : "+parcito.size());
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.getExternalContext().getSessionMap().put("punto", punto);
 	}
 	
 	public void hola(){
@@ -250,45 +297,66 @@ public class PuntoBean implements Serializable{
 
 
 	
-	public List<classPunto> getLista() {
-		lista = new ArrayList<>();
-		List<Punto> ptos = new ArrayList<>();
-		//Punto p= new Punto();
-		ptos=puntoService.getAllPuntos();
-		
-		for(int i=0;i<50;i++)
-		{
-			if(i>=35)
-			{
-				ptos.add(new Punto());
-			}
-			lista.add(new classPunto(ptos.get(i),ptos.get(i+50),ptos.get(i+100),ptos.get(i+150)));
-		}
-		
-		
+	public List<classPunto> getLista() {		
 		return lista;
 	}
 
-	public List<classPar> getListapar() {
-		listapar = new ArrayList<>();
-		List<Par> pares = new ArrayList<>();
-		pares=parService.getAllPares();
-		System.out.println(pares.size());
-		for(int j=0;j<68;j++)
+	public void listarpuntos()
+	{
+		lista = new ArrayList<>();
+		List<Punto> ptos = new ArrayList<>();
+		//Punto p= new Punto();
+		ptos=puntoService.getAllOrdenAlfabeticoAsc();//getAllPuntos()
+		
+		double p = ptos.size();
+		int len = ptos.size()/4;
+		double t=p/4;
+		if(len<t)
 		{
-			if(j>=65)
-			{
-				pares.add(new Par());
-				//System.out.print( "SOS");
-			}
-			//System.out.println(j+"-"+(j+68)+"-"+(j+136)+"-"+(j+204));
-			listapar.add(new classPar(pares.get(j), pares.get(j+68), pares.get(136+j), pares.get(j+204)));
+			len=len+1;
 		}
+		filaPunto=len;
+		int f =(len*4)-((int)p);
+		/*double d= ptos.size();
+		double t=d/4;
+		int len= (int) Math.round(t);
+		System.out.println("Puntos : "+ptos.size()+" Division : "+t);
+		System.out.println("lista de puntos : "+len);*/
+		for(int i=0;i<len;i++)
+		{
+			if(i>=(len-f))
+			{
+				ptos.add(new Punto());
+			}
+			lista.add(new classPunto(ptos.get(i),ptos.get(i+(len*1)),ptos.get(i+(len*2)),ptos.get(i+(len*3))));
+		}
+	}
+	
+	
+	public List<classPar> getListapar() {
 		return listapar;
 	}
 
+	 
+	
 	public void setListapar(List<classPar> listapar) {
 		this.listapar = listapar;
+	}
+
+	public int getFilaPunto() {
+		return filaPunto;
+	}
+
+	public void setFilaPunto(int filaPunto) {
+		this.filaPunto = filaPunto;
+	}
+
+	public int getFilaPar() {
+		return filaPar;
+	}
+
+	public void setFilaPar(int filaPar) {
+		this.filaPar = filaPar;
 	}
 	
 }

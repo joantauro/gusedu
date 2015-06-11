@@ -195,6 +195,7 @@ function foo() {
 
 		<p:dialog id="dialogCaja" header="Pago" widgetVar="dlgpago" showEffect="pop" modal="true" 
 		 	 >
+		 	 <p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
 		<h:form id="formCaja">
 		<p:panelGrid  columns="2" >
 			<p:outputLabel  value="Costo final : "    />
@@ -220,8 +221,10 @@ function foo() {
 		</p:dialog>
 
 		<p:dialog id="dialogTerapia" header="Terapias" widgetVar="dlgT"
-			showEffect="pop" modal="true" >
-			<p:ajax event="close" update=":#{p:component('tablaPac')},:#{p:component('tablaParPunto')}" listener="#{terapiaBean.aceptar}"  />
+			showEffect="pop" modal="true"  width="80%" >
+			<p:ajax event="close"
+			 update=":#{p:component('tablaPac')},:#{p:component('tablaParPunto')}" 
+			 listener="#{terapiaBean.aceptar}"  />
 			
 			<h:form id="frame3">
 						<ui:include src="RegistroPares.xhtml" />
@@ -252,8 +255,9 @@ function foo() {
 	
 			<p:dialog id="dialogProducto" header="Productos" widgetVar="dlgP"
 				showEffect="pop" modal="true" width="850px" height="550px">
-				<p:ajax event="close" update=":#{p:component('tablaPac')}" listener="#{visitaBean.probando}" />
-			<h:form >
+				<p:ajax event="close" update=":#{p:component('tablaPac')}" 
+				listener="#{visitaBean.probando}" />
+			<h:form id="formProduct" >
 				<ui:include src="Producto.xhtml" />
 				</h:form>
 			</p:dialog>

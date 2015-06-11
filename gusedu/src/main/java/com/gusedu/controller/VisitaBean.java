@@ -90,6 +90,7 @@ public class VisitaBean implements Serializable{
 	private boolean r;
 	
 	private double costototal;
+	private boolean prod;
 	
 	public VisitaBean() {
 		costototal=0.0;
@@ -102,6 +103,9 @@ public class VisitaBean implements Serializable{
 		query = ""; lista = new ArrayList<>();
 		valor=false;descripcionIMC="";opciones="S";
 		fechaactual = new Date();
+		queryProducto="";
+		
+		prod=true;
 	}
 
 	
@@ -624,12 +628,14 @@ public class VisitaBean implements Serializable{
 			}
 			if(opciones.equals("P"))
 			{
+				prod=true;
 				Visita ultimavisita = new Visita();
 				 
 				ultimavisita = vis;
 				visita=ultimavisita;
 				fc.getExternalContext().getSessionMap()
 				.put("ultimavisita", ultimavisita);
+				RequestContext.getCurrentInstance().update("formProduct");
 			}
 			if(opciones.equals("DCaja"))
 			{
@@ -878,6 +884,7 @@ public class VisitaBean implements Serializable{
 	
 	public void preAddProductoWeb(Integer idProducto){
 		producto = productoService.getProductoById(idProducto);
+		prod=false;
 		mostrarFormProducto = 1;
 	}
 	
@@ -955,6 +962,9 @@ public class VisitaBean implements Serializable{
 		allProductos = productoService.getAllProductos();
 		// Crea una lista vacia donde se guardarán los clientes filtrados
 		List<Producto> filtrados = new ArrayList<>();
+		
+		System.out.println("Listado : "+allProductos.size());
+		System.out.println("QueryP : "+queryProducto);
 		for (Producto p : allProductos) {
 			if (p.getDescripcionMedia().toLowerCase()
 					.contains(queryProducto.toLowerCase())) {
@@ -1194,6 +1204,7 @@ public class VisitaBean implements Serializable{
 		//visita.setCostoTotal(costototal);
 		visitaService.updateVisita(visita);
 		StaticUtil.correctMesage("Éxito", "Se ha actualizado detalle de visita");
+		clearEntities(); 
 	}
 
 
@@ -1204,6 +1215,16 @@ public class VisitaBean implements Serializable{
 
 	public void setCostototal(double costototal) {
 		this.costototal = costototal;
+	}
+
+
+	public boolean isProd() {
+		return prod;
+	}
+
+
+	public void setProd(boolean prod) {
+		this.prod = prod;
 	}
 	
 	

@@ -98,6 +98,8 @@ public class TerapiaBean implements Serializable{
 		sintoma = new Sintoma();
 		paresSeleccionados = new ArrayList<Par>();
 		listarTerapiaPar = new ArrayList<>();
+		queryS="";
+		queryE="";
 		//listasintoma = new ArrayList<>();
 		//listaenfermedad = new ArrayList<>();
 	}
@@ -408,6 +410,9 @@ public class TerapiaBean implements Serializable{
 		List<Sintoma> allSintomas = sintomaService.getAll();
 		List<Sintoma> sinFiltrados = new ArrayList<Sintoma>();
 
+		System.out.println("Lista : "+allSintomas.size());
+		System.out.println("QUERY : "+query);
+		
 		for (int i = 0; i < allSintomas.size(); i++) {
 			Sintoma sintoma = allSintomas.get(i);
 			if (sintoma.getDescripcion().toLowerCase().startsWith(query)) {
@@ -663,6 +668,37 @@ public class TerapiaBean implements Serializable{
 				sintomaService.saveSintoma(sintoma);
 				//queryS="";
 		}*/
+		
+		/*if(queryS.equals(""))
+		{
+			StaticUtil.errorMessage("Error", "El campo Sintoma esta vacio");
+			return ;
+		}*/
+		
+		String cadena="";
+		String c;
+		System.out.println("QueryS : "+queryS);
+	for(int i=0;i<queryS.length();i++){
+	 
+		c=queryS.charAt(i)+"";
+		if(c.equals(" "))
+		{
+			cadena="";
+		}
+	 
+	}
+	/*System.out.println("Tamaño : "+cadena.length() +" Tam : "+queryS.length());
+	if(cadena.equals(""))
+	{
+		StaticUtil.errorMessage("Error", "El campo sintoma esta vacio");
+		return;
+	}*/
+	/*if(cadena.equals(""))
+	{
+		StaticUtil.errorMessage("Error", "Ingrese un Sintoma");
+		return ;
+	}*/
+		
 		if(sintoma==null)
 		{
 			if(queryS!="")
@@ -767,7 +803,7 @@ public class TerapiaBean implements Serializable{
 			StaticUtil.correctMesage("Exito",
 					"Se agregó el par");
 			StaticUtil.keepMessages();
-			//listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
+			listarTerapiaPar=  terapiaService.getAllTerapiaParbyTerapia(terapia);
 			
 			
 			//terapiaService.getAllTerapiaParbyTerapia(terapia);
@@ -859,6 +895,30 @@ public class TerapiaBean implements Serializable{
 	
 	public void addEnfermedad3()
 	{
+		
+		/*if(queryE.equals(""))
+		{
+			StaticUtil.errorMessage("Error", "El campo Enfermedad esta vacio");
+			return ;
+		}
+		*/
+		String cadena="";
+		String c;
+	for(int i=0;i<queryE.length();i++){
+	 
+		c=queryE.charAt(i)+"";
+		if(c.equals(" "))
+		{
+			cadena+="";
+		}
+	 
+	}
+/*	if(cadena.equals(""))
+	{
+		StaticUtil.errorMessage("Error", "Ingrese una Enfermedad");
+		return ;
+	}*/
+		
 		if(enfermedad==null)
 		{
 			if(queryE!="")
@@ -891,7 +951,7 @@ public class TerapiaBean implements Serializable{
 			}*/
 			if(s.getExvEnfermedad().getNombre().equals(enfermedad.getNombre()))
 			{
-				System.out.println("Entro aqui :3");
+				//System.out.println("Entro aqui :3");
 				StaticUtil.errorMessage("Error", "La Enfermedad ya ha sido agregada");
 				enfermedad = new Enfermedad();
 				return;

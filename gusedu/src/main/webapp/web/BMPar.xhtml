@@ -7,37 +7,32 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition >
  			<h:form>
- 			
  			<p:dataTable emptyMessage="No hay puntos registrados" id="ttablaPuntos2"  scrollable="true"
 			scrollHeight="500"
 			var="part" value="#{puntoBean.listapar}"    
-			paginatorPosition="top" rows="68" tableStyleClass="ui-table-columntoggle"> 
+			paginatorPosition="top" rows="#{puntoBean.filaPar}" tableStyleClass="ui-table-columntoggle"> 
 			<f:facet name="header">
         		Lista de Pares Biomagneticos
     		</f:facet>
     		<p:column  >
     			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par1.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
-    			<h:outputLabel value="#{part.par1.idPar} - " />
     			<h:outputLabel value="#{part.par1.parPunto1.nombre}-#{part.par1.parPunto2.nombre}" />
 					
     		</p:column>
     		<p:column  >
     			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par2.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
-    				 <h:outputLabel value="#{part.par2.idPar} - " />
     			<h:outputLabel value="#{part.par2.parPunto1.nombre}-#{part.par2.parPunto2.nombre}" />
     		</p:column>
     		<p:column  >
     			<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par3.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
-    				 <h:outputLabel value="#{part.par3.idPar} - " />
     			<h:outputLabel value="#{part.par3.parPunto1.nombre}-#{part.par3.parPunto2.nombre}" />
     		</p:column>
     		<p:column  >
     		<p:commandButton  icon="ui-icon-search"    action="#{parBean.cargarPar2(part.par4.idPar)}"
     				 update=":#{p:component('dialogBM')}" oncomplete="PF('dlgBM').show();" />
-    				 <h:outputLabel value="#{part.par4.idPar} - " />
     			<h:outputLabel value="#{part.par4.parPunto1.nombre}-#{part.par4.parPunto2.nombre}" />
     		</p:column>
     		</p:dataTable>
@@ -67,7 +62,7 @@
 						<h:outputText value="&lt;br/&gt;" escape="false" />
 						<!-- 426 x 137 -->
 						<p:outputPanel style="text-align:center;">
-							<p:graphicImage library="uploads"
+							<p:graphicImage library="uploads" height="15%;"
 								rendered="#{parBean.parSeleccionado.url ne null}"
 								name="#{parBean.parSeleccionado.url}"></p:graphicImage>
 						</p:outputPanel>

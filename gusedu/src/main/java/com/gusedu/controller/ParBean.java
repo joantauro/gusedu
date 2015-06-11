@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -79,6 +80,8 @@ public class ParBean implements Serializable{
 	int ascP1;
 	int ascP2;
 	int goiz;
+	
+	private List<Punto> allPuntos;
 
 	public ParBean() {
 		par = new Par();
@@ -90,6 +93,11 @@ public class ParBean implements Serializable{
 		grupoSeleccionado = new Grupo();
 	}
 
+	@PostConstruct
+	public void post(){
+		listarptos();
+	}
+	
 	public Par getPar() {
 		return par;
 	}
@@ -300,7 +308,7 @@ public class ParBean implements Serializable{
 	}
 
 	public List<Punto> autoCompletar(String query) {
-		List<Punto> allPuntos = puntoService.getAllPuntos();
+		//List<Punto> allPuntos = puntoService.getAllPuntos();
 		List<Punto> puntosFiltrados = new ArrayList<Punto>();
 
 		for (int i = 0; i < allPuntos.size(); i++) {
@@ -312,6 +320,63 @@ public class ParBean implements Serializable{
 		return puntosFiltrados;
 	}
 
+	public void devolverautoCompletar()
+	{
+		
+	}
+	
+	public void agregarPar2()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Punto p = (Punto) fc.getExternalContext().getSessionMap().get("punto");
+		Grupo gr = new Grupo();
+		gr.setIdGrupo(1);
+		
+		if(punto2==null)
+		{
+			StaticUtil.errorMessage("Error", "El punto que elegio no existe");
+			punto2 = new Punto();
+			return;
+		}else
+		{
+			System.out.println("No es nulo :-)");
+		}
+		
+		System.out.println("Grupo : "+gr.getIdGrupo());
+		System.out.println("Punto 1 : "+p.getIdPunto());
+		System.out.println("Punto 2 : "+punto2.getIdPunto());
+		
+		par.setParGrupo(gr);
+		par.setParPunto1(p);
+		par.setParPunto2(punto2);
+		
+		Par newPar = parService.parByPuntos(p, punto2, gr);
+		if (newPar != null) {
+			 
+			TerapiaBean objetoTBean =(TerapiaBean) fc.getExternalContext().getSessionMap().get("terapiaBean");
+			objetoTBean.addPar2(newPar.getIdPar());
+			par = new Par();
+			punto2 = new Punto();
+			return  ;
+		}else
+		{
+			if (parService.savePar(par)) {
+				 
+				/*StaticUtil.correctMesage("Éxito",
+						"Se ha añadido correctamente el par");
+				*/TerapiaBean objetoTBean =(TerapiaBean) fc.getExternalContext().getSessionMap().get("terapiaBean");
+				objetoTBean.addPar2(par.getIdPar());
+				par = new Par();
+				punto2 = new Punto();
+		 
+			} else {
+				StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");
+			 
+			}
+		}
+		
+	}
+	
 	public String agregarPar() {
 		par.setParGrupo(grupoSeleccionado);
 		par.setParPunto1(punto1);
@@ -541,6 +606,19 @@ public class ParBean implements Serializable{
 
 	public void setParcito(List<Par> parcito) {
 		this.parcito = parcito;
+	}
+
+	public List<Punto> getAllPuntos() {
+		return allPuntos;
+	}
+	
+	public void listarptos()
+	{
+		allPuntos = puntoService.getAllPuntos();
+	}
+
+	public void setAllPuntos(List<Punto> allPuntos) {
+		this.allPuntos = allPuntos;
 	}
 	
 }

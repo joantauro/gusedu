@@ -5,7 +5,20 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-<ui:composition>		
+<ui:composition>
+<!--   
+<script type="text/javascript">
+/$( document ).ready(function() {
+ alert(0);
+	$(PrimeFaces.escapeClientId("frame3:formNuevaTerapiaP:advPunto2_input")).
+	removeClass("ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-hover" ).addClass("ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" );
+
+});
+
+//alert(document.getElementById('formNuevo:btnListar').text);
+	    
+			
+</script> -->
 	<h:form id="formNuevaTerapiaP">
 		<p:panelGrid columns="2" style="margin: 0 auto;">
 			<p:outputLabel for="iTipoTerapia2" value="Tipo de terapia: " />
@@ -33,12 +46,12 @@
 		<p:commandButton value="Usar útlima terapia" action="#{terapiaBean.usarTerapia}" onclick="PF('confirm').hide();" />
 		</p:dialog>
 	<br/>
-
-	
+	<br/>
 	<p:dataTable emptyMessage="No hay puntos registrados" id="ttablaPuntos"  scrollable="true"
-			scrollHeight="350"
+			scrollHeight="450"  
 			var="pun" value="#{puntoBean.lista}"    
-			paginatorPosition="top" rows="50" tableStyleClass="ui-table-columntoggle"> 
+			paginatorPosition="top" rows="#{puntoBean.filaPunto}" 
+			tableStyleClass="ui-table-columntoggle"> 
 			<f:facet name="header">
         		Lista de Puntos
     		</f:facet>
@@ -70,7 +83,8 @@
 				
 			<p:dialog id="dialogPtos" header="Pares" widgetVar="dlgPtos"
 					  showEffect="pop"  >
-				<p:dataTable emptyMessage="No hay pares" style="width:220px;"
+			<br/>
+			<p:dataTable emptyMessage="No hay pares" style="width:220px;"
 						id="tablaPar2" value="#{puntoBean.parcito}" var="parpp">
 						<p:column headerText="Punto"  >
 							<p:outputLabel value="#{parpp.parPunto2.nombre}" />
@@ -79,7 +93,21 @@
 							<p:commandButton id="btnAdd" icon="ui-icon-plus"  
 								action="#{terapiaBean.addPar2(parpp.idPar)}" />
 						</p:column>
-					</p:dataTable>
+			 </p:dataTable>
+					
+						<br/>
+			<p:panelGrid columns="3" id="pnlPar"  >
+				<p:outputLabel value="Par no Goiz : "></p:outputLabel>
+				<p:autoComplete id="advPunto2" queryDelay="100" disabled=""
+					value="#{parBean.punto2}"  
+					completeMethod="#{parBean.autoCompletar}" var="punto2"
+					itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
+					converter="#{puntoConverter}" panelStyleClass="ui-themes">
+				</p:autoComplete>
+				<p:commandButton icon="ui-icon-plus"  action="#{parBean.agregarPar2}" update=":#{p:component('pnlPar')}" oncomplete="PF('dlgPtos').hide();PF('dlgPtos').show();"  />
+			</p:panelGrid>
+			<br/>
+					
 			</p:dialog>
 			
 			<p:dialog id="dialogParesP" header="Pares" widgetVar="dlgParesP"
