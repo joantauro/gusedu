@@ -221,7 +221,7 @@ function foo() {
 		</p:dialog>
 
 		<p:dialog id="dialogTerapia" header="Terapias" widgetVar="dlgT"
-			showEffect="pop" modal="true"  width="80%" >
+			showEffect="pop"  width="80%" >
 			<p:ajax event="close"
 			 update=":#{p:component('tablaPac')},:#{p:component('tablaParPunto')}" 
 			 listener="#{terapiaBean.aceptar}"  />
@@ -262,13 +262,6 @@ function foo() {
 				</h:form>
 			</p:dialog>
 	
-		
-			<p:dialog id="dialogPuntos" header="Gestionar Puntos" widgetVar="dlgPuntos"
-					  showEffect="pop" modal="true" width="850px" height="500px" >
-					  <h:form>
-					  <ui:include src="gestionPunto.xhtml" />
-					  </h:form>
-			</p:dialog>
 			
 			<p:dialog id="dialogEditarDatos" header="Editar Datos  de Paciente" widgetVar="dlgEDP"
 					  showEffect="pop" modal="true" width="850px" height="500px" >

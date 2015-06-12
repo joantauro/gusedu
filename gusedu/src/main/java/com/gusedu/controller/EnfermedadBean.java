@@ -54,7 +54,10 @@ public class EnfermedadBean  implements Serializable{
 		}
 		return enfermedadService.getAll();
 	}
-
+	public void listar()
+	{
+		enfermedades=enfermedadService.getAll();
+	}
 	public void setEnfermedades(List<Enfermedad> enfermedades) {
 		this.enfermedades = enfermedades;
 	}
@@ -62,6 +65,10 @@ public class EnfermedadBean  implements Serializable{
 	public String preAdd() {
 		enfermedad = new Enfermedad();
 		return "pm:agregarEnfermedad?transition=flip";
+	}
+	
+	public void preAddWeb(){
+		enfermedad = new Enfermedad();
 	}
 
 	public String add() {
@@ -78,10 +85,30 @@ public class EnfermedadBean  implements Serializable{
 			return null;
 		}
 	}
+	
+	public void addWeb(){
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "El nombre está duplicado");
+			enfermedad = new Enfermedad();
+			return  ;
+		}
+		if (enfermedadService.saveEnfermedad(enfermedad)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente la enfermedad");
+			enfermedad = new Enfermedad();
+		 
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo registrar la enfermedad");
+ 
+		}
+	}
 
 	public String preUpdate(int idEnfermedad) {
 		enfermedad = enfermedadService.getById(idEnfermedad);
 		return "pm:editarEnfermedad?transition=flip";
+	}
+	
+	public void preUpdateWeb(int idEnfermedad) {
+		enfermedad = enfermedadService.getById(idEnfermedad);
 	}
 
 	public String update() {
@@ -93,6 +120,17 @@ public class EnfermedadBean  implements Serializable{
 			return null;
 		}
 	}
+	
+	public void updateWeb() {
+		if (enfermedadService.updateEnfermedad(enfermedad)) {
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente la enfermedad");
+			enfermedad = new Enfermedad();
+			listar();
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo actualizar la enfermedad");
+ 
+		}
+	}
 
 	public void preDelete(int idEnfermedad) {
 		enfermedad = enfermedadService.getById(idEnfermedad);
@@ -100,7 +138,8 @@ public class EnfermedadBean  implements Serializable{
 
 	public void delete() {
 		if(enfermedadService.deleteEnfermedad(enfermedad)){
-			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente la enfermedad");			
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente la enfermedad");	
+			listar();
 		}else{
 			StaticUtil.errorMessage("Error", "No se pudo eliminar la enfermedad");			
 		}		

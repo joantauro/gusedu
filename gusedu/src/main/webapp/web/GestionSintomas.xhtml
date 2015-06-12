@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition >
+			<h:form>
+				<p:commandButton action="#{sintomaBean.preAddWeb}"
+					rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+					value="Agregar síntoma"  oncomplete="PF('dlgAddSintoma').show();"
+				 />
+			</h:form>
+ 			<br/>
+				<h:form id="formBusquedaS">
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+					<p:inputText value="#{sintomaBean.query}" id="inpQuery">
+						<p:ajax event="keyup" update=":#{p:component('tablaSintoma')}"
+							listener="#{sintomaBean.filtrarBusqueda}">
+						</p:ajax>
+					</p:inputText>
+				</h:form>
+		 <br/>
+			<h:form id="formTablaSintomas">
+				<p:dataTable emptyMessage="No hay síntomas registradas"
+					id="tablaSintoma" var="sin" value="#{sintomaBean.sintomas}"
+					rowKey="#{sin.idSintoma}" paginator="true" rows="5"
+					tableStyleClass="ui-table-columntoggle">
+
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{sin.descripcion}"></p:outputLabel>
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-pencil"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+						 	oncomplete="PF('dlgEditSintoma').show();" update=":formEditSintoma"
+							action="#{sintomaBean.cargaSintoma(sin)}" />
+
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-close"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							actionListener="#{sintomaBean.cargaSintoma(sin)}"
+							oncomplete="PF('dlgEliminarSintoma').show();" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarSintoma"
+				showEffect="pop" closable="false"  >
+				<h:form>
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check"   update=":formTablaSintomas:tablaSintoma"
+						actionListener="#{sintomaBean.delete}"
+						oncomplete="PF('dlgEliminarSintoma').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete" actionListener="#{sintomaBean.cancelar}"
+						oncomplete="PF('dlgEliminarSintoma').hide();" />
+				</h:form>
+			</p:dialog>
+
+
+
+	<p:dialog header="Agregar Sintoma" widgetVar="dlgAddSintoma"
+		showEffect="pop">
+		<h:form id="formAddSintoma">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Nombre: " for="sinNombre"></p:outputLabel>
+				<p:inputText id="sinNombre" required="true"
+					value="#{sintomaBean.sintoma.descripcion}" />
+
+				<p:commandButton action="#{sintomaBean.addWeb}" value="Agregar" update=":formTablaSintomas:tablaSintoma"
+					oncomplete="PF('dlgAddSintoma').hide();" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Editar Sintoma" widgetVar="dlgEditSintoma"
+		showEffect="pop">
+		<h:form id="formEditSintoma">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Nombre: " for="sinNombreE"></p:outputLabel>
+				<p:inputText id="sinNombreE" required="true"
+					value="#{sintomaBean.sintoma.descripcion}" />
+
+				<p:commandButton action="#{sintomaBean.updateWeb}" value="Agregar"
+					oncomplete="PF('dlgEditSintoma').hide();" update=":formTablaSintomas:tablaSintoma" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	
+</ui:composition>
+</html>

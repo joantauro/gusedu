@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,7 @@ public class PuntoBean implements Serializable{
 	ParService parService;
 
 	private Punto punto;
+	private Punto puntoU;
 	//private Par pars;
 	private List<Punto> puntos;
 	private List<Par> parcito;
@@ -47,12 +49,16 @@ public class PuntoBean implements Serializable{
 	private int filaPunto;
 	private int filaPar;
 	
+	private String puntonombre;
+	
 	public PuntoBean() {
 		punto = new Punto();
 		puntos = new ArrayList<>();
 		filaPar=0;
+		puntonombre="";
+		puntoU=new Punto();
 	}
-
+	
 	@PostConstruct
 	public void post()
 	{
@@ -85,7 +91,7 @@ public class PuntoBean implements Serializable{
 				pares.add(new Par());
 				//System.out.print( "SOS");
 			}
-			System.out.println(j+"-"+(j+(leng*1))+"-"+(j+(leng*2))+"-"+(j+(leng*3)));
+			//System.out.println(j+"-"+(j+(leng*1))+"-"+(j+(leng*2))+"-"+(j+(leng*3)));
 			listapar.add(new classPar(pares.get(j), pares.get(j+(leng*1)), pares.get((leng*2)+j), pares.get(j+(leng*3))));
 		}
 		listarpuntos();
@@ -119,6 +125,12 @@ public class PuntoBean implements Serializable{
 		punto = puntoService.puntoById(id);
 		return "pm:detallePunto?transition=flip";
 	}
+	
+	public void detallePuntoWeb(Integer id)
+	{
+		punto = puntoService.puntoById(id);
+		System.out.println(punto.getNombre());
+	}
 
 	public void cargarPunto(Integer id) {
 		punto = puntoService.puntoById(id);
@@ -132,6 +144,13 @@ public class PuntoBean implements Serializable{
 	public String detallePuntoUpdate(Integer id) {
 		punto = puntoService.puntoById(id);
 		return "pm:gestionPunto?transition=flip";
+	}
+	public void detallePuntoUpdateWeb(Punto p) {
+		//punto = p;
+		puntoU=p;
+		puntonombre=p.getNombre();
+		//System.out.println("Punto : "+punto.getNombre());
+		
 	}
 
 	public String backToIndex() {
@@ -167,6 +186,29 @@ public class PuntoBean implements Serializable{
 			return null;
 		}
 	}
+	
+	public void actualizarPuntoWeb(){
+		System.out.println("Descripcion : "+puntoU);
+		//puntoU.setNombre(puntonombre);
+		
+		if(puntoU.getNombre().isEmpty())
+		{
+			StaticUtil.errorMessage("Error", "El campo descripcion no puede ser vacío");
+			return;
+		}
+		
+		if (puntoService.updatePunto(puntoU)) {
+			puntoU = new Punto();
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el punto");
+			RequestContext.getCurrentInstance().execute("PF('dlgEditarPunto').hide();");
+			 //StaticUtil.keepMessages();
+		} else {
+			StaticUtil.errorMessage("Error", "Hubo un error al actualizar los datos del punto");
+			// StaticUtil.keepMessages();
+		}
+	}
+	
+ 
 
 	public String añadirPunto() {
 		if (esRepetido()) {
@@ -181,6 +223,23 @@ public class PuntoBean implements Serializable{
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
 			return null;
+		}
+	}
+	
+	public void añadirPuntoWeb()
+	{
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "El nombre del punto ya existe");
+			//return null;
+		}
+		if (puntoService.savePunto(punto)) {
+			punto = new Punto();
+			StaticUtil.correctMesage("Éxito", "Se ha añadido correctamente el punto");
+			//StaticUtil.keepMessages();			
+			//return "pm:consultarPuntos?transition=flip";
+		} else {
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el punto");
+			//return null;
 		}
 	}
 
@@ -205,6 +264,11 @@ public class PuntoBean implements Serializable{
 		return "pm:nuevoPunto?transition=flip";
 	}
 
+	public void nuevoPuntoWeb()
+	{
+		punto = new Punto();
+	}
+	
 	public boolean esRepetido() {
 		List<Punto> allPuntos = puntoService.getAllPuntos();
 		for (Punto p : allPuntos) {
@@ -357,6 +421,22 @@ public class PuntoBean implements Serializable{
 
 	public void setFilaPar(int filaPar) {
 		this.filaPar = filaPar;
+	}
+
+	public String getPuntonombre() {
+		return puntonombre;
+	}
+
+	public void setPuntonombre(String puntonombre) {
+		this.puntonombre = puntonombre;
+	}
+
+	public Punto getPuntoU() {
+		return puntoU;
+	}
+
+	public void setPuntoU(Punto puntoU) {
+		this.puntoU = puntoU;
 	}
 	
 }

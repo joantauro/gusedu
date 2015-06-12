@@ -47,6 +47,10 @@ public class SintomaBean implements Serializable{
 		return sintomaService.getAll();		
 	}
 
+	public void listarsintomas(){
+		sintomas = sintomaService.getAll();
+	}
+	
 	public void setSintomas(List<Sintoma> sintomas) {
 		this.sintomas = sintomas;
 	}
@@ -63,6 +67,11 @@ public class SintomaBean implements Serializable{
 		sintoma = new Sintoma();
 		return "pm:agregarSintoma?transition=flip";
 	}
+	
+	public void preAddWeb() {
+		sintoma = new Sintoma();
+ 
+	}
 
 	public String add() {
 		if (esRepetido()) {
@@ -78,6 +87,23 @@ public class SintomaBean implements Serializable{
 		}
 	}
 
+	
+	public void addWeb() {
+		if (esRepetido()) {
+			StaticUtil.errorMessage("Error", "El nombre está duplicado");
+			sintoma = new Sintoma();
+			return ;
+		}
+		if (sintomaService.saveSintoma(sintoma)) {
+			StaticUtil.correctMesage("Éxito", "Se ha registrado correctamente el síntoma");
+			sintoma = new Sintoma();
+
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo registrar el síntoma");
+		 
+		}
+	}
+	
 	public void prueba(){
 		System.out.println("Prueba : Exito :3");
 	}
@@ -101,6 +127,11 @@ public class SintomaBean implements Serializable{
 		sintoma = sintomaService.getById(id);
 		return "pm:editarSintoma?transition=flip";
 	}
+	
+	public void cargaSintoma(Sintoma sin)
+	{
+		sintoma=sin;
+	}
 
 	public String update() {
 		if (sintomaService.updateSintoma(sintoma)) {
@@ -111,6 +142,16 @@ public class SintomaBean implements Serializable{
 			return null;
 		}
 	}
+	
+	public void updateWeb() {
+		if (sintomaService.updateSintoma(sintoma)) {
+			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el sintoma");	
+			sintoma = new Sintoma();
+			listarsintomas();
+		} else {
+			StaticUtil.errorMessage("Error", "No se pudo actualizar el sintoma");
+		}
+	}
 
 	public void preDelete(int id) {
 		sintoma = sintomaService.getById(id);
@@ -119,6 +160,7 @@ public class SintomaBean implements Serializable{
 	public void delete() {
 		if(sintomaService.deleteSintoma(sintoma)){
 			StaticUtil.correctMesage("Éxito", "Se ha actualizado correctamente el sintoma");
+			listarsintomas();
 		}else{
 			StaticUtil.errorMessage("Error", "No se pudo actualizar el síntoma");
 		}

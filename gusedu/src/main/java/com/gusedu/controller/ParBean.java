@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -85,6 +86,7 @@ public class ParBean implements Serializable{
 
 	public ParBean() {
 		par = new Par();
+		par.setParGrupo(new Grupo());
 		punto1 = new Punto();
 		punto2 = new Punto();
 		parSeleccionado = new Par();
@@ -93,6 +95,18 @@ public class ParBean implements Serializable{
 		grupoSeleccionado = new Grupo();
 	}
 
+	public void clean()
+	{
+		par = new Par();
+		par.setParGrupo(new Grupo());
+		punto1 = new Punto();
+		punto2 = new Punto();
+		parSeleccionado = new Par();
+		enfermedadAdd = new Enfermedad();
+		sintomaAdd = new Sintoma();
+		grupoSeleccionado = new Grupo();
+	}
+	
 	@PostConstruct
 	public void post(){
 		listarptos();
@@ -307,6 +321,17 @@ public class ParBean implements Serializable{
 		return "pm:nuevoPar?transition=flip";
 	}
 
+	public void toRegistrarWeb()
+	{
+		par = new Par();
+		punto1 = new Punto();
+		punto2 = new Punto();
+		par = new Par();
+		par.setParPunto1(punto1);
+		par.setParPunto2(punto2);
+		par.setParGrupo(grupoSeleccionado);
+	}
+	
 	public List<Punto> autoCompletar(String query) {
 		//List<Punto> allPuntos = puntoService.getAllPuntos();
 		List<Punto> puntosFiltrados = new ArrayList<Punto>();
@@ -330,7 +355,7 @@ public class ParBean implements Serializable{
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Punto p = (Punto) fc.getExternalContext().getSessionMap().get("punto");
 		Grupo gr = new Grupo();
-		gr.setIdGrupo(1);
+		gr.setIdGrupo(5);
 		
 		if(punto2==null)
 		{
@@ -402,12 +427,53 @@ public class ParBean implements Serializable{
 			return "pm:nuevoPar";
 		}
 	}
+ 
+	public void agregarParWeb() {
+		System.out.println(grupoSeleccionado);
+		if(grupoSeleccionado.getIdGrupo()==0 )
+		{
+			StaticUtil.errorMessage("Error", "Seleccione un grupo para los pares");
+			return;
+		}
+		
+		par.setParGrupo(grupoSeleccionado);
+		par.setParPunto1(punto1);
+		par.setParPunto2(punto2);
+		Par newPar = parService.parByPuntos(punto1, punto2, grupoSeleccionado);
+		if (newPar != null) {
+			StaticUtil.errorMessage("Error", "El par ya existe");
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
+			context.getFlash().setKeepMessages(true);
+		
+		clean();
+		return;
+		}
+		if (parService.savePar(par)) {
+			grupoSeleccionado = new Grupo();
+			StaticUtil.correctMesage("Éxito",
+					"Se ha añadido correctamente el par");
+			ExternalContext context = FacesContext.getCurrentInstance()
+					.getExternalContext();
+			context.getFlash().setKeepMessages(true);
+			RequestContext.getCurrentInstance().execute("PF('dlgAddPar').hide();");
+			clean();
+		} else {
+			StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");
+	 
+		}
+	}
 
 	public String cargarPar(int id) {
 		parSeleccionado = parService.parById(id);
 		enfermedadesPar = parService.getEnfermedades(parSeleccionado);
 		sintomasPar = parService.getSintomas(parSeleccionado);
 		return "pm:detallePar?transition=flip";
+	}
+	
+	public void cargarParWeb(int id)
+	{
+		parSeleccionado = parService.parById(id); 
 	}
 	
 	public void cargarPar2(int id)
@@ -514,6 +580,12 @@ public class ParBean implements Serializable{
 		grupoSeleccionado = par.getParGrupo();
 		return "pm:editarPar?transition=flip";
 	}
+	public void cargarUpdateParWeb(int id) {
+		par = parService.parById(id);
+		/*punto1 = par.getParPunto1();
+		punto2 = par.getParPunto2();
+		grupoSeleccionado = par.getParGrupo();*/
+	}
 
 	public String mergePar() {
 		par.setParPunto1(punto1);
@@ -531,6 +603,17 @@ public class ParBean implements Serializable{
 		parService.updatePar(par);
 		par = new Par();
 		return "pm:consultarPares?transition=flip";
+	}
+	
+	public void mergeParWeb()
+	{
+		//par.setParPunto1(punto1);
+		//par.setParPunto2(punto2);
+		//par.setParGrupo(grupoSeleccionado);
+		parService.updatePar(par);
+		StaticUtil.correctMesage("Exito", "Se modifico los datos del par");
+		clean();
+		
 	}
 
 	public void filtrarBusqueda() {

@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition >
+ 			<h:form>
+			<p:panel toggleable="true" header="Filtros"> 
+					
+					<p:outputLabel value="Filtrar: " for="inpQuery" />
+						<p:inputText value="#{parBean.query}" id="inpQuery">
+							<p:ajax event="keyup" update=":#{p:component('tablaPar')}"
+								listener="#{parBean.filtrarBusqueda}">
+							</p:ajax>
+						</p:inputText>
+			
+				 
+						<p:commandButton value="Asc. Punto 1"
+							update=":#{p:component('tablaPar')}"
+							actionListener="#{parBean.orderAscP1}" icon="ui-icon-arrow-u"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Asc. Punto 2"
+							update=":#{p:component('tablaPar')}"
+							actionListener="#{parBean.orderAscP2}" icon="ui-icon-arrow-u"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+						<p:commandButton value="Goiz" update=":#{p:component('tablaPar')}"
+							actionListener="#{parBean.orderGoiz}" icon="ui-icon-tag"
+							styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
+				 
+		
+			</p:panel>
+			<h:outputText value="&lt;br/&gt;" escape="false" />
+	
+				<p:dataTable emptyMessage="No hay pares registrados" id="tablaPar"
+					var="par" value="#{parBean.pares}" rowKey="#{par.idPar}"
+					paginator="true" rows="8" tableStyleClass="ui-table-columntoggle">
+					<p:column headerText="Punto 1">
+						<p:outputLabel value="#{par.parPunto1.nombre}" />
+					</p:column>
+					<p:column headerText="Punto 2">
+						<p:outputLabel value="#{par.parPunto2.nombre}" />
+					</p:column>
+					<p:column headerText="Grupo">
+						<p:outputLabel value="#{par.parGrupo.nombre}" />
+					</p:column>
+					<p:column headerText="Opciones">
+						<p:commandButton icon="ui-icon-search" styleClass="ui-btn-inline"
+							  action="#{parBean.cargarParWeb(par.idPar)}" 
+							  oncomplete="PF('dlgDetalle').show();" 
+							  update=":#{p:component('pnlDetalle')},:#{p:component('outpanel')}" />
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-copy"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							action="#{parBean.cargarUpdateParWeb(par.idPar)}"  
+							oncomplete="PF('dlgUpdPar').show();" update=":#{p:component('pnlUpdate')}" />
+						<p:commandButton styleClass="ui-btn-inline" icon="ui-icon-close"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+							actionListener="#{parBean.cargarRemovePar(par.idPar)}"
+							oncomplete="PF('dlgEliminarPar').show();" />
+						<p:commandButton icon="ui-icon-edit" styleClass="ui-btn-inline"
+							rendered="#{auth.userLogged.usuTipoUsuario.idTipoUsuario eq 3}"
+						   action="#{parBean.toFileUpload(par.idPar)}" />
+					</p:column>
+				</p:dataTable>
+			
+
+
+				<h:outputText value="&lt;br/&gt;" escape="false" />
+				<p:outputLabel value="¿No se encontraron resultados?" />
+		 
+					<p:commandButton value="Agregar par"
+						action="#{parBean.toRegistrarWeb}" oncomplete="PF('dlgAddPar').show();" ></p:commandButton>
+		
+
+			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarPar"
+				showEffect="pop" closable="false" >
+		
+					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
+						icon="ui-icon-check"  
+						actionListener="#{parBean.removePar}"
+						oncomplete="PF('dlgEliminarPar').hide();" />
+
+					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
+						icon="ui-icon-delete"  
+						actionListener="#{parBean.cancelarPar}"
+						oncomplete="PF('dlgEliminarPar').hide();" />
+		
+			</p:dialog>
+	 
+	 
+	 <p:dialog header="Detalle Par" id="dlgDetalle" widgetVar="dlgDetalle" showEffect="pop"  >
+	 		<p:panelGrid columns="2" id="pnlDetalle" >
+							<h:outputLabel value="Punto 1: " />
+							<h:outputLabel
+								value="#{parBean.parSeleccionado.parPunto1.nombre}" />
+
+							<h:outputLabel value="Punto 2: " />
+							<h:outputLabel
+								value="#{parBean.parSeleccionado.parPunto2.nombre}" />
+
+							<h:outputLabel value="Patógeno: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.patogeno}" />
+
+							<h:outputLabel value="Descripción: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.descripcion}" />
+
+							<h:outputLabel value="Grupo: " />
+							<h:outputLabel value="#{parBean.parSeleccionado.parGrupo.nombre}" />
+
+						</p:panelGrid>
+						<h:outputText value="&lt;br/&gt;" escape="false" />
+						<h:outputText value="&lt;br/&gt;" escape="false" />
+						<!-- 426 x 137 -->
+						<p:outputPanel style="text-align:center;" id="outpanel">
+							<p:graphicImage library="uploads" height="150px;"
+								rendered="#{parBean.parSeleccionado.url ne null}"
+								name="#{parBean.parSeleccionado.url}"></p:graphicImage>
+						</p:outputPanel>
+						<p:commandButton value="Cerrar" oncomplete="PF('dlgDetalle').hide();"  />
+	 </p:dialog>
+	 
+	 <p:dialog id="dlgUpdate" header="Editar par" widgetVar="dlgUpdPar" showEffect="pop" >
+	 <p:panelGrid columns="2" id="pnlUpdate" >
+	 <p:outputLabel value="Punto 1: " for="advPuntoP1" />
+			 
+					<p:autoComplete id="advPuntoP1" queryDelay="100"
+						value="#{parBean.par.parPunto1}" 
+						completeMethod="#{parBean.autoCompletar}" var="punto1"
+						itemLabel="#{punto1.nombre}" itemValue="#{punto1}"
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+			 
+				<p:outputLabel value="Punto 2: " for="advPuntoP2" />
+			 
+					<p:autoComplete id="advPuntoP2" queryDelay="100"
+						value="#{parBean.par.parPunto2}"  
+						completeMethod="#{parBean.autoCompletar}" var="punto2"
+						itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+			 
+					<p:outputLabel for="inPatogenoP" value="Patogeno: " />
+					<p:inputText id="inPatogenoP"  
+						value="#{parBean.par.patogeno}" />
+			 
+					<p:outputLabel for="inUrlP" value="Url Imagen: " />
+					<p:inputText id="inUrlP"  
+						value="#{parBean.par.url}" />
+			 
+					<p:outputLabel for="inDescripcionP" value="Descricion: " />
+					<p:inputText id="inDescripcionP" required="false"
+						value="#{parBean.par.descripcion}" />
+				 
+					<p:outputLabel for="selGrupoP" value="Grupo: " />
+					<p:selectOneMenu id="selGrupoP" 
+						value="#{parBean.par.parGrupo.idGrupo}">
+						<f:selectItem itemLabel="Elija un grupo" />
+						<f:selectItems value="#{parBean.grupos}" var="grupo"
+							itemValue="#{grupo.idGrupo}" itemLabel="#{grupo.nombre}" />
+					</p:selectOneMenu>
+			 
+				
+					<p:commandButton icon="ui-icon-check" action="#{parBean.mergeParWeb}"
+						  value="Editar" oncomplete="PF('dlgUpdPar').hide();" ></p:commandButton>
+					<p:commandButton icon="ui-icon-delete"
+						action="#{parBean.clean}"   
+						value="Cancelar"  oncomplete="PF('dlgUpdPar').hide();" />
+				</p:panelGrid>
+				</p:dialog>
+	 
+	 		<p:dialog header="Agregar Par" widgetVar="dlgAddPar" showEffect="pop" >
+	 	 
+	 			<p:panelGrid columns="2">
+				<p:outputLabel value="Punto 1: " for="advPunto1" />
+			 
+					<p:autoComplete id="advPunto1" queryDelay="100"
+						value="#{parBean.punto1}" 
+						completeMethod="#{parBean.autoCompletar}" var="punto1"
+						itemLabel="#{punto1.nombre}" itemValue="#{punto1}"
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+				 
+				<p:outputLabel value="Punto 2: " for="advPunto2" />
+				 
+					<p:autoComplete id="advPunto2" queryDelay="100"
+						value="#{parBean.punto2}"  
+						completeMethod="#{parBean.autoCompletar}" var="punto2"
+						itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
+						converter="#{puntoConverter}" panelStyleClass="ui-themes">
+					</p:autoComplete>
+			 
+					<p:outputLabel for="selGrupo" value="Grupo: " />
+					<p:selectOneMenu id="selGrupo" 
+						value="#{parBean.grupoSeleccionado.idGrupo}">
+						<f:selectItem itemLabel="Elija un grupo" itemValue="0" />
+						<f:selectItems value="#{parBean.grupos}" var="grupo"
+							itemValue="#{grupo.idGrupo}" itemLabel="#{grupo.nombre}" />
+					</p:selectOneMenu>
+				 
+				
+					<p:commandButton icon="ui-icon-check"
+						action="#{parBean.agregarParWeb}"  
+						value="Añadir" />
+					<p:commandButton icon="ui-icon-delete"
+						action="#{parBean.backToConsultar}" immediate="true" ajax="false"
+						value="Cancelar"></p:commandButton>
+				</p:panelGrid>
+	 
+	 		</p:dialog>
+			</h:form>
+</ui:composition>
+</html>

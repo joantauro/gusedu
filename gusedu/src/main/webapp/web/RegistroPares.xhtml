@@ -93,22 +93,21 @@
 							<p:commandButton id="btnAdd" icon="ui-icon-plus"  
 								action="#{terapiaBean.addPar2(parpp.idPar)}" />
 						</p:column>
-			 </p:dataTable>
-					
-						<br/>
-			<p:panelGrid columns="3" id="pnlPar"  >
+					</p:dataTable>
+			<br />
+			<p:panelGrid columns="3" id="pnlPar">
 				<p:outputLabel value="Par no Goiz : "></p:outputLabel>
-				<p:autoComplete id="advPunto2" queryDelay="100" disabled=""
-					value="#{parBean.punto2}"  
-					completeMethod="#{parBean.autoCompletar}" var="punto2"
-					itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
+				<p:autoComplete id="advPunto2" queryDelay="100" readonly="false"
+					value="#{parBean.punto2}" completeMethod="#{parBean.autoCompletar}"
+					var="punto2" itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
 					converter="#{puntoConverter}" panelStyleClass="ui-themes">
 				</p:autoComplete>
-				<p:commandButton icon="ui-icon-plus"  action="#{parBean.agregarPar2}" update=":#{p:component('pnlPar')}" oncomplete="PF('dlgPtos').hide();PF('dlgPtos').show();"  />
+				<p:commandButton icon="ui-icon-plus" action="#{parBean.agregarPar2}"
+					update=":#{p:component('pnlPar')}"
+					  />
 			</p:panelGrid>
-			<br/>
-					
-			</p:dialog>
+			<br />
+		</p:dialog>
 			
 			<p:dialog id="dialogParesP" header="Pares" widgetVar="dlgParesP"
 					  showEffect="pop"  >
