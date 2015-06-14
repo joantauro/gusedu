@@ -734,6 +734,7 @@ public class TerapiaBean implements Serializable{
 		sinvis.setSxvSintoma(sintoma);
 		sinvis.setSxvVisita(vis);
 		terapiaService.saveSintomaVisita(sinvis);
+		queryS="";
 		sintoma = new Sintoma();
 		listasintomaxvisita= terapiaService.getAllSintomaxVisita(vis);
 	}
