@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition >
- 	<h:form  >
+ 	<h:form>
 		<p:panel header="Filtros" toggleable="true">
 			<p:outputLabel value="Filtrar: " for="inpQueryPunto" />
 			<p:inputText value="#{puntoBean.query}" id="inpQueryPunto">
@@ -26,9 +26,10 @@
 				actionListener="#{puntoBean.orderGoiz}" icon="ui-icon-tag"
 				styleClass="ui-btn-center ui-btn-inline"></p:commandButton>
 		</p:panel>
-		
 		<h:outputText value="&lt;br/&gt;" escape="false" />
 		 
+	</h:form>
+	<h:form>
 				<p:dataTable emptyMessage="No hay puntos registrados"
 					id="tablaPuntoP" var="pun" value="#{puntoBean.puntos}"
 					rowKey="#{pun.idPunto}" paginator="true" rows="8"
@@ -56,25 +57,26 @@
 							oncomplete="PF('dlgEliminar').show();" />
 					</p:column>
 				</p:dataTable>
-			 
+		</h:form>	 
 			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminar"
 				showEffect="pop" closable="false"  >
-			 
+			 	<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
-						icon="ui-icon-check"  update="tablaPuntoP"
+						icon="ui-icon-check"  update=":#{p:component('tablaPuntoP')}"
 						actionListener="#{puntoBean.eliminarPunto}"
 						oncomplete="PF('dlgEliminar').hide();" />
 
 					<p:commandButton value="Cancelar" styleClass="ui-btn-inline"
-						icon="ui-icon-delete"  update="tablaPuntoP"
+						icon="ui-icon-delete"  update=":#{p:component('tablaPuntoP')}"
 						actionListener="#{puntoBean.cancelar}"
 						oncomplete="PF('dlgEliminar').hide();" />
-			 
+			 	</h:form>
 			</p:dialog>
 
 
 			<p:dialog header="Detalle Punto" widgetVar="dlgdetallePunto" 
 						id="dlgdetallePunto" showEffect="pop" >
+						<h:form>
 			<p:panelGrid columns="2" id="pnlDetalle" >
 					<h:outputLabel value="Nombre: " />
 					<h:outputLabel value="#{puntoBean.punto.nombre}" />
@@ -85,10 +87,12 @@
 					<h:outputLabel value="Ubicación media: " />
 					<h:outputLabel value="#{puntoBean.punto.ubicacionMedia}" />
 				</p:panelGrid>
+				</h:form>
 			</p:dialog>
 
 		<p:dialog header="Editar Punto" widgetVar="dlgEditarPunto"
 			id="dlgEditPunto" showEffect="pop">
+			<h:form>
 			 <p:panelGrid columns="2">
 					<p:outputLabel for="puntoNombre" value="Nombre: " />
 					<p:inputText id="puntoNombre"  
@@ -123,20 +127,17 @@
 						action="#{puntoBean.cancelar}" 
 						value="Cancelar" oncomplete="PF('dlgEditarPunto').hide();" ></p:commandButton>
 				</p:panelGrid>
+				</h:form>
 		</p:dialog>
 		
-		<p:dialog header="Update Punto" widgetVar="dlgUpdatePunto" id="dlgUpdatePnto" showEffect="pop" >
-					<p:panelGrid columns="2"  >
-					
-					</p:panelGrid>
-		</p:dialog>
 		
 		<p:dialog header="Añadir Punto" widgetVar="dlgAddPunto"
 				showEffect="pop"  >
-		 
+		       <h:form>
 				 <p:panelGrid columns="2"  id="pnlAddP" >
+				  
 					<p:outputLabel for="puntoNombrePunto" value="Nombre: " />
-					<p:inputText id="puntoNombrePunto"  
+					<p:inputText id="puntoNombrePunto"  required="true"
 						value="#{puntoBean.punto.nombre}" />
 			 
 				 
@@ -144,7 +145,7 @@
 					<p:inputText id="puntoOrdGoizPunto" value="#{puntoBean.punto.ordenGoiz}" />
 			 
 					<p:outputLabel for="puntoUbicacionCortaPunto" value="Ubicación corta: " />
-					<p:selectOneMenu id="puntoUbicacionCortaPunto"  
+					<p:selectOneMenu id="puntoUbicacionCortaPunto"  required="true"
 						value="#{puntoBean.punto.ubicacionCorta}">
 						<f:selectItem itemLabel="Cabeza" itemValue="Cabeza" />
 						<f:selectItem itemLabel="Cuello" itemValue="Cuello" />
@@ -163,22 +164,25 @@
 					<p:commandButton icon="ui-icon-check" 
 						action="#{puntoBean.añadirPuntoWeb}"  
 						value="Añadir"
-						oncomplete="PF('dlgAddPunto').hide();" />
+						oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlgAddPunto').hide();" />
+						 
 					<p:commandButton icon="ui-icon-delete"
 						action="#{puntoBean.cancelar}"  
-						value="Cancelar" />
+						value="Cancelar"
+						onclick="PF('dlgAddPunto').hide();"  />
+					 
 				</p:panelGrid>
- 
+ 				</h:form>
 			</p:dialog>
  
 				<h:outputText value="&lt;br/&gt;" escape="false" />
 				<p:outputLabel value="¿No se encontraron resultados?" />
-				 
+			<h:form>	 
 					<p:commandButton icon="ui-icon-plus"
-						action="#{puntoBean.nuevoPuntoWeb}" update="pnlAddP"
+						action="#{puntoBean.nuevoPuntoWeb}" update=":#{p:component('pnlAddP')}"
 						value="Agregar punto" oncomplete="PF('dlgAddPunto').show();"  />
 			 
-			</h:form>
+		 </h:form>
  
 </ui:composition>
 </html>

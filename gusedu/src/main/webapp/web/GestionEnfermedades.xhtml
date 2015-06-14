@@ -72,7 +72,7 @@
 				<p:commandButton   
 					action="#{enfermedadBean.addWeb}"   value="Agregar" 
 					update=":#{p:component('tablaEnfermedad')}"
-					oncomplete="PF('dlgAddEnfermedad').hide();" />
+					oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlgAddEnfermedad').hide();" />
 			
 			</p:panelGrid>
 					</h:form>

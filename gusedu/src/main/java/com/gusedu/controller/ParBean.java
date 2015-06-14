@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -430,11 +429,11 @@ public class ParBean implements Serializable{
  
 	public void agregarParWeb() {
 		System.out.println(grupoSeleccionado);
-		if(grupoSeleccionado.getIdGrupo()==0 )
+		/*if(grupoSeleccionado.getIdGrupo()==0 )
 		{
 			StaticUtil.errorMessage("Error", "Seleccione un grupo para los pares");
 			return;
-		}
+		}*/
 		
 		par.setParGrupo(grupoSeleccionado);
 		par.setParPunto1(punto1);
@@ -456,7 +455,7 @@ public class ParBean implements Serializable{
 			ExternalContext context = FacesContext.getCurrentInstance()
 					.getExternalContext();
 			context.getFlash().setKeepMessages(true);
-			RequestContext.getCurrentInstance().execute("PF('dlgAddPar').hide();");
+			//RequestContext.getCurrentInstance().execute("PF('dlgAddPar').hide();");
 			clean();
 		} else {
 			StaticUtil.errorMessage("Error", "Hubo un error al añadir el par");

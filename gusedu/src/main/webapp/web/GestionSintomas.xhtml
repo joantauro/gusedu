@@ -71,7 +71,8 @@
 					value="#{sintomaBean.sintoma.descripcion}" />
 
 				<p:commandButton action="#{sintomaBean.addWeb}" value="Agregar" update=":formTablaSintomas:tablaSintoma"
-					oncomplete="PF('dlgAddSintoma').hide();" />
+					 
+					oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlgAddSintoma').hide();"  />
 			</p:panelGrid>
 		</h:form>
 	</p:dialog>

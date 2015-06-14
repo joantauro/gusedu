@@ -31,8 +31,10 @@
 				 
 		
 			</p:panel>
+			</h:form>
 			<h:outputText value="&lt;br/&gt;" escape="false" />
 	
+			<h:form>
 				<p:dataTable emptyMessage="No hay pares registrados" id="tablaPar"
 					var="par" value="#{parBean.pares}" rowKey="#{par.idPar}"
 					paginator="true" rows="8" tableStyleClass="ui-table-columntoggle">
@@ -64,18 +66,18 @@
 					</p:column>
 				</p:dataTable>
 			
-
+</h:form>
 
 				<h:outputText value="&lt;br/&gt;" escape="false" />
 				<p:outputLabel value="¿No se encontraron resultados?" />
-		 
+		 <h:form>
 					<p:commandButton value="Agregar par"
 						action="#{parBean.toRegistrarWeb}" oncomplete="PF('dlgAddPar').show();" ></p:commandButton>
-		
+		</h:form>
 
 			<p:dialog header="¿Eliminar?" widgetVar="dlgEliminarPar"
 				showEffect="pop" closable="false" >
-		
+			<h:form>
 					<p:commandButton value="Aceptar" styleClass="ui-btn-inline"
 						icon="ui-icon-check"  
 						actionListener="#{parBean.removePar}"
@@ -85,11 +87,13 @@
 						icon="ui-icon-delete"  
 						actionListener="#{parBean.cancelarPar}"
 						oncomplete="PF('dlgEliminarPar').hide();" />
+						</h:form>
 		
 			</p:dialog>
 	 
 	 
 	 <p:dialog header="Detalle Par" id="dlgDetalle" widgetVar="dlgDetalle" showEffect="pop"  >
+	 <h:form>
 	 		<p:panelGrid columns="2" id="pnlDetalle" >
 							<h:outputLabel value="Punto 1: " />
 							<h:outputLabel
@@ -118,9 +122,11 @@
 								name="#{parBean.parSeleccionado.url}"></p:graphicImage>
 						</p:outputPanel>
 						<p:commandButton value="Cerrar" oncomplete="PF('dlgDetalle').hide();"  />
+						</h:form>
 	 </p:dialog>
 	 
 	 <p:dialog id="dlgUpdate" header="Editar par" widgetVar="dlgUpdPar" showEffect="pop" >
+	 <h:form>
 	 <p:panelGrid columns="2" id="pnlUpdate" >
 	 <p:outputLabel value="Punto 1: " for="advPuntoP1" />
 			 
@@ -167,15 +173,16 @@
 						action="#{parBean.clean}"   
 						value="Cancelar"  oncomplete="PF('dlgUpdPar').hide();" />
 				</p:panelGrid>
+				</h:form>
 				</p:dialog>
 	 
 	 		<p:dialog header="Agregar Par" widgetVar="dlgAddPar" showEffect="pop" >
-	 	 
+	 	 <h:form>
 	 			<p:panelGrid columns="2">
 				<p:outputLabel value="Punto 1: " for="advPunto1" />
 			 
 					<p:autoComplete id="advPunto1" queryDelay="100"
-						value="#{parBean.punto1}" 
+						value="#{parBean.punto1}" required="true"
 						completeMethod="#{parBean.autoCompletar}" var="punto1"
 						itemLabel="#{punto1.nombre}" itemValue="#{punto1}"
 						converter="#{puntoConverter}" panelStyleClass="ui-themes">
@@ -184,16 +191,16 @@
 				<p:outputLabel value="Punto 2: " for="advPunto2" />
 				 
 					<p:autoComplete id="advPunto2" queryDelay="100"
-						value="#{parBean.punto2}"  
+						value="#{parBean.punto2}"  required="true"
 						completeMethod="#{parBean.autoCompletar}" var="punto2"
 						itemLabel="#{punto2.nombre}" itemValue="#{punto2}"
 						converter="#{puntoConverter}" panelStyleClass="ui-themes">
 					</p:autoComplete>
 			 
 					<p:outputLabel for="selGrupo" value="Grupo: " />
-					<p:selectOneMenu id="selGrupo" 
+					<p:selectOneMenu id="selGrupo" required="true"
 						value="#{parBean.grupoSeleccionado.idGrupo}">
-						<f:selectItem itemLabel="Elija un grupo" itemValue="0" />
+						<f:selectItem itemLabel="Elija un grupo"  />
 						<f:selectItems value="#{parBean.grupos}" var="grupo"
 							itemValue="#{grupo.idGrupo}" itemLabel="#{grupo.nombre}" />
 					</p:selectOneMenu>
@@ -201,13 +208,14 @@
 				
 					<p:commandButton icon="ui-icon-check"
 						action="#{parBean.agregarParWeb}"  
-						value="Añadir" />
+						value="Añadir"
+						oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlgAddPar').hide();" />
 					<p:commandButton icon="ui-icon-delete"
-						action="#{parBean.backToConsultar}" immediate="true" ajax="false"
-						value="Cancelar"></p:commandButton>
+						action="#{parBean.backToConsultar}"  oncomplete="PF('dlgAddPar').hide();"
+						value="Cancelar" />
 				</p:panelGrid>
-	 
+	 </h:form>
 	 		</p:dialog>
-			</h:form>
+		 
 </ui:composition>
 </html>
